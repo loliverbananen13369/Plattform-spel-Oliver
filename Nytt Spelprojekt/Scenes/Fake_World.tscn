@@ -1,91 +1,92 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=85 format=2]
 
-[ext_resource path="res://Scenes/Player_Running.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_63.png" type="Texture" id=2]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_06.png" type="Texture" id=3]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_38.png" type="Texture" id=4]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_78.png" type="Texture" id=6]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_62.png" type="Texture" id=7]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_69.png" type="Texture" id=8]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_66.png" type="Texture" id=9]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_75.png" type="Texture" id=10]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_36.png" type="Texture" id=11]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_34.png" type="Texture" id=12]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_12.png" type="Texture" id=13]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_05.png" type="Texture" id=14]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_08.png" type="Texture" id=15]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_30.png" type="Texture" id=16]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_72.png" type="Texture" id=17]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_59.png" type="Texture" id=18]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_50.png" type="Texture" id=19]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_51.png" type="Texture" id=20]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_03.png" type="Texture" id=21]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_31.png" type="Texture" id=22]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_67.png" type="Texture" id=23]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_53.png" type="Texture" id=24]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_19.png" type="Texture" id=25]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_79.png" type="Texture" id=26]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_44.png" type="Texture" id=27]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_23.png" type="Texture" id=28]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_43.png" type="Texture" id=29]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_70.png" type="Texture" id=30]
+[ext_resource path="res://Free Industrial Zone Tileset/2 Background/Background.png" type="Texture" id=1]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_34.png" type="Texture" id=2]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_12.png" type="Texture" id=3]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_21.png" type="Texture" id=4]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_38.png" type="Texture" id=5]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_31.png" type="Texture" id=6]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_24.png" type="Texture" id=7]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_71.png" type="Texture" id=8]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_81.png" type="Texture" id=9]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_57.png" type="Texture" id=10]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_49.png" type="Texture" id=11]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_28.png" type="Texture" id=12]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_25.png" type="Texture" id=13]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_33.png" type="Texture" id=14]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_17.png" type="Texture" id=15]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_16.png" type="Texture" id=16]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_80.png" type="Texture" id=17]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_54.png" type="Texture" id=18]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_73.png" type="Texture" id=19]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_46.png" type="Texture" id=20]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_39.png" type="Texture" id=21]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_45.png" type="Texture" id=22]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_64.png" type="Texture" id=23]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_18.png" type="Texture" id=24]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_26.png" type="Texture" id=25]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_74.png" type="Texture" id=26]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_36.png" type="Texture" id=27]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_05.png" type="Texture" id=28]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_51.png" type="Texture" id=29]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_79.png" type="Texture" id=30]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_68.png" type="Texture" id=31]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_02.png" type="Texture" id=32]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_29.png" type="Texture" id=33]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_27.png" type="Texture" id=34]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_22.png" type="Texture" id=35]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_40.png" type="Texture" id=36]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_56.png" type="Texture" id=37]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_58.png" type="Texture" id=38]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_21.png" type="Texture" id=39]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_41.png" type="Texture" id=40]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_52.png" type="Texture" id=41]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_07.png" type="Texture" id=42]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_15.png" type="Texture" id=43]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_32.png" type="Texture" id=44]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_10.png" type="Texture" id=45]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_13.png" type="Texture" id=46]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_60.png" type="Texture" id=47]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_09.png" type="Texture" id=48]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_11.png" type="Texture" id=49]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_01.png" type="Texture" id=50]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_37.png" type="Texture" id=51]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_20.png" type="Texture" id=52]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_46.png" type="Texture" id=53]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_47.png" type="Texture" id=54]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_35.png" type="Texture" id=55]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_39.png" type="Texture" id=56]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_45.png" type="Texture" id=57]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_64.png" type="Texture" id=58]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_18.png" type="Texture" id=59]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_14.png" type="Texture" id=60]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_26.png" type="Texture" id=61]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_74.png" type="Texture" id=62]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_42.png" type="Texture" id=63]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_57.png" type="Texture" id=64]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_24.png" type="Texture" id=65]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_49.png" type="Texture" id=66]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_61.png" type="Texture" id=67]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_28.png" type="Texture" id=68]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_48.png" type="Texture" id=69]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_25.png" type="Texture" id=70]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_33.png" type="Texture" id=71]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_04.png" type="Texture" id=72]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_17.png" type="Texture" id=73]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_16.png" type="Texture" id=74]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_76.png" type="Texture" id=75]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_80.png" type="Texture" id=76]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_77.png" type="Texture" id=77]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_65.png" type="Texture" id=78]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_71.png" type="Texture" id=79]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_81.png" type="Texture" id=80]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_54.png" type="Texture" id=81]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_40.png" type="Texture" id=32]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_52.png" type="Texture" id=33]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_10.png" type="Texture" id=34]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_13.png" type="Texture" id=35]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_11.png" type="Texture" id=36]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_01.png" type="Texture" id=37]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_20.png" type="Texture" id=38]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_63.png" type="Texture" id=39]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_06.png" type="Texture" id=40]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_78.png" type="Texture" id=41]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_62.png" type="Texture" id=42]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_69.png" type="Texture" id=43]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_66.png" type="Texture" id=44]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_75.png" type="Texture" id=45]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_08.png" type="Texture" id=46]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_30.png" type="Texture" id=47]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_72.png" type="Texture" id=48]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_59.png" type="Texture" id=49]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_50.png" type="Texture" id=50]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_03.png" type="Texture" id=51]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_67.png" type="Texture" id=52]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_53.png" type="Texture" id=53]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_19.png" type="Texture" id=54]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_44.png" type="Texture" id=55]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_23.png" type="Texture" id=56]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_43.png" type="Texture" id=57]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_70.png" type="Texture" id=58]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_02.png" type="Texture" id=59]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_29.png" type="Texture" id=60]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_27.png" type="Texture" id=61]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_22.png" type="Texture" id=62]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_56.png" type="Texture" id=63]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_58.png" type="Texture" id=64]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_41.png" type="Texture" id=65]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_07.png" type="Texture" id=66]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_15.png" type="Texture" id=67]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_32.png" type="Texture" id=68]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_60.png" type="Texture" id=69]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_09.png" type="Texture" id=70]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_37.png" type="Texture" id=71]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_47.png" type="Texture" id=72]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_35.png" type="Texture" id=73]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_14.png" type="Texture" id=74]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_42.png" type="Texture" id=75]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_61.png" type="Texture" id=76]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_48.png" type="Texture" id=77]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_04.png" type="Texture" id=78]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_76.png" type="Texture" id=79]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_77.png" type="Texture" id=80]
+[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_65.png" type="Texture" id=81]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_55.png" type="Texture" id=82]
-[ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_73.png" type="Texture" id=83]
+[ext_resource path="res://Scenes/ParallaxBackground.tscn" type="PackedScene" id=83]
 
 [sub_resource type="TileSet" id=1]
 0/name = "IndustrialTile_01.png 0"
-0/texture = ExtResource( 50 )
+0/texture = ExtResource( 37 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 32, 32 )
@@ -99,7 +100,7 @@
 0/shapes = [  ]
 0/z_index = 0
 1/name = "IndustrialTile_02.png 1"
-1/texture = ExtResource( 32 )
+1/texture = ExtResource( 59 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 0, 32, 32 )
@@ -113,7 +114,7 @@
 1/shapes = [  ]
 1/z_index = 0
 2/name = "IndustrialTile_03.png 2"
-2/texture = ExtResource( 21 )
+2/texture = ExtResource( 51 )
 2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 0, 0, 32, 32 )
@@ -127,7 +128,7 @@
 2/shapes = [  ]
 2/z_index = 0
 3/name = "IndustrialTile_04.png 3"
-3/texture = ExtResource( 72 )
+3/texture = ExtResource( 78 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 0, 0, 32, 32 )
@@ -141,7 +142,7 @@
 3/shapes = [  ]
 3/z_index = 0
 4/name = "IndustrialTile_05.png 4"
-4/texture = ExtResource( 14 )
+4/texture = ExtResource( 28 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
 4/region = Rect2( 0, 0, 32, 32 )
@@ -155,7 +156,7 @@
 4/shapes = [  ]
 4/z_index = 0
 5/name = "IndustrialTile_06.png 5"
-5/texture = ExtResource( 3 )
+5/texture = ExtResource( 40 )
 5/tex_offset = Vector2( 0, 0 )
 5/modulate = Color( 1, 1, 1, 1 )
 5/region = Rect2( 0, 0, 32, 32 )
@@ -169,7 +170,7 @@
 5/shapes = [  ]
 5/z_index = 0
 6/name = "IndustrialTile_07.png 6"
-6/texture = ExtResource( 42 )
+6/texture = ExtResource( 66 )
 6/tex_offset = Vector2( 0, 0 )
 6/modulate = Color( 1, 1, 1, 1 )
 6/region = Rect2( 0, 0, 32, 32 )
@@ -183,7 +184,7 @@
 6/shapes = [  ]
 6/z_index = 0
 7/name = "IndustrialTile_08.png 7"
-7/texture = ExtResource( 15 )
+7/texture = ExtResource( 46 )
 7/tex_offset = Vector2( 0, 0 )
 7/modulate = Color( 1, 1, 1, 1 )
 7/region = Rect2( 0, 0, 32, 32 )
@@ -197,7 +198,7 @@
 7/shapes = [  ]
 7/z_index = 0
 8/name = "IndustrialTile_09.png 8"
-8/texture = ExtResource( 48 )
+8/texture = ExtResource( 70 )
 8/tex_offset = Vector2( 0, 0 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 0, 0, 32, 32 )
@@ -211,7 +212,7 @@
 8/shapes = [  ]
 8/z_index = 0
 9/name = "IndustrialTile_10.png 9"
-9/texture = ExtResource( 45 )
+9/texture = ExtResource( 34 )
 9/tex_offset = Vector2( 0, 0 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 0, 0, 32, 32 )
@@ -225,7 +226,7 @@
 9/shapes = [  ]
 9/z_index = 0
 10/name = "IndustrialTile_11.png 10"
-10/texture = ExtResource( 49 )
+10/texture = ExtResource( 36 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
 10/region = Rect2( 0, 0, 32, 32 )
@@ -239,7 +240,7 @@
 10/shapes = [  ]
 10/z_index = 0
 11/name = "IndustrialTile_12.png 11"
-11/texture = ExtResource( 13 )
+11/texture = ExtResource( 3 )
 11/tex_offset = Vector2( 0, 0 )
 11/modulate = Color( 1, 1, 1, 1 )
 11/region = Rect2( 0, 0, 32, 32 )
@@ -253,7 +254,7 @@
 11/shapes = [  ]
 11/z_index = 0
 12/name = "IndustrialTile_13.png 12"
-12/texture = ExtResource( 46 )
+12/texture = ExtResource( 35 )
 12/tex_offset = Vector2( 0, 0 )
 12/modulate = Color( 1, 1, 1, 1 )
 12/region = Rect2( 0, 0, 32, 32 )
@@ -267,7 +268,7 @@
 12/shapes = [  ]
 12/z_index = 0
 13/name = "IndustrialTile_14.png 13"
-13/texture = ExtResource( 60 )
+13/texture = ExtResource( 74 )
 13/tex_offset = Vector2( 0, 0 )
 13/modulate = Color( 1, 1, 1, 1 )
 13/region = Rect2( 0, 0, 32, 32 )
@@ -281,7 +282,7 @@
 13/shapes = [  ]
 13/z_index = 0
 14/name = "IndustrialTile_15.png 14"
-14/texture = ExtResource( 43 )
+14/texture = ExtResource( 67 )
 14/tex_offset = Vector2( 0, 0 )
 14/modulate = Color( 1, 1, 1, 1 )
 14/region = Rect2( 0, 0, 32, 32 )
@@ -295,7 +296,7 @@
 14/shapes = [  ]
 14/z_index = 0
 15/name = "IndustrialTile_16.png 15"
-15/texture = ExtResource( 74 )
+15/texture = ExtResource( 16 )
 15/tex_offset = Vector2( 0, 0 )
 15/modulate = Color( 1, 1, 1, 1 )
 15/region = Rect2( 0, 0, 32, 32 )
@@ -309,7 +310,7 @@
 15/shapes = [  ]
 15/z_index = 0
 16/name = "IndustrialTile_17.png 16"
-16/texture = ExtResource( 73 )
+16/texture = ExtResource( 15 )
 16/tex_offset = Vector2( 0, 0 )
 16/modulate = Color( 1, 1, 1, 1 )
 16/region = Rect2( 0, 0, 32, 32 )
@@ -323,7 +324,7 @@
 16/shapes = [  ]
 16/z_index = 0
 17/name = "IndustrialTile_18.png 17"
-17/texture = ExtResource( 59 )
+17/texture = ExtResource( 24 )
 17/tex_offset = Vector2( 0, 0 )
 17/modulate = Color( 1, 1, 1, 1 )
 17/region = Rect2( 0, 0, 32, 32 )
@@ -337,7 +338,7 @@
 17/shapes = [  ]
 17/z_index = 0
 18/name = "IndustrialTile_19.png 18"
-18/texture = ExtResource( 25 )
+18/texture = ExtResource( 54 )
 18/tex_offset = Vector2( 0, 0 )
 18/modulate = Color( 1, 1, 1, 1 )
 18/region = Rect2( 0, 0, 32, 32 )
@@ -351,7 +352,7 @@
 18/shapes = [  ]
 18/z_index = 0
 19/name = "IndustrialTile_20.png 19"
-19/texture = ExtResource( 52 )
+19/texture = ExtResource( 38 )
 19/tex_offset = Vector2( 0, 0 )
 19/modulate = Color( 1, 1, 1, 1 )
 19/region = Rect2( 0, 0, 32, 32 )
@@ -365,7 +366,7 @@
 19/shapes = [  ]
 19/z_index = 0
 20/name = "IndustrialTile_21.png 20"
-20/texture = ExtResource( 39 )
+20/texture = ExtResource( 4 )
 20/tex_offset = Vector2( 0, 0 )
 20/modulate = Color( 1, 1, 1, 1 )
 20/region = Rect2( 0, 0, 32, 32 )
@@ -379,7 +380,7 @@
 20/shapes = [  ]
 20/z_index = 0
 21/name = "IndustrialTile_22.png 21"
-21/texture = ExtResource( 35 )
+21/texture = ExtResource( 62 )
 21/tex_offset = Vector2( 0, 0 )
 21/modulate = Color( 1, 1, 1, 1 )
 21/region = Rect2( 0, 0, 32, 32 )
@@ -393,7 +394,7 @@
 21/shapes = [  ]
 21/z_index = 0
 22/name = "IndustrialTile_23.png 22"
-22/texture = ExtResource( 28 )
+22/texture = ExtResource( 56 )
 22/tex_offset = Vector2( 0, 0 )
 22/modulate = Color( 1, 1, 1, 1 )
 22/region = Rect2( 0, 0, 32, 32 )
@@ -407,7 +408,7 @@
 22/shapes = [  ]
 22/z_index = 0
 23/name = "IndustrialTile_24.png 23"
-23/texture = ExtResource( 65 )
+23/texture = ExtResource( 7 )
 23/tex_offset = Vector2( 0, 0 )
 23/modulate = Color( 1, 1, 1, 1 )
 23/region = Rect2( 0, 0, 32, 32 )
@@ -421,7 +422,7 @@
 23/shapes = [  ]
 23/z_index = 0
 24/name = "IndustrialTile_25.png 24"
-24/texture = ExtResource( 70 )
+24/texture = ExtResource( 13 )
 24/tex_offset = Vector2( 0, 0 )
 24/modulate = Color( 1, 1, 1, 1 )
 24/region = Rect2( 0, 0, 32, 32 )
@@ -435,7 +436,7 @@
 24/shapes = [  ]
 24/z_index = 0
 25/name = "IndustrialTile_26.png 25"
-25/texture = ExtResource( 61 )
+25/texture = ExtResource( 25 )
 25/tex_offset = Vector2( 0, 0 )
 25/modulate = Color( 1, 1, 1, 1 )
 25/region = Rect2( 0, 0, 32, 32 )
@@ -449,7 +450,7 @@
 25/shapes = [  ]
 25/z_index = 0
 26/name = "IndustrialTile_27.png 26"
-26/texture = ExtResource( 34 )
+26/texture = ExtResource( 61 )
 26/tex_offset = Vector2( 0, 0 )
 26/modulate = Color( 1, 1, 1, 1 )
 26/region = Rect2( 0, 0, 32, 32 )
@@ -463,7 +464,7 @@
 26/shapes = [  ]
 26/z_index = 0
 27/name = "IndustrialTile_28.png 27"
-27/texture = ExtResource( 68 )
+27/texture = ExtResource( 12 )
 27/tex_offset = Vector2( 0, 0 )
 27/modulate = Color( 1, 1, 1, 1 )
 27/region = Rect2( 0, 0, 32, 32 )
@@ -477,7 +478,7 @@
 27/shapes = [  ]
 27/z_index = 0
 28/name = "IndustrialTile_29.png 28"
-28/texture = ExtResource( 33 )
+28/texture = ExtResource( 60 )
 28/tex_offset = Vector2( 0, 0 )
 28/modulate = Color( 1, 1, 1, 1 )
 28/region = Rect2( 0, 0, 32, 32 )
@@ -491,7 +492,7 @@
 28/shapes = [  ]
 28/z_index = 0
 29/name = "IndustrialTile_30.png 29"
-29/texture = ExtResource( 16 )
+29/texture = ExtResource( 47 )
 29/tex_offset = Vector2( 0, 0 )
 29/modulate = Color( 1, 1, 1, 1 )
 29/region = Rect2( 0, 0, 32, 32 )
@@ -505,7 +506,7 @@
 29/shapes = [  ]
 29/z_index = 0
 30/name = "IndustrialTile_31.png 30"
-30/texture = ExtResource( 22 )
+30/texture = ExtResource( 6 )
 30/tex_offset = Vector2( 0, 0 )
 30/modulate = Color( 1, 1, 1, 1 )
 30/region = Rect2( 0, 0, 32, 32 )
@@ -519,7 +520,7 @@
 30/shapes = [  ]
 30/z_index = 0
 31/name = "IndustrialTile_32.png 31"
-31/texture = ExtResource( 44 )
+31/texture = ExtResource( 68 )
 31/tex_offset = Vector2( 0, 0 )
 31/modulate = Color( 1, 1, 1, 1 )
 31/region = Rect2( 0, 0, 32, 32 )
@@ -533,7 +534,7 @@
 31/shapes = [  ]
 31/z_index = 0
 32/name = "IndustrialTile_33.png 32"
-32/texture = ExtResource( 71 )
+32/texture = ExtResource( 14 )
 32/tex_offset = Vector2( 0, 0 )
 32/modulate = Color( 1, 1, 1, 1 )
 32/region = Rect2( 0, 0, 32, 32 )
@@ -547,7 +548,7 @@
 32/shapes = [  ]
 32/z_index = 0
 33/name = "IndustrialTile_34.png 33"
-33/texture = ExtResource( 12 )
+33/texture = ExtResource( 2 )
 33/tex_offset = Vector2( 0, 0 )
 33/modulate = Color( 1, 1, 1, 1 )
 33/region = Rect2( 0, 0, 32, 32 )
@@ -561,7 +562,7 @@
 33/shapes = [  ]
 33/z_index = 0
 34/name = "IndustrialTile_35.png 34"
-34/texture = ExtResource( 55 )
+34/texture = ExtResource( 73 )
 34/tex_offset = Vector2( 0, 0 )
 34/modulate = Color( 1, 1, 1, 1 )
 34/region = Rect2( 0, 0, 32, 32 )
@@ -575,7 +576,7 @@
 34/shapes = [  ]
 34/z_index = 0
 35/name = "IndustrialTile_36.png 35"
-35/texture = ExtResource( 11 )
+35/texture = ExtResource( 27 )
 35/tex_offset = Vector2( 0, 0 )
 35/modulate = Color( 1, 1, 1, 1 )
 35/region = Rect2( 0, 0, 32, 32 )
@@ -589,7 +590,7 @@
 35/shapes = [  ]
 35/z_index = 0
 36/name = "IndustrialTile_37.png 36"
-36/texture = ExtResource( 51 )
+36/texture = ExtResource( 71 )
 36/tex_offset = Vector2( 0, 0 )
 36/modulate = Color( 1, 1, 1, 1 )
 36/region = Rect2( 0, 0, 32, 32 )
@@ -603,7 +604,7 @@
 36/shapes = [  ]
 36/z_index = 0
 37/name = "IndustrialTile_38.png 37"
-37/texture = ExtResource( 4 )
+37/texture = ExtResource( 5 )
 37/tex_offset = Vector2( 0, 0 )
 37/modulate = Color( 1, 1, 1, 1 )
 37/region = Rect2( 0, 0, 32, 32 )
@@ -617,7 +618,7 @@
 37/shapes = [  ]
 37/z_index = 0
 38/name = "IndustrialTile_39.png 38"
-38/texture = ExtResource( 56 )
+38/texture = ExtResource( 21 )
 38/tex_offset = Vector2( 0, 0 )
 38/modulate = Color( 1, 1, 1, 1 )
 38/region = Rect2( 0, 0, 32, 32 )
@@ -631,7 +632,7 @@
 38/shapes = [  ]
 38/z_index = 0
 39/name = "IndustrialTile_40.png 39"
-39/texture = ExtResource( 36 )
+39/texture = ExtResource( 32 )
 39/tex_offset = Vector2( 0, 0 )
 39/modulate = Color( 1, 1, 1, 1 )
 39/region = Rect2( 0, 0, 32, 32 )
@@ -645,7 +646,7 @@
 39/shapes = [  ]
 39/z_index = 0
 40/name = "IndustrialTile_41.png 40"
-40/texture = ExtResource( 40 )
+40/texture = ExtResource( 65 )
 40/tex_offset = Vector2( 0, 0 )
 40/modulate = Color( 1, 1, 1, 1 )
 40/region = Rect2( 0, 0, 32, 32 )
@@ -659,7 +660,7 @@
 40/shapes = [  ]
 40/z_index = 0
 41/name = "IndustrialTile_42.png 41"
-41/texture = ExtResource( 63 )
+41/texture = ExtResource( 75 )
 41/tex_offset = Vector2( 0, 0 )
 41/modulate = Color( 1, 1, 1, 1 )
 41/region = Rect2( 0, 0, 32, 32 )
@@ -673,7 +674,7 @@
 41/shapes = [  ]
 41/z_index = 0
 42/name = "IndustrialTile_43.png 42"
-42/texture = ExtResource( 29 )
+42/texture = ExtResource( 57 )
 42/tex_offset = Vector2( 0, 0 )
 42/modulate = Color( 1, 1, 1, 1 )
 42/region = Rect2( 0, 0, 32, 32 )
@@ -687,7 +688,7 @@
 42/shapes = [  ]
 42/z_index = 0
 43/name = "IndustrialTile_44.png 43"
-43/texture = ExtResource( 27 )
+43/texture = ExtResource( 55 )
 43/tex_offset = Vector2( 0, 0 )
 43/modulate = Color( 1, 1, 1, 1 )
 43/region = Rect2( 0, 0, 32, 32 )
@@ -701,7 +702,7 @@
 43/shapes = [  ]
 43/z_index = 0
 44/name = "IndustrialTile_45.png 44"
-44/texture = ExtResource( 57 )
+44/texture = ExtResource( 22 )
 44/tex_offset = Vector2( 0, 0 )
 44/modulate = Color( 1, 1, 1, 1 )
 44/region = Rect2( 0, 0, 32, 32 )
@@ -715,7 +716,7 @@
 44/shapes = [  ]
 44/z_index = 0
 45/name = "IndustrialTile_46.png 45"
-45/texture = ExtResource( 53 )
+45/texture = ExtResource( 20 )
 45/tex_offset = Vector2( 0, 0 )
 45/modulate = Color( 1, 1, 1, 1 )
 45/region = Rect2( 0, 0, 32, 32 )
@@ -729,7 +730,7 @@
 45/shapes = [  ]
 45/z_index = 0
 46/name = "IndustrialTile_47.png 46"
-46/texture = ExtResource( 54 )
+46/texture = ExtResource( 72 )
 46/tex_offset = Vector2( 0, 0 )
 46/modulate = Color( 1, 1, 1, 1 )
 46/region = Rect2( 0, 0, 32, 32 )
@@ -743,7 +744,7 @@
 46/shapes = [  ]
 46/z_index = 0
 47/name = "IndustrialTile_48.png 47"
-47/texture = ExtResource( 69 )
+47/texture = ExtResource( 77 )
 47/tex_offset = Vector2( 0, 0 )
 47/modulate = Color( 1, 1, 1, 1 )
 47/region = Rect2( 0, 0, 32, 32 )
@@ -757,7 +758,7 @@
 47/shapes = [  ]
 47/z_index = 0
 48/name = "IndustrialTile_49.png 48"
-48/texture = ExtResource( 66 )
+48/texture = ExtResource( 11 )
 48/tex_offset = Vector2( 0, 0 )
 48/modulate = Color( 1, 1, 1, 1 )
 48/region = Rect2( 0, 0, 32, 32 )
@@ -771,7 +772,7 @@
 48/shapes = [  ]
 48/z_index = 0
 49/name = "IndustrialTile_50.png 49"
-49/texture = ExtResource( 19 )
+49/texture = ExtResource( 50 )
 49/tex_offset = Vector2( 0, 0 )
 49/modulate = Color( 1, 1, 1, 1 )
 49/region = Rect2( 0, 0, 32, 32 )
@@ -785,7 +786,7 @@
 49/shapes = [  ]
 49/z_index = 0
 50/name = "IndustrialTile_50.png 50"
-50/texture = ExtResource( 19 )
+50/texture = ExtResource( 50 )
 50/tex_offset = Vector2( 0, 0 )
 50/modulate = Color( 1, 1, 1, 1 )
 50/region = Rect2( 0, 0, 32, 32 )
@@ -799,7 +800,7 @@
 50/shapes = [  ]
 50/z_index = 0
 51/name = "IndustrialTile_51.png 51"
-51/texture = ExtResource( 20 )
+51/texture = ExtResource( 29 )
 51/tex_offset = Vector2( 0, 0 )
 51/modulate = Color( 1, 1, 1, 1 )
 51/region = Rect2( 0, 0, 32, 32 )
@@ -813,7 +814,7 @@
 51/shapes = [  ]
 51/z_index = 0
 52/name = "IndustrialTile_52.png 52"
-52/texture = ExtResource( 41 )
+52/texture = ExtResource( 33 )
 52/tex_offset = Vector2( 0, 0 )
 52/modulate = Color( 1, 1, 1, 1 )
 52/region = Rect2( 0, 0, 32, 32 )
@@ -827,7 +828,7 @@
 52/shapes = [  ]
 52/z_index = 0
 53/name = "IndustrialTile_53.png 53"
-53/texture = ExtResource( 24 )
+53/texture = ExtResource( 53 )
 53/tex_offset = Vector2( 0, 0 )
 53/modulate = Color( 1, 1, 1, 1 )
 53/region = Rect2( 32, 0, 32, 32 )
@@ -841,7 +842,7 @@
 53/shapes = [  ]
 53/z_index = 0
 54/name = "IndustrialTile_54.png 54"
-54/texture = ExtResource( 81 )
+54/texture = ExtResource( 18 )
 54/tex_offset = Vector2( 0, 0 )
 54/modulate = Color( 1, 1, 1, 1 )
 54/region = Rect2( 0, 0, 32, 32 )
@@ -869,7 +870,7 @@
 55/shapes = [  ]
 55/z_index = 0
 56/name = "IndustrialTile_56.png 56"
-56/texture = ExtResource( 37 )
+56/texture = ExtResource( 63 )
 56/tex_offset = Vector2( 0, 0 )
 56/modulate = Color( 1, 1, 1, 1 )
 56/region = Rect2( 0, 0, 32, 32 )
@@ -883,7 +884,7 @@
 56/shapes = [  ]
 56/z_index = 0
 57/name = "IndustrialTile_57.png 57"
-57/texture = ExtResource( 64 )
+57/texture = ExtResource( 10 )
 57/tex_offset = Vector2( 0, 0 )
 57/modulate = Color( 1, 1, 1, 1 )
 57/region = Rect2( 0, 0, 32, 32 )
@@ -897,7 +898,7 @@
 57/shapes = [  ]
 57/z_index = 0
 58/name = "IndustrialTile_58.png 58"
-58/texture = ExtResource( 38 )
+58/texture = ExtResource( 64 )
 58/tex_offset = Vector2( 0, 0 )
 58/modulate = Color( 1, 1, 1, 1 )
 58/region = Rect2( 0, 0, 32, 32 )
@@ -911,7 +912,7 @@
 58/shapes = [  ]
 58/z_index = 0
 59/name = "IndustrialTile_59.png 59"
-59/texture = ExtResource( 18 )
+59/texture = ExtResource( 49 )
 59/tex_offset = Vector2( 0, 0 )
 59/modulate = Color( 1, 1, 1, 1 )
 59/region = Rect2( 0, 0, 32, 32 )
@@ -925,7 +926,7 @@
 59/shapes = [  ]
 59/z_index = 0
 60/name = "IndustrialTile_60.png 60"
-60/texture = ExtResource( 47 )
+60/texture = ExtResource( 69 )
 60/tex_offset = Vector2( 0, 0 )
 60/modulate = Color( 1, 1, 1, 1 )
 60/region = Rect2( 0, 0, 32, 32 )
@@ -939,7 +940,7 @@
 60/shapes = [  ]
 60/z_index = 0
 61/name = "IndustrialTile_61.png 61"
-61/texture = ExtResource( 67 )
+61/texture = ExtResource( 76 )
 61/tex_offset = Vector2( 0, 0 )
 61/modulate = Color( 1, 1, 1, 1 )
 61/region = Rect2( 0, 0, 32, 32 )
@@ -953,7 +954,7 @@
 61/shapes = [  ]
 61/z_index = 0
 62/name = "IndustrialTile_62.png 62"
-62/texture = ExtResource( 7 )
+62/texture = ExtResource( 42 )
 62/tex_offset = Vector2( 0, 0 )
 62/modulate = Color( 1, 1, 1, 1 )
 62/region = Rect2( 0, 0, 32, 32 )
@@ -967,7 +968,7 @@
 62/shapes = [  ]
 62/z_index = 0
 63/name = "IndustrialTile_63.png 63"
-63/texture = ExtResource( 2 )
+63/texture = ExtResource( 39 )
 63/tex_offset = Vector2( 0, 0 )
 63/modulate = Color( 1, 1, 1, 1 )
 63/region = Rect2( 0, 0, 32, 32 )
@@ -981,7 +982,7 @@
 63/shapes = [  ]
 63/z_index = 0
 64/name = "IndustrialTile_64.png 64"
-64/texture = ExtResource( 58 )
+64/texture = ExtResource( 23 )
 64/tex_offset = Vector2( 0, 0 )
 64/modulate = Color( 1, 1, 1, 1 )
 64/region = Rect2( 0, 0, 32, 32 )
@@ -995,7 +996,7 @@
 64/shapes = [  ]
 64/z_index = 0
 65/name = "IndustrialTile_65.png 65"
-65/texture = ExtResource( 78 )
+65/texture = ExtResource( 81 )
 65/tex_offset = Vector2( 0, 0 )
 65/modulate = Color( 1, 1, 1, 1 )
 65/region = Rect2( 0, 0, 32, 32 )
@@ -1009,7 +1010,7 @@
 65/shapes = [  ]
 65/z_index = 0
 66/name = "IndustrialTile_66.png 66"
-66/texture = ExtResource( 9 )
+66/texture = ExtResource( 44 )
 66/tex_offset = Vector2( 0, 0 )
 66/modulate = Color( 1, 1, 1, 1 )
 66/region = Rect2( 0, 0, 32, 32 )
@@ -1023,7 +1024,7 @@
 66/shapes = [  ]
 66/z_index = 0
 67/name = "IndustrialTile_67.png 67"
-67/texture = ExtResource( 23 )
+67/texture = ExtResource( 52 )
 67/tex_offset = Vector2( 0, 0 )
 67/modulate = Color( 1, 1, 1, 1 )
 67/region = Rect2( 0, 0, 32, 32 )
@@ -1051,7 +1052,7 @@
 68/shapes = [  ]
 68/z_index = 0
 69/name = "IndustrialTile_69.png 69"
-69/texture = ExtResource( 8 )
+69/texture = ExtResource( 43 )
 69/tex_offset = Vector2( 0, 0 )
 69/modulate = Color( 1, 1, 1, 1 )
 69/region = Rect2( 0, 0, 32, 32 )
@@ -1065,7 +1066,7 @@
 69/shapes = [  ]
 69/z_index = 0
 70/name = "IndustrialTile_70.png 70"
-70/texture = ExtResource( 30 )
+70/texture = ExtResource( 58 )
 70/tex_offset = Vector2( 0, 0 )
 70/modulate = Color( 1, 1, 1, 1 )
 70/region = Rect2( 0, 0, 32, 32 )
@@ -1079,7 +1080,7 @@
 70/shapes = [  ]
 70/z_index = 0
 71/name = "IndustrialTile_71.png 71"
-71/texture = ExtResource( 79 )
+71/texture = ExtResource( 8 )
 71/tex_offset = Vector2( 0, 0 )
 71/modulate = Color( 1, 1, 1, 1 )
 71/region = Rect2( 0, 0, 32, 32 )
@@ -1093,7 +1094,7 @@
 71/shapes = [  ]
 71/z_index = 0
 72/name = "IndustrialTile_72.png 72"
-72/texture = ExtResource( 17 )
+72/texture = ExtResource( 48 )
 72/tex_offset = Vector2( 0, 0 )
 72/modulate = Color( 1, 1, 1, 1 )
 72/region = Rect2( 0, 0, 32, 32 )
@@ -1107,7 +1108,7 @@
 72/shapes = [  ]
 72/z_index = 0
 73/name = "IndustrialTile_73.png 73"
-73/texture = ExtResource( 83 )
+73/texture = ExtResource( 19 )
 73/tex_offset = Vector2( 0, 0 )
 73/modulate = Color( 1, 1, 1, 1 )
 73/region = Rect2( 0, 0, 32, 32 )
@@ -1121,7 +1122,7 @@
 73/shapes = [  ]
 73/z_index = 0
 74/name = "IndustrialTile_74.png 74"
-74/texture = ExtResource( 62 )
+74/texture = ExtResource( 26 )
 74/tex_offset = Vector2( 0, 0 )
 74/modulate = Color( 1, 1, 1, 1 )
 74/region = Rect2( 0, 0, 32, 32 )
@@ -1135,7 +1136,7 @@
 74/shapes = [  ]
 74/z_index = 0
 75/name = "IndustrialTile_75.png 75"
-75/texture = ExtResource( 10 )
+75/texture = ExtResource( 45 )
 75/tex_offset = Vector2( 0, 0 )
 75/modulate = Color( 1, 1, 1, 1 )
 75/region = Rect2( 0, 0, 32, 32 )
@@ -1149,7 +1150,7 @@
 75/shapes = [  ]
 75/z_index = 0
 76/name = "IndustrialTile_76.png 76"
-76/texture = ExtResource( 75 )
+76/texture = ExtResource( 79 )
 76/tex_offset = Vector2( 0, 0 )
 76/modulate = Color( 1, 1, 1, 1 )
 76/region = Rect2( 0, 0, 32, 32 )
@@ -1163,7 +1164,7 @@
 76/shapes = [  ]
 76/z_index = 0
 77/name = "IndustrialTile_77.png 77"
-77/texture = ExtResource( 77 )
+77/texture = ExtResource( 80 )
 77/tex_offset = Vector2( 0, 0 )
 77/modulate = Color( 1, 1, 1, 1 )
 77/region = Rect2( 0, 0, 32, 32 )
@@ -1177,7 +1178,7 @@
 77/shapes = [  ]
 77/z_index = 0
 78/name = "IndustrialTile_78.png 78"
-78/texture = ExtResource( 6 )
+78/texture = ExtResource( 41 )
 78/tex_offset = Vector2( 0, 0 )
 78/modulate = Color( 1, 1, 1, 1 )
 78/region = Rect2( 0, 0, 32, 32 )
@@ -1191,7 +1192,7 @@
 78/shapes = [  ]
 78/z_index = 0
 79/name = "IndustrialTile_79.png 79"
-79/texture = ExtResource( 26 )
+79/texture = ExtResource( 30 )
 79/tex_offset = Vector2( 0, 0 )
 79/modulate = Color( 1, 1, 1, 1 )
 79/region = Rect2( 0, 0, 32, 32 )
@@ -1205,7 +1206,7 @@
 79/shapes = [  ]
 79/z_index = 0
 80/name = "IndustrialTile_80.png 80"
-80/texture = ExtResource( 76 )
+80/texture = ExtResource( 17 )
 80/tex_offset = Vector2( 0, 0 )
 80/modulate = Color( 1, 1, 1, 1 )
 80/region = Rect2( 0, 0, 32, 32 )
@@ -1219,7 +1220,7 @@
 80/shapes = [  ]
 80/z_index = 0
 81/name = "IndustrialTile_81.png 81"
-81/texture = ExtResource( 80 )
+81/texture = ExtResource( 9 )
 81/tex_offset = Vector2( 0, 0 )
 81/modulate = Color( 1, 1, 1, 1 )
 81/region = Rect2( 0, 0, 32, 32 )
@@ -1233,12 +1234,16 @@
 81/shapes = [  ]
 81/z_index = 0
 
-[node name="World" type="Node2D"]
+[node name="Fake_World" type="Node2D"]
 
-[node name="Battlemage walking" parent="." instance=ExtResource( 1 )]
+[node name="ParallaxBackground" parent="." instance=ExtResource( 83 )]
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground"]
+position = Vector2( 289, 163 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
 
 [node name="Industrial Zone" type="TileMap" parent="."]
-position = Vector2( 260, -67 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 format = 1
