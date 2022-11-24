@@ -1,9 +1,10 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=87 format=2]
 
-[ext_resource path="res://Scenes/Player_Running.tscn" type="PackedScene" id=1]
+[ext_resource path="res://TestMap/Wasteland-Files.png" type="Texture" id=1]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_63.png" type="Texture" id=2]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_06.png" type="Texture" id=3]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_38.png" type="Texture" id=4]
+[ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.png" type="Texture" id=5]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_78.png" type="Texture" id=6]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_62.png" type="Texture" id=7]
 [ext_resource path="res://Free Industrial Zone Tileset/1 Tiles/IndustrialTile_69.png" type="Texture" id=8]
@@ -1233,13 +1234,250 @@
 81/shapes = [  ]
 81/z_index = 0
 
-[node name="World" type="Node2D"]
+[sub_resource type="TileSet" id=2]
+0/name = "Wasteland-Files.png 0"
+0/texture = ExtResource( 1 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 96, 128, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Wasteland-Files.png 1"
+1/texture = ExtResource( 1 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 96, 128, 16, 16 )
+1/tile_mode = 1
+1/autotile/bitmask_mode = 0
+1/autotile/bitmask_flags = [  ]
+1/autotile/icon_coordinate = Vector2( 0, 0 )
+1/autotile/tile_size = Vector2( 16, 16 )
+1/autotile/spacing = 0
+1/autotile/occluder_map = [  ]
+1/autotile/navpoly_map = [  ]
+1/autotile/priority_map = [  ]
+1/autotile/z_index_map = [  ]
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "Wasteland-Files.png 2"
+2/texture = ExtResource( 1 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 192, 112, 48, 48 )
+2/tile_mode = 1
+2/autotile/bitmask_mode = 0
+2/autotile/bitmask_flags = [  ]
+2/autotile/icon_coordinate = Vector2( 0, 0 )
+2/autotile/tile_size = Vector2( 16, 16 )
+2/autotile/spacing = 0
+2/autotile/occluder_map = [  ]
+2/autotile/navpoly_map = [  ]
+2/autotile/priority_map = [  ]
+2/autotile/z_index_map = [  ]
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "Wasteland-Files.png 3"
+3/texture = ExtResource( 1 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 128, 112, 48, 48 )
+3/tile_mode = 1
+3/autotile/bitmask_mode = 0
+3/autotile/bitmask_flags = [  ]
+3/autotile/icon_coordinate = Vector2( 0, 0 )
+3/autotile/tile_size = Vector2( 16, 16 )
+3/autotile/spacing = 0
+3/autotile/occluder_map = [  ]
+3/autotile/navpoly_map = [  ]
+3/autotile/priority_map = [  ]
+3/autotile/z_index_map = [  ]
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
+4/name = "Wasteland-Files.png 4"
+4/texture = ExtResource( 1 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 128, 192, 80, 16 )
+4/tile_mode = 1
+4/autotile/bitmask_mode = 0
+4/autotile/bitmask_flags = [  ]
+4/autotile/icon_coordinate = Vector2( 0, 0 )
+4/autotile/tile_size = Vector2( 16, 16 )
+4/autotile/spacing = 0
+4/autotile/occluder_map = [  ]
+4/autotile/navpoly_map = [  ]
+4/autotile/priority_map = [  ]
+4/autotile/z_index_map = [  ]
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape_one_way = false
+4/shape_one_way_margin = 0.0
+4/shapes = [  ]
+4/z_index = 0
+5/name = "Wasteland-Files.png 5"
+5/texture = ExtResource( 1 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 256, 96, 32, 16 )
+5/tile_mode = 1
+5/autotile/bitmask_mode = 0
+5/autotile/bitmask_flags = [  ]
+5/autotile/icon_coordinate = Vector2( 0, 0 )
+5/autotile/tile_size = Vector2( 16, 16 )
+5/autotile/spacing = 0
+5/autotile/occluder_map = [  ]
+5/autotile/navpoly_map = [  ]
+5/autotile/priority_map = [  ]
+5/autotile/z_index_map = [  ]
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape_one_way = false
+5/shape_one_way_margin = 0.0
+5/shapes = [  ]
+5/z_index = 0
+6/name = "Wasteland-Files.png 6"
+6/texture = ExtResource( 1 )
+6/tex_offset = Vector2( 0, 0 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 256, 128, 16, 16 )
+6/tile_mode = 1
+6/autotile/bitmask_mode = 0
+6/autotile/bitmask_flags = [  ]
+6/autotile/icon_coordinate = Vector2( 0, 0 )
+6/autotile/tile_size = Vector2( 16, 16 )
+6/autotile/spacing = 0
+6/autotile/occluder_map = [  ]
+6/autotile/navpoly_map = [  ]
+6/autotile/priority_map = [  ]
+6/autotile/z_index_map = [  ]
+6/occluder_offset = Vector2( 0, 0 )
+6/navigation_offset = Vector2( 0, 0 )
+6/shape_offset = Vector2( 0, 0 )
+6/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+6/shape_one_way = false
+6/shape_one_way_margin = 0.0
+6/shapes = [  ]
+6/z_index = 0
+7/name = "Wasteland-Files.png 7"
+7/texture = ExtResource( 1 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 288, 128, 16, 16 )
+7/tile_mode = 1
+7/autotile/bitmask_mode = 0
+7/autotile/bitmask_flags = [  ]
+7/autotile/icon_coordinate = Vector2( 0, 0 )
+7/autotile/tile_size = Vector2( 16, 16 )
+7/autotile/spacing = 0
+7/autotile/occluder_map = [  ]
+7/autotile/navpoly_map = [  ]
+7/autotile/priority_map = [  ]
+7/autotile/z_index_map = [  ]
+7/occluder_offset = Vector2( 0, 0 )
+7/navigation_offset = Vector2( 0, 0 )
+7/shape_offset = Vector2( 0, 0 )
+7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+7/shape_one_way = false
+7/shape_one_way_margin = 0.0
+7/shapes = [  ]
+7/z_index = 0
+8/name = "Wasteland-Files.png 8"
+8/texture = ExtResource( 1 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 384, 160, 16, 16 )
+8/tile_mode = 1
+8/autotile/bitmask_mode = 0
+8/autotile/bitmask_flags = [  ]
+8/autotile/icon_coordinate = Vector2( 0, 0 )
+8/autotile/tile_size = Vector2( 16, 16 )
+8/autotile/spacing = 0
+8/autotile/occluder_map = [  ]
+8/autotile/navpoly_map = [  ]
+8/autotile/priority_map = [  ]
+8/autotile/z_index_map = [  ]
+8/occluder_offset = Vector2( 0, 0 )
+8/navigation_offset = Vector2( 0, 0 )
+8/shape_offset = Vector2( 0, 0 )
+8/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+8/shape_one_way = false
+8/shape_one_way_margin = 0.0
+8/shapes = [  ]
+8/z_index = 0
 
-[node name="Battlemage walking" parent="." instance=ExtResource( 1 )]
+[sub_resource type="TileSet" id=3]
+0/name = "Blood Temple Tileset.png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 256, 256 )
+0/tile_mode = 1
+0/autotile/bitmask_mode = 1
+0/autotile/bitmask_flags = [ Vector2( 1, 2 ), 432, Vector2( 1, 3 ), 438, Vector2( 1, 4 ), 54, Vector2( 2, 2 ), 504, Vector2( 2, 3 ), 511, Vector2( 2, 4 ), 63, Vector2( 3, 2 ), 216, Vector2( 3, 3 ), 219, Vector2( 3, 4 ), 27, Vector2( 6, 2 ), 255, Vector2( 6, 3 ), 219, Vector2( 6, 4 ), 507, Vector2( 7, 2 ), 63, Vector2( 7, 4 ), 504, Vector2( 8, 2 ), 447, Vector2( 8, 3 ), 438, Vector2( 8, 4 ), 510, Vector2( 8, 12 ), 223, Vector2( 8, 13 ), 475, Vector2( 9, 12 ), 95, Vector2( 9, 13 ), 473, Vector2( 10, 12 ), 311, Vector2( 10, 13 ), 500, Vector2( 11, 12 ), 439, Vector2( 11, 13 ), 502, Vector2( 12, 12 ), 127, Vector2( 12, 13 ), 127, Vector2( 13, 12 ), 319, Vector2( 13, 13 ), 63, Vector2( 14, 12 ), 255, Vector2( 14, 13 ), 63, Vector2( 15, 12 ), 319, Vector2( 15, 13 ), 63 ]
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 16, 16 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+
+[node name="Level 0" type="Node2D"]
 
 [node name="Industrial Zone" type="TileMap" parent="."]
+visible = false
 position = Vector2( 260, -67 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 262135, 3, 0, 262136, 4, 0, 262137, 4, 0, 262138, 4, 0, 262140, 5, 0, 327671, 12, 0, 327672, 13, 0, 327673, 13, 0, 327674, 13, 0, 327675, 13, 0, 327676, 14, 0, 393207, 12, 0, 393208, 13, 0, 393209, 13, 0, 393210, 13, 0, 393211, 13, 0, 393212, 14, 0, 458743, 12, 0, 458744, 13, 0, 458745, 13, 0, 458746, 13, 0, 458747, 13, 0, 458748, 14, 0, 524279, 12, 0, 524280, 13, 0, 524281, 13, 0, 524282, 13, 0, 524283, 13, 0, 524284, 14, 0, 589815, 12, 0, 589816, 13, 0, 589817, 13, 0, 589818, 13, 0, 589819, 13, 0, 589820, 14, 0, 655351, 12, 0, 655352, 13, 0, 655353, 13, 0, 655354, 13, 0, 655355, 13, 0, 655356, 15, 0, 720887, 12, 0, 720888, 13, 0, 720889, 13, 0, 720890, 13, 0, 720891, 13, 0, 786423, 12, 0, 786424, 13, 0, 786425, 13, 0, 786426, 13, 0, 786427, 13, 0, 720899, 10, 0, 851959, 12, 0, 851960, 13, 0, 851961, 13, 0, 851962, 13, 0, 851963, 13, 0, 917495, 12, 0, 917496, 13, 0, 917497, 13, 0, 917498, 13, 0, 917499, 13, 0, 983031, 12, 0, 1048567, 12, 0 )
+tile_data = PoolIntArray( 524277, 4, 0, 524278, 4, 0, 524279, 4, 0, 524280, 4, 0, 524281, 4, 0, 524282, 4, 0, 524283, 4, 0, 524284, 4, 0, 524285, 4, 0, 524286, 4, 0, 524287, 4, 0, 458752, 4, 0, 458753, 4, 0, 458754, 4, 0, 458755, 4, 0, 458756, 4, 0, 458757, 16, 0 )
+
+[node name="TileMap" type="TileMap" parent="."]
+visible = false
+tile_set = SubResource( 2 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -917495, 6, 0, -917494, 6, 0, -851959, 6, 0, -851958, 6, 0, -786423, 6, 0, -786421, 6, 0, -720888, 6, 0, -720884, 6, 0, -655352, 6, 0, -655349, 6, 0, -655348, 6, 0, -655347, 6, 0, -655346, 6, 0, -589817, 6, 0, -589814, 6, 0, -589812, 6, 0, -589811, 6, 0, -589810, 6, 0, -589809, 6, 0, -524281, 6, 0, -524279, 6, 0, -524277, 6, 0, -524276, 6, 0, -524275, 6, 0, -524274, 6, 0, -524273, 6, 0, -458745, 6, 0, -458743, 6, 0, -458742, 6, 0, -458741, 6, 0, -458740, 6, 0, -458739, 6, 0, -458738, 6, 0, -458737, 6, 0, -393210, 6, 0, -393209, 6, 0, -393208, 6, 0, -393207, 6, 0, -393206, 6, 0, -393205, 6, 0, -393204, 6, 0, -393203, 6, 0, -393202, 6, 0, -393201, 6, 0, -327674, 6, 0, -327673, 6, 0, -327672, 6, 0, -327671, 6, 0, -327669, 6, 0, -327668, 6, 0, -327667, 6, 0, -327666, 6, 0, -327665, 6, 0, -262138, 6, 0, -262137, 6, 0, -262136, 6, 0, -262134, 6, 0, -262133, 6, 0, -262132, 6, 0, -262131, 6, 0, -262130, 6, 0, -262129, 6, 0, -196602, 6, 0, -196601, 6, 0, -196600, 6, 0, -196599, 6, 0, -196597, 6, 0, -196596, 6, 0, -196595, 6, 0, -196594, 6, 0, -196593, 6, 0, -131066, 6, 0, -131065, 6, 0, -131064, 6, 0, -131061, 6, 0, -131060, 6, 0, -131059, 6, 0, -131058, 6, 0, -65531, 6, 0, -65530, 6, 0, -65529, 6, 0, -65528, 6, 0, -65525, 6, 0, -65524, 6, 0, -65523, 6, 0, -65522, 6, 0, 0, 0, 0, 6, 6, 0, 7, 6, 0, 8, 6, 0, 11, 6, 0, 12, 6, 0, 14, 6, 0, 65536, 0, 0, 65542, 6, 0, 65543, 6, 0, 65544, 6, 0, 65547, 6, 0, 65548, 6, 0, 65549, 6, 0, 131073, 1, 0, 131074, 1, 0, 131075, 0, 0, 131076, 0, 0, 131077, 6, 0, 131078, 6, 0, 131079, 6, 0, 131080, 6, 0, 131081, 6, 0, 131082, 6, 0, 131083, 6, 0, 131084, 6, 0, 131085, 6, 0, 262143, 0, 0, 196608, 0, 0, 196609, 1, 0, 196610, 1, 0, 196611, 0, 0, 196612, 0, 0, 196613, 6, 0, 196614, 6, 0, 196615, 6, 0, 196616, 6, 0, 196617, 6, 0, 196619, 6, 0, 196620, 6, 0, 196621, 6, 0, 262144, 0, 0, 262145, 1, 0, 262146, 1, 0, 262147, 0, 0, 262148, 0, 0, 262149, 6, 0, 262150, 6, 0, 262151, 6, 0, 262152, 6, 0, 262153, 6, 0, 262154, 6, 0, 262155, 6, 0, 262156, 6, 0, 262157, 6, 0, 327680, 0, 0, 327681, 1, 0, 327682, 1, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 6, 0, 327687, 6, 0, 327688, 6, 0, 327689, 6, 0, 327690, 6, 0, 327691, 6, 0, 327692, 6, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, 6, 0, 393224, 6, 0, 393226, 6, 0, 393228, 6, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458758, 6, 0, 458761, 6, 0, 458762, 6, 0, 458763, 6, 0, 524294, 6, 0, 524297, 6, 0, 655356, 2, 0, 655357, 2, 0, 655358, 2, 0, 589830, 6, 0, 589832, 6, 0, 720891, 2, 0, 720892, 2, 0, 720894, 2, 0, 655366, 6, 0, 655367, 6, 0, 655368, 6, 0, 786427, 2, 0, 786428, 2, 0, 786429, 2, 0, 786430, 2, 0 )
+
+[node name="TileMap2" type="TileMap" parent="."]
+tile_set = SubResource( 3 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -131075, 0, 131073, -131074, 0, 262151, -131073, 0, 262151, -196608, 0, 262151, -196607, 0, 131075, -196604, 0, 131073, -196603, 0, 262151, -196602, 0, 262151, -196601, 0, 262151, -196600, 0, 131075, -65539, 0, 196609, -65538, 0, 196610, -65537, 0, 196610, -131072, 0, 196610, -131071, 0, 196614, -131068, 0, 196609, -131067, 0, 131078, -131066, 0, 262146, -131065, 0, 131080, -131064, 0, 196611, -3, 0, 196616, -2, 0, 196610, -1, 0, 196610, -65536, 0, 196610, -65535, 0, 196614, -65532, 0, 196609, -65531, 0, 196614, -65529, 0, 196609, -65528, 0, 196611, 65533, 0, 196616, 65534, 0, 196610, 65535, 0, 196610, 0, 0, 196610, 1, 0, 196611, 4, 0, 196616, 5, 0, 262150, 6, 0, 131074, 7, 0, 262152, 8, 0, 196614, 131069, 0, 262145, 131070, 0, 131079, 131071, 0, 262146, 65536, 0, 131079, 65537, 0, 262147, 65540, 0, 262145, 65541, 0, 131079, 65542, 0, 851983, 65543, 0, 262146, 65544, 0, 262147, 131079, 1, 0, 131080, 1, 131073, 131081, 1, 131073, 131082, 1, 131073, 131083, 1, 0, 196615, 1, 65538, 196616, 1, 0, 196617, 1, 0, 196618, 1, 0, 196619, 1, 65536, 262151, 0, 131073, 262152, 0, 131074, 262153, 0, 131074, 262154, 0, 131075, 262155, 1, 65536, 327685, 0, 131073, 327686, 0, 262151, 327687, 0, 262152, 327688, 0, 196610, 327689, 0, 196610, 327690, 0, 196611, 327691, 1, 65536, 393220, 0, 131073, 393221, 0, 262152, 393222, 0, 196610, 393223, 0, 196610, 393224, 0, 196610, 393225, 0, 196610, 393226, 0, 196614, 393227, 1, 0, 524287, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 131078, 458758, 0, 131079, 458759, 0, 851981, 458760, 0, 262146, 458761, 0, 262146, 458762, 0, 262147, 524292, 0, 262145, 524293, 0, 262147 )
