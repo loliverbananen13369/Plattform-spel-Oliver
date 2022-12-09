@@ -6,6 +6,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "Ability_3"
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Charachter:frame")
 tracks/0/interp = 1
@@ -56,8 +57,8 @@ frame = 8
 anims/Ability_3 = SubResource( 1 )
 
 [node name="Ability" type="Sprite" parent="."]
-position = Vector2( 180, 20 )
+position = Vector2( 156.482, 20 )
 texture = ExtResource( 1 )
 hframes = 10
 vframes = 2
-frame = 16
+frame = 8
