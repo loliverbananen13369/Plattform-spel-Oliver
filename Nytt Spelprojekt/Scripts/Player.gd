@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum {IDLE, RUN, AIR, DASH, STOP}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK}
 
 const MAX_SPEED = 300
 const ACCELERATION = 1500
@@ -75,6 +75,10 @@ func _idle_state(delta) -> void:
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_enter_dash_state()
+		return
+	
+	if Input.is_action_pressed("EAttack1"):
+		_enter_attack1_state()
 		return
 		
 	_apply_basic_movement(delta)
@@ -163,6 +167,25 @@ func _stop_state(delta):
 		_enter_idle_state()
 		return
 	
+func _attack1_state(delta) -> void:
+	direction.x = _get_input_x_update_direction()
+	if Input.is_action_just_pressed("Jump") and can_jump:
+		_enter_air_state(true)
+		return
+	
+	if Input.is_action_just_pressed("Dash") and can_dash:
+		_enter_dash_state()
+		return
+		
+	_apply_basic_movement(delta)
+	
+	if not is_on_floor():
+		_enter_air_state(false)
+		return
+	if velocity.x != 0:
+		_enter_run_state()
+		return
+		
 	
 
 
@@ -214,6 +237,17 @@ func _enter_run_state() -> void:
 func _enter_stop_state() -> void:
 	state = STOP
 	animatedsprite.play("Stop")
+
+func _enter_attack1_state() -> void:
+	state = ATTACK
+	animatedsprite.play("EAttack1")
+	state = IDLE
+	
+
+#Attack
+
+
+	
 	
 
 
