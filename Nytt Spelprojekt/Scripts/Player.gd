@@ -16,11 +16,14 @@ var ghosttime := 0.0
 
 var can_jump := true
 var can_dash := true
+var can_attack1 := true
 
 
 onready var animatedsprite = $AnimatedSprite
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
+onready var attack1timer = $Attack1Timer
+onready var sattacktimer = $SAttackTimer
 
 
 func _physics_process(delta: float) -> void:
@@ -35,6 +38,8 @@ func _physics_process(delta: float) -> void:
 			_dash_state(delta)
 		STOP:
 			_stop_state(delta)
+		ATTACK:
+			_attack_state(delta)
 
 #Help functions
 func _apply_basic_movement(delta) -> void:
@@ -77,8 +82,8 @@ func _idle_state(delta) -> void:
 		_enter_dash_state()
 		return
 	
-	if Input.is_action_pressed("EAttack1"):
-		_enter_attack1_state()
+	if Input.is_action_just_pressed("EAttack1") and can_attack1:
+		_enter_attack1_state(1)
 		return
 		
 	_apply_basic_movement(delta)
@@ -102,6 +107,10 @@ func _run_state(delta) -> void:
 		_enter_dash_state()
 		return
 		
+	if Input.is_action_just_pressed("EAttack1") and can_attack1:
+		_enter_attack1_state(2)
+		return
+	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
 		return
@@ -120,6 +129,11 @@ func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_enter_dash_state()
 		return
+	
+	if Input.is_action_just_pressed("EAttack1") and can_attack1:
+		_enter_attack1_state(2)
+		return
+	
 	elif Input.is_action_just_pressed("Jump") and can_jump:
 		velocity.y = JUMP_STRENGHT
 		can_jump = false
@@ -167,8 +181,12 @@ func _stop_state(delta):
 		_enter_idle_state()
 		return
 	
-func _attack1_state(delta) -> void:
+func _attack_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
+	_apply_basic_movement(delta)
+	_air_movement(delta)
+	"""
+	yield(get_tree().create_timer(0.4), "timeout")
 	if Input.is_action_just_pressed("Jump") and can_jump:
 		_enter_air_state(true)
 		return
@@ -176,9 +194,8 @@ func _attack1_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_enter_dash_state()
 		return
-		
-	_apply_basic_movement(delta)
-	
+	print(state)
+
 	if not is_on_floor():
 		_enter_air_state(false)
 		return
@@ -186,7 +203,7 @@ func _attack1_state(delta) -> void:
 		_enter_run_state()
 		return
 		
-	
+	"""
 
 
 #SIGNALS
@@ -200,6 +217,15 @@ func _on_DashTimer_timeout():
 func _on_CoyoteTimer_timeout():
 	can_jump = false
 
+func _on_Attack1Timer_timeout() -> void:
+	_enter_idle_state()
+	can_attack1 = true
+
+func _on_SAttackTimer_timeout() -> void:
+	_enter_idle_state()
+	can_attack1 = true
+
+
 
 #Enter states
 func _enter_idle_state() -> void:
@@ -209,7 +235,7 @@ func _enter_idle_state() -> void:
 
 
 func _enter_dash_state() -> void:
-	direction = Input.get_vector("move_left", "move_right", "ui_up", "ui_down")
+	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 	if state == IDLE and direction == Vector2.DOWN:
 		return
 	elif direction == Vector2.ZERO:
@@ -238,10 +264,16 @@ func _enter_stop_state() -> void:
 	state = STOP
 	animatedsprite.play("Stop")
 
-func _enter_attack1_state() -> void:
+func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK
-	animatedsprite.play("EAttack1")
-	state = IDLE
+	if attack == 1:
+		animatedsprite.play("EAttack1")
+		attack1timer.start(0.25)
+	elif attack == 2:
+		animatedsprite.play("SpinAttack")
+		sattacktimer.start(0.5)
+	can_attack1 = false
+
 	
 
 #Attack
@@ -249,5 +281,10 @@ func _enter_attack1_state() -> void:
 
 	
 	
+
+
+
+
+
 
 
