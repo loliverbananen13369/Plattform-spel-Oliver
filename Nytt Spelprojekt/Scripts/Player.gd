@@ -131,7 +131,7 @@ func _air_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("EAttack1") and can_attack1:
-		_enter_attack1_state(2)
+		_enter_attack1_state(1)
 		return
 	
 	elif Input.is_action_just_pressed("Jump") and can_jump:
@@ -271,7 +271,7 @@ func _enter_attack1_state(attack: int) -> void:
 		attack1timer.start(0.25)
 	elif attack == 2:
 		animatedsprite.play("SpinAttack")
-		sattacktimer.start(0.5)
+		sattacktimer.start(0.75)
 	can_attack1 = false
 
 	
