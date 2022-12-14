@@ -1,12 +1,12 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=154 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Down/Jump Neutral Going Down.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Stop/Battlemage Stop.png" type="Texture" id=3]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Dash/Battlemage Dash.png" type="Texture" id=4]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Idle/Battlemage Idle.png" type="Texture" id=5]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Idle/Battlemage Idle Red.png" type="Texture" id=5]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.png" type="Texture" id=6]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Running/Battlemage Run.png" type="Texture" id=7]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.10.png" type="Texture" id=7]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Up/Jump Foward Going Up.png" type="Texture" id=8]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Down/Jump Foward Going Down.png" type="Texture" id=9]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 3/Acid VFX 03(56x48).png" type="Texture" id=10]
@@ -17,8 +17,27 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Attack 3/Battlemage Attack 3.png" type="Texture" id=15]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Attack 2/Battlemage Attack 2.png" type="Texture" id=16]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Spin Attack/Battlemage Spin Attack.png" type="Texture" id=17]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.png" type="Texture" id=18]
+[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Player.AttackSpin.V1.png" type="Texture" id=18]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack v.3 wo Effects.png" type="Texture" id=19]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.7.png" type="Texture" id=20]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.3.png" type="Texture" id=21]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.7.png" type="Texture" id=22]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.4.png" type="Texture" id=23]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.5.png" type="Texture" id=24]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.1.png" type="Texture" id=25]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.6.png" type="Texture" id=26]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.2.png" type="Texture" id=27]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.8.png" type="Texture" id=28]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.9.png" type="Texture" id=29]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.6.png" type="Texture" id=30]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.1.png" type="Texture" id=31]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.2.png" type="Texture" id=32]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.5.png" type="Texture" id=33]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.8.png" type="Texture" id=34]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.4.1.png" type="Texture" id=35]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.2.3.png" type="Texture" id=36]
+[ext_resource path="res://Smoke Effect 01/Smoke VFX 1.png" type="Texture" id=37]
+[ext_resource path="res://Smoke Effect 01/Smoke VFX 2.png" type="Texture" id=38]
 
 [sub_resource type="AtlasTexture" id=80]
 flags = 4
@@ -345,42 +364,42 @@ flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 96, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=141]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=142]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 48, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=143]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 96, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=144]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 144, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=145]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 192, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=146]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 240, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=147]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 288, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=148]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 0, 336, 56, 48 )
@@ -489,56 +508,6 @@ region = Rect2( 784, 0, 56, 48 )
 flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 840, 0, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=31]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=32]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 48, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=33]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 96, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=34]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 144, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=35]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 192, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=36]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 240, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=37]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 288, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=38]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 336, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=39]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 384, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=40]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=130]
 flags = 4
@@ -662,9 +631,14 @@ animations = [ {
 "name": "FallN",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
+"frames": [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 33 ), ExtResource( 30 ), ExtResource( 20 ), ExtResource( 34 ) ],
 "loop": true,
 "name": "Idle",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 141 ), SubResource( 142 ), SubResource( 143 ), SubResource( 144 ), SubResource( 145 ), SubResource( 146 ), SubResource( 147 ), SubResource( 148 ) ],
+"loop": true,
+"name": "Idle2",
 "speed": 10.0
 }, {
 "frames": [ SubResource( 57 ), SubResource( 58 ) ],
@@ -682,10 +656,10 @@ animations = [ {
 "name": "New Anim",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 27 ), ExtResource( 21 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 22 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "Run",
-"speed": 30.0
+"speed": 20.0
 }, {
 "frames": [ SubResource( 130 ), SubResource( 131 ), SubResource( 132 ), SubResource( 133 ), SubResource( 134 ), SubResource( 135 ), SubResource( 136 ), SubResource( 137 ), SubResource( 138 ), SubResource( 139 ) ],
 "loop": true,
@@ -697,6 +671,40 @@ animations = [ {
 "name": "Stop",
 "speed": 10.0
 } ]
+
+[sub_resource type="Animation" id=150]
+resource_name = "AirDashSmoke"
+length = 0.433333
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/path = NodePath("AirDashSmoke:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+}
+
+[sub_resource type="Animation" id=149]
+resource_name = "GroundDashSmoke"
+length = 0.3
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/path = NodePath("GroundDashSmoke:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 6, 7, 8 ]
+}
 
 [sub_resource type="Animation" id=52]
 resource_name = "Jump"
@@ -739,20 +747,20 @@ position = Vector2( 119, 114 )
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-visible = false
-position = Vector2( 0, -20 )
+position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "SpinAttack"
-frame = 9
+animation = "Idle"
+frame = 3
 playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/AirDashSmoke = SubResource( 150 )
+anims/GroundDashSmoke = SubResource( 149 )
 anims/Jump = SubResource( 52 )
 anims/Spinattack = SubResource( 140 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 1, -11 )
+position = Vector2( 10, -12 )
 shape = SubResource( 53 )
 
 [node name="DashTimer" type="Timer" parent="."]
@@ -770,17 +778,28 @@ one_shot = true
 one_shot = true
 
 [node name="PlayerSprite" type="Sprite" parent="."]
-position = Vector2( 96, 1 )
+visible = false
+position = Vector2( 10, -20 )
 texture = ExtResource( 18 )
 vframes = 11
-frame = 1
 
 [node name="AttackSprite" type="Sprite" parent="."]
-position = Vector2( 96, 0 )
-scale = Vector2( 1.5, 1.5 )
+position = Vector2( 10, -20 )
+scale = Vector2( 1.5, 1 )
 texture = ExtResource( 19 )
 vframes = 11
-frame = 1
+
+[node name="GroundDashSmoke" type="Sprite" parent="."]
+position = Vector2( -21, -12 )
+texture = ExtResource( 37 )
+hframes = 9
+frame = 8
+
+[node name="AirDashSmoke" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 38 )
+hframes = 13
+frame = 12
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
 [connection signal="timeout" from="Attack1Timer" to="." method="_on_Attack1Timer_timeout"]

@@ -20,6 +20,7 @@ var can_attack1 := true
 
 
 onready var animatedsprite = $AnimatedSprite
+onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var attack1timer = $Attack1Timer
@@ -241,6 +242,10 @@ func _enter_dash_state() -> void:
 	elif direction == Vector2.ZERO:
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	animatedsprite.play("Dash")
+	if is_on_floor():
+		animationplayer.play("GroundDashSmoke")
+	else:
+		animationplayer.play("AirDashSmoke")
 	state = DASH
 	can_dash = false
 	dashtimer.start(0.25)

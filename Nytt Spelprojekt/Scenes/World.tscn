@@ -1255,9 +1255,8 @@ position = Vector2( 1, 0 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground"]
-visible = false
-modulate = Color( 0, 0, 0, 1 )
-self_modulate = Color( 0, 0, 0, 1 )
+modulate = Color( 0.364706, 0.529412, 0.290196, 1 )
+self_modulate = Color( 0.192157, 0.901961, 0.337255, 1 )
 position = Vector2( 515, 16 )
 scale = Vector2( 2.58398, 2.35547 )
 texture = ExtResource( 84 )
@@ -1289,5 +1288,7 @@ position = Vector2( 60, -103 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2( 60, -14 )
+scale = Vector2( 0.5, 0.5 )
 current = true
+zoom = Vector2( 0.75, 0.75 )
 script = SubResource( 35 )
