@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND}
 
 const MAX_SPEED = 300
 const ACCELERATION = 1500
@@ -16,14 +16,24 @@ var ghosttime := 0.0
 
 var can_jump := true
 var can_dash := true
+var can_attack := true
 var can_attack1 := true
+var can_attack2 := false
+var can_attack3 := false
 
 
-onready var animatedsprite = $AnimatedSprite
+onready var animatedsprite = $PlayerSprite
+onready var animatedattacksprite1 = $Attack1Sprite
+onready var animatedattacksprite2 = $Attack2Sprite
+onready var animatedattacksprite3 = $Attack3Sprite
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
+onready var attackcombotimer1 = $AttackComboTimer1
+onready var attackcombotimer2 = $AttackComboTimer2
 onready var attack1timer = $Attack1Timer
+onready var attack2timer = $Attack2Timer
+onready var attack3timer = $Attack3Timer
 onready var sattacktimer = $SAttackTimer
 
 
@@ -39,8 +49,8 @@ func _physics_process(delta: float) -> void:
 			_dash_state(delta)
 		STOP:
 			_stop_state(delta)
-		ATTACK:
-			_attack_state(delta)
+		ATTACK_GROUND:
+			_attack_state_ground(delta)
 
 #Help functions
 func _apply_basic_movement(delta) -> void:
@@ -58,7 +68,11 @@ func _get_input_x_update_direction() -> float:
 		direction_x = "RIGHT"
 	elif input_x < 0:
 		direction_x = "LEFT"
-	$AnimatedSprite.flip_h = direction_x != "RIGHT"
+	animatedsprite.flip_h = direction_x != "RIGHT"
+	animatedattacksprite1.flip_h = direction_x != "RIGHT"
+	animatedattacksprite2.flip_h = direction_x != "RIGHT"
+	
+	
 	return input_x
 
 
@@ -83,9 +97,20 @@ func _idle_state(delta) -> void:
 		_enter_dash_state()
 		return
 	
-	if Input.is_action_just_pressed("EAttack1") and can_attack1:
-		_enter_attack1_state(1)
-		return
+	if Input.is_action_just_pressed("EAttack1"):
+		if can_attack1:
+			_enter_attack1_state(1)
+			return
+		elif can_attack2:
+			_enter_attack1_state(2)
+			return
+		elif can_attack3:
+			_enter_attack1_state(3)
+			return
+		else:
+			return
+	
+	
 		
 	_apply_basic_movement(delta)
 	
@@ -108,9 +133,6 @@ func _run_state(delta) -> void:
 		_enter_dash_state()
 		return
 		
-	if Input.is_action_just_pressed("EAttack1") and can_attack1:
-		_enter_attack1_state(2)
-		return
 	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
@@ -182,29 +204,11 @@ func _stop_state(delta):
 		_enter_idle_state()
 		return
 	
-func _attack_state(delta) -> void:
+func _attack_state_ground(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	_apply_basic_movement(delta)
-	_air_movement(delta)
-	"""
-	yield(get_tree().create_timer(0.4), "timeout")
-	if Input.is_action_just_pressed("Jump") and can_jump:
-		_enter_air_state(true)
-		return
-	
-	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state()
-		return
-	print(state)
 
-	if not is_on_floor():
-		_enter_air_state(false)
-		return
-	if velocity.x != 0:
-		_enter_run_state()
-		return
-		
-	"""
+
 
 
 #SIGNALS
@@ -220,7 +224,28 @@ func _on_CoyoteTimer_timeout():
 
 func _on_Attack1Timer_timeout() -> void:
 	_enter_idle_state()
+	attackcombotimer1.start(1)
+	can_attack2 = true
+
+func _on_Attack2Timer_timeout() -> void:
+	_enter_idle_state()
+	attackcombotimer2.start(1)
+	can_attack3 = true
+
+func _on_Attack3Timer_timeout() -> void:
+	_enter_idle_state()
+	can_attack3 = false
 	can_attack1 = true
+
+	
+func _on_AttackComboTimer1_timeout() -> void:
+	can_attack2 = false
+	can_attack1 = true
+
+func _on_AttackComboTimer2_timeout() -> void:
+	can_attack3 = false
+	can_attack1 = true
+
 
 func _on_SAttackTimer_timeout() -> void:
 	_enter_idle_state()
@@ -270,14 +295,24 @@ func _enter_stop_state() -> void:
 	animatedsprite.play("Stop")
 
 func _enter_attack1_state(attack: int) -> void:
-	state = ATTACK
+	state = ATTACK_GROUND
 	if attack == 1:
-		animatedsprite.play("EAttack1")
-		attack1timer.start(0.25)
+		animatedsprite.play("Attack1")
+		animationplayer.play("Attack1")
+		attack1timer.start(0.5)
+		can_attack1 = false
 	elif attack == 2:
-		animatedsprite.play("SpinAttack")
-		sattacktimer.start(0.75)
-	can_attack1 = false
+		animatedsprite.play("Attack2")
+		animationplayer.play("Attack2")
+		attack2timer.start(0.5)
+		can_attack2 = false
+	elif attack == 3:
+		animatedsprite.play("Attack3")
+		animationplayer.play("Attack3")
+		attack3timer.start(0.5)
+		can_attack3 = false
+
+	
 
 	
 
@@ -286,6 +321,15 @@ func _enter_attack1_state(attack: int) -> void:
 
 	
 	
+
+
+
+
+
+
+
+
+
 
 
 

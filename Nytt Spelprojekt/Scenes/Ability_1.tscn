@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.png" type="Texture" id=1]
+[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.png" type="Texture" id=1]
 [ext_resource path="res://Dark VFX 01 - 02/Dark VFX 1/Dark VFX 1 (40x32).png" type="Texture" id=2]
+[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Attack 1 Effect.Red.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Hit 1"
@@ -43,20 +44,93 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( 0, 15 ), Vector2( 35, 15 ), Vector2( 40, 15 ), Vector2( 45, 15 ), Vector2( 50, 15 ), Vector2( 50, 15 ), Vector2( 55, 15 ), Vector2( 60, 15 ), Vector2( 60, 15 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 96, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
 
 [node name="Ability 1" type="KinematicBody2D"]
 
 [node name="Charachter" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 vframes = 8
-frame = 5
+frame = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/Hit 1" = SubResource( 1 )
 
 [node name="Ability" type="Sprite" parent="."]
-position = Vector2( 51.6056, 15 )
+visible = false
+position = Vector2( 56.299, 15 )
 texture = ExtResource( 2 )
 hframes = 10
 vframes = 2
-frame = 10
+frame = 12
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 10 )
+frame = 4
+playing = true
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 1.5, 1 )
+texture = ExtResource( 3 )
+vframes = 8
+frame = 6
