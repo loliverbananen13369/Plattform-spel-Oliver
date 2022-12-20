@@ -1250,7 +1250,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 [sub_resource type="GDScript" id=35]
 
 [node name="Level 0" type="Node2D"]
-position = Vector2( 1, 0 )
+position = Vector2( 1, 1 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

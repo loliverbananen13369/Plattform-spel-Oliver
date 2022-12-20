@@ -71,6 +71,7 @@ func _get_input_x_update_direction() -> float:
 	animatedsprite.flip_h = direction_x != "RIGHT"
 	animatedattacksprite1.flip_h = direction_x != "RIGHT"
 	animatedattacksprite2.flip_h = direction_x != "RIGHT"
+	animatedattacksprite3.flip_h = direction_x != "RIGHT"
 	
 	
 	return input_x
