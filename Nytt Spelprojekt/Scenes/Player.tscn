@@ -61,82 +61,66 @@
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.9.png" type="Texture" id=59]
 
 [sub_resource type="AtlasTexture" id=172]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=173]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 56, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=174]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 112, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=175]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 168, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=176]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 224, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=177]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 280, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=178]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=179]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 392, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=180]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 448, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=181]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 504, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=182]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 560, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=183]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 616, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=184]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 672, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=77]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 728, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=78]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 784, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=79]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 840, 0, 56, 48 )
 
@@ -301,27 +285,22 @@ atlas = ExtResource( 15 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=151]
-flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=152]
-flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=153]
-flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=154]
-flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=155]
-flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 0, 192, 56, 48 )
 
@@ -341,12 +320,10 @@ atlas = ExtResource( 1 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=156]
-flags = 4
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=157]
-flags = 4
 atlas = ExtResource( 9 )
 region = Rect2( 0, 48, 56, 48 )
 
@@ -416,27 +393,22 @@ atlas = ExtResource( 17 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=185]
-flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=186]
-flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=187]
-flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=188]
-flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=189]
-flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 192, 56, 48 )
 

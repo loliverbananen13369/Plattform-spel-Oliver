@@ -1,4 +1,4 @@
-[gd_scene load_steps=285 format=2]
+[gd_scene load_steps=368 format=2]
 
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Horizontal 1.png" type="Texture" id=1]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Horizontal 1.png" type="Texture" id=2]
@@ -27,7 +27,12 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 04/Thrust VFX 04 Color 1.png" type="Texture" id=25]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 10/Smear 10 Horizontal 1.png" type="Texture" id=26]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 05/Thrust VFX 05 Color 1.png" type="Texture" id=27]
+[ext_resource path="res://LightningAnimations/Thunder Effect 01/Thunder Projectile 1/Thunder projectile1 w blur.png" type="Texture" id=28]
+[ext_resource path="res://LightningAnimations/Thunder Effect 02/Thunder Strike/Thunderstrike w blur.png" type="Texture" id=29]
+[ext_resource path="res://LightningAnimations/Thunder.png" type="Texture" id=30]
+[ext_resource path="res://LightningAnimations/Thunder Effect 01/Projectile 2/Projectile 2 w blur.png" type="Texture" id=31]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle Red.4.1.png" type="Texture" id=32]
+[ext_resource path="res://LightningAnimations/Thunder Effect 02/Thunder Splash/Thunder splash w blur.png" type="Texture" id=33]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.8.png" type="Texture" id=34]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.2.png" type="Texture" id=35]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.2.png" type="Texture" id=36]
@@ -44,6 +49,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.3.png" type="Texture" id=47]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.4.png" type="Texture" id=48]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.9.png" type="Texture" id=49]
+[ext_resource path="res://LightningAnimations/Thunder Effect 01/Projectile 2/Projectile 2 wo blur.png" type="Texture" id=50]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Dash/Battlemage Dash.png" type="Texture" id=52]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.8.png" type="Texture" id=58]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.3.png" type="Texture" id=59]
@@ -252,6 +258,34 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=372]
+resource_name = "Dash"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "Dash", "Dash", "Dash", "Dash", "Dash", "Dash", "Dash" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.917647, 0.137255, 0.137255, 1 ), Color( 0.898039, 0.164706, 0.921569, 1 ), Color( 0.933333, 0.917647, 0.0392157, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=75]
@@ -652,6 +686,11 @@ animations = [ {
 "loop": true,
 "name": "FastMagic",
 "speed": 10.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 326 ), SubResource( 327 ), SubResource( 328 ), SubResource( 329 ), SubResource( 330 ), SubResource( 331 ), SubResource( 332 ), SubResource( 333 ), SubResource( 334 ), SubResource( 335 ), SubResource( 336 ) ],
 "loop": true,
@@ -1216,9 +1255,374 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="AtlasTexture" id=373]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 0, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=374]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 73, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=375]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 146, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=376]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 219, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=377]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 292, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=378]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 365, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=379]
+flags = 4
+atlas = ExtResource( 30 )
+region = Rect2( 438, 0, 73, 256 )
+
+[sub_resource type="AtlasTexture" id=380]
+flags = 4
+atlas = ExtResource( 28 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=381]
+flags = 4
+atlas = ExtResource( 28 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=382]
+flags = 4
+atlas = ExtResource( 28 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=383]
+flags = 4
+atlas = ExtResource( 28 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=384]
+flags = 4
+atlas = ExtResource( 28 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=385]
+atlas = ExtResource( 31 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=386]
+atlas = ExtResource( 31 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=387]
+atlas = ExtResource( 31 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=388]
+atlas = ExtResource( 31 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=389]
+atlas = ExtResource( 31 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=390]
+atlas = ExtResource( 31 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=391]
+atlas = ExtResource( 31 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=392]
+atlas = ExtResource( 31 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=393]
+atlas = ExtResource( 31 )
+region = Rect2( 384, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=394]
+atlas = ExtResource( 31 )
+region = Rect2( 432, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=395]
+atlas = ExtResource( 31 )
+region = Rect2( 480, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=396]
+atlas = ExtResource( 31 )
+region = Rect2( 528, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=397]
+atlas = ExtResource( 31 )
+region = Rect2( 576, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=398]
+atlas = ExtResource( 31 )
+region = Rect2( 624, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=399]
+atlas = ExtResource( 31 )
+region = Rect2( 672, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=400]
+atlas = ExtResource( 31 )
+region = Rect2( 720, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=431]
+atlas = ExtResource( 50 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=432]
+atlas = ExtResource( 50 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=433]
+atlas = ExtResource( 50 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=434]
+atlas = ExtResource( 50 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=435]
+atlas = ExtResource( 50 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=436]
+atlas = ExtResource( 50 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=437]
+atlas = ExtResource( 50 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=438]
+atlas = ExtResource( 50 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=439]
+atlas = ExtResource( 50 )
+region = Rect2( 384, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=440]
+atlas = ExtResource( 50 )
+region = Rect2( 432, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=441]
+atlas = ExtResource( 50 )
+region = Rect2( 480, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=442]
+atlas = ExtResource( 50 )
+region = Rect2( 528, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=443]
+atlas = ExtResource( 50 )
+region = Rect2( 576, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=444]
+atlas = ExtResource( 50 )
+region = Rect2( 624, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=445]
+atlas = ExtResource( 50 )
+region = Rect2( 672, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=446]
+atlas = ExtResource( 50 )
+region = Rect2( 720, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=401]
+atlas = ExtResource( 33 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=402]
+atlas = ExtResource( 33 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=403]
+atlas = ExtResource( 33 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=404]
+atlas = ExtResource( 33 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=405]
+atlas = ExtResource( 33 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=406]
+atlas = ExtResource( 33 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=407]
+atlas = ExtResource( 33 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=408]
+atlas = ExtResource( 33 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=409]
+atlas = ExtResource( 33 )
+region = Rect2( 384, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=410]
+atlas = ExtResource( 33 )
+region = Rect2( 432, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=411]
+atlas = ExtResource( 33 )
+region = Rect2( 480, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=412]
+atlas = ExtResource( 33 )
+region = Rect2( 528, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=413]
+atlas = ExtResource( 33 )
+region = Rect2( 576, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=414]
+atlas = ExtResource( 33 )
+region = Rect2( 624, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=415]
+atlas = ExtResource( 29 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=416]
+atlas = ExtResource( 29 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=417]
+atlas = ExtResource( 29 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=418]
+atlas = ExtResource( 29 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=419]
+atlas = ExtResource( 29 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=420]
+atlas = ExtResource( 29 )
+region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=421]
+atlas = ExtResource( 29 )
+region = Rect2( 384, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=422]
+atlas = ExtResource( 29 )
+region = Rect2( 448, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=423]
+atlas = ExtResource( 29 )
+region = Rect2( 512, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=424]
+atlas = ExtResource( 29 )
+region = Rect2( 576, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=425]
+atlas = ExtResource( 29 )
+region = Rect2( 640, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=426]
+atlas = ExtResource( 29 )
+region = Rect2( 704, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=427]
+atlas = ExtResource( 29 )
+region = Rect2( 768, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=428]
+animations = [ {
+"frames": [ SubResource( 373 ), SubResource( 374 ), SubResource( 375 ), SubResource( 376 ), SubResource( 377 ), SubResource( 378 ), SubResource( 379 ) ],
+"loop": true,
+"name": "LightningEffect1",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 380 ), SubResource( 381 ), SubResource( 382 ), SubResource( 383 ), SubResource( 384 ) ],
+"loop": true,
+"name": "Projectile1",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 385 ), SubResource( 386 ), SubResource( 387 ), SubResource( 388 ), SubResource( 389 ), SubResource( 390 ), SubResource( 391 ), SubResource( 392 ), SubResource( 393 ), SubResource( 394 ), SubResource( 395 ), SubResource( 396 ), SubResource( 397 ), SubResource( 398 ), SubResource( 399 ), SubResource( 400 ) ],
+"loop": true,
+"name": "Projectile2",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 431 ), SubResource( 432 ), SubResource( 433 ), SubResource( 434 ), SubResource( 435 ), SubResource( 436 ), SubResource( 437 ), SubResource( 438 ), SubResource( 439 ), SubResource( 440 ), SubResource( 441 ), SubResource( 442 ), SubResource( 443 ), SubResource( 444 ), SubResource( 445 ), SubResource( 446 ) ],
+"loop": true,
+"name": "Projectile2.1",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 401 ), SubResource( 402 ), SubResource( 403 ), SubResource( 404 ), SubResource( 405 ), SubResource( 406 ), SubResource( 407 ), SubResource( 408 ), SubResource( 409 ), SubResource( 410 ), SubResource( 411 ), SubResource( 412 ), SubResource( 413 ), SubResource( 414 ) ],
+"loop": true,
+"name": "Splash",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 415 ), SubResource( 416 ), SubResource( 417 ), SubResource( 418 ), SubResource( 419 ), SubResource( 420 ), SubResource( 421 ), SubResource( 422 ), SubResource( 423 ), SubResource( 424 ), SubResource( 425 ), SubResource( 426 ), SubResource( 427 ) ],
+"loop": true,
+"name": "Strike",
+"speed": 10.0
+} ]
+
+[sub_resource type="CanvasItemMaterial" id=429]
+particles_animation = true
+particles_anim_h_frames = 13
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticlesMaterial" id=430]
+emission_shape = 1
+emission_sphere_radius = 50.98
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 141.82
+gravity = Vector3( 10, 10, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+anim_speed = 2.0
+
+[sub_resource type="CanvasItemMaterial" id=447]
+particles_animation = true
+particles_anim_h_frames = 14
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticlesMaterial" id=448]
+emission_shape = 1
+emission_sphere_radius = 50.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 150.0
+gravity = Vector3( 10, 10, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+anim_speed = 1.0
+
 [node name="KinematicBody2D" type="KinematicBody2D"]
+position = Vector2( -1, 0 )
 
 [node name="ThrustSprites" type="AnimatedSprite" parent="."]
+visible = false
 modulate = Color( 0.760784, 0.145098, 0.203922, 1 )
 self_modulate = Color( 1, 0.545455, 0.949986, 1 )
 position = Vector2( -7, 7 )
@@ -1227,6 +1631,7 @@ animation = "Thrust3"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack1 = SubResource( 158 )
+anims/Dash = SubResource( 372 )
 anims/FastMagic = SubResource( 75 )
 anims/SustainMagic = SubResource( 76 )
 
@@ -1244,17 +1649,42 @@ vframes = 11
 frame = 5
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
+visible = false
 position = Vector2( -37, -1 )
 frames = SubResource( 190 )
-animation = "Attack1"
-frame = 7
-playing = true
+animation = "Dash"
+frame = 5
 
 [node name="SmearSprites" type="AnimatedSprite" parent="."]
-modulate = Color( 1, 0.0235294, 0, 1 )
+visible = false
+modulate = Color( 0.847059, 0.145098, 0.196078, 1 )
 position = Vector2( 52, -13 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 260 )
 animation = "Smear10H"
-frame = 5
+frame = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -33, 40 )
+frames = SubResource( 428 )
+animation = "Projectile2.1"
+frame = 7
 playing = true
+
+[node name="Particles2D" type="Particles2D" parent="."]
+visible = false
+material = SubResource( 429 )
+position = Vector2( 63, 89 )
+amount = 6
+process_material = SubResource( 430 )
+texture = ExtResource( 29 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+visible = false
+
+[node name="Particles2D2" type="Particles2D" parent="."]
+visible = false
+material = SubResource( 447 )
+position = Vector2( -136, 41 )
+process_material = SubResource( 448 )
+texture = ExtResource( 33 )

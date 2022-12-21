@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Battlemage Attack 2 wo Effect.Red.8.png-c0f9ffcb69f0d636413e92e55095f511.stex"
+path="res://.import/Thunder splash w blur.png-7a20fafc052bb3e040b460e76b6f6b8a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.8.png"
-dest_files=[ "res://.import/Battlemage Attack 2 wo Effect.Red.8.png-c0f9ffcb69f0d636413e92e55095f511.stex" ]
+source_file="res://LightningAnimations/Thunder Effect 02/Thunder Splash/Thunder splash w blur.png"
+dest_files=[ "res://.import/Thunder splash w blur.png-7a20fafc052bb3e040b460e76b6f6b8a.stex" ]
 
 [params]
 
