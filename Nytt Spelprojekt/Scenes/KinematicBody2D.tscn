@@ -1,4 +1,4 @@
-[gd_scene load_steps=385 format=2]
+[gd_scene load_steps=387 format=2]
 
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Horizontal 1.png" type="Texture" id=1]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Horizontal 1.png" type="Texture" id=2]
@@ -248,7 +248,6 @@ animations = [ {
 
 [sub_resource type="Animation" id=158]
 resource_name = "Attack1"
-loop = true
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:frame")
@@ -296,7 +295,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ "Smear9H", "Smear9V" ]
+"values": [ "Smear1H", "Smear1V" ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("SmearSprites:visible")
@@ -310,6 +309,25 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true, false, true, false ]
 }
+
+[sub_resource type="Animation" id=464]
+resource_name = "Attack2"
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Attack2" ]
+}
+
+[sub_resource type="Animation" id=465]
+resource_name = "Attack3"
+step = 0.05
 
 [sub_resource type="Animation" id=372]
 resource_name = "Dash"
@@ -857,7 +875,7 @@ region = Rect2( 192, 0, 48, 48 )
 atlas = ExtResource( 23 )
 region = Rect2( 240, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=191]
+[sub_resource type="AtlasTexture" id=463]
 atlas = ExtResource( 69 )
 region = Rect2( 0, 0, 48, 48 )
 
@@ -1265,7 +1283,7 @@ animations = [ {
 "name": "Smear10V",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 191 ), SubResource( 192 ), SubResource( 193 ), SubResource( 194 ), SubResource( 195 ) ],
+"frames": [ SubResource( 463 ), SubResource( 192 ), SubResource( 193 ), SubResource( 194 ), SubResource( 195 ) ],
 "loop": true,
 "name": "Smear1H",
 "speed": 10.0
@@ -1328,7 +1346,7 @@ animations = [ {
 "frames": [ SubResource( 255 ), SubResource( 256 ), SubResource( 257 ), SubResource( 258 ), SubResource( 259 ) ],
 "loop": true,
 "name": "Smear7H",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [ SubResource( 261 ), SubResource( 262 ), SubResource( 263 ), SubResource( 264 ), SubResource( 265 ), SubResource( 266 ) ],
 "loop": true,
@@ -1758,12 +1776,16 @@ position = Vector2( -1, 0 )
 visible = false
 modulate = Color( 0.760784, 0.145098, 0.203922, 1 )
 self_modulate = Color( 1, 0.545455, 0.949986, 1 )
-position = Vector2( -7, 7 )
+position = Vector2( -7, -4 )
+rotation = -0.466003
 frames = SubResource( 74 )
 animation = "Thrust3"
+playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack1 = SubResource( 158 )
+anims/Attack2 = SubResource( 464 )
+anims/Attack3 = SubResource( 465 )
 anims/Dash = SubResource( 372 )
 anims/FastMagic = SubResource( 75 )
 anims/SustainMagic = SubResource( 76 )
@@ -1784,23 +1806,27 @@ frame = 5
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -37, -1 )
 frames = SubResource( 190 )
-animation = "New Anim 3"
+animation = "Attack3"
+frame = 5
+playing = true
 
 [node name="SmearSprites" type="AnimatedSprite" parent="."]
-visible = false
 modulate = Color( 0.740552, 0.0232558, 1, 1 )
 self_modulate = Color( 0.933333, 0.0352941, 0.247059, 1 )
-position = Vector2( 2, 10 )
-scale = Vector2( 3, 1.5 )
+position = Vector2( -4, 9 )
+scale = Vector2( 2, 1.5 )
 frames = SubResource( 260 )
-animation = "Smear9H"
+animation = "Smear7H"
+frame = 3
+playing = true
+flip_v = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( -33, 40 )
 frames = SubResource( 428 )
 animation = "Projectile2.1"
-frame = 15
+frame = 14
 playing = true
 
 [node name="Particles2D" type="Particles2D" parent="."]

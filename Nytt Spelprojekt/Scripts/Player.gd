@@ -23,9 +23,7 @@ var can_attack3 := false
 
 
 onready var animatedsprite = $PlayerSprite
-onready var animatedattacksprite1 = $Attack1Sprite
-onready var animatedattacksprite2 = $Attack2Sprite
-onready var animatedattacksprite3 = $Attack3Sprite
+onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
@@ -69,9 +67,7 @@ func _get_input_x_update_direction() -> float:
 	elif input_x < 0:
 		direction_x = "LEFT"
 	animatedsprite.flip_h = direction_x != "RIGHT"
-	animatedattacksprite1.flip_h = direction_x != "RIGHT"
-	animatedattacksprite2.flip_h = direction_x != "RIGHT"
-	animatedattacksprite3.flip_h = direction_x != "RIGHT"
+	animatedsmears.flip_h = direction_x != "RIGHT"
 	
 	
 	return input_x
@@ -297,20 +293,21 @@ func _enter_stop_state() -> void:
 
 func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
+	if direction_x != "RIGHT":
+		animatedsmears.position.x = -10
+	elif direction_x == "RIGHT":
+		animatedsmears.position.x = 30
 	if attack == 1:
-		animatedsprite.play("Attack1")
 		animationplayer.play("Attack1")
-		attack1timer.start(0.5)
+		attack1timer.start(0.4)
 		can_attack1 = false
 	elif attack == 2:
-		animatedsprite.play("Attack2")
 		animationplayer.play("Attack2")
-		attack2timer.start(0.5)
+		attack2timer.start(0.4)
 		can_attack2 = false
 	elif attack == 3:
-		animatedsprite.play("Attack3")
 		animationplayer.play("Attack3")
-		attack3timer.start(0.5)
+		attack3timer.start(0.8)
 		can_attack3 = false
 
 	
