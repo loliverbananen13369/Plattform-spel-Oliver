@@ -2,8 +2,8 @@ extends KinematicBody2D
 
 enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND}
 
-const MAX_SPEED = 300
-const ACCELERATION = 1500
+const MAX_SPEED = 200
+const ACCELERATION = 1000
 const GRAVITY = 1000
 const JUMP_STRENGHT = -410
 
@@ -175,7 +175,7 @@ func _air_state(delta) -> void:
 		return
 
 func _dash_state(delta):
-	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
+	velocity = velocity.move_toward(direction*MAX_SPEED*5, ACCELERATION*delta*5)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 
