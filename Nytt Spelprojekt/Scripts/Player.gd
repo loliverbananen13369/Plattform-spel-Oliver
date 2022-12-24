@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_AIR}
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -14,12 +14,14 @@ var direction := Vector2.ZERO
 var state = IDLE
 var ghosttime := 0.0
 
+var rng = RandomNumberGenerator.new()
+
 var can_jump := true
 var can_dash := true
 var can_attack := true
 var can_attack1 := true
-var can_attack2 := false
-var can_attack3 := false
+var can_attack2 := true
+var can_attack3 := true
 
 
 onready var animatedsprite = $PlayerSprite
@@ -32,7 +34,6 @@ onready var attackcombotimer2 = $AttackComboTimer2
 onready var attack1timer = $Attack1Timer
 onready var attack2timer = $Attack2Timer
 onready var attack3timer = $Attack3Timer
-onready var sattacktimer = $SAttackTimer
 
 
 func _physics_process(delta: float) -> void:
@@ -49,6 +50,8 @@ func _physics_process(delta: float) -> void:
 			_stop_state(delta)
 		ATTACK_GROUND:
 			_attack_state_ground(delta)
+		ATTACK_AIR:
+			_attack_state_air(delta)
 
 #Help functions
 func _apply_basic_movement(delta) -> void:
@@ -95,17 +98,7 @@ func _idle_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("EAttack1"):
-		if can_attack1:
 			_enter_attack1_state(1)
-			return
-		elif can_attack2:
-			_enter_attack1_state(2)
-			return
-		elif can_attack3:
-			_enter_attack1_state(3)
-			return
-		else:
-			return
 	
 	
 		
@@ -150,8 +143,8 @@ func _air_state(delta) -> void:
 		_enter_dash_state()
 		return
 	
-	if Input.is_action_just_pressed("EAttack1") and can_attack1:
-		_enter_attack1_state(1)
+	if Input.is_action_pressed("EAttack1"):
+		_enter_attack_air_state()
 		return
 	
 	elif Input.is_action_just_pressed("Jump") and can_jump:
@@ -171,7 +164,7 @@ func _air_state(delta) -> void:
 		return
 
 func _dash_state(delta):
-	velocity = velocity.move_toward(direction*MAX_SPEED*5, ACCELERATION*delta*5)
+	velocity = velocity.move_toward(direction*MAX_SPEED*6, ACCELERATION*delta*6)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 
@@ -201,9 +194,23 @@ func _stop_state(delta):
 		_enter_idle_state()
 		return
 	
-func _attack_state_ground(delta) -> void:
+func _attack_state_ground(_delta) -> void:
+	if Input.is_action_just_released("EAttack1"):
+		_enter_idle_state()
+	
+func _attack_state_air(delta) -> void:
+	velocity.y = velocity.y + GRAVITY *2* delta if velocity.y + GRAVITY * delta < 500 else 700 
 	direction.x = _get_input_x_update_direction()
-	_apply_basic_movement(delta)
+	velocity.x = 400 if direction.x == 1 else -400
+	if direction.x != 0:
+		velocity.x = move_toward(velocity.x, direction.x * MAX_SPEED, ACCELERATION*delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
+	velocity = move_and_slide(velocity, Vector2.UP)
+	if is_on_floor():#velocity.y == 0:
+		animationplayer.play("AirAttack")
+		_enter_idle_state()
+
 
 
 
@@ -220,33 +227,31 @@ func _on_CoyoteTimer_timeout():
 	can_jump = false
 
 func _on_Attack1Timer_timeout() -> void:
-	_enter_idle_state()
-	attackcombotimer1.start(1)
-	can_attack2 = true
+	if Input.is_action_pressed("EAttack1"):
+		rng.randomize()
+		var random_attack_number = rng.randi_range(1,3)
+		_enter_attack1_state(random_attack_number)
+		can_attack1 = true
+	else:
+		_enter_idle_state()
 
 func _on_Attack2Timer_timeout() -> void:
-	_enter_idle_state()
-	attackcombotimer2.start(1)
-	can_attack3 = true
+	if Input.is_action_pressed("EAttack1"):
+		rng.randomize()
+		var random_attack_number = rng.randi_range(1,3)
+		_enter_attack1_state(random_attack_number)
+		can_attack2 = true
+	else:
+		_enter_idle_state()
 
 func _on_Attack3Timer_timeout() -> void:
-	_enter_idle_state()
-	can_attack3 = false
-	can_attack1 = true
-
-	
-func _on_AttackComboTimer1_timeout() -> void:
-	can_attack2 = false
-	can_attack1 = true
-
-func _on_AttackComboTimer2_timeout() -> void:
-	can_attack3 = false
-	can_attack1 = true
-
-
-func _on_SAttackTimer_timeout() -> void:
-	_enter_idle_state()
-	can_attack1 = true
+	if Input.is_action_pressed("EAttack1"):
+		rng.randomize()
+		var random_attack_number = rng.randi_range(1,3)
+		_enter_attack1_state(random_attack_number)
+		can_attack3 = true
+	else:
+		_enter_idle_state()
 
 
 
@@ -264,10 +269,6 @@ func _enter_dash_state() -> void:
 	elif direction == Vector2.ZERO:
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	animatedsprite.play("Dash")
-	if is_on_floor():
-		animationplayer.play("GroundDashSmoke")
-	else:
-		animationplayer.play("AirDashSmoke")
 	state = DASH
 	can_dash = false
 	dashtimer.start(0.25)
@@ -299,26 +300,27 @@ func _enter_attack1_state(attack: int) -> void:
 		animatedsmears.position.x = 30
 	if attack == 1:
 		animationplayer.play("Attack1")
-		attack1timer.start(0.4)
+		attack1timer.start(0.2667)
 		can_attack1 = false
 	elif attack == 2:
 		animationplayer.play("Attack2")
-		attack2timer.start(0.4)
+		attack2timer.start(0.2667)
 		can_attack2 = false
 	elif attack == 3:
 		animationplayer.play("Attack3")
-		attack3timer.start(0.8)
+		attack3timer.start(0.2667)
 		can_attack3 = false
 
+func _enter_attack_air_state() -> void:
+	state = ATTACK_AIR
+	animationplayer.play("PrepareAirAttack")
 	
+
 
 	
 
-#Attack
-
-
 	
-	
+
 
 
 

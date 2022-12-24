@@ -1,4 +1,4 @@
-[gd_scene load_steps=264 format=2]
+[gd_scene load_steps=275 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Down/Jump Neutral Going Down.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -58,6 +58,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.png" type="Texture" id=56]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.4.png" type="Texture" id=57]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.3.png" type="Texture" id=58]
+[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Attack 1 Effect.Red.png" type="Texture" id=59]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash4.2.3.Red.png" type="Texture" id=60]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.2.3.Red.png" type="Texture" id=61]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash2.2.3.Red.png" type="Texture" id=62]
@@ -402,20 +403,25 @@ animations = [ {
 "name": "Acid",
 "speed": 10.0
 }, {
+"frames": [ ExtResource( 45 ), ExtResource( 13 ), ExtResource( 44 ), ExtResource( 46 ), ExtResource( 40 ) ],
+"loop": false,
+"name": "AirAttack",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 42 ), ExtResource( 39 ), ExtResource( 43 ), ExtResource( 45 ), ExtResource( 13 ), ExtResource( 44 ), ExtResource( 46 ), ExtResource( 40 ) ],
-"loop": true,
+"loop": false,
 "name": "Attack1",
-"speed": 18.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 50 ), ExtResource( 38 ), ExtResource( 18 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 11 ), ExtResource( 37 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "Attack2",
-"speed": 18.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 56 ), ExtResource( 54 ), ExtResource( 58 ), ExtResource( 57 ), ExtResource( 55 ), ExtResource( 14 ), ExtResource( 52 ), ExtResource( 51 ) ],
 "loop": true,
 "name": "Attack3",
-"speed": 20.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 61 ), ExtResource( 62 ), ExtResource( 4 ), ExtResource( 60 ), ExtResource( 4 ), ExtResource( 62 ) ],
 "loop": true,
@@ -462,6 +468,11 @@ animations = [ {
 "name": "JumpN",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 42 ), ExtResource( 39 ), ExtResource( 43 ) ],
+"loop": false,
+"name": "PrepareAirAttack",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 25 ), ExtResource( 27 ), ExtResource( 21 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 22 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "Run",
@@ -481,6 +492,38 @@ animations = [ {
 [sub_resource type="CapsuleShape2D" id=53]
 radius = 8.0
 height = 14.0
+
+[sub_resource type="AtlasTexture" id=467]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=468]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=469]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=470]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=471]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=473]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=474]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=475]
+atlas = ExtResource( 59 )
+region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=348]
 atlas = ExtResource( 5 )
@@ -928,10 +971,20 @@ region = Rect2( 240, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=373]
 animations = [ {
+"frames": [ SubResource( 467 ), SubResource( 468 ), SubResource( 469 ), SubResource( 470 ), SubResource( 471 ) ],
+"loop": false,
+"name": "AirAttack",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 473 ), SubResource( 474 ), SubResource( 475 ) ],
+"loop": false,
+"name": "PrepareAirAttack",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 348 ), SubResource( 349 ), SubResource( 350 ), SubResource( 351 ), SubResource( 352 ), SubResource( 353 ) ],
 "loop": true,
 "name": "Smear10H",
-"speed": 18.0
+"speed": 30.0
 }, {
 "frames": [ SubResource( 354 ), SubResource( 355 ), SubResource( 356 ), SubResource( 357 ), SubResource( 358 ), SubResource( 359 ) ],
 "loop": true,
@@ -941,12 +994,12 @@ animations = [ {
 "frames": [ SubResource( 463 ), SubResource( 192 ), SubResource( 193 ), SubResource( 194 ), SubResource( 195 ) ],
 "loop": true,
 "name": "Smear1H",
-"speed": 10.0
+"speed": 30.0
 }, {
 "frames": [ SubResource( 196 ), SubResource( 197 ), SubResource( 198 ), SubResource( 199 ), SubResource( 200 ), SubResource( 201 ) ],
 "loop": true,
 "name": "Smear1V",
-"speed": 10.0
+"speed": 30.0
 }, {
 "frames": [ SubResource( 202 ), SubResource( 203 ), SubResource( 204 ), SubResource( 205 ), SubResource( 206 ) ],
 "loop": true,
@@ -1001,7 +1054,7 @@ animations = [ {
 "frames": [ SubResource( 255 ), SubResource( 256 ), SubResource( 257 ), SubResource( 258 ), SubResource( 259 ) ],
 "loop": true,
 "name": "Smear7H",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [ SubResource( 261 ), SubResource( 262 ), SubResource( 263 ), SubResource( 264 ), SubResource( 265 ), SubResource( 266 ) ],
 "loop": true,
@@ -1029,10 +1082,86 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="Animation" id=476]
+resource_name = "AirAttack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "AirAttack" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SmearSprites:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "AirAttack" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SmearSprites:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SmearSprites:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SmearSprites:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 10, -30 ), Vector2( 30, -15 ) ]
+}
+
 [sub_resource type="Animation" id=158]
 resource_name = "Attack1"
-length = 0.4
-step = 0.05
+length = 0.266667
+step = 0.0333333
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:animation")
 tracks/0/interp = 1
@@ -1052,7 +1181,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -1076,7 +1205,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.15, 0.4 ),
+"times": PoolRealArray( 0, 0.0666667, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
@@ -1088,9 +1217,9 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"times": PoolRealArray( 0.0666667, 0.1, 0.133333, 0.166667, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 2, 3, 4 ]
 }
 tracks/5/type = "value"
@@ -1100,15 +1229,15 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.15 ),
+"times": PoolRealArray( 0.0666667 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 2, 1.5 ) ]
 }
 
 [sub_resource type="Animation" id=190]
-length = 0.4
-step = 0.05
+length = 0.266667
+step = 0.0333333
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:animation")
 tracks/0/interp = 1
@@ -1128,7 +1257,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -1152,7 +1281,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.15, 0.4 ),
+"times": PoolRealArray( 0, 0.0666667, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
@@ -1164,9 +1293,9 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"times": PoolRealArray( 0.0666667, 0.1, 0.133333, 0.166667, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 2, 3, 4 ]
 }
 tracks/5/type = "value"
@@ -1176,14 +1305,15 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.15 ),
+"times": PoolRealArray( 0.0666667 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 2.5, 1.5 ) ]
 }
 
 [sub_resource type="Animation" id=191]
-length = 0.8
+length = 0.266667
+step = 0.0333333
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:animation")
 tracks/0/interp = 1
@@ -1203,7 +1333,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -1218,7 +1348,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.001 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ "Smear1H", "Smear7H" ]
+"values": [ "Smear7H", "Smear7H" ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("SmearSprites:flip_v")
@@ -1227,10 +1357,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.0666667, 0.233333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ false, true, false ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("SmearSprites:visible")
@@ -1239,10 +1369,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.3, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.0666667, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ false, true, false ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("SmearSprites:frame")
@@ -1251,10 +1381,110 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"times": PoolRealArray( 0.0666667, 0.1, 0.133333, 0.166667, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 2, 3, 4 ]
+}
+
+[sub_resource type="Animation" id=472]
+resource_name = "PrepareAirAttack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("SmearSprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "PrepareAirAttack" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SmearSprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SmearSprites:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlayerSprite:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "PrepareAirAttack" ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlayerSprite:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SmearSprites:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("SmearSprites:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ), Vector2( 2, 1.5 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("SmearSprites:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 10, -20 ) ]
 }
 
 [node name="Player" type="KinematicBody2D"]
@@ -1264,8 +1494,7 @@ script = ExtResource( 2 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "Attack3"
-frame = 7
+animation = "AirAttack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -1274,19 +1503,17 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" type="AnimatedSprite" parent="."]
 visible = false
-modulate = Color( 0.740552, 0.0232558, 1, 1 )
-self_modulate = Color( 0.933333, 0.0352941, 0.247059, 1 )
 position = Vector2( 30, -15 )
 scale = Vector2( 2, 1.5 )
 frames = SubResource( 373 )
-animation = "Smear7H"
-frame = 2
-playing = true
+animation = "AirAttack"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/AirAttack = SubResource( 476 )
 anims/Attack1 = SubResource( 158 )
 anims/Attack2 = SubResource( 190 )
 anims/Attack3 = SubResource( 191 )
+anims/PrepareAirAttack = SubResource( 472 )
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.3
@@ -1297,9 +1524,6 @@ wait_time = 0.1
 
 [node name="Attack1Timer" type="Timer" parent="."]
 wait_time = 0.45
-one_shot = true
-
-[node name="SAttackTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="AttackComboTimer1" type="Timer" parent="."]
@@ -1316,7 +1540,6 @@ one_shot = true
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
 [connection signal="timeout" from="Attack1Timer" to="." method="_on_Attack1Timer_timeout"]
-[connection signal="timeout" from="SAttackTimer" to="." method="_on_SAttackTimer_timeout"]
 [connection signal="timeout" from="AttackComboTimer1" to="." method="_on_AttackComboTimer1_timeout"]
 [connection signal="timeout" from="AttackComboTimer2" to="." method="_on_AttackComboTimer2_timeout"]
 [connection signal="timeout" from="Attack2Timer" to="." method="_on_Attack2Timer_timeout"]
