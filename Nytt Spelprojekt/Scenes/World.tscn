@@ -1418,6 +1418,7 @@ position = Vector2( 1, 1 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground"]
+visible = false
 modulate = Color( 0.0784314, 0.129412, 0.054902, 1 )
 self_modulate = Color( 0.192157, 0.901961, 0.337255, 1 )
 position = Vector2( 803.25, 181.75 )

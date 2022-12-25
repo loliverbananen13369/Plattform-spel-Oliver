@@ -1,4 +1,4 @@
-[gd_scene load_steps=275 format=2]
+[gd_scene load_steps=277 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Down/Jump Neutral Going Down.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -78,6 +78,8 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 09/Smear 09 Horizontal 1.png" type="Texture" id=76]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Vertical 1.png" type="Texture" id=77]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 06/Smear 06 Horizontal 1.png" type="Texture" id=78]
+[ext_resource path="res://Scenes/Sprite.tscn" type="PackedScene" id=79]
+[ext_resource path="res://Scenes/Line2D.tscn" type="PackedScene" id=80]
 
 [sub_resource type="AtlasTexture" id=172]
 atlas = ExtResource( 10 )
@@ -1183,7 +1185,7 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 tracks/2/type = "value"
@@ -1232,7 +1234,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0.0666667 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 2, 1.5 ) ]
+"values": [ Vector2( 2.5, 1.5 ) ]
 }
 
 [sub_resource type="Animation" id=190]
@@ -1259,7 +1261,7 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 tracks/2/type = "value"
@@ -1335,7 +1337,7 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 tracks/2/type = "value"
@@ -1481,10 +1483,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 10, -20 ) ]
+"values": [ Vector2( 10, -20 ), Vector2( 30, -15 ) ]
 }
 
 [node name="Player" type="KinematicBody2D"]
@@ -1494,7 +1496,8 @@ script = ExtResource( 2 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "AirAttack"
+animation = "Attack2"
+frame = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -1503,10 +1506,11 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" type="AnimatedSprite" parent="."]
 visible = false
-position = Vector2( 30, -15 )
-scale = Vector2( 2, 1.5 )
+position = Vector2( 10, -20 )
+scale = Vector2( 2.5, 1.5 )
 frames = SubResource( 373 )
-animation = "AirAttack"
+animation = "Smear1V"
+frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/AirAttack = SubResource( 476 )
@@ -1522,25 +1526,14 @@ one_shot = true
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[node name="Attack1Timer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.45
 one_shot = true
 
-[node name="AttackComboTimer1" type="Timer" parent="."]
-one_shot = true
+[node name="Sprite" parent="." instance=ExtResource( 79 )]
+visible = false
 
-[node name="AttackComboTimer2" type="Timer" parent="."]
-one_shot = true
-
-[node name="Attack2Timer" type="Timer" parent="."]
-one_shot = true
-
-[node name="Attack3Timer" type="Timer" parent="."]
-one_shot = true
+[node name="Line2D" parent="." instance=ExtResource( 80 )]
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
-[connection signal="timeout" from="Attack1Timer" to="." method="_on_Attack1Timer_timeout"]
-[connection signal="timeout" from="AttackComboTimer1" to="." method="_on_AttackComboTimer1_timeout"]
-[connection signal="timeout" from="AttackComboTimer2" to="." method="_on_AttackComboTimer2_timeout"]
-[connection signal="timeout" from="Attack2Timer" to="." method="_on_Attack2Timer_timeout"]
-[connection signal="timeout" from="Attack3Timer" to="." method="_on_Attack3Timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

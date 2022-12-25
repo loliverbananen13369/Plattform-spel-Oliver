@@ -19,9 +19,6 @@ var rng = RandomNumberGenerator.new()
 var can_jump := true
 var can_dash := true
 var can_attack := true
-var can_attack1 := true
-var can_attack2 := true
-var can_attack3 := true
 
 
 onready var animatedsprite = $PlayerSprite
@@ -29,11 +26,8 @@ onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
-onready var attackcombotimer1 = $AttackComboTimer1
-onready var attackcombotimer2 = $AttackComboTimer2
-onready var attack1timer = $Attack1Timer
-onready var attack2timer = $Attack2Timer
-onready var attack3timer = $Attack3Timer
+onready var attacktimer = $AttackTimer
+
 
 
 func _physics_process(delta: float) -> void:
@@ -98,7 +92,7 @@ func _idle_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("EAttack1"):
-			_enter_attack1_state(1)
+		_enter_attack1_state(1)
 	
 	
 		
@@ -207,7 +201,7 @@ func _attack_state_air(delta) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
 	velocity = move_and_slide(velocity, Vector2.UP)
-	if is_on_floor():#velocity.y == 0:
+	if is_on_floor():
 		animationplayer.play("AirAttack")
 		_enter_idle_state()
 
@@ -226,33 +220,14 @@ func _on_DashTimer_timeout():
 func _on_CoyoteTimer_timeout():
 	can_jump = false
 
-func _on_Attack1Timer_timeout() -> void:
+func _on_AttackTimer_timeout() -> void:
+	can_attack = true
 	if Input.is_action_pressed("EAttack1"):
 		rng.randomize()
 		var random_attack_number = rng.randi_range(1,3)
 		_enter_attack1_state(random_attack_number)
-		can_attack1 = true
 	else:
 		_enter_idle_state()
-
-func _on_Attack2Timer_timeout() -> void:
-	if Input.is_action_pressed("EAttack1"):
-		rng.randomize()
-		var random_attack_number = rng.randi_range(1,3)
-		_enter_attack1_state(random_attack_number)
-		can_attack2 = true
-	else:
-		_enter_idle_state()
-
-func _on_Attack3Timer_timeout() -> void:
-	if Input.is_action_pressed("EAttack1"):
-		rng.randomize()
-		var random_attack_number = rng.randi_range(1,3)
-		_enter_attack1_state(random_attack_number)
-		can_attack3 = true
-	else:
-		_enter_idle_state()
-
 
 
 #Enter states
@@ -300,16 +275,16 @@ func _enter_attack1_state(attack: int) -> void:
 		animatedsmears.position.x = 30
 	if attack == 1:
 		animationplayer.play("Attack1")
-		attack1timer.start(0.2667)
-		can_attack1 = false
+		attacktimer.start(0.2667)
+		can_attack = false
 	elif attack == 2:
 		animationplayer.play("Attack2")
-		attack2timer.start(0.2667)
-		can_attack2 = false
+		attacktimer.start(0.2667)
+		can_attack = false
 	elif attack == 3:
 		animationplayer.play("Attack3")
-		attack3timer.start(0.2667)
-		can_attack3 = false
+		attacktimer.start(0.2667)
+		can_attack = false
 
 func _enter_attack_air_state() -> void:
 	state = ATTACK_AIR
