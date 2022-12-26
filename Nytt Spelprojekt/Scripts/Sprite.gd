@@ -1,4 +1,7 @@
 extends Sprite
 
-func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
-	queue_free()
+func _physics_process(delta) -> void:
+	modulate.a = lerp(modulate.a,0,0.1)
+	if  (modulate.a < 0.01): 
+		queue_free()
+	

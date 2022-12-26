@@ -2019,7 +2019,6 @@ position = Vector2( -7, -4 )
 rotation = -0.466003
 frames = SubResource( 74 )
 animation = "Thrust3"
-frame = 2
 playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -2059,7 +2058,6 @@ position = Vector2( -4, 9 )
 scale = Vector2( 2, 1.5 )
 frames = SubResource( 260 )
 animation = "Smear1H"
-frame = 2
 playing = true
 flip_v = true
 
@@ -2068,6 +2066,7 @@ visible = false
 position = Vector2( -33, 40 )
 frames = SubResource( 428 )
 animation = "LightningEffect1"
+frame = 4
 playing = true
 
 [node name="Particles2D" type="Particles2D" parent="."]
@@ -2079,7 +2078,6 @@ process_material = SubResource( 430 )
 texture = ExtResource( 29 )
 
 [node name="Particles2D2" type="Particles2D" parent="."]
-visible = false
 material = SubResource( 447 )
 position = Vector2( -136, 41 )
 process_material = SubResource( 448 )
@@ -2106,6 +2104,7 @@ texture = ExtResource( 56 )
 vframes = 8
 
 [node name="Particles2D4" type="Particles2D" parent="."]
+visible = false
 material = SubResource( 516 )
 scale = Vector2( 0.5, 0.5 )
 amount = 20

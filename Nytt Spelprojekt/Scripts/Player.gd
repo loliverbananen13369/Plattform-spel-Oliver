@@ -12,14 +12,13 @@ var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
 var state = IDLE
-var ghosttime := 0.0
 
 var rng = RandomNumberGenerator.new()
 
 var can_jump := true
 var can_dash := true
 var can_attack := true
-
+var jump_attack := false
 
 onready var animatedsprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
@@ -27,7 +26,8 @@ onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var attacktimer = $AttackTimer
-
+onready var dashparticles = $DashParticles
+onready var dashline = $Line2D
 
 
 func _physics_process(delta: float) -> void:
@@ -138,7 +138,12 @@ func _air_state(delta) -> void:
 		return
 	
 	if Input.is_action_pressed("EAttack1"):
-		_enter_attack_air_state()
+		if velocity.x != 0:
+			_enter_attack_air_state(false)
+			return
+		else:
+			_enter_attack_air_state(true)
+			return
 		return
 	
 	elif Input.is_action_just_pressed("Jump") and can_jump:
@@ -161,6 +166,7 @@ func _dash_state(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*6, ACCELERATION*delta*6)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
+	
 
 func _stop_state(delta):
 	direction.x = _get_input_x_update_direction()
@@ -195,15 +201,23 @@ func _attack_state_ground(_delta) -> void:
 func _attack_state_air(delta) -> void:
 	velocity.y = velocity.y + GRAVITY *2* delta if velocity.y + GRAVITY * delta < 500 else 700 
 	direction.x = _get_input_x_update_direction()
-	velocity.x = 400 if direction.x == 1 else -400
-	if direction.x != 0:
-		velocity.x = move_toward(velocity.x, direction.x * MAX_SPEED, ACCELERATION*delta)
-	else:
+
+	if jump_attack:
 		velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
+		if is_on_floor():
+			_enter_idle_state()
+			jump_attack = false
+	elif not jump_attack:
+		if direction.x == 1:
+			velocity.x = 400
+		elif direction.x == -1:
+			velocity.x = -400
+		if is_on_floor():
+			animationplayer.play("AirAttack")
+			_enter_idle_state()
+	
 	velocity = move_and_slide(velocity, Vector2.UP)
-	if is_on_floor():
-		animationplayer.play("AirAttack")
-		_enter_idle_state()
+		
 
 
 
@@ -214,6 +228,8 @@ func _on_DashTimer_timeout():
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
+	dashparticles.emitting = false
+	dashline.visible = false
 	yield(get_tree().create_timer(0.5), "timeout")
 	can_dash = true
 
@@ -245,6 +261,8 @@ func _enter_dash_state() -> void:
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	animatedsprite.play("Dash")
 	state = DASH
+	dashparticles.emitting = true
+	dashline.visible = true
 	can_dash = false
 	dashtimer.start(0.25)
 
@@ -286,10 +304,15 @@ func _enter_attack1_state(attack: int) -> void:
 		attacktimer.start(0.2667)
 		can_attack = false
 
-func _enter_attack_air_state() -> void:
+func _enter_attack_air_state(Jump: bool) -> void:
 	state = ATTACK_AIR
-	animationplayer.play("PrepareAirAttack")
-	
+	if Jump:
+		animationplayer.play("JumpAttack")
+		jump_attack = true
+	else:
+		animationplayer.play("PrepareAirAttack")
+
+				
 
 
 	
