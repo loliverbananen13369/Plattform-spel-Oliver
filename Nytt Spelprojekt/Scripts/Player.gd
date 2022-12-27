@@ -117,6 +117,8 @@ func _run_state(delta) -> void:
 		_enter_dash_state()
 		return
 		
+	if Input.is_action_just_pressed("EAttack1"):
+		_enter_attack1_state(1)
 	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
