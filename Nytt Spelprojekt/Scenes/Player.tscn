@@ -288,22 +288,27 @@ atlas = ExtResource( 1 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=481]
+flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=482]
+flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=483]
+flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=484]
+flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=485]
+flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 192, 56, 48 )
 
