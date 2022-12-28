@@ -1,4 +1,4 @@
-[gd_scene load_steps=436 format=2]
+[gd_scene load_steps=446 format=2]
 
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Horizontal 1.png" type="Texture" id=1]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Horizontal 1.png" type="Texture" id=2]
@@ -80,6 +80,16 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash2.2.3.Red.png" type="Texture" id=78]
 [ext_resource path="res://Scripts/Line2D.gd" type="Script" id=79]
 [ext_resource path="res://NEw pack blood/5_100x100px.png" type="Texture" id=80]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.7.test.png" type="Texture" id=81]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.3.test.png" type="Texture" id=82]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.6.test.png" type="Texture" id=83]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.8.test.png" type="Texture" id=84]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.1.test.png" type="Texture" id=85]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.4.test.png" type="Texture" id=86]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.10.test.png" type="Texture" id=87]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.2.test.png" type="Texture" id=88]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.9.test.png" type="Texture" id=89]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Run.Red.5.test.png" type="Texture" id=90]
 
 [sub_resource type="AtlasTexture" id=279]
 atlas = ExtResource( 15 )
@@ -973,7 +983,7 @@ animations = [ {
 "frames": [ SubResource( 172 ), SubResource( 173 ), SubResource( 174 ), SubResource( 175 ), SubResource( 176 ), SubResource( 177 ), SubResource( 178 ), SubResource( 179 ), SubResource( 180 ), SubResource( 181 ), SubResource( 182 ), SubResource( 183 ), SubResource( 184 ), SubResource( 77 ), SubResource( 78 ), SubResource( 79 ) ],
 "loop": true,
 "name": "Acid",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 466 ), SubResource( 467 ), SubResource( 468 ), SubResource( 469 ), SubResource( 470 ) ],
 "loop": true,
@@ -1044,6 +1054,11 @@ animations = [ {
 "loop": true,
 "name": "New Anim 4",
 "speed": 30.0
+}, {
+"frames": [ ExtResource( 85 ), ExtResource( 88 ), ExtResource( 82 ), ExtResource( 86 ), ExtResource( 90 ), ExtResource( 83 ), ExtResource( 81 ), ExtResource( 84 ), ExtResource( 89 ), ExtResource( 87 ) ],
+"loop": true,
+"name": "RunTest",
+"speed": 10.0
 }, {
 "frames": [ SubResource( 130 ), SubResource( 131 ), SubResource( 132 ), SubResource( 133 ), SubResource( 134 ), SubResource( 135 ), SubResource( 136 ), SubResource( 137 ), SubResource( 138 ), SubResource( 139 ) ],
 "loop": true,
@@ -2019,6 +2034,7 @@ position = Vector2( -7, -4 )
 rotation = -0.466003
 frames = SubResource( 74 )
 animation = "Thrust3"
+frame = 6
 playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -2044,11 +2060,11 @@ vframes = 11
 frame = 5
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
-modulate = Color( 0, 1, 0.811765, 1 )
 position = Vector2( 23, -6 )
 frames = SubResource( 190 )
-animation = "Attack1"
-frame = 3
+animation = "RunTest"
+frame = 8
+playing = true
 
 [node name="SmearSprites" type="AnimatedSprite" parent="."]
 visible = false
@@ -2058,6 +2074,7 @@ position = Vector2( -4, 9 )
 scale = Vector2( 2, 1.5 )
 frames = SubResource( 260 )
 animation = "Smear1H"
+frame = 2
 playing = true
 flip_v = true
 
@@ -2066,7 +2083,7 @@ visible = false
 position = Vector2( -33, 40 )
 frames = SubResource( 428 )
 animation = "LightningEffect1"
-frame = 4
+frame = 6
 playing = true
 
 [node name="Particles2D" type="Particles2D" parent="."]
@@ -2078,6 +2095,7 @@ process_material = SubResource( 430 )
 texture = ExtResource( 29 )
 
 [node name="Particles2D2" type="Particles2D" parent="."]
+visible = false
 material = SubResource( 447 )
 position = Vector2( -136, 41 )
 process_material = SubResource( 448 )

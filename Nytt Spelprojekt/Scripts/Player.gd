@@ -27,6 +27,7 @@ onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var attacktimer = $AttackTimer
 onready var dashparticles = $DashParticles
+onready var attackparticles = $AttackParticles
 onready var dashline = $Line2D
 
 
@@ -291,8 +292,10 @@ func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
 	if direction_x != "RIGHT":
 		animatedsmears.position.x = -10
+		attackparticles.position.x = -10
 	elif direction_x == "RIGHT":
 		animatedsmears.position.x = 30
+		attackparticles.position.x = 30
 	if attack == 1:
 		animationplayer.play("Attack1")
 		attacktimer.start(0.2667)
