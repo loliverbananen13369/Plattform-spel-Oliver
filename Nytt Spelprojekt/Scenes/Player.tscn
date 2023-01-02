@@ -285,27 +285,22 @@ atlas = ExtResource( 6 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=481]
-flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=482]
-flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=483]
-flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=484]
-flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=485]
-flags = 4
 atlas = ExtResource( 53 )
 region = Rect2( 0, 192, 56, 48 )
 
@@ -842,8 +837,7 @@ tracks/6/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=486]
-resource_name = "JumpAttack"
+[sub_resource type="Animation" id=511]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:animation")
@@ -994,17 +988,17 @@ tracks/6/keys = {
 "values": [ Vector2( 10, -20 ), Vector2( 30, -15 ) ]
 }
 
-[sub_resource type="Gradient" id=480]
+[sub_resource type="Gradient" id=512]
 offsets = PoolRealArray( 0.00917431, 0.568965, 1 )
 colors = PoolColorArray( 1, 0.639216, 0.580392, 1, 0.905882, 0.32549, 0.537255, 1, 0.615686, 0.141176, 0.32549, 1 )
 
-[sub_resource type="Curve" id=477]
+[sub_resource type="Curve" id=513]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.33874, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=478]
-curve = SubResource( 477 )
+[sub_resource type="CurveTexture" id=514]
+curve = SubResource( 513 )
 
-[sub_resource type="ParticlesMaterial" id=479]
+[sub_resource type="ParticlesMaterial" id=515]
 emission_shape = 1
 emission_sphere_radius = 6.82
 flag_disable_z = true
@@ -1016,7 +1010,7 @@ angular_velocity = -180.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale_random = 1.0
-scale_curve = SubResource( 478 )
+scale_curve = SubResource( 514 )
 anim_speed = 1.0
 
 [node name="Player" type="KinematicBody2D"]
@@ -1026,8 +1020,7 @@ script = ExtResource( 2 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "Attack3"
-frame = 7
+animation = "AirAttack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -1035,15 +1028,15 @@ position = Vector2( 10, -12 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-visible = false
-frame = 4
+position = Vector2( 10, -30 )
+animation = "AirAttack"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/AirAttack = SubResource( 476 )
 anims/Attack1 = SubResource( 158 )
 anims/Attack2 = SubResource( 190 )
 anims/Attack3 = SubResource( 191 )
-anims/JumpAttack = SubResource( 486 )
+anims/JumpAttack = SubResource( 511 )
 anims/PrepareAirAttack = SubResource( 472 )
 
 [node name="DashTimer" type="Timer" parent="."]
@@ -1062,14 +1055,14 @@ visible = false
 show_behind_parent = false
 points = PoolVector2Array( -31, 3 )
 width = 2.0
-gradient = SubResource( 480 )
+gradient = SubResource( 512 )
 
 [node name="DashParticles" type="Particles2D" parent="."]
 modulate = Color( 2.31, 1.74, 1.73, 1 )
 emitting = false
 amount = 80
 local_coords = false
-process_material = SubResource( 479 )
+process_material = SubResource( 515 )
 texture = ExtResource( 13 )
 
 [node name="Sprite" parent="." instance=ExtResource( 41 )]
@@ -1081,7 +1074,7 @@ position = Vector2( 35, -35 )
 emitting = false
 amount = 5
 local_coords = false
-process_material = SubResource( 479 )
+process_material = SubResource( 515 )
 texture = ExtResource( 13 )
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]

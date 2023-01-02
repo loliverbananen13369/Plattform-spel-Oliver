@@ -317,7 +317,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 	else:
 		animationplayer.play("PrepareAirAttack")
 
-#Hej				
+				
 
 
 	
