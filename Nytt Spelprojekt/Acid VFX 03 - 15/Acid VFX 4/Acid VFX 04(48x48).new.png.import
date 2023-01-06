@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Thunder projectile1 wo blur.png-15045aa3d14705b5d5de964a91a6b182.stex"
+path="res://.import/Acid VFX 04(48x48).new.png-fd0722e20cbd86e37524bd40e232b6e4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://LightningAnimations/Thunder Effect 01/Thunder Projectile 1/Thunder projectile1 wo blur.png"
-dest_files=[ "res://.import/Thunder projectile1 wo blur.png-15045aa3d14705b5d5de964a91a6b182.stex" ]
+source_file="res://Acid VFX 03 - 15/Acid VFX 4/Acid VFX 04(48x48).new.png"
+dest_files=[ "res://.import/Acid VFX 04(48x48).new.png-fd0722e20cbd86e37524bd40e232b6e4.stex" ]
 
 [params]
 

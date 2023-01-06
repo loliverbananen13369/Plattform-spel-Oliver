@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Thunder projectile1 wo blur.png-15045aa3d14705b5d5de964a91a6b182.stex"
+path="res://.import/Thrust VFX 02 Color 1.new.png-96ab6f3d1864ee5d49cb594539529104.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://LightningAnimations/Thunder Effect 01/Thunder Projectile 1/Thunder projectile1 wo blur.png"
-dest_files=[ "res://.import/Thunder projectile1 wo blur.png-15045aa3d14705b5d5de964a91a6b182.stex" ]
+source_file="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png"
+dest_files=[ "res://.import/Thrust VFX 02 Color 1.new.png-96ab6f3d1864ee5d49cb594539529104.stex" ]
 
 [params]
 

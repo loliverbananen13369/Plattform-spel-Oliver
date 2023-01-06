@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_AIR}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT}
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -19,6 +19,11 @@ var can_jump := true
 var can_dash := true
 var can_attack := true
 var jump_attack := false
+var is_attacking := false
+var is_air_attacking := false
+
+var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
+var ghosttime := 0.0
 
 onready var animatedsprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
@@ -45,8 +50,15 @@ func _physics_process(delta: float) -> void:
 			_stop_state(delta)
 		ATTACK_GROUND:
 			_attack_state_ground(delta)
+		PREPARE_ATTACK_AIR:
+			_prepare_attack_air_state(delta)
 		ATTACK_AIR:
 			_attack_state_air(delta)
+		JUMP_ATTACK:
+			_jump_attack_state(delta)
+		HURT:
+			_hurt_state(delta)
+
 
 #Help functions
 func _apply_basic_movement(delta) -> void:
@@ -66,6 +78,8 @@ func _get_input_x_update_direction() -> float:
 		direction_x = "LEFT"
 	animatedsprite.flip_h = direction_x != "RIGHT"
 	animatedsmears.flip_h = direction_x != "RIGHT"
+	$Thrusts.flip_h  = direction_x != "RIGHT"
+
 	
 	
 	return input_x
@@ -80,6 +94,22 @@ func _air_movement(delta) -> void:
 		velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
+func _add_dash_ghost() -> void:
+	var ghost = ghost_scene.instance()
+	ghost.global_position = global_position
+	#ghost.global_position.y -= 20
+	ghost.flip_h = animatedsprite.flip_h
+	get_tree().get_root().add_child(ghost)
+
+func frameFreeze(timescale, duration):
+	Engine.time_scale = timescale
+	yield(get_tree().create_timer(duration * timescale), "timeout")
+	Engine.time_scale = 1
+
+func flash():
+	$FlashTimer.one_shot = false
+	animatedsprite.material.set_shader_param("flash_modifier", 0.5)
+	$FlashTimer.start()
 
 #STATES:
 func _idle_state(delta) -> void:
@@ -105,11 +135,14 @@ func _idle_state(delta) -> void:
 	if velocity.x != 0:
 		_enter_run_state()
 		return
+	
 		
 func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
-
+	
+	if is_on_wall():
+		print("Hej")
 	if Input.is_action_just_pressed("Jump") and can_jump:
 		_enter_air_state(true)
 		return
@@ -133,7 +166,7 @@ func _run_state(delta) -> void:
 	elif velocity.length() == 0:
 		_enter_idle_state()
 		return
-
+	
 
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
@@ -150,6 +183,10 @@ func _air_state(delta) -> void:
 		return
 	
 	elif Input.is_action_just_pressed("Jump") and can_jump:
+		if velocity.x == 0:
+			animatedsprite.play("JumpN")
+		else:
+			animatedsprite.play("JumpF")
 		velocity.y = JUMP_STRENGHT
 		can_jump = false
 		coyotetimer.stop()
@@ -166,11 +203,15 @@ func _air_state(delta) -> void:
 		return
 
 func _dash_state(delta):
-	velocity = velocity.move_toward(direction*MAX_SPEED*6, ACCELERATION*delta*6)
+	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
+	ghosttime += delta
 	
-
+	if ghosttime >= 0.03:
+		_add_dash_ghost()
+		ghosttime = 0.0
+	
 func _stop_state(delta):
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
@@ -200,30 +241,51 @@ func _stop_state(delta):
 func _attack_state_ground(_delta) -> void:
 	if Input.is_action_just_released("EAttack1"):
 		_enter_idle_state()
-	
+
+func _prepare_attack_air_state(delta) -> void:
+	velocity.x = 0
+	velocity.y = 0
+
 func _attack_state_air(delta) -> void:
-	velocity.y = velocity.y + GRAVITY *2* delta if velocity.y + GRAVITY * delta < 500 else 700 
-	direction.x = _get_input_x_update_direction()
-
-	if jump_attack:
-		velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
-		if is_on_floor():
-			_enter_idle_state()
-			jump_attack = false
-	elif not jump_attack:
-		if direction.x == 1:
-			velocity.x = 400
-		elif direction.x == -1:
-			velocity.x = -400
-		if is_on_floor():
-			animationplayer.play("AirAttack")
-			_enter_idle_state()
+	if direction_x != "RIGHT":
+		$Thrusts.rotation_degrees = -45
+		$NormalAttackArea/AirAttack.rotation_degrees = -45
+	else: 
+		$Thrusts.rotation_degrees = 45
+		$NormalAttackArea/AirAttack.rotation_degrees = 45
+	animationplayer.play("Thrust2")
+	$NormalAttackArea/AirAttack.disabled = false
+	if direction_x == "RIGHT":
+		velocity.x = MAX_SPEED*10
+	elif direction_x != "RIGHT":
+		velocity.x = -MAX_SPEED*10
+	velocity.y = GRAVITY*2
 	
-	velocity = move_and_slide(velocity, Vector2.UP)
+	if is_on_floor():
+		velocity.x = 0
+	
+	velocity = move_and_slide(velocity, Vector2.UP)	
+	
+	
+	
+func _jump_attack_state(delta) -> void:
+	_air_movement(delta)
+	#velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
+	if is_on_floor():
+		_enter_idle_state()
+
+func _hurt_state(delta) -> void:
+	
+	if direction_x == "RIGHT":
+		frameFreeze(0.05, 0.4)
+		velocity.x = -300
+		velocity.y = -300
+	else:
+		frameFreeze(0.05, 0.4)
+		velocity.x = 300
+		velocity.y = -300
+	_air_movement(delta)
 		
-
-
-
 
 
 #SIGNALS
@@ -233,7 +295,8 @@ func _on_DashTimer_timeout():
 	direction.y = 0
 	dashparticles.emitting = false
 	dashline.visible = false
-	yield(get_tree().create_timer(0.5), "timeout")
+	ghosttime = 0.0
+	
 	can_dash = true
 
 func _on_CoyoteTimer_timeout():
@@ -247,6 +310,42 @@ func _on_AttackTimer_timeout() -> void:
 		_enter_attack1_state(random_attack_number)
 	else:
 		_enter_idle_state()
+		$NormalAttackArea/AttackGround.disabled = true
+		is_attacking = false
+		
+
+func _on_GhostDashTimer_timeout():
+	print("Hej")
+#	if state == DASH:
+#		var this_ghost = preload("res://Scenes/DashGhost.tscn").instance()
+#		this_ghost.position = position
+#		this_ghost.position.y -= 20
+#		get_parent().add_child(this_ghost)
+#		this_ghost.texture = animatedsprite.frames.get_frame(animatedsprite.animation, animatedsprite.frame)
+#		this_ghost.flip_h = animatedsprite.flip_h
+	
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "JumpAttack":
+		$NormalAttackArea/AttackJump.disabled = true
+		_enter_idle_state()
+	if anim_name == "PrepareAirAttack":
+		state = ATTACK_AIR
+	if anim_name == "Thrust2":
+		$NormalAttackArea/AirAttack.disabled = true
+		if is_on_floor():
+			velocity.x = 0
+			animationplayer.play("OnGroundAfterAttack")
+			_enter_idle_state()
+			can_jump = false
+			return
+	if anim_name == "OnGroundAfterAttack":
+		can_jump = true
+	
+		
+func _on_AnimationPlayer_animation_started(anim_name):
+	if anim_name == "PrepareAirAttack":
+		state = PREPARE_ATTACK_AIR
 
 
 #Enter states
@@ -290,16 +389,21 @@ func _enter_stop_state() -> void:
 
 func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
+	is_attacking = true
+	animatedsmears.position.y = -15
 	if direction_x != "RIGHT":
 		animatedsmears.position.x = -10
 		attackparticles.position.x = -10
+		$NormalAttackArea/AttackGround.position.x = -26
 	elif direction_x == "RIGHT":
 		animatedsmears.position.x = 30
 		attackparticles.position.x = 30
+		$NormalAttackArea/AttackGround.position.x = 46
 	if attack == 1:
 		animationplayer.play("Attack1")
 		attacktimer.start(0.2667)
 		can_attack = false
+		#$NormalAttackArea/AttackGround.disabled = false
 	elif attack == 2:
 		animationplayer.play("Attack2")
 		attacktimer.start(0.2667)
@@ -309,34 +413,33 @@ func _enter_attack1_state(attack: int) -> void:
 		attacktimer.start(0.2667)
 		can_attack = false
 
-func _enter_attack_air_state(Jump: bool) -> void:
-	state = ATTACK_AIR
+func _enter_attack_air_state(Jump: bool) -> void:	
 	if Jump:
+		if direction_x != "RIGHT":
+			$NormalAttackArea/AttackJump.position.x = -10
+		elif direction_x == "RIGHT":
+			$NormalAttackArea/AttackJump.position.x = 30
+		state = JUMP_ATTACK
 		animationplayer.play("JumpAttack")
-		jump_attack = true
+		$NormalAttackArea/AttackJump.disabled = false
+
 	else:
 		animationplayer.play("PrepareAirAttack")
 
-#Hej				
+
+func _on_BeenHurtTimer_timeout():
+	velocity.y = 0
+	_enter_idle_state()
+	$FlashTimer.one_shot = true
 
 
-	
-
-	
-
+func _on_FlashTimer_timeout():
+		animatedsprite.material.set_shader_param("flash_modifier", 0)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func _on_HurtBox_area_entered(area):
+		if area.is_in_group("Enemy"):
+			state = HURT
+			flash()
+			animatedsprite.play("Hit")
+			$BeenHurtTimer.start(0.1)
