@@ -1,0 +1,25 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Random_Effects/FX052_nyknck/FX052_03.png" type="Texture" id=1]
+[ext_resource path="res://Random_Effects/FX052_nyknck/FX052_04.png" type="Texture" id=2]
+[ext_resource path="res://Random_Effects/FX052_nyknck/FX052_02.png" type="Texture" id=3]
+[ext_resource path="res://Random_Effects/FX052_nyknck/FX052_01.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/LandnJumpDust.gd" type="Script" id=6]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "DustExplosion",
+"speed": 10.0
+} ]
+
+[node name="LandnJumpDust" type="AnimatedSprite"]
+modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
+position = Vector2( 10, -20 )
+scale = Vector2( 1, 0.6 )
+frames = SubResource( 2 )
+animation = "DustExplosion"
+script = ExtResource( 6 )
+
+[connection signal="animation_finished" from="." to="." method="_on_LandnJumpDust_animation_finished"]

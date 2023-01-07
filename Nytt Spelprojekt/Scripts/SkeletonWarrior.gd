@@ -17,12 +17,16 @@ var rng = RandomNumberGenerator.new()
 
 var dead = false
 
+var hp_max = 100
+var hp = hp_max
+
 onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
 
 func _ready():
 	runtimer.start(3)
+	$Area2D/CollisionShape2D.disabled = false
 	
 func _physics_process(delta: float) -> void:
 	match state:
@@ -53,12 +57,17 @@ func flash():
 	
 #STATES
 func _idle_state(delta) -> void:
-	pass
+	if hp <= 0:
+			state = DEAD
+			animatedsprite.play("Dead")
 	#if velocity.x != 0:
 	#	_enter_run_state()
 	#	return
 
 func _run_state(delta) -> void:
+	if hp <= 0:
+			state = DEAD
+			animatedsprite.play("Dead")
 	_apply_basic_movement(delta)
 
 func _attack_state(delta) -> void:
@@ -67,10 +76,17 @@ func _attack_state(delta) -> void:
 func _dead_state(delta) -> void:
 	velocity.x = 0
 	velocity.y = 0
+	$IdleTimer.stop()
+	$RunTimer.stop()
 	$Area2D/CollisionShape2D2.disabled = true
+	$Area2D/CollisionShape2D.disabled = true
 	$CollisionShape2D.disabled = true
 	#_on_AnimatedSprite_animation_finished()
-	
+
+func take_damage(amount: int) -> void:
+	hp = hp - amount
+	$AnimationPlayer.play("Hurt")
+	print(hp)
 
 #Enter state
 
@@ -85,7 +101,6 @@ func _enter_idle_state() -> void:
 	rng.randomize()
 	var time = rng.randi_range(3,5)
 	idletimer.start(time)
-	print(idletimer.time_left)
 
 func _enter_run_state() -> void:
 	state = RUN
@@ -93,7 +108,6 @@ func _enter_run_state() -> void:
 	rng.randomize()
 	var time = rng.randi_range(3,5)
 	runtimer.start(time)
-	print(runtimer.time_left)
 
 
 
@@ -105,14 +119,16 @@ func _on_RunTimer_timeout():
 	_enter_idle_state()
 
 func _on_FlashTimer_timeout():
-	animatedsprite.aterial.set_shader_param("flash_modifier", 0)
+	animatedsprite.material.set_shader_param("flash_modifier", 0)
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("PlayerSword"):
-		frameFreeze(0.05, 1)
-		print("Hej")
-		state = DEAD
-		animatedsprite.play("Dead")
+		frameFreeze(0.02, 0.4)
+		take_damage(10)
+		if hp <= 0:
+			state = DEAD
+			animatedsprite.play("Dead")
+		#$Area2D/CollisionShape2D.disabled = true
 
 
 func _on_AnimatedSprite_animation_finished():
@@ -120,4 +136,6 @@ func _on_AnimatedSprite_animation_finished():
 		queue_free()
 
 
-
+func _on_AnimationPlayer_animation_finished(anim_name):
+		if anim_name == "Hurt":
+			_enter_idle_state()
