@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum {IDLE, RUN, ATTACK, DEAD}
+enum {IDLE, RUN, ATTACK, DEAD, HURT}
 
 const MAX_SPEED = 100
 const ACCELERATION = 1000
@@ -20,9 +20,12 @@ var dead = false
 var hp_max = 100
 var hp = hp_max
 
+var pushback_force = Vector2.ZERO
+
 onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
+#onready var PlayerSword = preload("res://Scenes/NormalAttackArea.tscn")
 
 func _ready():
 	runtimer.start(3)
@@ -38,6 +41,10 @@ func _physics_process(delta: float) -> void:
 			_attack_state(delta)
 		DEAD:
 			_dead_state(delta)
+		HURT: 
+			_hurt_state(delta)
+	
+
 
 func _apply_basic_movement(delta) -> void:
 	velocity.y += GRAVITY*delta
@@ -52,8 +59,8 @@ func _apply_basic_movement(delta) -> void:
 		direction_x *= -1
 
 func flash():
-	animatedsprite.material.set_shader_param("flash_modifier", 1)
-	$FlashTimer.start()
+	animatedsprite.material.set_shader_param("flash_modifier", 0.8)
+	$FlashTimer.start(0.2)
 	
 #STATES
 func _idle_state(delta) -> void:
@@ -83,10 +90,27 @@ func _dead_state(delta) -> void:
 	$CollisionShape2D.disabled = true
 	#_on_AnimatedSprite_animation_finished()
 
+func _hurt_state(delta) -> void:
+	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10)
+	move_and_slide(pushback_force)
+	frameFreeze(0.02, 0.4)
+	flash()
+
+
+
+	
+
+
+
 func take_damage(amount: int) -> void:
 	hp = hp - amount
 	$AnimationPlayer.play("Hurt")
 	print(hp)
+
+func knock_back(source_position: Vector2) -> void:
+	$HitParticles.rotation = get_angle_to(source_position) + PI
+	pushback_force = -global_position.direction_to(source_position) * 300
+	
 
 #Enter state
 
@@ -109,7 +133,10 @@ func _enter_run_state() -> void:
 	var time = rng.randi_range(3,5)
 	runtimer.start(time)
 
-
+func _enter_hurt_state() -> void:
+	take_damage(10)
+	state = HURT
+	$AnimationPlayer.play("Hurt")
 
 func _on_IdleTimer_timeout():
 	_enter_run_state()
@@ -123,8 +150,9 @@ func _on_FlashTimer_timeout():
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("PlayerSword"):
-		frameFreeze(0.02, 0.4)
-		take_damage(10)
+		$AnimationPlayer.stop()
+		$AnimationPlayer.play("Hurt")
+		_enter_hurt_state()
 		if hp <= 0:
 			state = DEAD
 			animatedsprite.play("Dead")
