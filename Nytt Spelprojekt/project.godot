@@ -77,12 +77,20 @@ EAttack1={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
  ]
 }
+AttackE={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [layer_names]
 
 2d_render/layer_1="Player"
 2d_render/layer_2="PlayerSword"
 2d_render/layer_3="Enemy"
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Enemy"
+3d_physics/layer_5="Map"
 
 [physics]
 

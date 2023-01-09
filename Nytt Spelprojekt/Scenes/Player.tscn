@@ -1393,7 +1393,8 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Gradient" id=637]
-colors = PoolColorArray( 1, 1, 1, 1, 0.16, 0.76, 0.58, 1 )
+offsets = PoolRealArray( 0, 0.646667, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 0.57486, 0.0707474, 0.823242, 1 )
 
 [sub_resource type="GradientTexture" id=638]
 gradient = SubResource( 637 )
@@ -1413,12 +1414,12 @@ curve = SubResource( 513 )
 
 [sub_resource type="ParticlesMaterial" id=515]
 emission_shape = 1
-emission_sphere_radius = 20.0
+emission_sphere_radius = 10.0
 flag_disable_z = true
 direction = Vector3( 0, 0, 0 )
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 29.2
+initial_velocity = 20.0
 angular_velocity = -180.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
@@ -1444,7 +1445,7 @@ extents = Vector2( 12.7279, 14.1673 )
 offsets = PoolRealArray( 0.00917431, 0.568965, 1 )
 colors = PoolColorArray( 1, 0.639216, 0.580392, 1, 0.905882, 0.32549, 0.537255, 1, 0.615686, 0.141176, 0.32549, 1 )
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["Player"]]
 position = Vector2( 10, -20 )
 script = ExtResource( 2 )
 
@@ -1465,7 +1466,7 @@ material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
 animation = "Idle"
-frame = 3
+frame = 6
 playing = true
 offset = Vector2( 0, 1 )
 
@@ -1566,10 +1567,10 @@ width = 2.0
 gradient = SubResource( 512 )
 
 [node name="DashParticles" type="Particles2D" parent="Position2D"]
-modulate = Color( 4, 2, 2, 1 )
+modulate = Color( 4, 3.49, 2, 1 )
 position = Vector2( -10, 10 )
 emitting = false
-amount = 80
+amount = 60
 explosiveness = 0.25
 local_coords = false
 process_material = SubResource( 515 )

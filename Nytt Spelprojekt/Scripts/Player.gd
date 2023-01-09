@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+#Se till att använda den där tiktok rösten som narrator
+
 enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT}
 
 const MAX_SPEED = 200
@@ -200,6 +202,8 @@ func _run_state(delta) -> void:
 		
 	if Input.is_action_just_pressed("EAttack1"):
 		_enter_attack1_state(1)
+	if Input.is_action_just_pressed("AttackE"):
+		pass
 	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
@@ -221,12 +225,12 @@ func _air_state(delta) -> void:
 		return
 	
 	if Input.is_action_pressed("EAttack1"):
-		if velocity.x != 0:
-			_enter_attack_air_state(false)
-			return
-		else:
-			_enter_attack_air_state(true)
-			return
+		_enter_attack_air_state(true)
+		return
+	if Input.is_action_pressed("AttackE"):
+		_enter_attack_air_state(false)
+		return
+
 		return
 	
 	if Input.is_action_just_pressed("Jump"):
@@ -332,11 +336,9 @@ func _jump_attack_state(delta) -> void:
 func _hurt_state(delta) -> void:
 	
 	if direction_x == "RIGHT":
-		frameFreeze(0.05, 0.4)
 		velocity.x = -300
 		velocity.y = -300
 	else:
-		frameFreeze(0.01, 0.4)
 		velocity.x = 300
 		velocity.y = -300
 	_air_movement(delta)
@@ -490,13 +492,13 @@ func _on_BeenHurtTimer_timeout():
 	_enter_idle_state()
 	$FlashTimer.one_shot = true
 
-
 func _on_FlashTimer_timeout():
 		animatedsprite.material.set_shader_param("flash_modifier", 0)
 
 
 func _on_HurtBox_area_entered(area):
-		if area.is_in_group("Enemy"):
+		if area.is_in_group("Enemy"):	
+			frameFreeze(0.1, 0.5)
 			state = HURT
 			flash()
 			animatedsprite.play("Hit")
