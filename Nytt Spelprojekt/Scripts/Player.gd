@@ -30,6 +30,7 @@ var jump_buffer = 0.15
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
+var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var ghosttime := 0.0
 
 onready var animatedsprite = $PlayerSprite
@@ -41,6 +42,7 @@ onready var attacktimer = $AttackTimer
 onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
+#onready var enemy =  get_node("../KinematicBody2D")
 
 var hit_the_ground = false
 var motion_previous = Vector2()
@@ -151,6 +153,9 @@ func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
 	jump_pressed = false
 
+func _dash_to_enemy() -> void:
+	var skeleton_warrior = skeleton_enemy_scene.instance()
+	global_position.x = skeleton_warrior.position.x 
 
 #STATES:
 func _idle_state(delta) -> void:
@@ -162,7 +167,7 @@ func _idle_state(delta) -> void:
 	
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state()
+		_enter_dash_state(false)
 		return
 	
 	if Input.is_action_just_pressed("EAttack1"):
@@ -179,11 +184,12 @@ func _idle_state(delta) -> void:
 		_enter_run_state()
 		return
 	
-		
 func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
+	if Input.is_action_just_pressed("Test"):
+		_dash_to_enemy()
 	if animatedsprite.frame == 0:
 		last_step += 1
 		if last_step == 4:
@@ -197,7 +203,7 @@ func _run_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state()
+		_enter_dash_state(false)
 		return
 		
 	if Input.is_action_just_pressed("EAttack1"):
@@ -218,10 +224,9 @@ func _run_state(delta) -> void:
 		_enter_idle_state()
 		return
 	
-
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state()
+		_enter_dash_state(false)
 		return
 	
 	if Input.is_action_pressed("EAttack1"):
@@ -255,9 +260,6 @@ func _air_state(delta) -> void:
 		_add_land_dust()
 		_enter_idle_state()
 		return
-		#else:
-		#	pass
-
 
 
 func _dash_state(delta):
@@ -280,7 +282,7 @@ func _stop_state(delta):
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state()
+		_enter_dash_state(false)
 		return
 		
 	if (input_x == 1 and velocity.x > 0) or (input_x == -1 and velocity.x < 0):
@@ -414,18 +416,21 @@ func _enter_idle_state() -> void:
 	can_jump = true
 
 
-func _enter_dash_state() -> void:
-	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
-	if state == IDLE and direction == Vector2.DOWN:
-		return
-	elif direction == Vector2.ZERO:
-		direction.x = 1 if direction_x == "RIGHT" else -1
-	animatedsprite.play("Dash")
-	state = DASH
-	dashparticles.emitting = true
-	#dashline.visible = true
-	can_dash = false
-	dashtimer.start(0.25)
+func _enter_dash_state(attack: bool) -> void:
+	if attack == false:
+		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
+		if state == IDLE and direction == Vector2.DOWN:
+			return
+		elif direction == Vector2.ZERO:
+			direction.x = 1 if direction_x == "RIGHT" else -1
+		animatedsprite.play("Dash")
+		state = DASH
+		dashparticles.emitting = true
+		#dashline.visible = true
+		can_dash = false
+		dashtimer.start(0.25)
+	else:
+		pass
 
 func _enter_air_state(jump: bool) -> void:
 	if jump:
@@ -497,7 +502,7 @@ func _on_FlashTimer_timeout():
 
 
 func _on_HurtBox_area_entered(area):
-		if area.is_in_group("Enemy"):	
+		if area.is_in_group("EnemySword"):#area.is_in_group("Enemy") or 	
 			frameFreeze(0.1, 0.5)
 			state = HURT
 			flash()

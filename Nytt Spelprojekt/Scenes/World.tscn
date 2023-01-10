@@ -819,6 +819,9 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( -1114111, 5, 0, -983035, 4, 0, -917462, 5, 0, -917442, 5, 0, -851949, 6, 0, -851944, 12, 0, -851941, 13, 0, -851937, 10, 0, -851934, 11, 0, -851932, 10, 0, -851929, 13, 0, -851928, 13, 0, -851925, 11, 0, -851921, 12, 0, -851917, 13, 0, -851916, 11, 0, -851912, 11, 0, -851910, 10, 0, -851908, 10, 0, -720891, 4, 0, -655359, 5, 0, -589806, 5, 0, -327679, 5, 0, -262138, 10, 0, -262137, 11, 0, -262133, 13, 0, -262127, 13, 0, -196572, 2, 0, -196571, 3, 0, -196570, 1, 0, -196569, 0, 0, -131070, 8, 0, -131064, 2, 0, -131060, 1, 0, -131059, 3, 0, -131052, 3, 0, -131022, 4, 0, -131012, 4, 0, 21, 4, 0, 33, 3, 0, 65566, 5, 0, 196635, 3, 0, 196637, 9, 0, 393238, 8, 0, 393240, 2, 0 )
 
+[node name="KinematicBody2D" parent="." instance=ExtResource( 3 )]
+position = Vector2( 221, -16 )
+
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Player" parent="Node2D" instance=ExtResource( 1 )]
@@ -835,6 +838,3 @@ zoom = Vector2( 0.5, 0.5 )
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 script = ExtResource( 5 )
-
-[node name="KinematicBody2D" parent="." instance=ExtResource( 3 )]
-position = Vector2( 221, -16 )

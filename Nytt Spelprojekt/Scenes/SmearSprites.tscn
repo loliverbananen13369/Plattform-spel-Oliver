@@ -22,6 +22,7 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Vertical 1.png" type="Texture" id=20]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack effect.png" type="Texture" id=22]
+[ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=23]
 
 [sub_resource type="AtlasTexture" id=532]
 atlas = ExtResource( 17 )
@@ -662,23 +663,6 @@ animations = [ {
 "speed": 20.0
 } ]
 
-[sub_resource type="Environment" id=476]
-background_mode = 4
-tonemap_mode = 2
-tonemap_white = 16.0
-glow_enabled = true
-glow_levels/1 = true
-glow_levels/2 = true
-glow_levels/3 = false
-glow_levels/4 = true
-glow_intensity = 4.67
-glow_strength = 0.91
-glow_hdr_threshold = 2.0
-glow_hdr_luminance_cap = 256.0
-glow_hdr_scale = 4.0
-glow_bicubic_upscale = true
-glow_high_quality = true
-
 [node name="SmearSprites" type="AnimatedSprite"]
 modulate = Color( 2, 2, 2, 1 )
 position = Vector2( 10, -20 )
@@ -687,5 +671,4 @@ frames = SubResource( 373 )
 animation = "Smear1H"
 frame = 2
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 476 )
+[node name="WorldEnvironment" parent="." instance=ExtResource( 23 )]

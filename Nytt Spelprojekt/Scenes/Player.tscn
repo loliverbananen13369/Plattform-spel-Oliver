@@ -1465,8 +1465,8 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "Idle"
-frame = 6
+animation = "AirAttack"
+frame = 4
 playing = true
 offset = Vector2( 0, 1 )
 
@@ -1480,7 +1480,6 @@ position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 30, -15 )
 animation = "AirAttack"
 frame = 0
