@@ -266,14 +266,14 @@ func _on_AnimatedSprite_animation_finished():
 func _on_AnimationPlayer_animation_finished(anim_name):
 		if anim_name == "Hurt1":
 			if player_in_radius:
-				animatedsprite.play("Run")
+				animatedsprite.play("Hunt")
 				state = HUNTING
 			else:
 				_enter_idle_state()
 		if anim_name == "Hit":
 			if player_in_radius:
 				state = HUNTING
-				animatedsprite.play("Run")
+				animatedsprite.play("Hunt")
 			else:
 				_enter_idle_state()
 
@@ -282,7 +282,7 @@ func _on_PlayerDetector_body_entered(body):
 	if body.is_in_group("Player"):
 		player_in_radius = true
 		state = HUNTING
-		animatedsprite.play("Run")
+		animatedsprite.play("Hunt")
 		_hit()
 		
 func _on_PlayerDetector_body_exited(body):
