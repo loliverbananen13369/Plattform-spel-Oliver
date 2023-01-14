@@ -42,11 +42,13 @@ onready var attacktimer = $AttackTimer
 onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
-#onready var enemy =  get_node("../KinematicBody2D")
+onready var enemy =  get_tree().get_nodes_in_group("Enemy")[0]
 
 var hit_the_ground = false
 var motion_previous = Vector2()
 var last_step = 0
+var side = "RIGHT"
+var can_dash_to_enemy = true
 func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
@@ -97,6 +99,7 @@ func _get_input_x_update_direction() -> float:
 		direction_x = "LEFT"
 	animatedsprite.flip_h = direction_x != "RIGHT"
 	animatedsmears.flip_h = direction_x != "RIGHT"
+	
 	#$Thrusts.flip_h  = direction_x != "RIGHT"
 
 	
@@ -116,6 +119,14 @@ func _air_movement(delta) -> void:
 		hit_the_ground = false
 		animatedsprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
 		animatedsprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
+
+func _flip_sprite(right: bool) -> void:
+	if right:
+		animatedsprite.flip_h = false
+		animatedsmears.flip_h = false
+	else:
+		animatedsprite.flip_h = true
+		animatedsmears.flip_h = true
 
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
@@ -153,9 +164,24 @@ func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
 	jump_pressed = false
 
-func _dash_to_enemy() -> void:
-	var skeleton_warrior = skeleton_enemy_scene.instance()
-	global_position.x = skeleton_warrior.position.x 
+func _dash_to_enemy(side: String ) -> void:
+	if side == "RIGHT":
+		global_position = enemy.position + Vector2(20, -5)
+		direction_x = "LEFT"
+		animatedsprite.flip_h = true
+		animatedsmears.flip_h = true
+		animatedsmears.position.x = -10
+		attackparticles.position.x = -10
+		$NormalAttackArea/AttackGround.position.x = -26
+	else:
+		global_position = enemy.position - Vector2(20, 5)
+		direction_x = "RIGHT"
+		animatedsprite.flip_h = false
+		animatedsmears.flip_h = false
+		animatedsmears.position.x = 30
+		attackparticles.position.x = 30
+		$NormalAttackArea/AttackGround.position.x = 46
+		
 
 #STATES:
 func _idle_state(delta) -> void:
@@ -185,11 +211,11 @@ func _idle_state(delta) -> void:
 		return
 	
 func _run_state(delta) -> void:
+	
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
-	if Input.is_action_just_pressed("Test"):
-		_dash_to_enemy()
+
 	if animatedsprite.frame == 0:
 		last_step += 1
 		if last_step == 4:
@@ -261,7 +287,6 @@ func _air_state(delta) -> void:
 		_enter_idle_state()
 		return
 
-
 func _dash_state(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
@@ -301,6 +326,11 @@ func _stop_state(delta):
 func _attack_state_ground(_delta) -> void:
 	if Input.is_action_just_released("EAttack1"):
 		_enter_idle_state()
+	if Input.is_action_just_pressed("Dash"):
+		if global_position.x > enemy.position.x:
+			side = "LEFT"
+		else:
+			side = "RIGHT"
 
 func _prepare_attack_air_state(delta) -> void:
 	animatedsprite.scale.y = lerp(animatedsprite.scale.y, 1, 1 - pow(0.01, delta))
@@ -366,13 +396,15 @@ func _on_AttackTimer_timeout() -> void:
 	if Input.is_action_pressed("EAttack1"):
 		rng.randomize()
 		var random_attack_number = rng.randi_range(1,3)
+		if can_dash_to_enemy:
+			_dash_to_enemy(side)
 		_enter_attack1_state(random_attack_number)
+		
 	else:
 		_enter_idle_state()
 		$NormalAttackArea/AttackGround.disabled = true
 		is_attacking = false
 		
-
 func _on_GhostDashTimer_timeout():
 	pass
 #	if state == DASH:
@@ -414,7 +446,6 @@ func _enter_idle_state() -> void:
 	state = IDLE
 	animatedsprite.play("Idle")
 	can_jump = true
-
 
 func _enter_dash_state(attack: bool) -> void:
 	if attack == false:
@@ -502,9 +533,14 @@ func _on_FlashTimer_timeout():
 
 
 func _on_HurtBox_area_entered(area):
-		if area.is_in_group("EnemySword"):#area.is_in_group("Enemy") or 	
+		if area.is_in_group("EnemySword"):#area.is_in_group("EnemyHitbox?") or 	
 			frameFreeze(0.1, 0.5)
 			state = HURT
 			flash()
 			animatedsprite.play("Hit")
 			$BeenHurtTimer.start(0.1)
+
+
+func _on_KinematicBody2D_dead() -> void:
+	can_dash_to_enemy = false
+	enemy = get_tree().get_nodes_in_group("Player")[0]

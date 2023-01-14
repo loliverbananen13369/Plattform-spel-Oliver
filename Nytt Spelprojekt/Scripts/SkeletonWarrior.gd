@@ -38,40 +38,17 @@ onready var player = get_node("../Node2D/Player")
 
 var motion_previous = Vector2()
 
-
+signal dead
 
 #onready var PlayerSword = preload("res://Scenes/NormalAttackArea.tscn")
 var prutt = 0 #+delta
-var hej = rand_range(10-prutt, 15-prutt)
+var hej = rand_range(6-prutt, 8-prutt)
 
-var tween_values = [0.0, 10.0]
+var tween_values = [0.0, hej]
 var tween = Tween.new()
-func _enter_tree():
-	tween.name = "Tween"
-	add_child(tween)    
-	tween.connect("tween_completed", self, "on_tween_completed")
-	#tween.connect("tween_completed", self, "on_shaketimer_completed")
 
 
-func start_tween():
-	$Tween.interpolate_property($AnimatedSprite, "offset:x", tween_values[0], tween_values[1], 0.1)
-	$Tween.start()
-	$ShakeTimer.start(3)
-
-		
-
-func on_tween_completed(object, key):
-	tween_values.invert()
-	start_tween()
-
-
-
-func _on_ShakeTimer_timeout() -> void:
-	tween_values.invert()
-	tween.stop()
-
-func _ready():
-	start_tween() 
+func _ready(): 
 	runtimer.start(3)
 	$Area2D/CollisionShape2D.disabled = false
 	
@@ -147,18 +124,32 @@ func _die_b(hp):
 
 func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
+	#start_tween()
 	yield(get_tree().create_timer(duration * timescale), "timeout")
 	Engine.time_scale = 1
 
-func enemy_nicki_minaj(amount, duration, delta):
-	duration -= delta
-	var area_position = $Area2D.position
-	var idk_just_nu =  Vector2(range_lerp(abs(motion_previous), 0, 1 - pow(0.01, delta), 1, 1), 0)
-	global_position.x = global_position.x
+func _enter_tree():
+	tween.name = "Tween"
+	add_child(tween)    
+	tween.connect("tween_completed", self, "on_tween_completed")
+	
+func start_tween():
+	$Tween.interpolate_property($AnimatedSprite, "offset:x", tween_values[0], tween_values[1], 0.1)
+	$Tween.start()
+	prutt - $ShakeTimer.time_left
+	$ShakeTimer.start(3)
 
+func on_tween_completed(object, key):
+	tween_values.invert()
+	start_tween()
+
+func _on_ShakeTimer_timeout() -> void:
+	tween_values.invert()
+	$Tween.kill()
 
 #STATES
 func _idle_state(delta) -> void:
+
 
 	_die_b(hp)
 	_air_movement(delta)
@@ -168,7 +159,7 @@ func _run_state(delta) -> void:
 	_die_b(hp)
 	_apply_basic_movement(delta)
 	_turn_around()
-	
+	$Tween.remove_all()	
 	if is_on_wall():
 		direction_x *= -1
 		$RayCast2D.position.x += direction_x*20
@@ -176,6 +167,7 @@ func _run_state(delta) -> void:
 func _attack_state(delta) -> void:
 	pass
 func _follow_player_state(delta) -> void:
+	$Tween.remove_all()	
 	if global_position.x > player.position.x:
 		animatedsprite.flip_h = true
 		$AttackDetector/CollisionShape2D.position.x  = -4
@@ -238,6 +230,7 @@ func _enter_hurt_state() -> void:
 	$AnimationPlayer.play("Hurt1")
 	frameFreeze(0.6, 0.2)
 
+
 func _on_IdleTimer_timeout():
 	if state != ATTACK:
 		 _enter_run_state()
@@ -266,6 +259,7 @@ func _on_Area2D_area_entered(area):
 
 func _on_AnimatedSprite_animation_finished():
 	if animatedsprite.animation == "Dead":
+		emit_signal("dead")
 		queue_free()
 
 
@@ -279,6 +273,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		if anim_name == "Hit":
 			if player_in_radius:
 				state = HUNTING
+				animatedsprite.play("Run")
 			else:
 				_enter_idle_state()
 
