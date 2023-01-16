@@ -1,4 +1,4 @@
-[gd_scene load_steps=154 format=2]
+[gd_scene load_steps=153 format=2]
 
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 08/Smear 08 Horizontal 1.png" type="Texture" id=1]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 09/Smear 09 Horizontal 1.png" type="Texture" id=2]
@@ -22,7 +22,6 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Vertical 1.png" type="Texture" id=20]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack effect.png" type="Texture" id=22]
-[ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=23]
 
 [sub_resource type="AtlasTexture" id=532]
 atlas = ExtResource( 17 )
@@ -670,5 +669,3 @@ scale = Vector2( 2.5, 1.5 )
 frames = SubResource( 373 )
 animation = "Smear1H"
 frame = 2
-
-[node name="WorldEnvironment" parent="." instance=ExtResource( 23 )]

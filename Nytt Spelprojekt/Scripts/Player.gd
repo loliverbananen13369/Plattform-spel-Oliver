@@ -333,10 +333,11 @@ func _attack_state_ground(_delta) -> void:
 			side = "RIGHT"
 
 func _prepare_attack_air_state(delta) -> void:
+	frameFreeze(0.3, 0.4)
 	animatedsprite.scale.y = lerp(animatedsprite.scale.y, 1, 1 - pow(0.01, delta))
 	animatedsprite.scale.x = lerp(animatedsprite.scale.x, 1, 1 - pow(0.01, delta))
-	velocity.x = 0
-	velocity.y = 0
+	#velocity.x = 0
+	#velocity.y = 0
 
 func _attack_state_air(delta) -> void:
 	$HurtBox/CollisionShape2D.disabled = true

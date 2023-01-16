@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.new.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/SkeletonWarrior.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/Anchor.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Cam.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=6]
 [ext_resource path="res://TestMap/Wasteland_Sky.png" type="Texture" id=84]
 
 [sub_resource type="ConvexPolygonShape2D" id=36]
@@ -838,5 +839,7 @@ script = ExtResource( 5 )
 
 [node name="KinematicBody2D" parent="." instance=ExtResource( 3 )]
 position = Vector2( 221, -16 )
+
+[node name="WorldEnvironment" parent="." instance=ExtResource( 6 )]
 
 [connection signal="dead" from="KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
