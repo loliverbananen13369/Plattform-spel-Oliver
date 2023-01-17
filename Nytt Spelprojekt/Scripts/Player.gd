@@ -24,9 +24,11 @@ var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
 var jump_pressed = false
+var attack_pressed = false
 
 
 var jump_buffer = 0.15
+var attack_buffer = 0.15
 
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
@@ -125,12 +127,24 @@ func _air_movement(delta) -> void:
 		animatedsprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
 func _attack_function():
-	if Input.is_action_just_pressed("EAttack1"):
-		_enter_attack1_state(1)
-	if Input.is_action_just_pressed("Attack2"):
-		_enter_attack1_state(2)
-	if Input.is_action_just_pressed("Attack3"):
-		_enter_attack1_state(3)
+	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == true):
+		if can_attack:
+			_enter_attack1_state(1)
+		else:
+			attack_pressed = true
+			_remember_attack()
+	if Input.is_action_just_pressed("Attack2") or (attack_pressed == true):
+		if can_attack:
+			_enter_attack1_state(1)
+		else:
+			attack_pressed = true
+			_remember_attack()
+	if Input.is_action_just_pressed("Attack3") or (attack_pressed == true):
+		if can_attack:
+			_enter_attack1_state(1)
+		else:
+			attack_pressed = true
+			_remember_attack()
 	
 
 func _flip_sprite(right: bool) -> void:
@@ -177,7 +191,9 @@ func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
 	jump_pressed = false
 
-		
+func _remember_attack() -> void:
+	yield(get_tree().create_timer(attack_buffer), "timeout")
+	attack_pressed = false
 
 
 func _dash_to_enemy(side: String ) -> void:
@@ -208,9 +224,7 @@ func _idle_state(delta) -> void:
 		return
 	
 	
-	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
-		return
+
 	
 	#if Input.is_action_just_pressed("EAttack1"):
 	#	_enter_attack1_state(1)
@@ -343,13 +357,15 @@ func _stop_state(delta):
 		return
 	
 func _attack_state_ground(_delta) -> void:
-	#if Input.is_action_just_pressed("EAttack1"):
-		
-	if Input.is_action_just_pressed("Dash"):
+	if Input.is_action_just_pressed("switch_side"):
 		if global_position.x > enemy.position.x:
 			side = "LEFT"
 		else:
 			side = "RIGHT"
+		_dash_to_enemy(side)
+	
+	_attack_function()
+	
 
 func _attack_state_dash(attack_nr : int, delta) -> void:
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
