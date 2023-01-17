@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT}
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -25,7 +25,9 @@ var is_attacking := false
 var is_air_attacking := false
 var jump_pressed = false
 
+
 var jump_buffer = 0.15
+
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
@@ -63,6 +65,8 @@ func _physics_process(delta: float) -> void:
 			_stop_state(delta)
 		ATTACK_GROUND:
 			_attack_state_ground(delta)
+		ATTACK_DASH:
+			_attack_state_dash(0, delta)
 		PREPARE_ATTACK_AIR:
 			_prepare_attack_air_state(delta)
 		ATTACK_AIR:
@@ -120,6 +124,15 @@ func _air_movement(delta) -> void:
 		animatedsprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
 		animatedsprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
+func _attack_function():
+	if Input.is_action_just_pressed("EAttack1"):
+		_enter_attack1_state(1)
+	if Input.is_action_just_pressed("Attack2"):
+		_enter_attack1_state(2)
+	if Input.is_action_just_pressed("Attack3"):
+		_enter_attack1_state(3)
+	
+
 func _flip_sprite(right: bool) -> void:
 	if right:
 		animatedsprite.flip_h = false
@@ -164,6 +177,9 @@ func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
 	jump_pressed = false
 
+		
+
+
 func _dash_to_enemy(side: String ) -> void:
 	if side == "RIGHT":
 		global_position = enemy.position + Vector2(20, -5)
@@ -196,8 +212,10 @@ func _idle_state(delta) -> void:
 		_enter_dash_state(false)
 		return
 	
-	if Input.is_action_just_pressed("EAttack1"):
-		_enter_attack1_state(1)
+	#if Input.is_action_just_pressed("EAttack1"):
+	#	_enter_attack1_state(1)
+	
+	_attack_function()
 	
 	
 
@@ -214,6 +232,7 @@ func _run_state(delta) -> void:
 	
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
+	print(input_x)
 
 
 	if animatedsprite.frame == 0:
@@ -233,7 +252,7 @@ func _run_state(delta) -> void:
 		return
 		
 	if Input.is_action_just_pressed("EAttack1"):
-		_enter_attack1_state(1)
+		_enter_dash_attack_state(1)
 	if Input.is_action_just_pressed("AttackE"):
 		pass
 	
@@ -324,20 +343,23 @@ func _stop_state(delta):
 		return
 	
 func _attack_state_ground(_delta) -> void:
-	if Input.is_action_just_released("EAttack1"):
-		_enter_idle_state()
+	#if Input.is_action_just_pressed("EAttack1"):
+		
 	if Input.is_action_just_pressed("Dash"):
 		if global_position.x > enemy.position.x:
 			side = "LEFT"
 		else:
 			side = "RIGHT"
 
+func _attack_state_dash(attack_nr : int, delta) -> void:
+	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
+	
+	velocity = move_and_slide(velocity, Vector2.UP)
+
 func _prepare_attack_air_state(delta) -> void:
 	frameFreeze(0.3, 0.4)
 	animatedsprite.scale.y = lerp(animatedsprite.scale.y, 1, 1 - pow(0.01, delta))
 	animatedsprite.scale.x = lerp(animatedsprite.scale.x, 1, 1 - pow(0.01, delta))
-	#velocity.x = 0
-	#velocity.y = 0
 
 func _attack_state_air(delta) -> void:
 	$HurtBox/CollisionShape2D.disabled = true
@@ -393,18 +415,24 @@ func _on_CoyoteTimer_timeout():
 	can_jump = false
 
 func _on_AttackTimer_timeout() -> void:
-	can_attack = true
-	if Input.is_action_pressed("EAttack1"):
+	pass
+	"""can_attack = true
+	if Input.is_action_just_pressed("EAttack1"):
 		rng.randomize()
 		var random_attack_number = rng.randi_range(1,3)
 		if can_dash_to_enemy:
 			_dash_to_enemy(side)
 		_enter_attack1_state(random_attack_number)
+
+	#if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
+	#	_enter_run_state()
 		
 	else:
 		_enter_idle_state()
 		$NormalAttackArea/AttackGround.disabled = true
 		is_attacking = false
+	
+	"""
 		
 func _on_GhostDashTimer_timeout():
 	pass
@@ -415,9 +443,30 @@ func _on_GhostDashTimer_timeout():
 #		get_parent().add_child(this_ghost)
 #		this_ghost.texture = animatedsprite.frames.get_frame(animatedsprite.animation, animatedsprite.frame)
 #		this_ghost.flip_h = animatedsprite.flip_h
-	
+
 
 func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Attack1":
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
+		else:
+			_enter_idle_state()
+		can_attack = true
+	if anim_name == "Attack2":
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
+		else:
+			_enter_idle_state()
+		can_attack = true
+	if anim_name == "Attack3":
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
+		else:
+			_enter_idle_state()
+		can_attack = true
+	if anim_name == "SpinAttack":
+		_enter_idle_state()
+		can_attack = true
 	if anim_name == "JumpAttack":
 		$NormalAttackArea/AttackJump.disabled = true
 		_enter_idle_state()
@@ -499,16 +548,19 @@ func _enter_attack1_state(attack: int) -> void:
 		$NormalAttackArea/AttackGround.position.x = 46
 	if attack == 1:
 		animationplayer.play("Attack1")
-		attacktimer.start(0.2667)
 		can_attack = false
 		#$NormalAttackArea/AttackGround.disabled = false
-	elif attack == 2:
+	if attack == 2:
 		animationplayer.play("Attack2")
-		attacktimer.start(0.2667)
 		can_attack = false
-	elif attack == 3:
+	if attack == 3:
 		animationplayer.play("Attack3")
-		attacktimer.start(0.2667)
+		can_attack = false
+
+func _enter_dash_attack_state(attack: int) -> void:
+	state = ATTACK_DASH
+	if attack == 1:
+		animationplayer.play("SpinAttack")
 		can_attack = false
 
 func _enter_attack_air_state(Jump: bool) -> void:	
