@@ -24,11 +24,11 @@ var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
 var jump_pressed = false
-var attack_pressed = false
+var attack_pressed = 0
 
 
 var jump_buffer = 0.15
-var attack_buffer = 0.15
+var attack_buffer = 0.3
 
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
@@ -127,23 +127,23 @@ func _air_movement(delta) -> void:
 		animatedsprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
 func _attack_function():
-	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == true):
+	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
 			_enter_attack1_state(1)
 		else:
-			attack_pressed = true
+			attack_pressed = 1
 			_remember_attack()
-	if Input.is_action_just_pressed("Attack2") or (attack_pressed == true):
+	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
 		if can_attack:
-			_enter_attack1_state(1)
+			_enter_attack1_state(2)
 		else:
-			attack_pressed = true
+			attack_pressed = 2
 			_remember_attack()
-	if Input.is_action_just_pressed("Attack3") or (attack_pressed == true):
+	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
 		if can_attack:
-			_enter_attack1_state(1)
+			_enter_attack1_state(3)
 		else:
-			attack_pressed = true
+			attack_pressed = 3
 			_remember_attack()
 	
 
@@ -193,7 +193,7 @@ func _remember_jump() -> void:
 
 func _remember_attack() -> void:
 	yield(get_tree().create_timer(attack_buffer), "timeout")
-	attack_pressed = false
+	attack_pressed = 0
 
 
 func _dash_to_enemy(side: String ) -> void:
@@ -224,11 +224,6 @@ func _idle_state(delta) -> void:
 		return
 	
 	
-
-	
-	#if Input.is_action_just_pressed("EAttack1"):
-	#	_enter_attack1_state(1)
-	
 	_attack_function()
 	
 	
@@ -246,7 +241,6 @@ func _run_state(delta) -> void:
 	
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
-	print(input_x)
 
 
 	if animatedsprite.frame == 0:
@@ -295,7 +289,6 @@ func _air_state(delta) -> void:
 		_enter_attack_air_state(false)
 		return
 
-		return
 	
 	if Input.is_action_just_pressed("Jump"):
 		if can_jump:

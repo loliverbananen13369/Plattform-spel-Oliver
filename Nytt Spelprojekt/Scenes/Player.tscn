@@ -640,7 +640,7 @@ animations = [ {
 "frames": [ SubResource( 130 ), SubResource( 131 ), SubResource( 132 ), SubResource( 133 ), SubResource( 134 ), SubResource( 135 ), SubResource( 136 ), SubResource( 137 ), SubResource( 138 ), SubResource( 139 ) ],
 "loop": true,
 "name": "SpinAttack",
-"speed": 10.0
+"speed": 20.0
 }, {
 "frames": [ SubResource( 494 ), SubResource( 495 ), SubResource( 496 ), SubResource( 497 ), SubResource( 498 ) ],
 "loop": true,
@@ -784,7 +784,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.0666667, 0.233333 ),
+"times": PoolRealArray( 0, 0.0666667, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
@@ -820,7 +820,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.0666667, 0.233333 ),
+"times": PoolRealArray( 0.0666667, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -832,7 +832,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0.1, 0.2 ),
+"times": PoolRealArray( 0.0666667, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -1320,6 +1320,9 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id=641]
 resource_name = "SpinAttack"
+length = 0.5
+loop = true
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:animation")
 tracks/0/interp = 1
@@ -1339,10 +1342,34 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SmearSprites:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Smear3V" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SmearSprites:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
 }
 
 [sub_resource type="Animation" id=538]
@@ -1483,9 +1510,8 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "Attack1"
-frame = 7
-playing = true
+animation = "SpinAttack"
+frame = 6
 offset = Vector2( 0, 1 )
 
 [node name="HurtBox" type="Area2D" parent="."]
@@ -1498,10 +1524,9 @@ position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 30, -15 )
-frame = 0
-flip_h = true
+animation = "Smear4V"
+playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/AirAttack = SubResource( 476 )
