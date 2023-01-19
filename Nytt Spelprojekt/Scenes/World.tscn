@@ -843,3 +843,4 @@ position = Vector2( 221, -16 )
 [node name="WorldEnvironment" parent="." instance=ExtResource( 6 )]
 
 [connection signal="dead" from="KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
+[connection signal="hurt" from="KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]

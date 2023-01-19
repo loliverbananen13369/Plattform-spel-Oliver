@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO}
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -23,12 +23,16 @@ var can_attack := true
 var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
-var jump_pressed = false
+var jump_pressed := false
+var can_follow_enemy := false
 var attack_pressed = 0
+var previous_attack = 0
+var combo_list = []
 
 
 var jump_buffer = 0.15
 var attack_buffer = 0.3
+var hit_amount = 0
 
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
@@ -42,7 +46,6 @@ onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
-onready var attacktimer = $AttackTimer
 onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
@@ -52,7 +55,7 @@ var hit_the_ground = false
 var motion_previous = Vector2()
 var last_step = 0
 var side = "RIGHT"
-var can_dash_to_enemy = true
+
 func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
@@ -75,6 +78,8 @@ func _physics_process(delta: float) -> void:
 			_attack_state_air(delta)
 		JUMP_ATTACK:
 			_jump_attack_state(delta)
+		COMBO:
+			_combo_state(delta)
 		HURT:
 			_hurt_state(delta)
 
@@ -130,21 +135,25 @@ func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
 			_enter_attack1_state(1)
+			previous_attack = 1
 		else:
 			attack_pressed = 1
 			_remember_attack()
 	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
 		if can_attack:
 			_enter_attack1_state(2)
+			previous_attack = 2
 		else:
 			attack_pressed = 2
 			_remember_attack()
 	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
 		if can_attack:
 			_enter_attack1_state(3)
+			previous_attack = 3
 		else:
 			attack_pressed = 3
 			_remember_attack()
+			
 	
 
 func _flip_sprite(right: bool) -> void:
@@ -196,8 +205,8 @@ func _remember_attack() -> void:
 	attack_pressed = 0
 
 
-func _dash_to_enemy(side: String ) -> void:
-	if side == "RIGHT":
+func _dash_to_enemy() -> void:
+	if global_position.x >= enemy.position.x:
 		global_position = enemy.position + Vector2(20, -5)
 		direction_x = "LEFT"
 		animatedsprite.flip_h = true
@@ -350,18 +359,12 @@ func _stop_state(delta):
 		return
 	
 func _attack_state_ground(_delta) -> void:
-	if Input.is_action_just_pressed("switch_side"):
-		if global_position.x > enemy.position.x:
-			side = "LEFT"
-		else:
-			side = "RIGHT"
-		_dash_to_enemy(side)
 	
 	_attack_function()
 	
 
 func _attack_state_dash(attack_nr : int, delta) -> void:
-	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
+	velocity = velocity.move_toward(direction*MAX_SPEED*1, ACCELERATION*delta*1)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 
@@ -397,6 +400,8 @@ func _jump_attack_state(delta) -> void:
 	if is_on_floor():
 		_enter_idle_state()
 
+func _combo_state(delta) -> void:
+	pass
 func _hurt_state(delta) -> void:
 	
 	if direction_x == "RIGHT":
@@ -407,7 +412,6 @@ func _hurt_state(delta) -> void:
 		velocity.y = -300
 	_air_movement(delta)
 		
-
 
 #SIGNALS
 func _on_DashTimer_timeout():
@@ -423,25 +427,6 @@ func _on_DashTimer_timeout():
 func _on_CoyoteTimer_timeout():
 	can_jump = false
 
-func _on_AttackTimer_timeout() -> void:
-	pass
-	"""can_attack = true
-	if Input.is_action_just_pressed("EAttack1"):
-		rng.randomize()
-		var random_attack_number = rng.randi_range(1,3)
-		if can_dash_to_enemy:
-			_dash_to_enemy(side)
-		_enter_attack1_state(random_attack_number)
-
-	#if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
-	#	_enter_run_state()
-		
-	else:
-		_enter_idle_state()
-		$NormalAttackArea/AttackGround.disabled = true
-		is_attacking = false
-	
-	"""
 		
 func _on_GhostDashTimer_timeout():
 	pass
@@ -456,26 +441,35 @@ func _on_GhostDashTimer_timeout():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
-		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-			_enter_run_state()
+		if state == COMBO:
+			_enter_attack1_state(2)
 		else:
-			_enter_idle_state()
-		can_attack = true
+			can_attack = true
+			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+				_enter_run_state()
+			else:
+				_enter_idle_state()
 	if anim_name == "Attack2":
-		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-			_enter_run_state()
+		if state == COMBO:
+			_enter_attack1_state(3)
 		else:
-			_enter_idle_state()
-		can_attack = true
+			can_attack = true
+			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+				_enter_run_state()
+			else:
+				_enter_idle_state()
 	if anim_name == "Attack3":
+		can_attack = true
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
 		else:
 			_enter_idle_state()
-		can_attack = true
 	if anim_name == "SpinAttack":
-		_enter_idle_state()
-		can_attack = true
+		if state == COMBO:
+			_enter_attack1_state(1)
+		else:
+			can_attack = true
+			_enter_idle_state()
 	if anim_name == "JumpAttack":
 		$NormalAttackArea/AttackJump.disabled = true
 		_enter_idle_state()
@@ -544,6 +538,7 @@ func _enter_stop_state() -> void:
 	animatedsprite.play("Stop")
 
 func _enter_attack1_state(attack: int) -> void:
+	
 	state = ATTACK_GROUND
 	is_attacking = true
 	animatedsmears.position.y = -15
@@ -558,13 +553,32 @@ func _enter_attack1_state(attack: int) -> void:
 	if attack == 1:
 		animationplayer.play("Attack1")
 		can_attack = false
+		previous_attack = 1
 		#$NormalAttackArea/AttackGround.disabled = false
 	if attack == 2:
 		animationplayer.play("Attack2")
 		can_attack = false
+		previous_attack = 2
 	if attack == 3:
 		animationplayer.play("Attack3")
 		can_attack = false
+		previous_attack = 3
+	if attack == 4:
+		animationplayer.play("SpinAttack")
+		can_attack = false
+	if can_follow_enemy:
+		_dash_to_enemy()
+	combo_list.append(previous_attack) 
+	check_combo()
+
+func check_combo() -> void:
+	if combo_list.front() == 1:
+		if combo_list == [1,2,3,1]:
+			_enter_combo_state(1)
+	if combo_list.size() == 5:
+		combo_list.clear()
+	else:
+		return
 
 func _enter_dash_attack_state(attack: int) -> void:
 	state = ATTACK_DASH
@@ -585,6 +599,14 @@ func _enter_attack_air_state(Jump: bool) -> void:
 	else:
 		animationplayer.play("PrepareAirAttack")
 
+func _enter_combo_state(number : int) -> void:
+	state = COMBO
+	if number == 1:
+		animationplayer.play("SpinAttack")
+		combo_list.clear()
+		
+	
+
 func _on_BeenHurtTimer_timeout():
 	velocity.y = 0
 	_enter_idle_state()
@@ -604,5 +626,11 @@ func _on_HurtBox_area_entered(area):
 
 
 func _on_KinematicBody2D_dead() -> void:
-	can_dash_to_enemy = false
+	can_follow_enemy = false
 	enemy = get_tree().get_nodes_in_group("Player")[0]
+
+
+func _on_KinematicBody2D_hurt() -> void:
+	can_follow_enemy = true
+	yield(get_tree().create_timer(1), "timeout")
+	can_follow_enemy = false

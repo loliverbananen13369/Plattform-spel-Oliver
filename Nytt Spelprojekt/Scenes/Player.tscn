@@ -1321,7 +1321,6 @@ tracks/6/keys = {
 [sub_resource type="Animation" id=641]
 resource_name = "SpinAttack"
 length = 0.5
-loop = true
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayerSprite:animation")
@@ -1370,6 +1369,30 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("NormalAttackArea/AttackGround:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.25, 0.45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SmearSprites:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=538]
@@ -1511,8 +1534,8 @@ material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
 animation = "SpinAttack"
-frame = 6
 offset = Vector2( 0, 1 )
+flip_h = true
 
 [node name="HurtBox" type="Area2D" parent="."]
 visible = false
@@ -1525,8 +1548,9 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 position = Vector2( 30, -15 )
-animation = "Smear4V"
-playing = true
+animation = "Smear3V"
+frame = 0
+flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/AirAttack = SubResource( 476 )
@@ -1546,10 +1570,6 @@ one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
-
-[node name="AttackTimer" type="Timer" parent="."]
-wait_time = 0.45
-one_shot = true
 
 [node name="Sprite" parent="." instance=ExtResource( 41 )]
 visible = false
@@ -1625,7 +1645,6 @@ texture = ExtResource( 12 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="timeout" from="GhostDashTimer" to="." method="_on_GhostDashTimer_timeout"]
 [connection signal="timeout" from="BeenHurtTimer" to="." method="_on_BeenHurtTimer_timeout"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]

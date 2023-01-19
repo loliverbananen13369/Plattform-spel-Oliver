@@ -39,6 +39,8 @@ onready var player = get_node("../Node2D/Player")
 var motion_previous = Vector2()
 
 signal dead
+signal hurt
+
 
 #onready var PlayerSword = preload("res://Scenes/NormalAttackArea.tscn")
 var prutt = 0 #+delta
@@ -228,7 +230,7 @@ func _enter_hurt_state() -> void:
 	state = HURT
 	$AnimationPlayer.stop()
 	$AnimationPlayer.play("Hurt1")
-	frameFreeze(0.6, 0.2)
+	frameFreeze(1, 0.4)
 
 
 func _on_IdleTimer_timeout():
@@ -248,9 +250,11 @@ func _on_Area2D_area_entered(area):
 		#$AnimationPlayer.stop()
 		#$AnimationPlayer.play("Hurt1")
 		_enter_hurt_state()
+		emit_signal("hurt")
 		if hp <= 0:
 			state = DEAD
 			animatedsprite.play("Dead")
+			emit_signal("dead")
 		#if hp <= 0:
 		#	state = DEAD
 		#	animatedsprite.play("Dead")
@@ -259,7 +263,6 @@ func _on_Area2D_area_entered(area):
 
 func _on_AnimatedSprite_animation_finished():
 	if animatedsprite.animation == "Dead":
-		emit_signal("dead")
 		queue_free()
 
 
@@ -304,6 +307,7 @@ func _on_AttackDetector_body_entered(body):
 func _on_AttackDetector_body_exited(body):
 	if body.is_in_group("Player"):
 		can_attack = true
+
 
 
 
