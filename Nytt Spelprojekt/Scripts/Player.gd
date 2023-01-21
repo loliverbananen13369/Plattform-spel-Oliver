@@ -134,21 +134,21 @@ func _air_movement(delta) -> void:
 func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
-			_enter_attack1_state(1)
+			_enter_attack1_state(1, false)
 			previous_attack = 1
 		else:
 			attack_pressed = 1
 			_remember_attack()
 	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
 		if can_attack:
-			_enter_attack1_state(2)
+			_enter_attack1_state(2, false)
 			previous_attack = 2
 		else:
 			attack_pressed = 2
 			_remember_attack()
 	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
 		if can_attack:
-			_enter_attack1_state(3)
+			_enter_attack1_state(3, false)
 			previous_attack = 3
 		else:
 			attack_pressed = 3
@@ -160,9 +160,16 @@ func _flip_sprite(right: bool) -> void:
 	if right:
 		animatedsprite.flip_h = false
 		animatedsmears.flip_h = false
+		animatedsmears.position.x = 30
+		dashparticles.position.x = 30
+		$NormalAttackArea/AttackGround.position.x =46
+		
 	else:
 		animatedsprite.flip_h = true
 		animatedsmears.flip_h = true
+		animatedsmears.position.x = -10
+		dashparticles.position.x = -10
+		$NormalAttackArea/AttackGround.position.x = -26
 
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
@@ -205,23 +212,24 @@ func _remember_attack() -> void:
 	attack_pressed = 0
 
 
-func _dash_to_enemy() -> void:
-	if global_position.x >= enemy.position.x:
-		global_position = enemy.position + Vector2(20, -5)
-		direction_x = "LEFT"
-		animatedsprite.flip_h = true
-		animatedsmears.flip_h = true
-		animatedsmears.position.x = -10
-		attackparticles.position.x = -10
-		$NormalAttackArea/AttackGround.position.x = -26
+func _dash_to_enemy(switch_side: bool) -> void:
+	if not switch_side:
+		if global_position.x >= enemy.position.x:
+			global_position = enemy.position + Vector2(30, -4)
+			_flip_sprite(false)
+		else:
+			global_position = enemy.position - Vector2(30, 4)
+			direction_x = "RIGHT"
+			_flip_sprite(true)
 	else:
-		global_position = enemy.position - Vector2(20, 5)
-		direction_x = "RIGHT"
-		animatedsprite.flip_h = false
-		animatedsmears.flip_h = false
-		animatedsmears.position.x = 30
-		attackparticles.position.x = 30
-		$NormalAttackArea/AttackGround.position.x = 46
+		if global_position.x <= enemy.position.x:
+			global_position = enemy.position + Vector2(30, -4)
+			direction_x = "LEFT"
+			_flip_sprite(false)
+		else:
+			global_position = enemy.position - Vector2(30, 4)
+			direction_x = "RIGHT"
+			_flip_sprite(true)
 		
 
 #STATES:
@@ -442,7 +450,11 @@ func _on_GhostDashTimer_timeout():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
 		if state == COMBO:
-			_enter_attack1_state(2)
+			if can_follow_enemy:
+				_dash_to_enemy(true)
+				_enter_attack1_state(2, true)
+			else:
+				_enter_attack1_state(2, true)
 		else:
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
@@ -451,7 +463,12 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 				_enter_idle_state()
 	if anim_name == "Attack2":
 		if state == COMBO:
-			_enter_attack1_state(3)
+			if can_follow_enemy:
+				_dash_to_enemy(true)
+				_enter_attack1_state(2, true)
+				combo_list.clear()
+			else:
+				_enter_attack1_state(2, true)
 		else:
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
@@ -466,13 +483,15 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			_enter_idle_state()
 	if anim_name == "SpinAttack":
 		if state == COMBO:
-			_enter_attack1_state(1)
+			_enter_attack1_state(1, true)
+			can_attack = true
 		else:
 			can_attack = true
 			_enter_idle_state()
 	if anim_name == "JumpAttack":
 		$NormalAttackArea/AttackJump.disabled = true
 		_enter_idle_state()
+		can_attack = true
 	if anim_name == "PrepareAirAttack":
 		state = ATTACK_AIR
 	if anim_name == "Thrust2":
@@ -537,9 +556,12 @@ func _enter_stop_state() -> void:
 	state = STOP
 	animatedsprite.play("Stop")
 
-func _enter_attack1_state(attack: int) -> void:
+func _enter_attack1_state(attack: int, combo: bool) -> void:
 	
-	state = ATTACK_GROUND
+	if combo:
+		state = COMBO
+	else:
+		state = ATTACK_GROUND
 	is_attacking = true
 	animatedsmears.position.y = -15
 	if direction_x != "RIGHT":
@@ -567,9 +589,11 @@ func _enter_attack1_state(attack: int) -> void:
 		animationplayer.play("SpinAttack")
 		can_attack = false
 	if can_follow_enemy:
-		_dash_to_enemy()
+		_dash_to_enemy(false)
 	combo_list.append(previous_attack) 
 	check_combo()
+	if combo_list.size() == 0:
+		_enter_idle_state()
 
 func check_combo() -> void:
 	if combo_list.front() == 1:
@@ -602,6 +626,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 func _enter_combo_state(number : int) -> void:
 	state = COMBO
 	if number == 1:
+		_dash_to_enemy(true)
 		animationplayer.play("SpinAttack")
 		combo_list.clear()
 		
