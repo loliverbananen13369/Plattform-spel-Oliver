@@ -2,8 +2,8 @@
 
 [sub_resource type="Environment" id=476]
 background_mode = 4
-tonemap_mode = 1
-tonemap_white = 16.0
+tonemap_mode = 2
+tonemap_exposure = 0.9
 auto_exposure_speed = 64.0
 ssao_radius = 128.0
 ssao_intensity = 19.43
@@ -14,12 +14,11 @@ dof_blur_far_quality = 2
 dof_blur_near_distance = 1.53
 dof_blur_near_transition = 2.23
 glow_enabled = true
-glow_levels/1 = true
 glow_levels/2 = true
 glow_levels/3 = false
 glow_levels/4 = true
-glow_intensity = 4.67
-glow_strength = 0.91
+glow_levels/5 = false
+glow_intensity = 0.91
 glow_hdr_threshold = 2.0
 glow_hdr_luminance_cap = 256.0
 glow_hdr_scale = 4.0

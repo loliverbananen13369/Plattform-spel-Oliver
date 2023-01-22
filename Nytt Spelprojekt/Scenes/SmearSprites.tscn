@@ -663,7 +663,7 @@ animations = [ {
 } ]
 
 [node name="SmearSprites" type="AnimatedSprite"]
-modulate = Color( 2, 2, 2, 1 )
+modulate = Color( 3, 1, 1, 1 )
 position = Vector2( 10, -20 )
 scale = Vector2( 2.5, 1.5 )
 frames = SubResource( 373 )
