@@ -226,11 +226,16 @@ func _enter_run_state() -> void:
 	runtimer.start(time)
 
 func _enter_hurt_state() -> void:
+	var random_number = rng.randi_range(1,2)
 	take_damage(5)
 	state = HURT
 	$AnimationPlayer.stop()
+	if random_number == 1:
+		$Sprite.animation = "Hurt1"
+	else:
+		$Sprite.animation = "Hurt2"
 	$AnimationPlayer.play("Hurt1")
-	frameFreeze(1, 0.4)
+	frameFreeze(1, 0.5)
 
 
 func _on_IdleTimer_timeout():

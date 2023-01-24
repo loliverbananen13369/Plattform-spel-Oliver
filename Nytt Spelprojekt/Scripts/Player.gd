@@ -628,6 +628,7 @@ func _enter_combo_state(number : int) -> void:
 	if number == 1:
 		_dash_to_enemy(true)
 		animationplayer.play("SpinAttack")
+
 		combo_list.clear()
 		
 	
@@ -643,6 +644,7 @@ func _on_FlashTimer_timeout():
 
 func _on_HurtBox_area_entered(area):
 		if area.is_in_group("EnemySword"):#area.is_in_group("EnemyHitbox?") or 	
+			print("hej")
 			frameFreeze(0.1, 0.5)
 			state = HURT
 			flash()

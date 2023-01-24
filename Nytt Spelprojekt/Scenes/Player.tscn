@@ -1,4 +1,4 @@
-[gd_scene load_steps=204 format=2]
+[gd_scene load_steps=213 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://dash_particle.2.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.6.2.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.2.png" type="Texture" id=15]
+[ext_resource path="res://Random_Effects/Thrusts 1 SpriteSheet.png" type="Texture" id=16]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.4.2.png" type="Texture" id=18]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.png" type="Texture" id=19]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.9.2.png" type="Texture" id=20]
@@ -1054,6 +1055,33 @@ tracks/8/keys = {
 "values": [ false, true ]
 }
 
+[sub_resource type="Animation" id=653]
+resource_name = "Combo1"
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+
 [sub_resource type="Animation" id=635]
 resource_name = "Hurt1"
 
@@ -1401,7 +1429,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id=538]
 resource_name = "Thrust2"
-length = 0.233333
+length = 0.333333
 step = 0.0333333
 tracks/0/type = "value"
 tracks/0/path = NodePath("NormalAttackArea/AirAttack:scale")
@@ -1463,6 +1491,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [ Vector2( 3, 3 ), Vector2( 2.5, 1.5 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("AnimatedSprite:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
 
 [sub_resource type="Gradient" id=637]
 offsets = PoolRealArray( 0, 0.646667, 1 )
@@ -1517,6 +1557,38 @@ extents = Vector2( 12.7279, 14.1673 )
 offsets = PoolRealArray( 0.00917431, 0.568965, 1 )
 colors = PoolColorArray( 1, 0.639216, 0.580392, 1, 0.905882, 0.32549, 0.537255, 1, 0.615686, 0.141176, 0.32549, 1 )
 
+[sub_resource type="AtlasTexture" id=654]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 0, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=655]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 32, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=656]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 64, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=657]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 96, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=658]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 128, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=659]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 160, 64, 32 )
+
+[sub_resource type="SpriteFrames" id=660]
+animations = [ {
+"frames": [ SubResource( 654 ), SubResource( 655 ), SubResource( 656 ), SubResource( 657 ), SubResource( 658 ), SubResource( 659 ) ],
+"loop": true,
+"name": "Test1",
+"speed": 5.0
+} ]
+
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 position = Vector2( 10, -20 )
 script = ExtResource( 2 )
@@ -1537,7 +1609,7 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "SpinAttack"
+animation = "AirAttack"
 offset = Vector2( 0, 1 )
 flip_h = true
 
@@ -1552,6 +1624,9 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 position = Vector2( 30, -15 )
+scale = Vector2( 3, 3 )
+animation = "Thrust2"
+frame = 0
 flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1559,6 +1634,7 @@ anims/AirAttack = SubResource( 476 )
 anims/Attack1 = SubResource( 158 )
 anims/Attack2 = SubResource( 190 )
 anims/Attack3 = SubResource( 191 )
+anims/Combo1 = SubResource( 653 )
 anims/Hurt1 = SubResource( 635 )
 anims/JumpAttack = SubResource( 511 )
 anims/OnGroundAfterAttack = SubResource( 575 )
@@ -1642,6 +1718,12 @@ process_material = SubResource( 515 )
 texture = ExtResource( 12 )
 
 [node name="ComboTimer" type="Timer" parent="."]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = 0.785398
+scale = Vector2( 4, 2 )
+frames = SubResource( 660 )
+animation = "Test1"
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
