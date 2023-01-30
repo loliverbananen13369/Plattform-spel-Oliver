@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.new.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Scripts/Anchor.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Cam.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Level0.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/TestSpawner.gd" type="Script" id=8]
 [ext_resource path="res://TestMap/Wasteland_Sky.png" type="Texture" id=84]
 
 [sub_resource type="ConvexPolygonShape2D" id=36]
@@ -793,6 +795,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 33/z_index = 0
 
 [node name="Level 0" type="Node2D"]
+script = ExtResource( 7 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -837,10 +840,17 @@ drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 script = ExtResource( 5 )
 
-[node name="KinematicBody2D" parent="." instance=ExtResource( 3 )]
-position = Vector2( 221, -16 )
-
 [node name="WorldEnvironment" parent="." instance=ExtResource( 6 )]
 
-[connection signal="dead" from="KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
-[connection signal="hurt" from="KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]
+[node name="Node" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="KinematicBody2D" parent="Node" instance=ExtResource( 3 )]
+position = Vector2( 221, -16 )
+
+[node name="Timer" type="Timer" parent="Node"]
+autostart = true
+
+[connection signal="dead" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
+[connection signal="hurt" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]
+[connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

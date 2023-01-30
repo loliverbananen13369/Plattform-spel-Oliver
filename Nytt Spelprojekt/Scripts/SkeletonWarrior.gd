@@ -34,7 +34,7 @@ var test = 1
 onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
-onready var player = get_node("../Node2D/Player")
+onready var player = get_parent().get_node("../Node2D/Player")
 
 var motion_previous = Vector2()
 
