@@ -108,8 +108,12 @@ switch_side={
 2d_render/layer_1="Player"
 2d_render/layer_2="PlayerSword"
 2d_render/layer_3="Enemy"
+2d_physics/layer_1="Player"
 3d_physics/layer_1="Player"
+2d_physics/layer_2="PlayerSword"
 3d_physics/layer_2="Enemy"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_5="TileMap"
 3d_physics/layer_5="Map"
 
 [physics]

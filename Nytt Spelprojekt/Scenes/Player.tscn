@@ -1591,6 +1591,7 @@ animations = [ {
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 position = Vector2( 10, -20 )
+collision_mask = 17
 script = ExtResource( 2 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
@@ -1601,7 +1602,6 @@ animation = "Acid"
 frame = 1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
@@ -1611,10 +1611,8 @@ position = Vector2( 10, -20 )
 frames = SubResource( 51 )
 animation = "AirAttack"
 offset = Vector2( 0, 1 )
-flip_h = true
 
 [node name="HurtBox" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -1625,9 +1623,7 @@ shape = SubResource( 53 )
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 position = Vector2( 30, -15 )
 scale = Vector2( 3, 3 )
-animation = "Thrust2"
-frame = 0
-flip_h = true
+animation = "Smear1V"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/AirAttack = SubResource( 476 )
@@ -1665,12 +1661,10 @@ texture = ExtResource( 13 )
 wait_time = 0.001
 
 [node name="NormalAttackArea" type="Area2D" parent="." groups=["PlayerSword"]]
-visible = false
 collision_layer = 2
 collision_mask = 2
 
 [node name="AttackGround" type="CollisionShape2D" parent="NormalAttackArea"]
-visible = false
 position = Vector2( 46, -15 )
 shape = SubResource( 521 )
 disabled = true

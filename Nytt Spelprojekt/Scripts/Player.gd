@@ -197,6 +197,7 @@ func frameFreeze(timescale, duration):
 	Engine.time_scale = 1
 
 func flash():
+	
 	$FlashTimer.one_shot = false
 	animatedsprite.material.set_shader_param("flash_modifier", 0.2)
 	$FlashTimer.start()
@@ -643,8 +644,7 @@ func _on_FlashTimer_timeout():
 
 
 func _on_HurtBox_area_entered(area):
-		if area.is_in_group("EnemySword"):#area.is_in_group("EnemyHitbox?") or 	
-			print("hej")
+		if area.is_in_group("EnemySword"):
 			frameFreeze(0.1, 0.5)
 			state = HURT
 			flash()

@@ -21,7 +21,6 @@ func _spawn_warrior() -> void:
 	var warrior = warrior_scene.instance()
 	warrior.position = Vector2(rand_range(200, 20), -15)
 	add_child(warrior)
-	print("Det borde funka1")
 """
 	var section = randi() % 4
 	if section == 0:
@@ -64,5 +63,4 @@ func _on_Timer_timeout() -> void:
 			_spawn_warrior()
 		$Timer.wait_time = 3 + rand_range(-2, 2)
 		
-	print("hejsan")
 			

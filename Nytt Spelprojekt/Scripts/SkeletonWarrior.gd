@@ -7,6 +7,7 @@ const ACCELERATION = 1000
 const GRAVITY = 1000
 const JUMP_STRENGHT = -410
 
+
 export var direction_x = 1
 var velocity := Vector2()
 var direction := Vector2.ZERO
@@ -93,7 +94,8 @@ func _apply_basic_movement(delta) -> void:
 
 func flash():
 	animatedsprite.material.set_shader_param("flash_modifier", 0.8)
-	$FlashTimer.start(0.1)
+	$FlashTimer.start(0.2)
+	
 
 func _turn_around():
 	if not $RayCast2D.is_colliding() and is_on_floor():
@@ -112,7 +114,6 @@ func take_damage(amount: int) -> void:
 	#velocity.y = GRAVITY
 	hp = hp - amount
 	#$AnimationPlayer.play("Hurt1")
-	print(hp)
 
 func knock_back(source_position: Vector2) -> void:
 	$HitParticles.rotation = get_angle_to(source_position) + PI
@@ -203,7 +204,6 @@ func _hurt_state(delta) -> void:
 	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10)
 	move_and_slide(pushback_force)
 
-	flash()
 	_air_movement(delta)
 	
 	_die_b(hp)
@@ -235,6 +235,7 @@ func _enter_hurt_state() -> void:
 	else:
 		$Sprite.animation = "Hurt2"
 	$AnimationPlayer.play("Hurt1")
+	flash()
 	frameFreeze(1, 0.5)
 
 
@@ -252,8 +253,6 @@ func _on_FlashTimer_timeout():
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("PlayerSword"):
-		#$AnimationPlayer.stop()
-		#$AnimationPlayer.play("Hurt1")
 		_enter_hurt_state()
 		emit_signal("hurt")
 		if hp <= 0:
@@ -272,18 +271,18 @@ func _on_AnimatedSprite_animation_finished():
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-		if anim_name == "Hurt1":
-			if player_in_radius:
-				animatedsprite.play("Hunt")
-				state = HUNTING
-			else:
-				_enter_idle_state()
-		if anim_name == "Hit":
-			if player_in_radius:
-				state = HUNTING
-				animatedsprite.play("Hunt")
-			else:
-				_enter_idle_state()
+	if anim_name == "Hurt1":
+		if player_in_radius:
+			animatedsprite.play("Hunt")
+			state = HUNTING
+		else:
+			_enter_idle_state()
+	if anim_name == "Hit":
+		if player_in_radius:
+			state = HUNTING
+			animatedsprite.play("Hunt")
+		else:
+			_enter_idle_state()
 
 
 func _on_PlayerDetector_body_entered(body):
