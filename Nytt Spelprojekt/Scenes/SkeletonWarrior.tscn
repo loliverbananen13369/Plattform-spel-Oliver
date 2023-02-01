@@ -723,6 +723,7 @@ one_shot = true
 modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
 position = Vector2( 6, -16 )
 scale = Vector2( 2, 2 )
+emitting = false
 amount = 6
 lifetime = 0.3
 one_shot = true

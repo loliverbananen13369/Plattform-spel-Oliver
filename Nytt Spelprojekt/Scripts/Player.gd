@@ -457,7 +457,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
 		if state == COMBO:
 			if can_follow_enemy:
-				_dash_to_enemy(true)
+				#_dash_to_enemy(true)
 				_enter_attack1_state(2, true)
 			else:
 				_enter_attack1_state(2, true)
@@ -470,7 +470,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack2":
 		if state == COMBO:
 			if can_follow_enemy:
-				_dash_to_enemy(true)
+				#_dash_to_enemy(true)
 				_enter_attack1_state(2, true)
 				combo_list.clear()
 			else:
@@ -482,18 +482,23 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			else:
 				_enter_idle_state()
 	if anim_name == "Attack3":
-		can_attack = true
-		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-			_enter_run_state()
+		if state == COMBO:
+			pass
 		else:
-			_enter_idle_state()
+			can_attack = true
+			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+				_enter_run_state()
+			else:
+				_enter_idle_state()
 	if anim_name == "SpinAttack":
+		can_attack = true
 		if state == COMBO:
 			_enter_attack1_state(1, true)
-			can_attack = true
 		else:
-			can_attack = true
 			_enter_idle_state()
+	if anim_name == "TestCombo":
+		_enter_idle_state()
+		can_attack = true
 	if anim_name == "JumpAttack":
 		$NormalAttackArea/AttackJump.disabled = true
 		_enter_idle_state()
@@ -568,6 +573,7 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 		state = COMBO
 	else:
 		state = ATTACK_GROUND
+		$ComboTimer.start(1)
 	is_attacking = true
 	animatedsmears.position.y = -15
 	if direction_x != "RIGHT":
@@ -600,11 +606,16 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	check_combo()
 	if combo_list.size() == 0:
 		_enter_idle_state()
+	print(combo_list)
 
 func check_combo() -> void:
 	if combo_list.front() == 1:
 		if combo_list == [1,2,3,1]:
 			_enter_combo_state(1)
+	elif combo_list.front() == 3:
+		if combo_list == [3,2,1,3]:
+			_enter_combo_state(2)
+			print("Hejsanhehei")
 	if combo_list.size() == 5:
 		combo_list.clear()
 	else:
@@ -631,10 +642,18 @@ func _enter_attack_air_state(Jump: bool) -> void:
 
 func _enter_combo_state(number : int) -> void:
 	state = COMBO
-	if number == 1:
-		_dash_to_enemy(true)
+	if number == 1: 
+		#_dash_to_enemy(true)
 		animationplayer.play("SpinAttack")
-
+		combo_list.clear()
+	if number == 2:
+		if direction_x == "RIGHT":
+			$ComboSprites.position.x = 62
+			$ComboSprites.flip_h = false
+		else:
+			$ComboSprites.position.x = -42
+			$ComboSprites.flip_h = true
+		animationplayer.play("TestCombo")
 		combo_list.clear()
 		
 	
@@ -665,3 +684,9 @@ func _on_KinematicBody2D_hurt() -> void:
 	can_follow_enemy = true
 	yield(get_tree().create_timer(1), "timeout")
 	can_follow_enemy = false
+
+
+func _on_ComboTimer_timeout():
+	combo_list.clear()
+
+
