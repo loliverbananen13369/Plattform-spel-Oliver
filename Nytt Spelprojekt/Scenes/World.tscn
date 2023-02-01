@@ -848,12 +848,12 @@ script = ExtResource( 5 )
 [node name="Node" type="Node" parent="."]
 script = ExtResource( 8 )
 
-[node name="KinematicBody2D" parent="Node" instance=ExtResource( 3 )]
-position = Vector2( 221, -16 )
-
 [node name="Timer" type="Timer" parent="Node"]
 autostart = true
 
+[node name="KinematicBody2D" parent="Node" instance=ExtResource( 3 )]
+position = Vector2( 221, -16 )
+
+[connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
 [connection signal="dead" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
 [connection signal="hurt" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]
-[connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

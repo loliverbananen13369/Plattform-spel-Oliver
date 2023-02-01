@@ -1498,7 +1498,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3 ),
+"times": PoolRealArray( 0.099, 0.132, 0.165, 0.198, 0.231, 0.264 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5 ]
@@ -1622,8 +1622,10 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 position = Vector2( 30, -15 )
+rotation = 0.785398
 scale = Vector2( 3, 3 )
-animation = "Smear1V"
+animation = "Thrust2"
+frame = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/AirAttack = SubResource( 476 )
@@ -1714,10 +1716,12 @@ texture = ExtResource( 12 )
 [node name="ComboTimer" type="Timer" parent="."]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -35, -73 )
 rotation = 0.785398
 scale = Vector2( 4, 2 )
 frames = SubResource( 660 )
 animation = "Test1"
+frame = 2
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -9,7 +9,6 @@ var warrior_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 onready var player = get_node("../Node2D/Player")
 
 func _ready() -> void:
-	var number_of_warrior = len(get_tree().get_nodes_in_group("Enemy"))
 	randomize()
 	$Timer.wait_time = 3 + rand_range(-2, 2)
 

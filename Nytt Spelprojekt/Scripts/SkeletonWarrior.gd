@@ -107,6 +107,9 @@ func _hit():
 	
 func _end_of_hit():
 	$AttackDetector.monitoring = false
+	if hp <= 0:
+		state = DEAD
+		animatedsprite.play("Dead")
 
 
 func take_damage(amount: int) -> void:
@@ -168,17 +171,26 @@ func _run_state(delta) -> void:
 		$RayCast2D.position.x += direction_x*20
 
 func _attack_state(delta) -> void:
-	pass
+	if (player.position.x >= ( global_position.x + 10) ) or (player.position.x <= (global_position.x -10)):
+		_enter_hunt_state()
+	
+	velocity.x = 0
+	
+
 func _follow_player_state(delta) -> void:
 	$Tween.remove_all()	
-	if global_position.x > player.position.x:
-		animatedsprite.flip_h = true
-		$AttackDetector/CollisionShape2D.position.x  = -4
-		test = -1
-	if global_position.x <= player.position.x:
-		animatedsprite.flip_h = false
-		$AttackDetector/CollisionShape2D.position.x  = 24
-		test = 1
+	if (player.position.x >= ( global_position.x + 10) ) or (player.position.x <= (global_position.x -10)):
+		if global_position.x > player.position.x:
+			animatedsprite.flip_h = true
+			$AttackDetector/CollisionShape2D.position.x  = -4
+			test = -1
+		if global_position.x <= player.position.x:
+			animatedsprite.flip_h = false
+			$AttackDetector/CollisionShape2D.position.x  = 24
+			test = 1
+	else:
+		_enter_attack_state()
+		test = 0
 	
 	#_turn_around()
 	velocity.y += GRAVITY*delta
@@ -224,6 +236,14 @@ func _enter_run_state() -> void:
 	rng.randomize()
 	var time = rng.randi_range(3,5)
 	runtimer.start(time)
+
+func _enter_attack_state() -> void:
+	state = ATTACK
+	$AnimationPlayer.play("Hit")
+	
+func _enter_hunt_state() -> void:
+	state = HUNTING
+	animatedsprite.play("Hunt")
 
 func _enter_hurt_state() -> void:
 	var random_number = rng.randi_range(1,2)
@@ -272,40 +292,40 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt1":
+		$Sprite.visible = false
 		if player_in_radius:
-			animatedsprite.play("Hunt")
-			state = HUNTING
+			_enter_hunt_state()
 		else:
 			_enter_idle_state()
 	if anim_name == "Hit":
 		if player_in_radius:
-			state = HUNTING
-			animatedsprite.play("Hunt")
+			_enter_hunt_state()
 		else:
 			_enter_idle_state()
 
 
 func _on_PlayerDetector_body_entered(body):
-	if body.is_in_group("Player"):
-		player_in_radius = true
-		state = HUNTING
-		animatedsprite.play("Hunt")
-		_hit()
+	if state != HURT:
+		if body.is_in_group("Player"):
+			player_in_radius = true
+			_enter_hunt_state()
+			_hit()
 		
 func _on_PlayerDetector_body_exited(body):
 	if body.is_in_group("Player"):
 		player_in_radius = false
-		_enter_idle_state()
+		_enter_run_state()
 
 	
 	
 
 func _on_AttackDetector_body_entered(body):
-	if body.is_in_group("Player"):
-		state = ATTACK
-		$AnimationPlayer.play("Hit")
-		velocity.x = 0
-		can_attack = false
+	if state != HURT:	
+		if body.is_in_group("Player"):
+			state = ATTACK
+			$AnimationPlayer.play("Hit")
+			velocity.x = 0
+			can_attack = false
 
 
 func _on_AttackDetector_body_exited(body):
@@ -315,3 +335,9 @@ func _on_AttackDetector_body_exited(body):
 
 
 
+
+
+func _on_AnimationPlayer_animation_changed(old_name: String) -> void:
+	if old_name == "Hurt1":
+		$Sprite.visible = false
+		print("hejsan")

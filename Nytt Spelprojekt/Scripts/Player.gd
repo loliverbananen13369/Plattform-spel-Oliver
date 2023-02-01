@@ -51,12 +51,17 @@ onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
 onready var enemy =  get_tree().get_nodes_in_group("Enemy")[0]
 
+onready var all_enemy = get_tree().get_nodes_in_group("Enemy")[0]
+var dash_to_enemy_distance = 50
+var close_enemy 
+
 var hit_the_ground = false
 var motion_previous = Vector2()
 var last_step = 0
 var side = "RIGHT"
 
 func _physics_process(delta: float) -> void:
+	#print(len(get_tree().get_nodes_in_group("Enemy")))
 	match state:
 		IDLE:
 			_idle_state(delta)
@@ -653,8 +658,7 @@ func _on_HurtBox_area_entered(area):
 
 
 func _on_KinematicBody2D_dead() -> void:
-	can_follow_enemy = false
-	enemy = get_tree().get_nodes_in_group("Player")[0]
+	pass
 
 
 func _on_KinematicBody2D_hurt() -> void:

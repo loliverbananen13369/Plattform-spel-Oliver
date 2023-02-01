@@ -264,7 +264,6 @@ extents = Vector2( 18.5, 18 )
 
 [sub_resource type="Animation" id=58]
 resource_name = "Hit"
-length = 0.325
 step = 0.025
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:animation")
@@ -678,7 +677,7 @@ animations = [ {
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["Enemy"]]
 collision_layer = 4
-collision_mask = 19
+collision_mask = 18
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -721,7 +720,6 @@ anims/Hurt2 = SubResource( 61 )
 one_shot = true
 
 [node name="HitParticles" type="Particles2D" parent="."]
-visible = false
 modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
 position = Vector2( 6, -16 )
 scale = Vector2( 2, 2 )
@@ -800,6 +798,7 @@ animation = "Test2"
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
 [connection signal="timeout" from="RunTimer" to="." method="_on_RunTimer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_changed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
