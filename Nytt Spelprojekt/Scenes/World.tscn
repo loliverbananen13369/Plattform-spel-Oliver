@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.new.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/Level0.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/TestSpawner.gd" type="Script" id=8]
 [ext_resource path="res://The Haunt - Balanced - Medium - wav/01-LANDR-01 - Last to Fall (F) 200MS-Balanced-Medium.wav" type="AudioStream" id=9]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://TestMap/Wasteland_Sky.png" type="Texture" id=84]
 
 [sub_resource type="ConvexPolygonShape2D" id=36]
@@ -860,7 +861,11 @@ stream = ExtResource( 9 )
 volume_db = -19.809
 pitch_scale = 0.8
 
+[node name="HUD" parent="." instance=ExtResource( 10 )]
+
+[connection signal="HPChanged" from="Node2D/Player" to="HUD" method="_on_Player_HPChanged"]
 [connection signal="test" from="Node2D/Player" to="Node/KinematicBody2D" method="_on_Player_test"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
 [connection signal="dead" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
 [connection signal="hurt" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]
+[connection signal="side_of_player" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_side_of_player"]

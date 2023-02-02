@@ -431,11 +431,12 @@ animations = [ {
 
 [sub_resource type="CapsuleShape2D" id=53]
 radius = 5.0
+height = 18.0
 
 [sub_resource type="ShaderMaterial" id=636]
 resource_local_to_scene = true
 shader = ExtResource( 61 )
-shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_color = Color( 0.486275, 0.0941176, 0.235294, 1 )
 shader_param/flash_modifier = 0.0
 
 [sub_resource type="AtlasTexture" id=708]
@@ -1786,107 +1787,86 @@ animations = [ {
 } ]
 
 [sub_resource type="AtlasTexture" id=673]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -1941,7 +1921,8 @@ extents = Vector2( 24, 9.5 )
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 position = Vector2( 10, -20 )
 z_index = 1
-collision_mask = 17
+collision_layer = 9
+collision_mask = 16
 script = ExtResource( 2 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
@@ -1952,7 +1933,8 @@ frames = SubResource( 537 )
 animation = "Acid"
 frame = 1
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
+visible = false
 position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
@@ -1960,19 +1942,20 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "SpinAttack"
+animation = "Hit"
 offset = Vector2( 0, 1 )
 flip_h = true
 
-[node name="HurtBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+[node name="HurtBox" type="Area2D" parent="." groups=["Player"]]
+visible = false
+collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2( 12, -10 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" groups=["Player"]]
+position = Vector2( 10, -10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
+visible = false
 position = Vector2( -10, -15 )
 animation = "Smear3V"
 frame = 1
@@ -2013,10 +1996,8 @@ local_coords = false
 process_material = SubResource( 515 )
 texture = ExtResource( 13 )
 
-[node name="GhostDashTimer" type="Timer" parent="."]
-wait_time = 0.001
-
 [node name="NormalAttackArea" type="Area2D" parent="." groups=["PlayerSword"]]
+visible = false
 collision_layer = 2
 collision_mask = 2
 
@@ -2106,7 +2087,6 @@ disabled = true
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
-[connection signal="timeout" from="GhostDashTimer" to="." method="_on_GhostDashTimer_timeout"]
 [connection signal="timeout" from="BeenHurtTimer" to="." method="_on_BeenHurtTimer_timeout"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]

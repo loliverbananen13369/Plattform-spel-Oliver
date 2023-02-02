@@ -29,12 +29,14 @@ var attack_pressed = 0
 var previous_attack = 0
 var combo_list = []
 
+var enemy_side_of_you
 
 var jump_buffer = 0.15
 var attack_buffer = 0.3
 var hit_amount = 0
 
 signal test
+signal HPChanged(hp)
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
@@ -42,7 +44,7 @@ var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var ghosttime := 0.0
 
-onready var animatedsprite = $PlayerSprite
+onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
@@ -61,8 +63,16 @@ var motion_previous = Vector2()
 var last_step = 0
 var side = "RIGHT"
 
+#Player stats
+var hp = 100
+var max_hp = 100
+var hp_regeneration = 1
+var mana = 100
+var mana_max = 100
+var mana_regeneration = 2
+
+
 func _physics_process(delta: float) -> void:
-	#print(len(get_tree().get_nodes_in_group("Enemy")))
 	match state:
 		IDLE:
 			_idle_state(delta)
@@ -100,12 +110,11 @@ func _apply_basic_movement(delta) -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if not hit_the_ground and is_on_floor():
 		hit_the_ground = true
-		animatedsprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8)
-		animatedsprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9)
+		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8)
+		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9)
 	
-	animatedsprite.scale.y = lerp(animatedsprite.scale.y, 1, 1 - pow(0.01, delta))
-	animatedsprite.scale.x = lerp(animatedsprite.scale.x, 1, 1 - pow(0.01, delta))
-	
+	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
+	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
 func _get_input_x_update_direction() -> float:
 	var input_x = Input.get_axis("move_left", "move_right")
@@ -115,7 +124,7 @@ func _get_input_x_update_direction() -> float:
 	elif input_x < 0:
 		direction_x = "LEFT"
 		_flip_sprite(false)
-	animatedsprite.flip_h = direction_x != "RIGHT"
+	playersprite.flip_h = direction_x != "RIGHT"
 	animatedsmears.flip_h = direction_x != "RIGHT"
 	
 	#$Thrusts.flip_h  = direction_x != "RIGHT"
@@ -135,8 +144,8 @@ func _air_movement(delta) -> void:
 	
 	if not is_on_floor():
 		hit_the_ground = false
-		animatedsprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
-		animatedsprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
+		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
+		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
 func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
@@ -161,11 +170,9 @@ func _attack_function():
 			attack_pressed = 3
 			_remember_attack()
 			
-	
-
 func _flip_sprite(right: bool) -> void:
 	if right:
-		animatedsprite.flip_h = false
+		playersprite.flip_h = false
 		animatedsmears.flip_h = false
 		animatedsmears.position.x = 30
 		dashparticles.position.x = 30
@@ -173,7 +180,7 @@ func _flip_sprite(right: bool) -> void:
 		$SpecialAttackArea/Acid2.position.x = 62
 		$SwordCutArea/SpinAttack.position.x = 44
 	else:
-		animatedsprite.flip_h = true
+		playersprite.flip_h = true
 		animatedsmears.flip_h = true
 		animatedsmears.position.x = -10
 		dashparticles.position.x = -10
@@ -185,21 +192,30 @@ func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
 	ghost.global_position = global_position + Vector2(0, -22)
 	#ghost.global_position.y -= 20
-	ghost.flip_h = animatedsprite.flip_h
+	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
 
 func _add_land_dust()-> void:
 	var dust = jl_scene.instance()
-	dust.global_position = animatedsprite.global_position + Vector2(0, 15)
+	dust.global_position = playersprite.global_position + Vector2(0, 15)
 	dust.play("DustExplosion")
 	get_tree().get_root().add_child(dust)
 
 func _add_jump_dust(number: int) -> void:
 	var dust = dust_scene.instance()
 	dust.amount = number
-	dust.global_position = animatedsprite.global_position + Vector2(0,23)
+	dust.global_position = playersprite.global_position + Vector2(0,23)
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
+
+func take_damage(amount: int, direction: int) -> void:
+	state = HURT
+	flash()
+	frameFreeze(0.1, 0.5)
+	playersprite.play("Hit")
+	$BeenHurtTimer.start(0.1)
+	hp -= amount
+	emit_signal("HPChanged", hp)
 
 func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
@@ -207,12 +223,9 @@ func frameFreeze(timescale, duration):
 	Engine.time_scale = 1
 
 func flash():
-	
 	$FlashTimer.one_shot = false
-	animatedsprite.material.set_shader_param("flash_modifier", 0.2)
+	playersprite.material.set_shader_param("flash_modifier", 0.6)
 	$FlashTimer.start()
-
-
 
 func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
@@ -221,7 +234,6 @@ func _remember_jump() -> void:
 func _remember_attack() -> void:
 	yield(get_tree().create_timer(attack_buffer), "timeout")
 	attack_pressed = 0
-
 
 func _dash_to_enemy(switch_side: bool) -> void:
 	if not switch_side:
@@ -242,7 +254,17 @@ func _dash_to_enemy(switch_side: bool) -> void:
 			direction_x = "RIGHT"
 			_flip_sprite(true)
 		
-
+func check_combo() -> void:
+	if combo_list.front() == 1:
+		if combo_list == [1,2,3,1]:
+			_enter_combo_state(1)
+	elif combo_list.front() == 3:
+		if combo_list == [3,2,1,3]:
+			_enter_combo_state(2)
+	if combo_list.size() == 5:
+		combo_list.clear()
+	else:
+		return
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
@@ -251,11 +273,7 @@ func _idle_state(delta) -> void:
 		_enter_air_state(true)
 		return
 	
-	
 	_attack_function()
-	
-	
-
 	_apply_basic_movement(delta)
 	
 	if not is_on_floor():
@@ -270,14 +288,12 @@ func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
-
-	if animatedsprite.frame == 0:
+	if playersprite.frame == 0:
 		last_step += 1
 		if last_step == 4:
 			_add_jump_dust(5)
 			last_step = 0
 				
-	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_jump_dust(15)
 		_enter_air_state(true)
@@ -330,11 +346,11 @@ func _air_state(delta) -> void:
 		
 	#_squash_player(delta)
 	_air_movement(delta)
-	var current_animation = animatedsprite.get_animation()
+	var current_animation = playersprite.get_animation()
 	if velocity.y > 0  and not ( current_animation == "FallN" ) and ( velocity.x == 0 ):
-		animatedsprite.play("FallN")
+		playersprite.play("FallN")
 	elif velocity.y > 0 and not ( current_animation == "FallF" ) and ( velocity.x != 0 ):
-		animatedsprite.play("FallF")
+		playersprite.play("FallF")
 	if is_on_floor(): 
 		#if jump_pressed == false:
 		_add_land_dust()
@@ -378,10 +394,8 @@ func _stop_state(delta):
 		return
 	
 func _attack_state_ground(_delta) -> void:
-	
 	_attack_function()
 	
-
 func _attack_state_dash(attack_nr : int, delta) -> void:
 	velocity = velocity.move_toward(direction*MAX_SPEED*1, ACCELERATION*delta*1)
 	
@@ -389,8 +403,8 @@ func _attack_state_dash(attack_nr : int, delta) -> void:
 
 func _prepare_attack_air_state(delta) -> void:
 	frameFreeze(0.3, 0.4)
-	animatedsprite.scale.y = lerp(animatedsprite.scale.y, 1, 1 - pow(0.01, delta))
-	animatedsprite.scale.x = lerp(animatedsprite.scale.x, 1, 1 - pow(0.01, delta))
+	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
+	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
 func _attack_state_air(delta) -> void:
 	$HurtBox/CollisionShape2D.disabled = true
@@ -421,42 +435,139 @@ func _jump_attack_state(delta) -> void:
 
 func _combo_state(delta) -> void:
 	pass
-func _hurt_state(delta) -> void:
-	
-	if direction_x == "RIGHT":
+
+func _hurt_state(delta) -> void:	
+	print(enemy_side_of_you)
+	if enemy_side_of_you == "right":
+		direction_x = "RIGHT"
 		velocity.x = -300
-		velocity.y = -300
-	else:
+	if enemy_side_of_you == "left":
+		direction_x = "LEFT"
 		velocity.x = 300
-		velocity.y = -300
+	velocity.y = -300
 	_air_movement(delta)
+	enemy_side_of_you = ""
 		
 
-#SIGNALS
-func _on_DashTimer_timeout():
-	_enter_idle_state()
-	velocity = direction * MAX_SPEED
-	direction.y = 0
-	dashparticles.emitting = false
-	#dashline.visible = false
-	ghosttime = 0.0
+#Enter states
+func _enter_idle_state() -> void:
+	state = IDLE
+	playersprite.play("Idle")
+	can_jump = true
+
+func _enter_dash_state(attack: bool) -> void:
+	if attack == false:
+		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
+		if state == IDLE and direction == Vector2.DOWN:
+			return
+		elif direction == Vector2.ZERO:
+			direction.x = 1 if direction_x == "RIGHT" else -1
+		playersprite.play("Dash")
+		state = DASH
+		dashparticles.emitting = true
+		#dashline.visible = true
+		can_dash = false
+		dashtimer.start(0.25)
+	else:
+		pass
+
+func _enter_air_state(jump: bool) -> void:
+	if jump:
+		velocity.y = JUMP_STRENGHT
+	#else:
+		if velocity.x == 0:
+			playersprite.play("JumpN")
+		else:
+			playersprite.play("JumpF")
+	coyotetimer.start()
+	state = AIR
+
+func _enter_run_state() -> void:
+	can_jump = true
+	state = RUN
+	playersprite.play("Run")
+
+func _enter_stop_state() -> void:
+	can_jump = true
+	state = STOP
+	playersprite.play("Stop")
+
+func _enter_attack1_state(attack: int, combo: bool) -> void:
 	
-	can_dash = true
+	if combo:
+		state = COMBO
+	else:
+		state = ATTACK_GROUND
+		$ComboTimer.start(1)
+	is_attacking = true
+	animatedsmears.position.y = -15
+	if direction_x != "RIGHT":
+		animatedsmears.position.x = -10
+		attackparticles.position.x = -10
+		$NormalAttackArea/AttackGround.position.x = -26
+	elif direction_x == "RIGHT":
+		animatedsmears.position.x = 30
+		attackparticles.position.x = 30
+		$NormalAttackArea/AttackGround.position.x = 46
+	if attack == 1:
+		animationplayer.play("Attack1")
+		can_attack = false
+		previous_attack = 1
+		#$NormalAttackArea/AttackGround.disabled = false
+	if attack == 2:
+		animationplayer.play("Attack2")
+		can_attack = false
+		previous_attack = 2
+	if attack == 3:
+		animationplayer.play("Attack3")
+		can_attack = false
+		previous_attack = 3
+	if attack == 4:
+		animationplayer.play("SpinAttack")
+		can_attack = false
+	if can_follow_enemy:
+		_dash_to_enemy(false)
+	combo_list.append(previous_attack) 
+	check_combo()
+	if combo_list.size() == 0:
+		_enter_idle_state()
 
-func _on_CoyoteTimer_timeout():
-	can_jump = false
+func _enter_dash_attack_state(attack: int) -> void:
+	state = ATTACK_DASH
+	if attack == 1:
+		animationplayer.play("SpinAttack")
+		can_attack = false
 
+func _enter_attack_air_state(Jump: bool) -> void:	
+	if Jump:
+		if direction_x != "RIGHT":
+			$NormalAttackArea/AttackJump.position.x = -10
+		elif direction_x == "RIGHT":
+			$NormalAttackArea/AttackJump.position.x = 30
+		state = JUMP_ATTACK
+		animationplayer.play("JumpAttack")
+		$NormalAttackArea/AttackJump.disabled = false
+
+	else:
+		animationplayer.play("PrepareAirAttack")
+
+func _enter_combo_state(number : int) -> void:
+	state = COMBO
+	if number == 1: 
+		#_dash_to_enemy(true)
+		animationplayer.play("ComboSpinAttack")
+		combo_list.clear()
+	if number == 2:
+		if direction_x == "RIGHT":
+			$ComboSprites.position.x = 62
+			$ComboSprites.flip_h = false
+		else:
+			$ComboSprites.position.x = -42
+			$ComboSprites.flip_h = true
+		animationplayer.play("TestCombo")
+		combo_list.clear()
 		
-func _on_GhostDashTimer_timeout():
-	pass
-#	if state == DASH:
-#		var this_ghost = preload("res://Scenes/DashGhost.tscn").instance()
-#		this_ghost.position = position
-#		this_ghost.position.y -= 20
-#		get_parent().add_child(this_ghost)
-#		this_ghost.texture = animatedsprite.frames.get_frame(animatedsprite.animation, animatedsprite.frame)
-#		this_ghost.flip_h = animatedsprite.flip_h
-
+#Signals
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
@@ -526,176 +637,58 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			return
 	if anim_name == "OnGroundAfterAttack":
 		can_jump = true
-	
-		
+
 func _on_AnimationPlayer_animation_started(anim_name):
 	if anim_name == "PrepareAirAttack":
 		state = PREPARE_ATTACK_AIR
 
-
-#Enter states
-func _enter_idle_state() -> void:
-	state = IDLE
-	animatedsprite.play("Idle")
-	can_jump = true
-
-func _enter_dash_state(attack: bool) -> void:
-	if attack == false:
-		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
-		if state == IDLE and direction == Vector2.DOWN:
-			return
-		elif direction == Vector2.ZERO:
-			direction.x = 1 if direction_x == "RIGHT" else -1
-		animatedsprite.play("Dash")
-		state = DASH
-		dashparticles.emitting = true
-		#dashline.visible = true
-		can_dash = false
-		dashtimer.start(0.25)
-	else:
-		pass
-
-func _enter_air_state(jump: bool) -> void:
-	if jump:
-		velocity.y = JUMP_STRENGHT
-	#else:
-		if velocity.x == 0:
-			animatedsprite.play("JumpN")
-		else:
-			animatedsprite.play("JumpF")
-	coyotetimer.start()
-	state = AIR
-
-func _enter_run_state() -> void:
-	can_jump = true
-	state = RUN
-	animatedsprite.play("Run")
-
-func _enter_stop_state() -> void:
-	can_jump = true
-	state = STOP
-	animatedsprite.play("Stop")
-
-func _enter_attack1_state(attack: int, combo: bool) -> void:
-	
-	if combo:
-		state = COMBO
-	else:
-		state = ATTACK_GROUND
-		$ComboTimer.start(1)
-	is_attacking = true
-	animatedsmears.position.y = -15
-	if direction_x != "RIGHT":
-		animatedsmears.position.x = -10
-		attackparticles.position.x = -10
-		$NormalAttackArea/AttackGround.position.x = -26
-	elif direction_x == "RIGHT":
-		animatedsmears.position.x = 30
-		attackparticles.position.x = 30
-		$NormalAttackArea/AttackGround.position.x = 46
-	if attack == 1:
-		animationplayer.play("Attack1")
-		can_attack = false
-		previous_attack = 1
-		#$NormalAttackArea/AttackGround.disabled = false
-	if attack == 2:
-		animationplayer.play("Attack2")
-		can_attack = false
-		previous_attack = 2
-	if attack == 3:
-		animationplayer.play("Attack3")
-		can_attack = false
-		previous_attack = 3
-	if attack == 4:
-		animationplayer.play("SpinAttack")
-		can_attack = false
-	if can_follow_enemy:
-		_dash_to_enemy(false)
-	combo_list.append(previous_attack) 
-	check_combo()
-	if combo_list.size() == 0:
-		_enter_idle_state()
-	print(combo_list)
-
-func check_combo() -> void:
-	if combo_list.front() == 1:
-		if combo_list == [1,2,3,1]:
-			_enter_combo_state(1)
-	elif combo_list.front() == 3:
-		if combo_list == [3,2,1,3]:
-			_enter_combo_state(2)
-			print("Hejsanhehei")
-	if combo_list.size() == 5:
-		combo_list.clear()
-	else:
-		return
-
-func _enter_dash_attack_state(attack: int) -> void:
-	state = ATTACK_DASH
-	if attack == 1:
-		animationplayer.play("SpinAttack")
-		can_attack = false
-
-func _enter_attack_air_state(Jump: bool) -> void:	
-	if Jump:
-		if direction_x != "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = -10
-		elif direction_x == "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = 30
-		state = JUMP_ATTACK
-		animationplayer.play("JumpAttack")
-		$NormalAttackArea/AttackJump.disabled = false
-
-	else:
-		animationplayer.play("PrepareAirAttack")
-
-func _enter_combo_state(number : int) -> void:
-	state = COMBO
-	if number == 1: 
-		#_dash_to_enemy(true)
-		animationplayer.play("ComboSpinAttack")
-		combo_list.clear()
-	if number == 2:
-		if direction_x == "RIGHT":
-			$ComboSprites.position.x = 62
-			$ComboSprites.flip_h = false
-		else:
-			$ComboSprites.position.x = -42
-			$ComboSprites.flip_h = true
-		animationplayer.play("TestCombo")
-		combo_list.clear()
-		
-	
-
-func _on_BeenHurtTimer_timeout():
-	velocity.y = 0
-	_enter_idle_state()
-	$FlashTimer.one_shot = true
-
-func _on_FlashTimer_timeout():
-		animatedsprite.material.set_shader_param("flash_modifier", 0)
-
-
 func _on_HurtBox_area_entered(area):
-		if area.is_in_group("EnemySword"):
-			frameFreeze(0.1, 0.5)
-			state = HURT
-			flash()
-			animatedsprite.play("Hit")
-			$BeenHurtTimer.start(0.1)
+	if area.is_in_group("EnemySword"):
+		take_damage(5, direction.x)
+	
+	if area.is_in_group("Enemy"):
+		take_damage(5, direction.x)
+
 
 
 func _on_KinematicBody2D_dead() -> void:
 	pass
-
 
 func _on_KinematicBody2D_hurt() -> void:
 	can_follow_enemy = true
 	yield(get_tree().create_timer(1), "timeout")
 	can_follow_enemy = false
 
+func _on_KinematicBody2D_side_of_player(which_side):
+	enemy_side_of_you = which_side
+
+
+
+
+#Timers
+func _on_BeenHurtTimer_timeout():
+	velocity.y = 0
+	_enter_idle_state()
+	$FlashTimer.one_shot = true
+
+func _on_FlashTimer_timeout():
+	playersprite.material.set_shader_param("flash_modifier", 0)
 
 func _on_ComboTimer_timeout():
 	combo_list.clear()
+
+func _on_CoyoteTimer_timeout():
+	can_jump = false
+
+func _on_DashTimer_timeout():
+	_enter_idle_state()
+	velocity = direction * MAX_SPEED
+	direction.y = 0
+	dashparticles.emitting = false
+	#dashline.visible = false
+	ghosttime = 0.0
+	can_dash = true
+
+
 
 

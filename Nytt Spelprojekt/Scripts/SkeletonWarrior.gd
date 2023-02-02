@@ -13,7 +13,7 @@ var velocity := Vector2()
 var direction := Vector2.ZERO
 
 var time_to_turn = false
-
+var side 
 var state = RUN
 
 var rng = RandomNumberGenerator.new()
@@ -41,6 +41,7 @@ var motion_previous = Vector2()
 
 signal dead
 signal hurt
+signal side_of_player(which_side)
 
 const INDICATOR_DAMAGE = preload("res://UI/DamageIndicator.tscn")
 
@@ -58,8 +59,6 @@ func _ready():
 	$Area2D/CollisionShape2D.disabled = false
 	
 func _physics_process(delta: float) -> void:
-	#print(player.position.x)  #+ 240)
-	#print(global_position.x)
 	match state:
 		IDLE:
 			_idle_state(delta)
@@ -106,9 +105,11 @@ func _turn_around():
 
 func _hit():
 	$AttackDetector.monitoring = true
+	$AttackDetector.monitorable = true
 	
 func _end_of_hit():
 	$AttackDetector.monitoring = false
+	$AttackDetector.monitorable = false
 	if hp <= 0:
 		state = DEAD
 		animatedsprite.play("Dead")
@@ -324,8 +325,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Hit":
 		if player_in_radius:
 			_enter_hunt_state()
+			can_attack = true
 		else:
 			_enter_idle_state()
+			can_attack = true
 
 
 func _on_PlayerDetector_body_entered(body):
@@ -333,7 +336,6 @@ func _on_PlayerDetector_body_entered(body):
 		if body.is_in_group("Player"):
 			player_in_radius = true
 			_enter_hunt_state()
-			_hit()
 		
 func _on_PlayerDetector_body_exited(body):
 	if body.is_in_group("Player"):
@@ -346,22 +348,26 @@ func _on_PlayerDetector_body_exited(body):
 func _on_AttackDetector_body_entered(body):
 	if state != HURT:	
 		if body.is_in_group("Player"):
+			if global_position.x > player.position.x:
+				side = "right"
+			else:
+				side = "left"
 			state = ATTACK
 			$AnimationPlayer.play("Hit")
+			emit_signal("side_of_player", side)
 			velocity.x = 0
 			can_attack = false
 
-
 func _on_AttackDetector_body_exited(body):
-	if body.is_in_group("Player"):
-		can_attack = true
+	pass
+	#if body.is_in_group("Player"):
+	#	can_attack = true
 
 
 
 func _on_AnimationPlayer_animation_changed(old_name: String) -> void:
 	if old_name == "Hurt1":
 		$Sprite.visible = false
-		print("hejsan")
 
 func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):	
 	if EFFECT:

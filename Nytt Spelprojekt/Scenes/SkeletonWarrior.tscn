@@ -298,9 +298,12 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.225 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.175, 0.225 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "_hit"
+}, {
 "args": [  ],
 "method": "_end_of_hit"
 } ]
@@ -836,11 +839,11 @@ script = ExtResource( 2 )
 material = SubResource( 50 )
 position = Vector2( 10, -20 )
 frames = SubResource( 3 )
-animation = "Hurt"
-frame = 4
+animation = "Attack"
+frame = 12
 playing = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
 visible = false
 position = Vector2( 7, -15 )
 shape = SubResource( 8 )
@@ -898,22 +901,18 @@ enabled = true
 collision_mask = 16
 
 [node name="PlayerDetector" type="Area2D" parent="."]
-visible = false
-collision_mask = 129
+collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
 position = Vector2( 14, 2 )
 shape = SubResource( 59 )
-one_way_collision = true
 
 [node name="AttackDetector" type="Area2D" parent="." groups=["EnemySword"]]
-visible = false
-collision_layer = 0
-monitoring = false
+collision_layer = 8
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetector" groups=["EnemySword"]]
 modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
 position = Vector2( 24, -19.75 )
 shape = SubResource( 60 )
