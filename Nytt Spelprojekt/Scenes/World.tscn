@@ -854,6 +854,7 @@ autostart = true
 [node name="KinematicBody2D" parent="Node" instance=ExtResource( 3 )]
 position = Vector2( 221, -16 )
 
+[connection signal="test" from="Node2D/Player" to="Node/KinematicBody2D" method="_on_Player_test"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
 [connection signal="dead" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
 [connection signal="hurt" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]

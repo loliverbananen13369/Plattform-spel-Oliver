@@ -245,7 +245,7 @@ func _enter_hunt_state() -> void:
 	state = HUNTING
 	animatedsprite.play("Hunt")
 
-func _enter_hurt_state() -> void:
+func _enter_hurt_state(number: int) -> void:
 	var random_number = rng.randi_range(1,2)
 	take_damage(5)
 	state = HURT
@@ -254,7 +254,10 @@ func _enter_hurt_state() -> void:
 		$Sprite.animation = "Hurt1"
 	else:
 		$Sprite.animation = "Hurt2"
-	$AnimationPlayer.play("Hurt1")
+	if number == 1:
+		$AnimationPlayer.play("Hurt1")
+	if number == 2:
+		$AnimationPlayer.play("Hurt2")
 	flash()
 	frameFreeze(1, 0.5)
 
@@ -273,12 +276,19 @@ func _on_FlashTimer_timeout():
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("PlayerSword"):
-		_enter_hurt_state()
+		_enter_hurt_state(1)
 		emit_signal("hurt")
-		if hp <= 0:
+	if area.is_in_group("ComboEWQE"):
+		_enter_hurt_state(1)
+		emit_signal("hurt")
+	if area.is_in_group("SwordCut"):
+		_enter_hurt_state(2)
+		emit_signal("hurt")
+	if hp <= 0:
 			state = DEAD
 			animatedsprite.play("Dead")
 			emit_signal("dead")
+		
 		#if hp <= 0:
 		#	state = DEAD
 		#	animatedsprite.play("Dead")
@@ -293,6 +303,12 @@ func _on_AnimatedSprite_animation_finished():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt1":
 		$Sprite.visible = false
+		if player_in_radius:
+			_enter_hunt_state()
+		else:
+			_enter_idle_state()
+	if anim_name == "Hurt2":
+		$AnimatedSprite2.visible = false
 		if player_in_radius:
 			_enter_hunt_state()
 		else:
@@ -341,3 +357,5 @@ func _on_AnimationPlayer_animation_changed(old_name: String) -> void:
 	if old_name == "Hurt1":
 		$Sprite.visible = false
 		print("hejsan")
+
+

@@ -34,6 +34,7 @@ var jump_buffer = 0.15
 var attack_buffer = 0.3
 var hit_amount = 0
 
+signal test
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
@@ -105,14 +106,15 @@ func _apply_basic_movement(delta) -> void:
 	animatedsprite.scale.y = lerp(animatedsprite.scale.y, 1, 1 - pow(0.01, delta))
 	animatedsprite.scale.x = lerp(animatedsprite.scale.x, 1, 1 - pow(0.01, delta))
 	
-	
 
 func _get_input_x_update_direction() -> float:
 	var input_x = Input.get_axis("move_left", "move_right")
 	if input_x > 0:
 		direction_x = "RIGHT"
+		_flip_sprite(true)
 	elif input_x < 0:
 		direction_x = "LEFT"
+		_flip_sprite(false)
 	animatedsprite.flip_h = direction_x != "RIGHT"
 	animatedsmears.flip_h = direction_x != "RIGHT"
 	
@@ -168,13 +170,16 @@ func _flip_sprite(right: bool) -> void:
 		animatedsmears.position.x = 30
 		dashparticles.position.x = 30
 		$NormalAttackArea/AttackGround.position.x =46
-		
+		$SpecialAttackArea/Acid2.position.x = 62
+		$SwordCutArea/SpinAttack.position.x = 44
 	else:
 		animatedsprite.flip_h = true
 		animatedsmears.flip_h = true
 		animatedsmears.position.x = -10
 		dashparticles.position.x = -10
 		$NormalAttackArea/AttackGround.position.x = -26
+		$SpecialAttackArea/Acid2.position.x = -42
+		$SwordCutArea/SpinAttack.position.x = -24
 
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
@@ -496,6 +501,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			_enter_attack1_state(1, true)
 		else:
 			_enter_idle_state()
+	if anim_name == "ComboSpinAttack":
+		$SwordCutArea/SpinAttack.disabled = true
+		can_attack = true
+		_enter_idle_state()
 	if anim_name == "TestCombo":
 		_enter_idle_state()
 		can_attack = true
@@ -644,7 +653,7 @@ func _enter_combo_state(number : int) -> void:
 	state = COMBO
 	if number == 1: 
 		#_dash_to_enemy(true)
-		animationplayer.play("SpinAttack")
+		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
 	if number == 2:
 		if direction_x == "RIGHT":

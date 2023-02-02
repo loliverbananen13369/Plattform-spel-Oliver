@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=2]
+[gd_scene load_steps=115 format=2]
 
 [ext_resource path="res://Random_Effects/Effect 2 - Sprite Sheet.new.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SkeletonWarrior.gd" type="Script" id=2]
@@ -333,96 +333,72 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("AnimatedSprite:material")
+tracks/2/path = NodePath("HitParticles:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = false
+tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ SubResource( 50 ), SubResource( 50 ) ]
+"values": [ true, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("HitParticles:emitting")
+tracks/3/path = NodePath("Sprite:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("AnimatedSprite:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Sprite:frame")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0, 0.025, 0.05, 0.1, 0.15, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("Sprite:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0, 0.225 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("HitParticles:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
+tracks/5/type = "value"
+tracks/5/path = NodePath("HitParticles:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/8/type = "value"
-tracks/8/path = NodePath("AnimatedSprite2:frame")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
+tracks/6/type = "value"
+tracks/6/path = NodePath("AnimatedSprite2:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 0, 0.075, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 0, 1, 2 ]
 }
-tracks/9/type = "value"
-tracks/9/path = NodePath("AnimatedSprite2:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
+tracks/7/type = "value"
+tracks/7/path = NodePath("AnimatedSprite2:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
 "times": PoolRealArray( 0, 0.15 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
@@ -431,6 +407,8 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=61]
 resource_name = "Hurt2"
+length = 0.4
+step = 0.0666667
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:animation")
 tracks/0/interp = 1
@@ -438,11 +416,76 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [  ]
+"values": [ "Hurt" ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 1, 2, 3, 4 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite2:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Test2" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimatedSprite2:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AnimatedSprite2:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.333333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.0666667 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.05, 0.5 ],
+"method": "frameFreeze"
+} ]
+}
+
+[sub_resource type="Animation" id=173]
+resource_name = "Hurt3"
 
 [sub_resource type="Curve" id=144]
 max_value = 100.0
@@ -672,10 +715,11 @@ animations = [ {
 "frames": [ SubResource( 167 ), SubResource( 168 ), SubResource( 169 ), SubResource( 170 ), SubResource( 171 ), SubResource( 172 ) ],
 "loop": true,
 "name": "Test2",
-"speed": 5.0
+"speed": 10.0
 } ]
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["Enemy"]]
+light_mask = 2
 collision_layer = 4
 collision_mask = 18
 script = ExtResource( 2 )
@@ -715,6 +759,7 @@ shape = SubResource( 49 )
 anims/Hit = SubResource( 58 )
 anims/Hurt1 = SubResource( 56 )
 anims/Hurt2 = SubResource( 61 )
+anims/Hurt3 = SubResource( 173 )
 
 [node name="FlashTimer" type="Timer" parent="."]
 one_shot = true
@@ -788,9 +833,8 @@ process_material = SubResource( 146 )
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 visible = false
-modulate = Color( 1, 0.411765, 0.411765, 1 )
-position = Vector2( 5, -21 )
-rotation = 0.785398
+modulate = Color( 3, 1, 1, 1 )
+position = Vector2( 6, -15 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 160 )
 animation = "Test2"
