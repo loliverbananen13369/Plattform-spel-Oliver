@@ -2002,6 +2002,7 @@ wait_time = 0.1
 
 [node name="Sprite" parent="." instance=ExtResource( 41 )]
 visible = false
+modulate = Color( 0.486275, 0.0941176, 0.235294, 1 )
 
 [node name="AttackParticles" type="Particles2D" parent="."]
 modulate = Color( 2.31, 1.74, 1.73, 1 )

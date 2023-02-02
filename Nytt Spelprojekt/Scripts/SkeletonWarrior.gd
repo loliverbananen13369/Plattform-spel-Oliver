@@ -42,6 +42,7 @@ var motion_previous = Vector2()
 signal dead
 signal hurt
 
+const INDICATOR_DAMAGE = preload("res://UI/DamageIndicator.tscn")
 
 #onready var PlayerSword = preload("res://Scenes/NormalAttackArea.tscn")
 var prutt = 0 #+delta
@@ -50,6 +51,7 @@ var hej = rand_range(6-prutt, 8-prutt)
 var tween_values = [0.0, hej]
 var tween = Tween.new()
 
+var damage_amount = 0
 
 func _ready(): 
 	runtimer.start(3)
@@ -247,7 +249,7 @@ func _enter_hunt_state() -> void:
 
 func _enter_hurt_state(number: int) -> void:
 	var random_number = rng.randi_range(1,2)
-	take_damage(5)
+	take_damage(damage_amount)
 	state = HURT
 	$AnimationPlayer.stop()
 	if random_number == 1:
@@ -276,14 +278,20 @@ func _on_FlashTimer_timeout():
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("PlayerSword"):
+		damage_amount = 5
 		_enter_hurt_state(1)
 		emit_signal("hurt")
+		_spawn_damage_indicator(damage_amount)
 	if area.is_in_group("ComboEWQE"):
+		damage_amount = 10
 		_enter_hurt_state(1)
 		emit_signal("hurt")
+		_spawn_damage_indicator(damage_amount)
 	if area.is_in_group("SwordCut"):
+		damage_amount = 15
 		_enter_hurt_state(2)
 		emit_signal("hurt")
+		_spawn_damage_indicator(damage_amount)
 	if hp <= 0:
 			state = DEAD
 			animatedsprite.play("Dead")
@@ -350,12 +358,23 @@ func _on_AttackDetector_body_exited(body):
 
 
 
-
-
-
 func _on_AnimationPlayer_animation_changed(old_name: String) -> void:
 	if old_name == "Hurt1":
 		$Sprite.visible = false
 		print("hejsan")
+
+func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):	
+	if EFFECT:
+		var effect = EFFECT.instance()
+		get_tree().current_scene.add_child(effect)
+		effect.global_position = effect_position + Vector2(direction_x*5, -30)
+		return effect
+
+func _spawn_damage_indicator(damage: int):
+	var indicator = spawn_effect(INDICATOR_DAMAGE)
+	var _direction = direction_x
+	if indicator:
+		indicator.label.text = str(damage)
+	
 
 
