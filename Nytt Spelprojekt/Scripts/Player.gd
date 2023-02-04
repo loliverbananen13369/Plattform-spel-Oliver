@@ -1,3 +1,4 @@
+class_name Player
 extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
@@ -20,6 +21,7 @@ var rng = RandomNumberGenerator.new()
 var can_jump := true
 var can_dash := true
 var can_attack := true
+var can_take_damage := true
 var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
@@ -37,6 +39,7 @@ var hit_amount = 0
 
 signal test
 signal HPChanged(hp)
+signal XPChanged(current_xp)
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
@@ -55,6 +58,8 @@ onready var dashline = $Position2D/Line2D
 onready var enemy =  get_tree().get_nodes_in_group("Enemy")[0]
 
 onready var all_enemy = get_tree().get_nodes_in_group("Enemy")[0]
+var tween = Tween.new()
+var alpha_tween_values = [255, 60]
 var dash_to_enemy_distance = 50
 var close_enemy 
 
@@ -70,6 +75,7 @@ var hp_regeneration = 1
 var mana = 100
 var mana_max = 100
 var mana_regeneration = 2
+var current_xp = 0
 
 
 func _physics_process(delta: float) -> void:
@@ -210,12 +216,26 @@ func _add_jump_dust(number: int) -> void:
 
 func take_damage(amount: int, direction: int) -> void:
 	state = HURT
+	if enemy_side_of_you == "right":
+		direction_x = "RIGHT"
+		velocity.x = -400
+	if enemy_side_of_you == "left":
+		direction_x = "LEFT"
+		velocity.x = 400
+	velocity.y = -300
+	enemy_side_of_you = ""
 	flash()
 	frameFreeze(0.1, 0.5)
 	playersprite.play("Hit")
-	$BeenHurtTimer.start(0.1)
+	#$ImmuneTimer.start(2)
+	can_take_damage = false
 	hp -= amount
 	emit_signal("HPChanged", hp)
+	yield(get_tree().create_timer(0.3), "timeout")
+	$FlashTimer.start(2)
+	start_tween()
+	_enter_idle_state()
+	
 
 func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
@@ -223,10 +243,35 @@ func frameFreeze(timescale, duration):
 	Engine.time_scale = 1
 
 func flash():
-	$FlashTimer.one_shot = false
 	playersprite.material.set_shader_param("flash_modifier", 0.6)
-	$FlashTimer.start()
+	yield(get_tree().create_timer(0.2), "timeout")
+	playersprite.material.set_shader_param("flash_modifier", 0.0)
 
+func _enter_tree():
+	tween.name = "Tween"
+	add_child(tween)    
+	tween.connect("tween_completed", self, "on_tween_completed")
+	
+func start_tween():
+	$Tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.5)
+	$Tween.start()
+
+
+func on_tween_completed(object, key):
+	alpha_tween_values.invert()
+	start_tween()
+
+
+func _player_immune():
+	playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 255, 60)
+	yield(get_tree().create_timer(0.2), "timeout")
+	#playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 60, 255)
+	#yield(get_tree().create_timer(0.2), "timeout")
+	#playersprite.modulate.a8 = 60
+	#yield(get_tree().create_timer(0.2), "timeout")
+	#playersprite.modulate.a8 = 255
+	#yield(get_tree().create_timer(0.2), "timeout")
+	
 func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
 	jump_pressed = false
@@ -437,17 +482,7 @@ func _combo_state(delta) -> void:
 	pass
 
 func _hurt_state(delta) -> void:	
-	print(enemy_side_of_you)
-	if enemy_side_of_you == "right":
-		direction_x = "RIGHT"
-		velocity.x = -300
-	if enemy_side_of_you == "left":
-		direction_x = "LEFT"
-		velocity.x = 300
-	velocity.y = -300
-	_air_movement(delta)
-	enemy_side_of_you = ""
-		
+	_air_movement(delta)		
 
 #Enter states
 func _enter_idle_state() -> void:
@@ -564,7 +599,7 @@ func _enter_combo_state(number : int) -> void:
 		else:
 			$ComboSprites.position.x = -42
 			$ComboSprites.flip_h = true
-		animationplayer.play("TestCombo")
+		animationplayer.play("ComboEWQE1")
 		combo_list.clear()
 		
 #Signals
@@ -616,7 +651,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		$SwordCutArea/SpinAttack.disabled = true
 		can_attack = true
 		_enter_idle_state()
-	if anim_name == "TestCombo":
+	if anim_name == "ComboEWQE1":
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "JumpAttack":
@@ -643,12 +678,17 @@ func _on_AnimationPlayer_animation_started(anim_name):
 		state = PREPARE_ATTACK_AIR
 
 func _on_HurtBox_area_entered(area):
-	if area.is_in_group("EnemySword"):
-		take_damage(5, direction.x)
+	if can_take_damage:
+		if area.is_in_group("EnemySword"):
+			take_damage(5, direction.x)
+		
+		if area.is_in_group("Enemy"):
+			take_damage(5, direction.x)
+	if area.is_in_group("XP-Particle"):
+		current_xp += 5
+		emit_signal("XPChanged", current_xp)
+		
 	
-	if area.is_in_group("Enemy"):
-		take_damage(5, direction.x)
-
 
 
 func _on_KinematicBody2D_dead() -> void:
@@ -666,13 +706,15 @@ func _on_KinematicBody2D_side_of_player(which_side):
 
 
 #Timers
-func _on_BeenHurtTimer_timeout():
-	velocity.y = 0
-	_enter_idle_state()
-	$FlashTimer.one_shot = true
+func _on_ImmuneTimer_timeout():
+	pass
+	#can_take_damage = true
+	#_enter_idle_state()
 
 func _on_FlashTimer_timeout():
-	playersprite.material.set_shader_param("flash_modifier", 0)
+	can_take_damage = true
+	alpha_tween_values.invert()
+	$Tween.stop(playersprite)
 
 func _on_ComboTimer_timeout():
 	combo_list.clear()
@@ -688,6 +730,9 @@ func _on_DashTimer_timeout():
 	#dashline.visible = false
 	ghosttime = 0.0
 	can_dash = true
+
+
+
 
 
 

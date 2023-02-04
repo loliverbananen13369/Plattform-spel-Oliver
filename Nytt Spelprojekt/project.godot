@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Scripts/SkeletonWarrior.gd"
+}, {
+"base": "Node2D",
+"class": "Missile",
+"language": "GDScript",
+"path": "res://Scripts/Experience-Particle.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Scripts/Player.gd"
+} ]
+_global_script_class_icons={
+"Enemy": "",
+"Missile": "",
+"Player": ""
+}
+
 [application]
 
 config/name="Nytt Spelprojekt"
@@ -116,6 +138,7 @@ switch_side={
 2d_physics/layer_4="EnemySword"
 2d_physics/layer_5="TileMap"
 3d_physics/layer_5="Map"
+2d_physics/layer_6="XP"
 
 [physics]
 

@@ -1,3 +1,4 @@
+class_name Enemy
 extends KinematicBody2D
 
 enum {IDLE, RUN, ATTACK, DEAD, HURT, HUNTING}
@@ -36,6 +37,8 @@ onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
 onready var player = get_parent().get_node("../Node2D/Player")
+
+var xp_scene = preload("res://Scenes/Experience-Particle.tscn")
 
 var motion_previous = Vector2()
 
@@ -110,9 +113,7 @@ func _hit():
 func _end_of_hit():
 	$AttackDetector.monitoring = false
 	$AttackDetector.monitorable = false
-	if hp <= 0:
-		state = DEAD
-		animatedsprite.play("Dead")
+	_die_b(hp)
 
 
 func take_damage(amount: int) -> void:
@@ -212,8 +213,9 @@ func _dead_state(delta) -> void:
 	$RunTimer.stop()
 	$Area2D/CollisionShape2D2.disabled = true
 	$Area2D/CollisionShape2D.disabled = true
-	$CollisionShape2D.disabled = true
+	#$CollisionShape2D.disabled = true
 	#_on_AnimatedSprite_animation_finished()
+
 
 func _hurt_state(delta) -> void:
 	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10)
@@ -262,7 +264,6 @@ func _enter_hurt_state(number: int) -> void:
 	if number == 2:
 		$AnimationPlayer.play("Hurt2")
 	flash()
-	frameFreeze(1, 0.5)
 
 
 func _on_IdleTimer_timeout():
@@ -293,10 +294,7 @@ func _on_Area2D_area_entered(area):
 		_enter_hurt_state(2)
 		emit_signal("hurt")
 		_spawn_damage_indicator(damage_amount)
-	if hp <= 0:
-			state = DEAD
-			animatedsprite.play("Dead")
-			emit_signal("dead")
+	_die_b(hp)
 		
 		#if hp <= 0:
 		#	state = DEAD
@@ -306,6 +304,7 @@ func _on_Area2D_area_entered(area):
 
 func _on_AnimatedSprite_animation_finished():
 	if animatedsprite.animation == "Dead":
+		_spawn_xp()
 		queue_free()
 
 
@@ -382,5 +381,7 @@ func _spawn_damage_indicator(damage: int):
 	if indicator:
 		indicator.label.text = str(damage)
 	
-
-
+func _spawn_xp() -> void:
+	var xp = xp_scene.instance()
+	xp.position = global_position
+	get_tree().get_root().add_child(xp)

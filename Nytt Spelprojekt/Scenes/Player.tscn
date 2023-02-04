@@ -1,4 +1,4 @@
-[gd_scene load_steps=258 format=2]
+[gd_scene load_steps=312 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -16,7 +16,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.6.2.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.2.png" type="Texture" id=15]
 [ext_resource path="res://Random_Effects/Thrusts 1 SpriteSheet.png" type="Texture" id=16]
-[ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.new.png" type="Texture" id=17]
+[ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.test.png" type="Texture" id=17]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.4.2.png" type="Texture" id=18]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.png" type="Texture" id=19]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.9.2.png" type="Texture" id=20]
@@ -71,6 +71,11 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.4.2.png" type="Texture" id=69]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Fast Magic/Fast magic effect.png" type="Texture" id=70]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Sustain Magic/Battlemage Sustain magic wo effect.new.png" type="Texture" id=71]
+[ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).test.png" type="Texture" id=72]
+[ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.newer.test.png" type="Texture" id=73]
+[ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).test1.png" type="Texture" id=74]
+[ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).test2.png" type="Texture" id=75]
+[ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.test.1.png" type="Texture" id=76]
 [ext_resource path="res://Scenes/Line2D.tscn" type="PackedScene" id=80]
 
 [sub_resource type="AtlasTexture" id=568]
@@ -1136,6 +1141,184 @@ tracks/1/keys = {
 "values": [  ]
 }
 
+[sub_resource type="Animation" id=672]
+resource_name = "ComboEWQE1"
+length = 0.733333
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "ComboEWQE" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ComboSprites:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Test8" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ComboSprites:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SpecialAttackArea/Acid2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.266667, 0.666667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ComboSprites:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.266667, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("ComboSprites:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.266667 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 2 ) ]
+}
+
+[sub_resource type="Animation" id=745]
+resource_name = "ComboEWQE2"
+length = 0.8
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "ComboEWQE" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ComboSprites:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Test7" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ComboSprites:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 1, 2, 3, 4, 6, 7, 8, 9, 10 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SpecialAttackArea/Acid2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2, 0.666667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ComboSprites:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.2, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("ComboSprites:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.2, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 3, 2 ), Vector2( 1.5, 2 ) ]
+}
+
 [sub_resource type="Animation" id=726]
 resource_name = "ComboSpinAttack"
 length = 0.5
@@ -1558,83 +1741,6 @@ tracks/5/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=672]
-resource_name = "TestCombo"
-length = 0.733333
-step = 0.0666667
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ "ComboEWQE" ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("ComboSprites:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ "Test3" ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("ComboSprites:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5 ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("SpecialAttackArea/Acid2:disabled")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.266667, 0.533333 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("ComboSprites:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0.266667, 0.6 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
 [sub_resource type="Animation" id=538]
 resource_name = "Thrust2"
 length = 0.333333
@@ -1870,28 +1976,220 @@ region = Rect2( 0, 384, 56, 48 )
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=719]
+[sub_resource type="AtlasTexture" id=739]
 atlas = ExtResource( 17 )
 region = Rect2( 0, 0, 56, 32 )
 
-[sub_resource type="AtlasTexture" id=720]
+[sub_resource type="AtlasTexture" id=740]
 atlas = ExtResource( 17 )
 region = Rect2( 0, 32, 56, 32 )
 
-[sub_resource type="AtlasTexture" id=721]
+[sub_resource type="AtlasTexture" id=741]
 atlas = ExtResource( 17 )
 region = Rect2( 0, 64, 56, 32 )
 
-[sub_resource type="AtlasTexture" id=722]
+[sub_resource type="AtlasTexture" id=742]
 atlas = ExtResource( 17 )
 region = Rect2( 0, 96, 56, 32 )
 
-[sub_resource type="AtlasTexture" id=723]
+[sub_resource type="AtlasTexture" id=743]
 atlas = ExtResource( 17 )
 region = Rect2( 0, 128, 56, 32 )
 
-[sub_resource type="AtlasTexture" id=724]
+[sub_resource type="AtlasTexture" id=744]
 atlas = ExtResource( 17 )
+region = Rect2( 0, 160, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=727]
+atlas = ExtResource( 72 )
+region = Rect2( 0, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=728]
+atlas = ExtResource( 72 )
+region = Rect2( 56, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=729]
+atlas = ExtResource( 72 )
+region = Rect2( 112, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=730]
+atlas = ExtResource( 72 )
+region = Rect2( 168, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=731]
+atlas = ExtResource( 72 )
+region = Rect2( 224, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=732]
+atlas = ExtResource( 72 )
+region = Rect2( 280, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=733]
+atlas = ExtResource( 72 )
+region = Rect2( 336, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=734]
+atlas = ExtResource( 72 )
+region = Rect2( 392, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=735]
+atlas = ExtResource( 72 )
+region = Rect2( 448, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=736]
+atlas = ExtResource( 72 )
+region = Rect2( 504, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=737]
+atlas = ExtResource( 72 )
+region = Rect2( 560, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=738]
+atlas = ExtResource( 72 )
+region = Rect2( 616, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=746]
+atlas = ExtResource( 73 )
+region = Rect2( 0, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=747]
+atlas = ExtResource( 73 )
+region = Rect2( 0, 32, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=748]
+atlas = ExtResource( 73 )
+region = Rect2( 0, 64, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=749]
+atlas = ExtResource( 73 )
+region = Rect2( 0, 96, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=750]
+atlas = ExtResource( 73 )
+region = Rect2( 0, 128, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=751]
+atlas = ExtResource( 73 )
+region = Rect2( 0, 160, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=752]
+atlas = ExtResource( 74 )
+region = Rect2( 0, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=753]
+atlas = ExtResource( 74 )
+region = Rect2( 56, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=754]
+atlas = ExtResource( 74 )
+region = Rect2( 112, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=755]
+atlas = ExtResource( 74 )
+region = Rect2( 168, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=756]
+atlas = ExtResource( 74 )
+region = Rect2( 224, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=757]
+atlas = ExtResource( 74 )
+region = Rect2( 280, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=758]
+atlas = ExtResource( 74 )
+region = Rect2( 336, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=759]
+atlas = ExtResource( 74 )
+region = Rect2( 392, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=760]
+atlas = ExtResource( 74 )
+region = Rect2( 448, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=761]
+atlas = ExtResource( 74 )
+region = Rect2( 504, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=762]
+atlas = ExtResource( 74 )
+region = Rect2( 560, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=763]
+atlas = ExtResource( 74 )
+region = Rect2( 616, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=764]
+atlas = ExtResource( 75 )
+region = Rect2( 0, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=765]
+atlas = ExtResource( 75 )
+region = Rect2( 56, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=766]
+atlas = ExtResource( 75 )
+region = Rect2( 112, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=767]
+atlas = ExtResource( 75 )
+region = Rect2( 168, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=768]
+atlas = ExtResource( 75 )
+region = Rect2( 224, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=769]
+atlas = ExtResource( 75 )
+region = Rect2( 280, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=770]
+atlas = ExtResource( 75 )
+region = Rect2( 336, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=771]
+atlas = ExtResource( 75 )
+region = Rect2( 392, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=772]
+atlas = ExtResource( 75 )
+region = Rect2( 448, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=773]
+atlas = ExtResource( 75 )
+region = Rect2( 504, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=774]
+atlas = ExtResource( 75 )
+region = Rect2( 560, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=775]
+atlas = ExtResource( 75 )
+region = Rect2( 616, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=776]
+atlas = ExtResource( 76 )
+region = Rect2( 0, 0, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=777]
+atlas = ExtResource( 76 )
+region = Rect2( 0, 32, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=778]
+atlas = ExtResource( 76 )
+region = Rect2( 0, 64, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=779]
+atlas = ExtResource( 76 )
+region = Rect2( 0, 96, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=780]
+atlas = ExtResource( 76 )
+region = Rect2( 0, 128, 56, 32 )
+
+[sub_resource type="AtlasTexture" id=781]
+atlas = ExtResource( 76 )
 region = Rect2( 0, 160, 56, 32 )
 
 [sub_resource type="SpriteFrames" id=700]
@@ -1906,10 +2204,35 @@ animations = [ {
 "name": "Test2",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 719 ), SubResource( 720 ), SubResource( 721 ), SubResource( 722 ), SubResource( 723 ), SubResource( 724 ) ],
+"frames": [ SubResource( 739 ), SubResource( 740 ), SubResource( 741 ), SubResource( 742 ), SubResource( 743 ), SubResource( 744 ) ],
 "loop": false,
 "name": "Test3",
 "speed": 10.0
+}, {
+"frames": [ SubResource( 727 ), SubResource( 728 ), SubResource( 729 ), SubResource( 730 ), SubResource( 731 ), SubResource( 732 ), SubResource( 733 ), SubResource( 734 ), SubResource( 735 ), SubResource( 736 ), SubResource( 737 ), SubResource( 738 ) ],
+"loop": false,
+"name": "Test4",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 746 ), SubResource( 747 ), SubResource( 748 ), SubResource( 749 ), SubResource( 750 ), SubResource( 751 ) ],
+"loop": true,
+"name": "Test5",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 752 ), SubResource( 753 ), SubResource( 754 ), SubResource( 755 ), SubResource( 756 ), SubResource( 757 ), SubResource( 758 ), SubResource( 759 ), SubResource( 760 ), SubResource( 761 ), SubResource( 762 ), SubResource( 763 ) ],
+"loop": true,
+"name": "Test6",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 764 ), SubResource( 765 ), SubResource( 766 ), SubResource( 767 ), SubResource( 768 ), SubResource( 769 ), SubResource( 770 ), SubResource( 771 ), SubResource( 772 ), SubResource( 773 ), SubResource( 774 ), SubResource( 775 ) ],
+"loop": true,
+"name": "Test7",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 776 ), SubResource( 777 ), SubResource( 778 ), SubResource( 779 ), SubResource( 780 ), SubResource( 781 ) ],
+"loop": true,
+"name": "Test8",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=707]
@@ -1934,7 +2257,6 @@ animation = "Acid"
 frame = 1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
-visible = false
 position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
@@ -1942,23 +2264,21 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "Hit"
+animation = "ComboEWQE"
 offset = Vector2( 0, 1 )
-flip_h = true
 
 [node name="HurtBox" type="Area2D" parent="." groups=["Player"]]
 visible = false
-collision_mask = 12
+collision_mask = 44
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" groups=["Player"]]
 position = Vector2( 10, -10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-visible = false
-position = Vector2( -10, -15 )
-animation = "Smear3V"
-frame = 1
+position = Vector2( 30, -15 )
+animation = "AirAttack"
+frame = 0
 flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1967,13 +2287,14 @@ anims/Attack1 = SubResource( 158 )
 anims/Attack2 = SubResource( 190 )
 anims/Attack3 = SubResource( 191 )
 anims/Combo1 = SubResource( 653 )
+anims/ComboEWQE1 = SubResource( 672 )
+anims/ComboEWQE2 = SubResource( 745 )
 anims/ComboSpinAttack = SubResource( 726 )
 anims/Hurt1 = SubResource( 635 )
 anims/JumpAttack = SubResource( 511 )
 anims/OnGroundAfterAttack = SubResource( 575 )
 anims/PrepareAirAttack = SubResource( 472 )
 anims/SpinAttack = SubResource( 641 )
-anims/TestCombo = SubResource( 672 )
 anims/Thrust2 = SubResource( 538 )
 
 [node name="DashTimer" type="Timer" parent="."]
@@ -2019,11 +2340,12 @@ rotation = 0.785398
 shape = SubResource( 634 )
 disabled = true
 
-[node name="BeenHurtTimer" type="Timer" parent="."]
+[node name="ImmuneTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="FlashTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 2.0
+one_shot = true
 
 [node name="NewTimer" type="Timer" parent="."]
 
@@ -2064,7 +2386,7 @@ visible = false
 position = Vector2( 62, -12 )
 scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
-animation = "Test3"
+animation = "Test8"
 
 [node name="SpecialAttackArea" type="Area2D" parent="." groups=["ComboEWQE"]]
 collision_layer = 2
@@ -2087,6 +2409,6 @@ disabled = true
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
-[connection signal="timeout" from="BeenHurtTimer" to="." method="_on_BeenHurtTimer_timeout"]
+[connection signal="timeout" from="ImmuneTimer" to="." method="_on_ImmuneTimer_timeout"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]

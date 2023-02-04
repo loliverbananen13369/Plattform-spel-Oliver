@@ -864,6 +864,7 @@ pitch_scale = 0.8
 [node name="HUD" parent="." instance=ExtResource( 10 )]
 
 [connection signal="HPChanged" from="Node2D/Player" to="HUD" method="_on_Player_HPChanged"]
+[connection signal="XPChanged" from="Node2D/Player" to="HUD" method="_on_Player_XPChanged"]
 [connection signal="test" from="Node2D/Player" to="Node/KinematicBody2D" method="_on_Player_test"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
 [connection signal="dead" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
