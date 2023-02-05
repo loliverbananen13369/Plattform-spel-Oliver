@@ -1,7 +1,7 @@
 class_name Enemy
 extends KinematicBody2D
 
-enum {IDLE, RUN, ATTACK, DEAD, HURT, HUNTING}
+enum {IDLE, RUN, ATTACK, DEAD, HURT, HUNTING, SPAWN}
 
 const MAX_SPEED = 100
 const ACCELERATION = 1000
@@ -58,8 +58,13 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	runtimer.start(3)
-	$Area2D/CollisionShape2D.disabled = false
+	animatedsprite.animation = "Dead"
+	animatedsprite.frame = 10
+	animatedsprite.modulate.a8 = 0
+	$PlayerDetector.monitoring = false
+	state = SPAWN
+	$AnimationPlayer.play("Spawn")
+
 	
 func _physics_process(delta: float) -> void:
 	match state:
@@ -75,6 +80,8 @@ func _physics_process(delta: float) -> void:
 			_hurt_state(delta)
 		HUNTING:
 			_follow_player_state(delta)
+		SPAWN:
+			_spawn_state(delta)
 	
 func _air_movement(delta) -> void:
 	if not is_on_floor():
@@ -129,7 +136,7 @@ func knock_back(source_position: Vector2) -> void:
 func _die_b(hp):
 	if hp <= 0:
 		state = DEAD
-		animatedsprite.play("Dead")
+		$AnimationPlayer.play("Dead")
 #Enter state
 
 func frameFreeze(timescale, duration):
@@ -159,11 +166,8 @@ func _on_ShakeTimer_timeout() -> void:
 
 #STATES
 func _idle_state(delta) -> void:
-
-
 	_die_b(hp)
 	_air_movement(delta)
-
 
 func _run_state(delta) -> void:
 	_die_b(hp)
@@ -205,6 +209,12 @@ func _follow_player_state(delta) -> void:
 	
 	_die_b(hp)
 
+func _spawn_state(delta) -> void:
+	velocity.x = 0
+	velocity.y = 0
+	$Area2D/CollisionShape2D2.disabled = true
+	$Area2D/CollisionShape2D.disabled = true
+	$PlayerDetector.monitoring = false
 
 func _dead_state(delta) -> void:
 	velocity.x = 0
@@ -328,6 +338,16 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		else:
 			_enter_idle_state()
 			can_attack = true
+	if anim_name == "Spawn":
+		if player_in_radius:
+			_enter_hunt_state()
+		else:
+			_enter_idle_state()
+		$Area2D/CollisionShape2D.disabled = false
+		$Area2D/CollisionShape2D2.disabled = false
+		$PlayerDetector.monitoring = true
+		
+
 
 
 func _on_PlayerDetector_body_entered(body):

@@ -40,6 +40,7 @@ var hit_amount = 0
 signal test
 signal HPChanged(hp)
 signal XPChanged(current_xp)
+signal LvlUp(current_lvl, xp_needed)
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
@@ -67,6 +68,8 @@ var hit_the_ground = false
 var motion_previous = Vector2()
 var last_step = 0
 var side = "RIGHT"
+var xp_needed = 40
+var has_leveled_up = false
 
 #Player stats
 var hp = 100
@@ -76,6 +79,8 @@ var mana = 100
 var mana_max = 100
 var mana_regeneration = 2
 var current_xp = 0
+var current_lvl = 1
+
 
 
 func _physics_process(delta: float) -> void:
@@ -256,11 +261,9 @@ func start_tween():
 	$Tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.5)
 	$Tween.start()
 
-
 func on_tween_completed(object, key):
 	alpha_tween_values.invert()
 	start_tween()
-
 
 func _player_immune():
 	playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 255, 60)
@@ -298,7 +301,7 @@ func _dash_to_enemy(switch_side: bool) -> void:
 			global_position = enemy.position - Vector2(30, 4)
 			direction_x = "RIGHT"
 			_flip_sprite(true)
-		
+
 func check_combo() -> void:
 	if combo_list.front() == 1:
 		if combo_list == [1,2,3,1]:
@@ -310,6 +313,15 @@ func check_combo() -> void:
 		combo_list.clear()
 	else:
 		return
+
+
+func _level_up(current_xp, xp_needed):
+	if current_xp >= xp_needed:
+		current_lvl += 1
+		has_leveled_up = true
+		return true
+	else:
+		return false
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
@@ -599,7 +611,10 @@ func _enter_combo_state(number : int) -> void:
 		else:
 			$ComboSprites.position.x = -42
 			$ComboSprites.flip_h = true
-		animationplayer.play("ComboEWQE1")
+		if current_lvl <= 1:
+			animationplayer.play("ComboEWQE1")
+		else:
+			animationplayer.play("ComboEWQE2")
 		combo_list.clear()
 		
 #Signals
@@ -654,6 +669,9 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "ComboEWQE1":
 		_enter_idle_state()
 		can_attack = true
+	if anim_name =="ComboEWQE2":
+		_enter_idle_state()
+		can_attack = true
 	if anim_name == "JumpAttack":
 		$NormalAttackArea/AttackJump.disabled = true
 		_enter_idle_state()
@@ -686,7 +704,12 @@ func _on_HurtBox_area_entered(area):
 			take_damage(5, direction.x)
 	if area.is_in_group("XP-Particle"):
 		current_xp += 5
+		if _level_up(current_xp, xp_needed):
+			current_xp = 0
+			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
+			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
+		
 		
 	
 

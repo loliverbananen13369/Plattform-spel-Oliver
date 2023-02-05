@@ -107,3 +107,10 @@ percent_visible = false
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+
+[node name="LevelText" type="Label" parent="."]
+margin_left = 7.0
+margin_top = 49.0
+margin_right = 47.0
+margin_bottom = 63.0
+text = "Hejsan"

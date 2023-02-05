@@ -2277,7 +2277,7 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 position = Vector2( 30, -15 )
-animation = "AirAttack"
+animation = "Smear3V"
 frame = 0
 flip_h = true
 
