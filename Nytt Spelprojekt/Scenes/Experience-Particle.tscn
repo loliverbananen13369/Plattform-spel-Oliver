@@ -13,7 +13,7 @@ radius = 115.017
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 3, 1, 1, 1 )
+modulate = Color( 3, 1.5, 1.5, 1 )
 texture = ExtResource( 1 )
 
 [node name="HitBox" type="Area2D" parent="." groups=["XP-Particle"]]

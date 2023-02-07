@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://Scripts/Player.gd"
+}, {
+"base": "Node2D",
+"class": "Tester",
+"language": "GDScript",
+"path": "res://Scripts/PreparingAttackParticles.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
 "Missile": "",
-"Player": ""
+"Player": "",
+"Tester": ""
 }
 
 [application]

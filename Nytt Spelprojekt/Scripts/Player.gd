@@ -42,10 +42,12 @@ signal HPChanged(hp)
 signal XPChanged(current_xp)
 signal LvlUp(current_lvl, xp_needed)
 
+
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
+var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
 var ghosttime := 0.0
 
 onready var playersprite = $PlayerSprite
@@ -56,13 +58,12 @@ onready var dashtimer = $DashTimer
 onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
-onready var enemy =  get_tree().get_nodes_in_group("Enemy")[0]
 
-onready var all_enemy = get_tree().get_nodes_in_group("Enemy")[0]
+
+
 var tween = Tween.new()
 var alpha_tween_values = [255, 60]
 var dash_to_enemy_distance = 50
-var close_enemy 
 
 var hit_the_ground = false
 var motion_previous = Vector2()
@@ -81,7 +82,8 @@ var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
 
-
+func _ready() -> void:
+	$AnimationPlayer.playback_speed = 1
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -158,6 +160,16 @@ func _air_movement(delta) -> void:
 		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
 		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
+func _test_enemy():
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	var closest_enemy = all_enemy[0]
+	for i in range(1, len(all_enemy)):
+		if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
+			closest_enemy = all_enemy[i]
+	
+		
+	return closest_enemy
+
 func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
@@ -182,21 +194,27 @@ func _attack_function():
 			_remember_attack()
 			
 func _flip_sprite(right: bool) -> void:
+	dashparticles.position.x = 0
+	dashparticles.position.y = 0
 	if right:
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
+		$ComboSprites.flip_h = false
 		animatedsmears.position.x = 30
-		dashparticles.position.x = 30
-		$NormalAttackArea/AttackGround.position.x =46
+		attackparticles.position.x = 30
+		$NormalAttackArea/AttackGround.position.x = 46
 		$SpecialAttackArea/Acid2.position.x = 62
+		$SpecialAttackArea/Acid5.position.x = 92
 		$SwordCutArea/SpinAttack.position.x = 44
 	else:
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
+		$ComboSprites.flip_h = true
 		animatedsmears.position.x = -10
-		dashparticles.position.x = -10
+		attackparticles.position.x = -10
 		$NormalAttackArea/AttackGround.position.x = -26
 		$SpecialAttackArea/Acid2.position.x = -42
+		$SpecialAttackArea/Acid5.position.x = -72
 		$SwordCutArea/SpinAttack.position.x = -24
 
 func _add_dash_ghost() -> void:
@@ -240,7 +258,6 @@ func take_damage(amount: int, direction: int) -> void:
 	$FlashTimer.start(2)
 	start_tween()
 	_enter_idle_state()
-	
 
 func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
@@ -268,13 +285,7 @@ func on_tween_completed(object, key):
 func _player_immune():
 	playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 255, 60)
 	yield(get_tree().create_timer(0.2), "timeout")
-	#playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 60, 255)
-	#yield(get_tree().create_timer(0.2), "timeout")
-	#playersprite.modulate.a8 = 60
-	#yield(get_tree().create_timer(0.2), "timeout")
-	#playersprite.modulate.a8 = 255
-	#yield(get_tree().create_timer(0.2), "timeout")
-	
+
 func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
 	jump_pressed = false
@@ -284,36 +295,37 @@ func _remember_attack() -> void:
 	attack_pressed = 0
 
 func _dash_to_enemy(switch_side: bool) -> void:
+	var enemy = _test_enemy()
 	if not switch_side:
-		if global_position.x >= enemy.position.x:
-			global_position = enemy.position + Vector2(30, -4)
+		if global_position.x >= enemy.global_position.x:
+			global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
 			_flip_sprite(false)
 		else:
-			global_position = enemy.position - Vector2(30, 4)
+			global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
 			direction_x = "RIGHT"
 			_flip_sprite(true)
 	else:
-		if global_position.x <= enemy.position.x:
-			global_position = enemy.position + Vector2(30, -4)
+		if global_position.x <= enemy.global_position.x:
+			global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
 			direction_x = "LEFT"
 			_flip_sprite(false)
 		else:
-			global_position = enemy.position - Vector2(30, 4)
+			global_position = enemy.global_position - 30# - Vector2(30, 4)
 			direction_x = "RIGHT"
 			_flip_sprite(true)
+	
 
 func check_combo() -> void:
 	if combo_list.front() == 1:
 		if combo_list == [1,2,3,1]:
 			_enter_combo_state(1)
 	elif combo_list.front() == 3:
-		if combo_list == [3,2,1,3]:
+		if combo_list == [3,2,1,3]: #[3,2,1,3]
 			_enter_combo_state(2)
-	if combo_list.size() == 5:
+	if combo_list.size() == 10:
 		combo_list.clear()
 	else:
 		return
-
 
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
@@ -322,6 +334,31 @@ func _level_up(current_xp, xp_needed):
 		return true
 	else:
 		return false
+
+func _set_sprite_position(anim_name):
+	if anim_name == "ComboEWQE2":
+		if direction_x == "RIGHT":
+			$ComboSprites.position.x = 95
+			$ComboSprites.flip_h = false 
+		if direction_x == "LEFT":
+			$ComboSprites.position.x = -75
+			$ComboSprites.flip_h = true
+	if anim_name == "ComboEWQE3":
+		if direction_x == "RIGHT":
+			$ComboSprites.position.x = 35
+			$ComboSprites.flip_h = false 
+		else:
+			$ComboSprites.position.x = -15
+			$ComboSprites.flip_h = true
+
+func _add_preparing_attack_particles(amount) -> void:
+	for n in range (amount):
+		var nrx = rng.randi_range(-100, 100)
+		var nry = rng.randi_range(-100, 100)
+		var particles = prepare_attack_particles_scene.instance()
+		particles.global_position = playersprite.global_position + Vector2(nrx, nry)
+		get_tree().get_root().add_child(particles)
+	
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
@@ -540,7 +577,6 @@ func _enter_stop_state() -> void:
 	playersprite.play("Stop")
 
 func _enter_attack1_state(attack: int, combo: bool) -> void:
-	
 	if combo:
 		state = COMBO
 	else:
@@ -548,14 +584,6 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 		$ComboTimer.start(1)
 	is_attacking = true
 	animatedsmears.position.y = -15
-	if direction_x != "RIGHT":
-		animatedsmears.position.x = -10
-		attackparticles.position.x = -10
-		$NormalAttackArea/AttackGround.position.x = -26
-	elif direction_x == "RIGHT":
-		animatedsmears.position.x = 30
-		attackparticles.position.x = 30
-		$NormalAttackArea/AttackGround.position.x = 46
 	if attack == 1:
 		animationplayer.play("Attack1")
 		can_attack = false
@@ -606,15 +634,22 @@ func _enter_combo_state(number : int) -> void:
 		combo_list.clear()
 	if number == 2:
 		if direction_x == "RIGHT":
-			$ComboSprites.position.x = 62
+			if current_lvl <= 1:
+				$ComboSprites.position.x = 62
+			else:
+				$ComboSprites.position.x = 95
 			$ComboSprites.flip_h = false
 		else:
-			$ComboSprites.position.x = -42
+			if current_lvl <= 1:
+				$ComboSprites.position.x = -42
+			else:
+				$ComboSprites.position.x = -75
 			$ComboSprites.flip_h = true
 		if current_lvl <= 1:
 			animationplayer.play("ComboEWQE1")
 		else:
 			animationplayer.play("ComboEWQE2")
+			emit_signal("test")
 		combo_list.clear()
 		
 #Signals
@@ -694,6 +729,18 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 func _on_AnimationPlayer_animation_started(anim_name):
 	if anim_name == "PrepareAirAttack":
 		state = PREPARE_ATTACK_AIR
+#	if anim_name == "ComboEWQE2":
+#		var timer = Timer.new()
+#		timer.connect("timeout",self,"_on_timer_timeout")
+#		timer.one_shot = true
+#		add_child(timer)
+#		timer.start(0.17)
+
+func _on_timer_timeout() -> void:
+	#frameFreeze(0.1, 0.5)
+	pass
+
+
 
 func _on_HurtBox_area_entered(area):
 	if can_take_damage:
@@ -703,7 +750,7 @@ func _on_HurtBox_area_entered(area):
 		if area.is_in_group("Enemy"):
 			take_damage(5, direction.x)
 	if area.is_in_group("XP-Particle"):
-		current_xp += 5
+		current_xp += 40
 		if _level_up(current_xp, xp_needed):
 			current_xp = 0
 			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
@@ -753,6 +800,8 @@ func _on_DashTimer_timeout():
 	#dashline.visible = false
 	ghosttime = 0.0
 	can_dash = true
+
+
 
 
 
