@@ -58,6 +58,7 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
+	print(self.get_path())  # prints /root/Control/Node2D
 	animatedsprite.animation = "Dead"
 	animatedsprite.frame = 10
 	animatedsprite.modulate.a8 = 0

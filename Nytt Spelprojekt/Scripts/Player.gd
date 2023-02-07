@@ -48,6 +48,7 @@ var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
+var holy_buff_scene = preload("res://Scenes/HolyEffect.tscn")
 var ghosttime := 0.0
 
 onready var playersprite = $PlayerSprite
@@ -84,6 +85,7 @@ var current_lvl = 1
 
 func _ready() -> void:
 	$AnimationPlayer.playback_speed = 1
+	print(self.get_path())  # prints /root/Control/Node2D
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -237,6 +239,11 @@ func _add_jump_dust(number: int) -> void:
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
 
+func _add_holy_buff() -> void:
+	var buff = holy_buff_scene.instance()
+	buff.global_position = playersprite.global_position + Vector2(0, 0)
+	get_tree().get_root().add_child(buff)
+
 func take_damage(amount: int, direction: int) -> void:
 	state = HURT
 	if enemy_side_of_you == "right":
@@ -341,6 +348,7 @@ func _level_up(current_xp, xp_needed):
 		current_lvl += 1
 		has_leveled_up = true
 		player_stats(current_lvl)
+		_add_holy_buff()
 		return true
 	else:
 		return false
@@ -376,6 +384,9 @@ func _idle_state(delta) -> void:
 		_add_jump_dust(15)
 		_enter_air_state(true)
 		return
+	
+	if Input.is_action_just_pressed("HolyBuff1"):
+		_add_holy_buff()
 	
 	_attack_function()
 	_apply_basic_movement(delta)
