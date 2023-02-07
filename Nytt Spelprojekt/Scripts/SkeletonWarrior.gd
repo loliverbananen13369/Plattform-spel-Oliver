@@ -90,7 +90,6 @@ func _air_movement(delta) -> void:
 		velocity = move_and_slide(velocity, Vector2.UP)
 
 func _apply_basic_movement(delta) -> void:
-
 	
 	velocity.y += GRAVITY*delta
 	
@@ -98,8 +97,10 @@ func _apply_basic_movement(delta) -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if direction_x == -1:
 		animatedsprite.flip_h = true
+		$Position2D.position.x = 21
 	if direction_x == 1:
 		animatedsprite.flip_h = false
+		$Position2D.position.x = 1
 
 
 
@@ -219,6 +220,7 @@ func _spawn_state(delta) -> void:
 func _dead_state(delta) -> void:
 	velocity.x = 0
 	velocity.y = 0
+	$Position2D/Particles2D.emitting = false
 	$IdleTimer.stop()
 	$RunTimer.stop()
 	$Area2D/CollisionShape2D2.disabled = true
@@ -292,18 +294,17 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group("PlayerSword"):
 		damage_amount = 5
 		_enter_hurt_state(1)
-		emit_signal("hurt")
-		_spawn_damage_indicator(damage_amount)
-	if area.is_in_group("ComboEWQE"):
+	if area.is_in_group("ComboEWQE1"):
 		damage_amount = 10
 		_enter_hurt_state(1)
-		emit_signal("hurt")
-		_spawn_damage_indicator(damage_amount)
+	if area.is_in_group("ComboEWQE2"):
+		damage_amount = 100
+		_enter_hurt_state(2)
 	if area.is_in_group("SwordCut"):
 		damage_amount = 15
 		_enter_hurt_state(2)
-		emit_signal("hurt")
-		_spawn_damage_indicator(damage_amount)
+	emit_signal("hurt")
+	_spawn_damage_indicator(damage_amount)
 	_die_b(hp)
 		
 		#if hp <= 0:

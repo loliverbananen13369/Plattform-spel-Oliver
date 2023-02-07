@@ -2516,7 +2516,7 @@ scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
 animation = "Acid3"
 
-[node name="SpecialAttackArea" type="Area2D" parent="." groups=["ComboEWQE"]]
+[node name="SpecialAttackArea" type="Area2D" parent="." groups=["ComboEWQE1"]]
 collision_layer = 2
 collision_mask = 2
 

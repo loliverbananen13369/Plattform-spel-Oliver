@@ -316,21 +316,31 @@ func _dash_to_enemy(switch_side: bool) -> void:
 	
 
 func check_combo() -> void:
-	if combo_list.front() == 1:
-		if combo_list == [1,2,3,1]:
-			_enter_combo_state(1)
-	elif combo_list.front() == 3:
-		if combo_list == [3,2,1,3]: #[3,2,1,3]
-			_enter_combo_state(2)
-	if combo_list.size() == 10:
-		combo_list.clear()
-	else:
-		return
+	var re_combo_list = []
+	for i in range(0, combo_list.size()):
+		re_combo_list.push_front(combo_list[i])
+	if re_combo_list[0] == 1:
+		if re_combo_list[1] == 3:
+			if re_combo_list[2] == 2:
+				if re_combo_list[3] == 1: 
+					_enter_combo_state(1)
+	elif re_combo_list[0] == 3:
+		if re_combo_list[1] == 1:
+			if re_combo_list[2] == 2:
+				if re_combo_list[3] == 3: 
+					_enter_combo_state(2)
+
+
+func player_stats(current_lvl):
+	if current_lvl >= 2:
+		$SpecialAttackArea.add_to_group("ComboEWQE2")
+
 
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
 		current_lvl += 1
 		has_leveled_up = true
+		player_stats(current_lvl)
 		return true
 	else:
 		return false
@@ -600,10 +610,11 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	if attack == 4:
 		animationplayer.play("SpinAttack")
 		can_attack = false
-	if can_follow_enemy:
-		_dash_to_enemy(false)
+	#if can_follow_enemy:
+	#	_dash_to_enemy(false)
 	combo_list.append(previous_attack) 
-	check_combo()
+	if combo_list.size() >= 4:
+		check_combo()
 	if combo_list.size() == 0:
 		_enter_idle_state()
 
@@ -629,7 +640,6 @@ func _enter_attack_air_state(Jump: bool) -> void:
 func _enter_combo_state(number : int) -> void:
 	state = COMBO
 	if number == 1: 
-		#_dash_to_enemy(true)
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
 	if number == 2:
@@ -657,11 +667,7 @@ func _enter_combo_state(number : int) -> void:
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
 		if state == COMBO:
-			if can_follow_enemy:
-				#_dash_to_enemy(true)
-				_enter_attack1_state(2, true)
-			else:
-				_enter_attack1_state(2, true)
+			_enter_attack1_state(2, true)
 		else:
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
@@ -669,19 +675,11 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			else:
 				_enter_idle_state()
 	if anim_name == "Attack2":
-		if state == COMBO:
-			if can_follow_enemy:
-				#_dash_to_enemy(true)
-				_enter_attack1_state(2, true)
-				combo_list.clear()
-			else:
-				_enter_attack1_state(2, true)
+		can_attack = true
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
 		else:
-			can_attack = true
-			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-				_enter_run_state()
-			else:
-				_enter_idle_state()
+			_enter_idle_state()
 	if anim_name == "Attack3":
 		if state == COMBO:
 			pass
@@ -729,13 +727,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 func _on_AnimationPlayer_animation_started(anim_name):
 	if anim_name == "PrepareAirAttack":
 		state = PREPARE_ATTACK_AIR
-#	if anim_name == "ComboEWQE2":
-#		var timer = Timer.new()
-#		timer.connect("timeout",self,"_on_timer_timeout")
-#		timer.one_shot = true
-#		add_child(timer)
-#		timer.start(0.17)
-
+#	
 func _on_timer_timeout() -> void:
 	#frameFreeze(0.1, 0.5)
 	pass

@@ -937,8 +937,8 @@ script = ExtResource( 2 )
 material = SubResource( 50 )
 position = Vector2( 10, -20 )
 frames = SubResource( 3 )
-animation = "Hurt"
-frame = 4
+animation = "Idle"
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
 visible = false
@@ -1029,7 +1029,7 @@ shape = SubResource( 60 )
 one_shot = true
 
 [node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 1, -29 )
+position = Vector2( 21, -29 )
 
 [node name="Particles2D" type="Particles2D" parent="Position2D"]
 position = Vector2( -2, 1 )
