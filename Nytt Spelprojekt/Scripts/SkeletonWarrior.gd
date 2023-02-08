@@ -264,6 +264,7 @@ func _enter_hunt_state() -> void:
 	animatedsprite.play("Hunt")
 
 func _enter_hurt_state(number: int) -> void:
+	rng.randomize()
 	var random_number = rng.randi_range(1,2)
 	take_damage(damage_amount)
 	state = HURT

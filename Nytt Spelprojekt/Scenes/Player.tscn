@@ -1991,107 +1991,86 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2394,8 +2373,10 @@ position = Vector2( 10, -20 )
 frames = SubResource( 51 )
 animation = "ComboEWQE"
 offset = Vector2( 0, 1 )
+flip_h = true
 
 [node name="HurtBox" type="Area2D" parent="." groups=["Player"]]
+visible = false
 collision_mask = 44
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" groups=["Player"]]
@@ -2479,6 +2460,7 @@ one_shot = true
 [node name="NewTimer" type="Timer" parent="."]
 
 [node name="Position2D" type="Position2D" parent="."]
+visible = false
 position = Vector2( 0, -15 )
 
 [node name="Line2D" parent="Position2D" instance=ExtResource( 80 )]
@@ -2490,6 +2472,7 @@ width = 2.0
 gradient = SubResource( 512 )
 
 [node name="DashParticles" type="Particles2D" parent="Position2D"]
+visible = false
 position = Vector2( -10, 10 )
 emitting = false
 amount = 60
@@ -2510,6 +2493,7 @@ animation = "Test1"
 frame = 2
 
 [node name="ComboSprites" type="AnimatedSprite" parent="."]
+visible = false
 modulate = Color( 3, 1.5, 1.5, 1 )
 position = Vector2( 35, -12 )
 scale = Vector2( 1.5, 2 )
@@ -2517,6 +2501,7 @@ frames = SubResource( 700 )
 animation = "Acid3"
 
 [node name="SpecialAttackArea" type="Area2D" parent="." groups=["ComboEWQE1"]]
+visible = false
 collision_layer = 2
 collision_mask = 2
 
@@ -2539,6 +2524,11 @@ visible = false
 position = Vector2( -24, -16 )
 shape = SubResource( 725 )
 disabled = true
+
+[node name="Position2D2" type="Position2D" parent="."]
+position = Vector2( -10, -10 )
+
+[node name="Position2D3" type="Position2D" parent="."]
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

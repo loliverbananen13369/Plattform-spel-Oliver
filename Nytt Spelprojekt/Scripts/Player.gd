@@ -48,7 +48,8 @@ var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
-var holy_buff_scene = preload("res://Scenes/HolyEffect.tscn")
+var buff_scene = preload("res://Scenes/BuffEffect.tscn")
+var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var ghosttime := 0.0
 
 onready var playersprite = $PlayerSprite
@@ -239,8 +240,24 @@ func _add_jump_dust(number: int) -> void:
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
 
-func _add_holy_buff(buff_name: String) -> void:
-	var buff = holy_buff_scene.instance()
+func _add_holy_particles(amount: int) -> void:
+	for i in range(amount):
+		rng.randomize()
+		var random_number = rng.randi_range(1, 2)
+		if random_number == 1:
+			$Position2D2.position.x = 30
+			$Position2D3.position.x = -10
+		else:
+			$Position2D2.position.x = -10
+			$Position2D3.position.x = 30
+		var particles = holy_particles_scene.instance()
+		particles.global_position = global_position
+		particles.emitting = true
+		get_tree().get_root().add_child(particles)
+		yield(get_tree().create_timer(0.5), "timeout")
+
+func _add_buff(buff_name: String) -> void:
+	var buff = buff_scene.instance()
 	var effect1 = buff.get_child(0)
 	buff.global_position = playersprite.global_position 
 	if buff_name == "lvl_up":
@@ -353,7 +370,7 @@ func _level_up(current_xp, xp_needed):
 		current_lvl += 1
 		has_leveled_up = true
 		player_stats(current_lvl)
-		_add_holy_buff("lvl_up")
+		_add_buff("lvl_up")
 		return true
 	else:
 		return false
@@ -376,6 +393,7 @@ func _set_sprite_position(anim_name):
 
 func _add_preparing_attack_particles(amount) -> void:
 	for n in range (amount):
+		rng.randomize()
 		var nrx = rng.randi_range(-100, 100)
 		var nry = rng.randi_range(-100, 100)
 		var particles = prepare_attack_particles_scene.instance()
@@ -391,7 +409,9 @@ func _idle_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("HolyBuff1"):
-		_add_holy_buff("holy")
+		_add_buff("holy")
+		_add_holy_particles(20)
+		#yield(get_tree().create_timer(10), "timeout")
 	
 	_attack_function()
 	_apply_basic_movement(delta)
