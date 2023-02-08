@@ -239,9 +239,14 @@ func _add_jump_dust(number: int) -> void:
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
 
-func _add_holy_buff() -> void:
+func _add_holy_buff(buff_name: String) -> void:
 	var buff = holy_buff_scene.instance()
-	buff.global_position = playersprite.global_position + Vector2(0, 0)
+	var effect1 = buff.get_child(0)
+	buff.global_position = playersprite.global_position 
+	if buff_name == "lvl_up":
+		effect1.animation = "lvl_up"
+	if buff_name == "holy":
+		effect1.animation = "holy"
 	get_tree().get_root().add_child(buff)
 
 func take_damage(amount: int, direction: int) -> void:
@@ -348,7 +353,7 @@ func _level_up(current_xp, xp_needed):
 		current_lvl += 1
 		has_leveled_up = true
 		player_stats(current_lvl)
-		_add_holy_buff()
+		_add_holy_buff("lvl_up")
 		return true
 	else:
 		return false
@@ -386,7 +391,7 @@ func _idle_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("HolyBuff1"):
-		_add_holy_buff()
+		_add_holy_buff("holy")
 	
 	_attack_function()
 	_apply_basic_movement(delta)
