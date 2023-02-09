@@ -37,7 +37,7 @@ var jump_buffer = 0.15
 var attack_buffer = 0.3
 var hit_amount = 0
 
-signal test
+signal test(length)
 signal HPChanged(hp)
 signal XPChanged(current_xp)
 signal LvlUp(current_lvl, xp_needed)
@@ -68,6 +68,7 @@ export var damage_combo_ewqe1 := 10
 export var damage_combo_ewqe2 := 50
 export var holy_buff_active := false
 export var dark_buff_active := false
+export var test_active := false
 
 
 
@@ -285,8 +286,16 @@ func _add_buff(buff_name: String) -> void:
 	if buff_name == "holy":
 		effect1.animation = "holy"
 		playersprite.modulate.r = 2
+		emit_signal("test", 0.3)
 	if buff_name == "dark2":
 		effect1.animation = "dark2"
+	if buff_name == "test":
+		effect1.animation = "test"
+	if buff_name == "life_steal":
+		effect1.animation = "life_steal"
+		playersprite.modulate.r8 = 255
+		playersprite.modulate.g8 = 130
+		playersprite.modulate.b8 = 116
 	get_tree().get_root().add_child(buff)
 	
 
@@ -361,27 +370,25 @@ func _remember_attack() -> void:
 func _dash_to_enemy(switch_side: bool) -> void:
 	var close_enemy = _get_closest_enemy()
 	var far_enemy = _get_furthest_away_enemy()
-	print("Player: " + str(global_position))
-	print("Close: " + str(close_enemy.global_position))
-	print("Far: " + str(far_enemy.global_position))
-	if not switch_side:
-		if global_position.x >= close_enemy.global_position.x:
-			global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
-			direction_x = "LEFT"
-			_flip_sprite(false)
+	if can_follow_enemy:
+		if not switch_side:
+			if global_position.x >= close_enemy.global_position.x:
+				global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
+				direction_x = "LEFT"
+				_flip_sprite(false)
+			else:
+				global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
+				direction_x = "RIGHT"
+				_flip_sprite(true)
 		else:
-			global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
-			direction_x = "RIGHT"
-			_flip_sprite(true)
-	else:
-		if global_position.x <= far_enemy.global_position.x:
-			global_position.x = far_enemy.global_position.x + 30# + Vector2(30, -4)
-			direction_x = "LEFT"
-			_flip_sprite(false)
-		else:
-			global_position.x = far_enemy.global_position.x - 30# - Vector2(30, 4)
-			direction_x = "RIGHT"
-			_flip_sprite(true)
+			if global_position.x <= far_enemy.global_position.x:
+				global_position.x = far_enemy.global_position.x + 30# + Vector2(30, -4)
+				direction_x = "LEFT"
+				_flip_sprite(false)
+			else:
+				global_position.x = far_enemy.global_position.x - 30# - Vector2(30, 4)
+				direction_x = "RIGHT"
+				_flip_sprite(true)
 	
 
 func check_combo() -> void:
@@ -479,8 +486,19 @@ func _idle_state(delta) -> void:
 	if Input.is_action_just_pressed("DarkBuff") and not dark_buff_active:
 		_add_buff("dark2")
 		dark_buff_active = true
-		yield(get_tree().create_timer(7.5), "timeout")
+		yield(get_tree().create_timer(7.2), "timeout")
 		dark_buff_active = false
+	
+	if Input.is_action_just_pressed("Fx000"):
+		test_active = true
+		yield(get_tree().create_timer(10), "timeout")
+		test_active = false
+		#_add_buff("life_steal")
+		#yield(get_tree().create_timer(2), "timeout")
+		#playersprite.modulate.r8 = 255
+		#playersprite.modulate.g8 = 255
+		#playersprite.modulate.b8 = 255
+	
 		
 	
 	_attack_function()
@@ -768,7 +786,7 @@ func _enter_combo_state(number : int) -> void:
 			animationplayer.play("ComboEWQE1")
 		else:
 			animationplayer.play("ComboEWQE2")
-			emit_signal("test")
+			emit_signal("test", 0.2)
 		combo_list.clear()
 		
 #Signals
@@ -844,12 +862,15 @@ func _on_timer_timeout() -> void:
 
 
 func _on_HurtBox_area_entered(area):
+	var amount = 5
+	if dark_buff_active:
+		amount = 10
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
-			take_damage(5, direction.x)
+			take_damage(amount, direction.x)
 		
 		if area.is_in_group("Enemy"):
-			take_damage(5, direction.x)
+			take_damage(amount, direction.x)
 	if area.is_in_group("XP-Particle"):
 		current_xp += 40
 		if _level_up(current_xp, xp_needed):
@@ -860,14 +881,22 @@ func _on_HurtBox_area_entered(area):
 		
 
 
-
 func _on_KinematicBody2D_dead() -> void:
 	pass
 
 func _on_KinematicBody2D_hurt() -> void:
-	can_follow_enemy = true
-	yield(get_tree().create_timer(1), "timeout")
-	can_follow_enemy = false
+	pass
+	
+		
+
+
+func _on_NormalAttackArea_area_entered(area):
+	if area.is_in_group("EnemyHitbox"):
+		_add_buff("test")
+		if not can_follow_enemy:
+			can_follow_enemy = true
+			$NewTimer.start(1)
+		
 
 func _on_KinematicBody2D_side_of_player(which_side):
 	enemy_side_of_you = which_side
@@ -902,9 +931,8 @@ func _on_DashTimer_timeout():
 	ghosttime = 0.0
 	can_dash = true
 
-
-
-
+func _on_NewTimer_timeout():
+	can_follow_enemy = false
 
 
 

@@ -315,7 +315,7 @@ func _on_Area2D_area_entered(area):
 		damage_amount = damage
 		_enter_hurt_state(2)
 		_spawn_damage_indicator(damage_amount, crit)
-	emit_signal("hurt")
+	
 	_die_b(hp)
 		
 		#if hp <= 0:
@@ -418,6 +418,7 @@ func _spawn_damage_indicator(damage: int, crit: bool):
 		else:
 			anim.play("ShowCrit")
 			indicator.label.text = str(damage)
+	emit_signal("hurt")
 
 
 
