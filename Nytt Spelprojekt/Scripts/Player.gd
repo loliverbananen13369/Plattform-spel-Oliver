@@ -60,11 +60,17 @@ onready var dashtimer = $DashTimer
 onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
+onready var tween = $Tween
+
+export var damage_a1 := 5
+export var damage_combo_qweq := 15
+export var damage_combo_ewqe1 := 10
+export var damage_combo_ewqe2 := 50
+export var holy_buff_active := false
+export var dark_buff_active := false
 
 
 
-var tween = Tween.new()
-var alpha_tween_values = [255, 60]
 var dash_to_enemy_distance = 50
 
 var hit_the_ground = false
@@ -86,7 +92,6 @@ var current_lvl = 1
 
 func _ready() -> void:
 	$AnimationPlayer.playback_speed = 1
-	print(self.get_path())  # prints /root/Control/Node2D
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -163,15 +168,30 @@ func _air_movement(delta) -> void:
 		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
 		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
-func _test_enemy():
+func _get_closest_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	var closest_enemy = all_enemy[0]
 	for i in range(1, len(all_enemy)):
 		if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
 			closest_enemy = all_enemy[i]
-	
-		
+
 	return closest_enemy
+
+func _get_furthest_away_enemy():
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	var furthest_away_enemy = all_enemy[0]
+	if direction_x == "RIGHT":
+		for i in range(1, len(all_enemy)):
+			if all_enemy[i].global_position.x > furthest_away_enemy.global_position.x :
+			#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
+				furthest_away_enemy = all_enemy[i]
+	else:
+		for i in range(1, len(all_enemy)):
+			if all_enemy[i].global_position.x < furthest_away_enemy.global_position.x :
+			#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
+				furthest_away_enemy = all_enemy[i]
+
+	return furthest_away_enemy
 
 func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
@@ -264,7 +284,11 @@ func _add_buff(buff_name: String) -> void:
 		effect1.animation = "lvl_up"
 	if buff_name == "holy":
 		effect1.animation = "holy"
+		playersprite.modulate.r = 2
+	if buff_name == "dark2":
+		effect1.animation = "dark2"
 	get_tree().get_root().add_child(buff)
+	
 
 func take_damage(amount: int, direction: int) -> void:
 	state = HURT
@@ -285,7 +309,7 @@ func take_damage(amount: int, direction: int) -> void:
 	emit_signal("HPChanged", hp)
 	yield(get_tree().create_timer(0.3), "timeout")
 	$FlashTimer.start(2)
-	start_tween()
+	_alpha_tween()
 	_enter_idle_state()
 
 func frameFreeze(timescale, duration):
@@ -298,18 +322,29 @@ func flash():
 	yield(get_tree().create_timer(0.2), "timeout")
 	playersprite.material.set_shader_param("flash_modifier", 0.0)
 
-func _enter_tree():
-	tween.name = "Tween"
-	add_child(tween)    
-	tween.connect("tween_completed", self, "on_tween_completed")
-	
-func start_tween():
-	$Tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.5)
-	$Tween.start()
 
-func on_tween_completed(object, key):
-	alpha_tween_values.invert()
-	start_tween()
+	
+func _alpha_tween() -> void:
+	var alpha_tween_values = [255, 60]
+	for i in range (4):
+		tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.25)
+		tween.start()
+		yield(get_tree().create_timer(0.25), "timeout")
+		alpha_tween_values.invert()
+		tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.25)
+		tween.start()
+		alpha_tween_values.invert()
+		
+func _modulate_tween()-> void:
+	var modulate_tween_values = [1, 10]
+	for i in range(4):
+		tween.interpolate_property(playersprite, "modulate:r", modulate_tween_values[0], modulate_tween_values[1], 0.25)
+		tween.start()
+		yield(get_tree().create_timer(0.25), "timeout")
+		modulate_tween_values.invert()
+		tween.interpolate_property(playersprite, "modulate:r", modulate_tween_values[0], modulate_tween_values[1], 0.25)
+		tween.start()
+		modulate_tween_values.invert()
 
 func _player_immune():
 	playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 255, 60)
@@ -324,22 +359,27 @@ func _remember_attack() -> void:
 	attack_pressed = 0
 
 func _dash_to_enemy(switch_side: bool) -> void:
-	var enemy = _test_enemy()
+	var close_enemy = _get_closest_enemy()
+	var far_enemy = _get_furthest_away_enemy()
+	print("Player: " + str(global_position))
+	print("Close: " + str(close_enemy.global_position))
+	print("Far: " + str(far_enemy.global_position))
 	if not switch_side:
-		if global_position.x >= enemy.global_position.x:
-			global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
-			_flip_sprite(false)
-		else:
-			global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
-			direction_x = "RIGHT"
-			_flip_sprite(true)
-	else:
-		if global_position.x <= enemy.global_position.x:
-			global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
+		if global_position.x >= close_enemy.global_position.x:
+			global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
 			direction_x = "LEFT"
 			_flip_sprite(false)
 		else:
-			global_position = enemy.global_position - 30# - Vector2(30, 4)
+			global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
+			direction_x = "RIGHT"
+			_flip_sprite(true)
+	else:
+		if global_position.x <= far_enemy.global_position.x:
+			global_position.x = far_enemy.global_position.x + 30# + Vector2(30, -4)
+			direction_x = "LEFT"
+			_flip_sprite(false)
+		else:
+			global_position.x = far_enemy.global_position.x - 30# - Vector2(30, 4)
 			direction_x = "RIGHT"
 			_flip_sprite(true)
 	
@@ -360,16 +400,32 @@ func check_combo() -> void:
 					_enter_combo_state(2)
 
 
-func player_stats(current_lvl):
-	if current_lvl >= 2:
+func player_stats_lvl(current_lvl):
+	if current_lvl == 2:
 		$SpecialAttackArea.add_to_group("ComboEWQE2")
-
+		$SpecialAttackArea.remove_from_group("ComboEWQE1")
+func player_stats():
+	if holy_buff_active:
+		damage_a1 = 10
+		damage_combo_ewqe1 = 20
+		damage_combo_ewqe2 = 100
+		damage_combo_qweq = 30
+	elif dark_buff_active:
+		damage_a1 = 7
+		damage_combo_ewqe1 = 15
+		damage_combo_ewqe2 = 37
+		damage_combo_qweq = 23
+	else:
+		damage_a1 = 5
+		damage_combo_ewqe1 = 10
+		damage_combo_ewqe2 = 50
+		damage_combo_qweq = 15
 
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
 		current_lvl += 1
 		has_leveled_up = true
-		player_stats(current_lvl)
+		player_stats_lvl(current_lvl)
 		_add_buff("lvl_up")
 		return true
 	else:
@@ -408,10 +464,24 @@ func _idle_state(delta) -> void:
 		_enter_air_state(true)
 		return
 	
-	if Input.is_action_just_pressed("HolyBuff1"):
+	if Input.is_action_just_pressed("HolyBuff1") and not holy_buff_active:
 		_add_buff("holy")
-		_add_holy_particles(20)
-		#yield(get_tree().create_timer(10), "timeout")
+		_add_holy_particles(10)
+		holy_buff_active = true
+		can_take_damage = false
+		yield(get_tree().create_timer(3), "timeout")
+		#_modulate_tween()
+		yield(get_tree().create_timer(2), "timeout")
+		playersprite.modulate.r = 1
+		can_take_damage = true
+		holy_buff_active = false
+	
+	if Input.is_action_just_pressed("DarkBuff") and not dark_buff_active:
+		_add_buff("dark2")
+		dark_buff_active = true
+		yield(get_tree().create_timer(7.5), "timeout")
+		dark_buff_active = false
+		
 	
 	_attack_function()
 	_apply_basic_movement(delta)
@@ -628,6 +698,7 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	else:
 		state = ATTACK_GROUND
 		$ComboTimer.start(1)
+	player_stats()
 	is_attacking = true
 	animatedsmears.position.y = -15
 	if attack == 1:
@@ -675,6 +746,8 @@ func _enter_attack_air_state(Jump: bool) -> void:
 
 func _enter_combo_state(number : int) -> void:
 	state = COMBO
+	if Input.is_action_pressed("Dash"):
+		_dash_to_enemy(true)
 	if number == 1: 
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
@@ -785,8 +858,7 @@ func _on_HurtBox_area_entered(area):
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
 		
-		
-	
+
 
 
 func _on_KinematicBody2D_dead() -> void:
@@ -810,9 +882,10 @@ func _on_ImmuneTimer_timeout():
 	#_enter_idle_state()
 
 func _on_FlashTimer_timeout():
-	can_take_damage = true
-	alpha_tween_values.invert()
-	$Tween.stop(playersprite)
+	if not holy_buff_active:
+		can_take_damage = true
+	tween.stop(playersprite)
+
 
 func _on_ComboTimer_timeout():
 	combo_list.clear()
@@ -828,8 +901,6 @@ func _on_DashTimer_timeout():
 	#dashline.visible = false
 	ghosttime = 0.0
 	can_dash = true
-
-
 
 
 

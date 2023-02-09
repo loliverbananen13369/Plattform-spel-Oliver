@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/DamageIndicator.gd" type="Script" id=1]
 [ext_resource path="res://SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=2]
@@ -6,21 +6,34 @@
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "ShowDamage"
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"update": 0,
+"values": [ Color( 0.835294, 0.235294, 0.415686, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "ShowCrit"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 2, 0.5, 0.5, 1 ), Color( 0.835294, 0.235294, 0.415686, 1 ), Color( 0.835294, 0.235294, 0.415686, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:scale")
@@ -32,22 +45,66 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1.5, 1.5 ) ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:modulate")
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "ShowDamage"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 2, 0.36, 0.96, 1 ), Color( 0.486275, 0.0941176, 0.235294, 1 ), Color( 0.486275, 0.0941176, 0.235294, 0 ) ]
+"values": [ Color( 0.835294, 0.235294, 0.415686, 1 ), Color( 0.486275, 0.0941176, 0.235294, 1 ), Color( 0.486275, 0.0941176, 0.235294, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
 }
 
 [node name="DamageIndicator" type="Node2D"]
+modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
 position = Vector2( 26, -50 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
@@ -60,5 +117,6 @@ custom_fonts/font = SubResource( 2 )
 text = "0"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "ShowDamage"
+anims/RESET = SubResource( 3 )
+anims/ShowCrit = SubResource( 4 )
 anims/ShowDamage = SubResource( 1 )

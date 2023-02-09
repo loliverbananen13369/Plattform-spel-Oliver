@@ -18,7 +18,14 @@ func _ready() -> void:
 		spellsprite.modulate.b = 1.5
 		spellsprite.modulate.g = 1.5
 		#spellsprite.modulate = (2, 1.5, 1.5, 1)
-		print(spellsprite.modulate) 
+	if spellsprite.animation == "dark2":
+		spellsprite.scale.x = 1
+		spellsprite.scale.y = 1
+		spellsprite.modulate.r = 1
+		spellsprite.modulate.b = 1
+		spellsprite.modulate.g = 1
+		yield(get_tree().create_timer(7.5), "timeout")
+		queue_free()
 		
 
 		#tween.name = "Tween"
@@ -31,5 +38,8 @@ func _process(delta: float) -> void:
 	global_position = player.global_position + Vector2(10, -18)
 
 func _on_AnimatedSprite_animation_finished() -> void:
-	Engine.time_scale = 1
-	queue_free()
+	if spellsprite.animation == "holy":
+		queue_free()
+	if spellsprite.animation == "lvl_up":
+		queue_free()
+		

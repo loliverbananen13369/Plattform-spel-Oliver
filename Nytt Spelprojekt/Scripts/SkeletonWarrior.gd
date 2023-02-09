@@ -103,13 +103,10 @@ func _apply_basic_movement(delta) -> void:
 		animatedsprite.flip_h = false
 		$Position2D.position.x = 1
 
-
-
 func flash():
 	animatedsprite.material.set_shader_param("flash_modifier", 0.8)
 	$FlashTimer.start(0.2)
 	
-
 func _turn_around():
 	if not $RayCast2D.is_colliding() and is_on_floor():
 		direction_x *= -1
@@ -239,8 +236,6 @@ func _hurt_state(delta) -> void:
 	_die_b(hp)
 		
 
-
-
 func _enter_idle_state() -> void:
 	state = IDLE
 	animatedsprite.play("Idle")
@@ -293,20 +288,34 @@ func _on_FlashTimer_timeout():
 	animatedsprite.material.set_shader_param("flash_modifier", 0)
 
 func _on_Area2D_area_entered(area):
+	var holy_active = player.get("holy_buff_active")
+	var dark_active = player.get("dark_buff_active")
+	var crit = false
+	if holy_active or dark_active:
+		crit = true
+	else:
+		crit = false
 	if area.is_in_group("PlayerSword"):
-		damage_amount = 5
+		var damage = player.get("damage_a1")
+		damage_amount = damage
 		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("ComboEWQE1"):
-		damage_amount = 10
+		var damage = player.get("damage_combo_ewqe1")
+		damage_amount = damage
 		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("ComboEWQE2"):
-		damage_amount = 100
-		_enter_hurt_state(2)
+		var damage = player.get("damage_combo_ewqe2")
+		damage_amount = damage
+		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("SwordCut"):
-		damage_amount = 15
+		var damage = player.get("damage_combo_qweq")
+		damage_amount = damage
 		_enter_hurt_state(2)
+		_spawn_damage_indicator(damage_amount, crit)
 	emit_signal("hurt")
-	_spawn_damage_indicator(damage_amount)
 	_die_b(hp)
 		
 		#if hp <= 0:
@@ -395,14 +404,23 @@ func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_positio
 	if EFFECT:
 		var effect = EFFECT.instance()
 		get_tree().current_scene.add_child(effect)
-		effect.global_position = effect_position + Vector2(direction_x*5, -30)
+		effect.global_position = effect_position + Vector2(-direction_x*5, -40)
 		return effect
 
-func _spawn_damage_indicator(damage: int):
+func _spawn_damage_indicator(damage: int, crit: bool):
 	var indicator = spawn_effect(INDICATOR_DAMAGE)
 	var _direction = direction_x
+	var anim = indicator.get_node("AnimationPlayer")
 	if indicator:
-		indicator.label.text = str(damage)
+		if not crit:
+			anim.play("ShowDamage")
+			indicator.label.text = str(damage)
+		else:
+			anim.play("ShowCrit")
+			indicator.label.text = str(damage)
+
+
+
 	
 func _spawn_xp() -> void:
 	var xp = xp_scene.instance()
