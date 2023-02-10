@@ -50,6 +50,7 @@ var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
 var buff_scene = preload("res://Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
+var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
 var ghosttime := 0.0
 
 onready var playersprite = $PlayerSprite
@@ -150,8 +151,6 @@ func _get_input_x_update_direction() -> float:
 	animatedsmears.flip_h = direction_x != "RIGHT"
 	
 	#$Thrusts.flip_h  = direction_x != "RIGHT"
-
-	
 	
 	return input_x
 
@@ -299,6 +298,18 @@ func _add_buff(buff_name: String) -> void:
 	get_tree().get_root().add_child(buff)
 	
 
+func _add_airexplosions(amount: int) -> void:
+	
+	for i in range(amount):
+		var explosion = air_explosion_scene.instance()
+		var closest_enemy = _get_closest_enemy()
+		get_tree().get_root().add_child(explosion)
+		if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
+			tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 0.2, Tween.TRANS_SINE , Tween.EASE_IN)
+			tween.start()
+		yield(get_tree().create_timer(0.3), "timeout")
+	
+
 func take_damage(amount: int, direction: int) -> void:
 	state = HURT
 	if enemy_side_of_you == "right":
@@ -390,7 +401,6 @@ func _dash_to_enemy(switch_side: bool) -> void:
 				direction_x = "RIGHT"
 				_flip_sprite(true)
 	
-
 func check_combo() -> void:
 	var re_combo_list = []
 	for i in range(0, combo_list.size()):
@@ -406,11 +416,11 @@ func check_combo() -> void:
 				if re_combo_list[3] == 3: 
 					_enter_combo_state(2)
 
-
 func player_stats_lvl(current_lvl):
 	if current_lvl == 2:
 		$SpecialAttackArea.add_to_group("ComboEWQE2")
 		$SpecialAttackArea.remove_from_group("ComboEWQE1")
+
 func player_stats():
 	if holy_buff_active:
 		damage_a1 = 10
@@ -498,6 +508,9 @@ func _idle_state(delta) -> void:
 		#playersprite.modulate.r8 = 255
 		#playersprite.modulate.g8 = 255
 		#playersprite.modulate.b8 = 255
+	
+	if Input.is_action_just_pressed("AirExplosion"):
+		_add_airexplosions(10)
 	
 		
 	
@@ -935,4 +948,5 @@ func _on_NewTimer_timeout():
 	can_follow_enemy = false
 
 
-
+func _on_KinematicBody2D_pos(position) -> void:
+	pass # Replace with function body.

@@ -1,10 +1,10 @@
 class_name Missile
 extends Node2D
 
-const LAUNCH_SPEED := 50
+const LAUNCH_SPEED := 200
 
 
-var max_speed := 50.0
+var max_speed := 200
 var drag_factor := 0.15 setget set_drag_factor
 
 onready var target = get_node("../Level 0/Node2D/Player")

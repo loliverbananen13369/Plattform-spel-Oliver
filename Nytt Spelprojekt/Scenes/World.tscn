@@ -870,4 +870,5 @@ pitch_scale = 0.8
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
 [connection signal="dead" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_dead"]
 [connection signal="hurt" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_hurt"]
+[connection signal="pos" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_pos"]
 [connection signal="side_of_player" from="Node/KinematicBody2D" to="Node2D/Player" method="_on_KinematicBody2D_side_of_player"]

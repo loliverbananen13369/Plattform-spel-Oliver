@@ -45,6 +45,7 @@ var motion_previous = Vector2()
 signal dead
 signal hurt
 signal side_of_player(which_side)
+signal pos(position)
 
 const INDICATOR_DAMAGE = preload("res://UI/DamageIndicator.tscn")
 
@@ -315,6 +316,13 @@ func _on_Area2D_area_entered(area):
 		damage_amount = damage
 		_enter_hurt_state(2)
 		_spawn_damage_indicator(damage_amount, crit)
+	if area.is_in_group("AirExplosion"):
+		damage_amount = 10
+		emit_signal("pos", global_position)
+		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
+		
+		
 	
 	_die_b(hp)
 		
