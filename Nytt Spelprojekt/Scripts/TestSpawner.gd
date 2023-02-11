@@ -10,11 +10,11 @@ onready var player = get_node("../Node2D/Player")
 
 func _ready() -> void:
 	randomize()
-	$Timer.wait_time = 3 + rand_range(-2, 2)
+	$Timer.wait_time = 1 + rand_range(-1, 1)
 
 func _can_spawn_warrior() -> bool:
 	var number_of_warrior = len(get_tree().get_nodes_in_group("Enemy"))
-	return number_of_warrior <= 10
+	return number_of_warrior <= 20
 
 func _spawn_warrior() -> void:
 	var warrior = warrior_scene.instance()
@@ -58,8 +58,9 @@ func _on_Timer_timeout() -> void:
 		var randomnumber = randi() % 10
 		if randomnumber == 0:
 			_spawn_swarm()
+			_spawn_warrior()
 		else:
 			_spawn_warrior()
-		$Timer.wait_time = 3 + rand_range(-2, 2)
+		$Timer.wait_time = 1 + rand_range(-1, 1)
 		
 			
