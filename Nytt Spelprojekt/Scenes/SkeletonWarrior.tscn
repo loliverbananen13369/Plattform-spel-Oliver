@@ -940,7 +940,7 @@ frames = SubResource( 3 )
 animation = "Idle"
 flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 7, -15 )
 shape = SubResource( 8 )

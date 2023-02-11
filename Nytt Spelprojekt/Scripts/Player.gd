@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -70,6 +70,7 @@ export var damage_combo_ewqe2 := 50
 export var holy_buff_active := false
 export var dark_buff_active := false
 export var test_active := false
+export (Vector2) var tester := Vector2.ZERO
 
 
 
@@ -81,6 +82,9 @@ var last_step = 0
 var side = "RIGHT"
 var xp_needed = 40
 var has_leveled_up = false
+var testpos = Vector2.ZERO
+var testpos2 = Vector2.ZERO
+
 
 #Player stats
 var hp = 100
@@ -91,6 +95,8 @@ var mana_max = 100
 var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
+
+
 
 func _ready() -> void:
 	$AnimationPlayer.playback_speed = 1
@@ -121,6 +127,8 @@ func _physics_process(delta: float) -> void:
 			_combo_state(delta)
 		HURT:
 			_hurt_state(delta)
+		INVISIBLE:
+			_invisible_state(delta)
 
 #Help functions
 func _apply_basic_movement(delta) -> void:
@@ -128,7 +136,6 @@ func _apply_basic_movement(delta) -> void:
 		velocity = velocity.move_toward(direction*MAX_SPEED, ACCELERATION*delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, ACCELERATION*delta)
-	
 	velocity.y += GRAVITY*delta
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if not hit_the_ground and is_on_floor():
@@ -170,12 +177,22 @@ func _air_movement(delta) -> void:
 
 func _get_closest_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	var closest_enemy = all_enemy[0]
-	for i in range(1, len(all_enemy)):
-		if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
-			closest_enemy = all_enemy[i]
+	if len(all_enemy) > 0:
+		var closest_enemy = all_enemy[0]
+		for i in range(1, len(all_enemy)):
+			if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
+				closest_enemy = all_enemy[i]
 
-	return closest_enemy
+		return closest_enemy
+
+func _get_direction_to_enemy():
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	if len(all_enemy) > 0:
+		var closest_enemy = _get_closest_enemy()
+		var asdasd = global_position.direction_to(closest_enemy.global_position)
+		
+		tester = asdasd
+
 
 func _get_furthest_away_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
@@ -297,17 +314,58 @@ func _add_buff(buff_name: String) -> void:
 		playersprite.modulate.b8 = 116
 	get_tree().get_root().add_child(buff)
 	
+"""
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	if len(all_enemy) > 0:
+		var closest_enemy = all_enemy[0]
+		for i in range(1, len(all_enemy)):
+			if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
+				closest_enemy = all_enemy[i]
+"""
+
+func _add_first_air_explosion() -> void:
+	state = INVISIBLE
+	playersprite.visible = false
+	$HurtBox/CollisionShape2D.disabled = true
+	var explosion = air_explosion_scene.instance()
+	var closest_enemy = _get_closest_enemy()
+	explosion.global_position = global_position + Vector2(5, -15)
+	get_tree().get_root().add_child(explosion)
+	if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
+		tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.start()
+		testpos = closest_enemy.global_position + Vector2(5, -15)
+		testpos2 = closest_enemy.global_position
+
+
+
 
 func _add_airexplosions(amount: int) -> void:
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	if len(all_enemy) > 1:
+		for i in range(amount):
+			if len(all_enemy) > 1:
+				var explosion = air_explosion_scene.instance()
+				var closest_enemy = all_enemy[0]
+				for j in range(1, len(all_enemy)):
+					if testpos.distance_to(all_enemy[j].global_position) < testpos.distance_to((closest_enemy.global_position)):
+						closest_enemy = all_enemy[j]
+				explosion.global_position = testpos
+				get_tree().get_root().add_child(explosion)
+				print(closest_enemy.global_position)
+				if (closest_enemy.global_position.x - testpos.x < 50 ) or ( testpos.x - closest_enemy.global_position.x < 50 ):
+					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
+					tween.start()
+					testpos = closest_enemy.global_position + Vector2(5, -15)
+					testpos2 = closest_enemy.global_position
+					all_enemy.erase(closest_enemy)
+					print(all_enemy)
+					yield(get_tree().create_timer(0.3), "timeout")
 	
-	for i in range(amount):
-		var explosion = air_explosion_scene.instance()
-		var closest_enemy = _get_closest_enemy()
-		get_tree().get_root().add_child(explosion)
-		if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
-			tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 0.2, Tween.TRANS_SINE , Tween.EASE_IN)
-			tween.start()
-		yield(get_tree().create_timer(0.3), "timeout")
+	playersprite.visible = true
+	_enter_idle_state()
+	yield(get_tree().create_timer(1), "timeout")
+	$HurtBox/CollisionShape2D.disabled = false
 	
 
 func take_damage(amount: int, direction: int) -> void:
@@ -510,6 +568,9 @@ func _idle_state(delta) -> void:
 		#playersprite.modulate.b8 = 255
 	
 	if Input.is_action_just_pressed("AirExplosion"):
+		_get_direction_to_enemy()
+		_add_first_air_explosion()
+		yield(get_tree().create_timer(0.3), "timeout")
 		_add_airexplosions(10)
 	
 		
@@ -679,6 +740,12 @@ func _combo_state(delta) -> void:
 
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
+
+func _invisible_state(delta) -> void:
+	global_position = testpos2
+	#playersprite.visible = false
+	#$HurtBox/CollisionShape2D.disabled = true
+
 
 #Enter states
 func _enter_idle_state() -> void:
