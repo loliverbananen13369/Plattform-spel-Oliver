@@ -1,4 +1,4 @@
-[gd_scene load_steps=320 format=2]
+[gd_scene load_steps=321 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -1442,6 +1442,18 @@ tracks/11/keys = {
 "method": "player_stats"
 } ]
 }
+tracks/12/type = "value"
+tracks/12/path = NodePath("PlayerSprite:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.693 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 3, 1.5, 1.5, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=726]
 resource_name = "ComboSpinAttack"
@@ -1801,6 +1813,18 @@ tracks/6/keys = {
 "update": 1,
 "values": [ 2, 2, 2 ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("PlayerSprite:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.192, 0.416 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 4, 0.5, 0.5, 1 ) ]
+}
 
 [sub_resource type="Animation" id=790]
 length = 0.001
@@ -1970,6 +1994,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("PlayerSprite:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Gradient" id=637]
 colors = PoolColorArray( 0.835294, 0.235294, 0.415686, 1, 0.27451, 0.054902, 0.168627, 1 )
@@ -2074,86 +2110,107 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2430,6 +2487,9 @@ extents = Vector2( 74.75, 30.5 )
 [sub_resource type="RectangleShape2D" id=725]
 extents = Vector2( 24, 9.5 )
 
+[sub_resource type="CircleShape2D" id=791]
+radius = 25.0
+
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 position = Vector2( 10, -20 )
 z_index = 1
@@ -2443,7 +2503,6 @@ position = Vector2( 10, -20 )
 rotation = 0.785398
 frames = SubResource( 537 )
 animation = "Acid"
-frame = 1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
 visible = false
@@ -2451,10 +2510,12 @@ position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
+visible = false
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "AirAttack"
+animation = "FallF"
+frame = 2
 offset = Vector2( 0, 1 )
 flip_h = true
 
@@ -2469,7 +2530,8 @@ shape = SubResource( 53 )
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 visible = false
 position = Vector2( 30, -15 )
-animation = "AirAttack"
+scale = Vector2( 3, 3 )
+animation = "Thrust2"
 frame = 0
 flip_h = true
 
@@ -2610,6 +2672,14 @@ position = Vector2( -10, -10 )
 
 [node name="Tween" type="Tween" parent="."]
 
+[node name="CollectParticlesArea" type="Area2D" parent="." groups=["PlayerCollectParticlesArea"]]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectParticlesArea"]
+position = Vector2( 10, -13 )
+shape = SubResource( 791 )
+
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
@@ -2619,3 +2689,4 @@ position = Vector2( -10, -10 )
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="timeout" from="NewTimer" to="." method="_on_NewTimer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]
+[connection signal="area_entered" from="CollectParticlesArea" to="." method="_on_CollectParticlesArea_area_entered"]

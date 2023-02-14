@@ -283,10 +283,12 @@ height = 0.0
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
 modulate = Color( 10, 2, 2, 1 )
+rotation = 1.5708
 frames = SubResource( 22 )
 animation = "New Anim 1"
 frame = 20
 playing = true
+flip_v = true
 script = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="." groups=["AirExplosion"]]

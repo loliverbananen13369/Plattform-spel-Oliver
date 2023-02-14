@@ -193,7 +193,6 @@ func _get_direction_to_enemy():
 		
 		tester = asdasd
 
-
 func _get_furthest_away_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	var furthest_away_enemy = all_enemy[0]
@@ -305,8 +304,8 @@ func _add_buff(buff_name: String) -> void:
 		emit_signal("test", 0.3)
 	if buff_name == "dark2":
 		effect1.animation = "dark2"
-	if buff_name == "test":
-		effect1.animation = "test"
+	if buff_name == "lifesteal_particles":
+		effect1.animation = "lifesteal_particles"
 	if buff_name == "life_steal":
 		effect1.animation = "life_steal"
 		playersprite.modulate.r8 = 255
@@ -336,9 +335,7 @@ func _add_first_air_explosion() -> void:
 		tween.start()
 		testpos = closest_enemy.global_position + Vector2(5, -15)
 		testpos2 = closest_enemy.global_position
-
-
-
+		global_position = testpos2
 
 func _add_airexplosions(amount: int) -> void:
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
@@ -347,27 +344,27 @@ func _add_airexplosions(amount: int) -> void:
 			if len(all_enemy) > 1:
 				var explosion = air_explosion_scene.instance()
 				var closest_enemy = all_enemy[0]
-				for j in range(1, len(all_enemy)):
-					if testpos.distance_to(all_enemy[j].global_position) < testpos.distance_to((closest_enemy.global_position)):
-						closest_enemy = all_enemy[j]
+				if len(all_enemy) > 1:
+					for j in range(1, len(all_enemy)):
+						if testpos.distance_to(all_enemy[j].global_position) < testpos.distance_to((closest_enemy.global_position)):
+							closest_enemy = all_enemy[j]
 				explosion.global_position = testpos
 				get_tree().get_root().add_child(explosion)
-				print(closest_enemy.global_position)
 				if (closest_enemy.global_position.x - testpos.x < 50 ) or ( testpos.x - closest_enemy.global_position.x < 50 ):
-					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
+					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
 					tween.start()
 					testpos = closest_enemy.global_position + Vector2(5, -15)
 					testpos2 = closest_enemy.global_position
-					all_enemy.erase(closest_enemy)
-					print(all_enemy)
-					yield(get_tree().create_timer(0.3), "timeout")
+					global_position = testpos2
+				all_enemy.erase(closest_enemy)
+				yield(get_tree().create_timer(0.2), "timeout")
+					
 	
 	playersprite.visible = true
 	_enter_idle_state()
 	yield(get_tree().create_timer(1), "timeout")
 	$HurtBox/CollisionShape2D.disabled = false
 	
-
 func take_damage(amount: int, direction: int) -> void:
 	state = HURT
 	if enemy_side_of_you == "right":
@@ -399,8 +396,6 @@ func flash():
 	playersprite.material.set_shader_param("flash_modifier", 0.6)
 	yield(get_tree().create_timer(0.2), "timeout")
 	playersprite.material.set_shader_param("flash_modifier", 0.0)
-
-
 	
 func _alpha_tween() -> void:
 	var alpha_tween_values = [255, 60]
@@ -440,13 +435,19 @@ func _dash_to_enemy(switch_side: bool) -> void:
 	var close_enemy = _get_closest_enemy()
 	var far_enemy = _get_furthest_away_enemy()
 	if can_follow_enemy:
+		print("dukan")
 		if not switch_side:
 			if global_position.x >= close_enemy.global_position.x:
-				global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
+				tween.interpolate_property(self, "global_position", global_position, close_enemy.global_position + Vector2(30, 0), 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				tween.start()
+				#global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
 				direction_x = "LEFT"
 				_flip_sprite(false)
 			else:
-				global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
+				tween.interpolate_property(self, "global_position", global_position.x, close_enemy.global_position.x - 30, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				tween.start()
+				
+				#global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
 				direction_x = "RIGHT"
 				_flip_sprite(true)
 		else:
@@ -570,10 +571,13 @@ func _idle_state(delta) -> void:
 	if Input.is_action_just_pressed("AirExplosion"):
 		_get_direction_to_enemy()
 		_add_first_air_explosion()
-		yield(get_tree().create_timer(0.3), "timeout")
+		emit_signal("test", 0.8)
+		yield(get_tree().create_timer(0.2), "timeout")
 		_add_airexplosions(10)
 	
-		
+	if Input.is_action_just_pressed("Dash"):
+		_dash_to_enemy(false)
+
 	
 	_attack_function()
 	_apply_basic_movement(delta)
@@ -704,7 +708,6 @@ func _attack_state_dash(attack_nr : int, delta) -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func _prepare_attack_air_state(delta) -> void:
-	frameFreeze(0.3, 0.4)
 	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
@@ -742,7 +745,8 @@ func _hurt_state(delta) -> void:
 	_air_movement(delta)		
 
 func _invisible_state(delta) -> void:
-	global_position = testpos2
+	pass
+	#global_position = testpos2
 	#playersprite.visible = false
 	#$HurtBox/CollisionShape2D.disabled = true
 
@@ -815,8 +819,6 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	if attack == 4:
 		animationplayer.play("SpinAttack")
 		can_attack = false
-	#if can_follow_enemy:
-	#	_dash_to_enemy(false)
 	combo_list.append(previous_attack) 
 	if combo_list.size() >= 4:
 		check_combo()
@@ -841,6 +843,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 
 	else:
 		animationplayer.play("PrepareAirAttack")
+		frameFreeze(0.3, 0.4)
 
 func _enter_combo_state(number : int) -> void:
 	state = COMBO
@@ -879,12 +882,16 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 				_enter_run_state()
+			elif Input.is_action_pressed("Dash"):
+				_dash_to_enemy(false)
 			else:
 				_enter_idle_state()
 	if anim_name == "Attack2":
 		can_attack = true
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
+		elif Input.is_action_pressed("Dash"):
+			_dash_to_enemy(false)
 		else:
 			_enter_idle_state()
 	if anim_name == "Attack3":
@@ -894,6 +901,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 				_enter_run_state()
+			elif Input.is_action_pressed("Dash"):
+				_dash_to_enemy(false)
 			else:
 				_enter_idle_state()
 	if anim_name == "SpinAttack":
@@ -948,9 +957,12 @@ func _on_HurtBox_area_entered(area):
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
+	#	if area.is_in_group("Enemy"):
+	#		take_damage(amount, direction.x)
+	
 		
-		if area.is_in_group("Enemy"):
-			take_damage(amount, direction.x)
+
+func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
 		current_xp += 40
 		if _level_up(current_xp, xp_needed):
@@ -958,8 +970,6 @@ func _on_HurtBox_area_entered(area):
 			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
-		
-
 
 func _on_KinematicBody2D_dead() -> void:
 	pass
@@ -972,10 +982,12 @@ func _on_KinematicBody2D_hurt() -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
-		_add_buff("test")
 		if not can_follow_enemy:
 			can_follow_enemy = true
 			$NewTimer.start(1)
+		if test_active:
+			_add_buff("lifesteal_particles")
+		
 		
 
 func _on_KinematicBody2D_side_of_player(which_side):
@@ -1017,3 +1029,5 @@ func _on_NewTimer_timeout():
 
 func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
+
+

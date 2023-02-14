@@ -22,8 +22,12 @@ func _on_Player_test(length) -> void:
 	hejsan = length
 	if length == 0.3:
 		tween_values = [1.2, 0.9]
-	else:
+	elif length == 0.2:
 		tween_values = [0.9, 0.3]
+	elif length == 0.15:
+		tween_values = [0.9, 0.3]
+	else:
+		tween_values = [2, 0.9]
 	start_tween()
 	$TestTimer.start(hejsan)
 

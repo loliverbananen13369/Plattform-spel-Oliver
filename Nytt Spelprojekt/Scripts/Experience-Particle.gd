@@ -53,5 +53,5 @@ func _on_PlayerDetector_body_entered(body):
 
 
 func _on_HitBox_area_entered(area):
-	if area.is_in_group("Player"):
+	if area.is_in_group("PlayerCollectParticlesArea"):
 		queue_free()
