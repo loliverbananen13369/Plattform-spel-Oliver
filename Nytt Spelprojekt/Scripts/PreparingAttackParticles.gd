@@ -18,8 +18,8 @@ onready var player_detector := $PlayerDetector
 
 
 func _ready():
-
 	current_velocity = max_speed * 5 * Vector2.RIGHT.rotated(rotation)
+	
 
 	
 func _physics_process(delta: float) -> void:
@@ -44,5 +44,5 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_HitBox_area_entered(area):
-	if area.is_in_group("Player"):
+	if area.is_in_group("PlayerCollectParticlesArea"):
 		queue_free()

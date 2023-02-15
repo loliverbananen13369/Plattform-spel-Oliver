@@ -35,7 +35,7 @@ func _ready() -> void:
 		vector = Vector2(10, -18)
 		yield(get_tree().create_timer(7.2), "timeout")
 		queue_free()
-	if spellsprite.animation == "test":
+	if spellsprite.animation == "lifesteal_particles":
 		spellsprite.scale.x = 0.7
 		spellsprite.scale.y = 0.7
 		rng.randomize()

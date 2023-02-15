@@ -165,6 +165,7 @@ AirExplosion={
 2d_physics/layer_5="TileMap"
 3d_physics/layer_5="Map"
 2d_physics/layer_6="XP"
+2d_physics/layer_7="PlayerCollectParticlesArea"
 
 [physics]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=320 format=2]
+[gd_scene load_steps=321 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -1442,6 +1442,18 @@ tracks/11/keys = {
 "method": "player_stats"
 } ]
 }
+tracks/12/type = "value"
+tracks/12/path = NodePath("PlayerSprite:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.165, 0.297, 0.33, 0.693 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 4, 2, 2, 1 ), Color( 4, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=726]
 resource_name = "ComboSpinAttack"
@@ -1808,10 +1820,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.40625, 0.421875 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.416 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 4, 0.5, 0.5, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 4, 0.5, 0.5, 1 ) ]
 }
 
 [sub_resource type="Animation" id=790]
@@ -1981,6 +1993,18 @@ tracks/5/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("PlayerSprite:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Gradient" id=637]
@@ -2442,6 +2466,9 @@ extents = Vector2( 74.75, 30.5 )
 [sub_resource type="RectangleShape2D" id=725]
 extents = Vector2( 24, 9.5 )
 
+[sub_resource type="CircleShape2D" id=791]
+radius = 25.0
+
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 position = Vector2( 10, -20 )
 z_index = 1
@@ -2461,12 +2488,10 @@ position = Vector2( 12, -9 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
-visible = false
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "FallF"
-frame = 2
+animation = "ComboEWQE"
 offset = Vector2( 0, 1 )
 flip_h = true
 
@@ -2479,6 +2504,7 @@ position = Vector2( 10, -10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
+visible = false
 position = Vector2( 30, -15 )
 scale = Vector2( 3, 3 )
 animation = "Thrust2"
@@ -2622,6 +2648,15 @@ position = Vector2( -10, -10 )
 
 [node name="Tween" type="Tween" parent="."]
 
+[node name="CollectParticlesArea" type="Area2D" parent="." groups=["PlayerCollectParticlesArea"]]
+visible = false
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectParticlesArea"]
+position = Vector2( 10, -13 )
+shape = SubResource( 791 )
+
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
@@ -2631,3 +2666,4 @@ position = Vector2( -10, -10 )
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="timeout" from="NewTimer" to="." method="_on_NewTimer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]
+[connection signal="area_entered" from="CollectParticlesArea" to="." method="_on_CollectParticlesArea_area_entered"]
