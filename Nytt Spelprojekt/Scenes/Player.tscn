@@ -1449,10 +1449,10 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 0.693 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.165, 0.297, 0.33, 0.693 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 3, 1.5, 1.5, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 4, 2, 2, 1 ), Color( 4, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=726]
@@ -1820,10 +1820,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.192, 0.416 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.416 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 4, 0.5, 0.5, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 4, 0.5, 0.5, 1 ) ]
 }
 
 [sub_resource type="Animation" id=790]
@@ -2510,12 +2510,11 @@ position = Vector2( 12, -10 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
-visible = false
+modulate = Color( 3, 1.5, 1.5, 1 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "FallF"
-frame = 2
+animation = "ComboEWQE"
 offset = Vector2( 0, 1 )
 flip_h = true
 

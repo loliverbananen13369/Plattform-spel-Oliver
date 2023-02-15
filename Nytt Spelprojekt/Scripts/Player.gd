@@ -571,7 +571,7 @@ func _idle_state(delta) -> void:
 	if Input.is_action_just_pressed("AirExplosion"):
 		_get_direction_to_enemy()
 		_add_first_air_explosion()
-		emit_signal("test", 0.8)
+		#emit_signal("test", 0.8)
 		yield(get_tree().create_timer(0.2), "timeout")
 		_add_airexplosions(10)
 	
