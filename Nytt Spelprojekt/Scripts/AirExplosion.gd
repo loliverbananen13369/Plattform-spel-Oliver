@@ -14,7 +14,7 @@ onready var test = get_node("/root/Level 0/Node")
 
 func _ready() -> void:
 	#_test_function()
-	animation = ("default")
+	animation = ("New Anim")
 	frame = 0
 
 

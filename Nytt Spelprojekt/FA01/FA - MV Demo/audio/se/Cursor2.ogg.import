@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Cursor2.ogg-261ebb63fd9b0c7021d1f547307acbac.oggstr"
+
+[deps]
+
+source_file="res://FA01/FA - MV Demo/audio/se/Cursor2.ogg"
+dest_files=[ "res://.import/Cursor2.ogg-261ebb63fd9b0c7021d1f547307acbac.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

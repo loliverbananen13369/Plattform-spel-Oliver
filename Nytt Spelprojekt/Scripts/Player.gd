@@ -10,7 +10,7 @@ const ACCELERATION = 1000
 const GRAVITY = 1300
 const JUMP_STRENGHT = -480
 
-var direction_x = "RIGHT"
+export (String) var direction_x = "RIGHT"
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
@@ -264,18 +264,30 @@ func _add_dash_ghost() -> void:
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
 
-func _add_land_dust()-> void:
-	var dust = jl_scene.instance()
-	dust.global_position = playersprite.global_position + Vector2(0, 15)
-	dust.play("DustExplosion")
-	get_tree().get_root().add_child(dust)
-
-func _add_jump_dust(number: int) -> void:
+func _add_walk_dust(amount: int) -> void:
 	var dust = dust_scene.instance()
-	dust.amount = number
+	dust.amount = amount
 	dust.global_position = playersprite.global_position + Vector2(0,23)
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
+
+func _add_land_dust()-> void:
+	var dust = jl_scene.instance()
+	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
+	dust.play("LandSmoke")
+	get_tree().get_root().add_child(dust)
+
+func _add_jump_dust() -> void:
+	var dust = jl_scene.instance()
+	#dust_scene.instance()
+	#dust.amount = number
+	#dust.global_position = playersprite.global_position + Vector2(0,23)
+	#dust.emitting = true
+	dust.global_position = playersprite.global_position + Vector2(0, 20)
+	dust.play("JumpSmokeSide")
+	get_tree().get_root().add_child(dust)
+
+	
 
 func _add_holy_particles(amount: int) -> void:
 	for i in range(amount):
@@ -312,6 +324,24 @@ func _add_buff(buff_name: String) -> void:
 		playersprite.modulate.r8 = 255
 		playersprite.modulate.g8 = 130
 		playersprite.modulate.b8 = 116
+	if buff_name == "barrier30":
+		effect1.animation = "barrier30"
+	if buff_name == "buff30":
+		effect1.animation = "buff30"
+	if buff_name == "slash30":
+		effect1.animation = "slash30"
+	if buff_name == "thrust30":
+		effect1.animation = "thrust30"
+	if buff_name == "punch30":
+		effect1.animation = "punch30"
+	if buff_name == "debuff30":
+		effect1.animation = "debuff30"
+	if buff_name == "shimmer30":
+		effect1.animation = "shimmer30"
+	if buff_name == "cure30":
+		effect1.animation = "cure30"
+	if buff_name == "shield30":
+		effect1.animation = "shield30"
 	get_tree().get_root().add_child(buff)
 	
 """
@@ -535,7 +565,7 @@ func _add_preparing_attack_particles(amount) -> void:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-		_add_jump_dust(15)
+		_add_walk_dust(15)
 		_enter_air_state(true)
 		return
 	
@@ -559,7 +589,23 @@ func _idle_state(delta) -> void:
 	
 	if Input.is_action_just_pressed("Fx000"):
 		test_active = true
-		yield(get_tree().create_timer(10), "timeout")
+		_add_buff("barrier30")
+		yield(get_tree().create_timer(2), "timeout")
+		_add_buff("buff30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("slash30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("thrust30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("punch30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("debuff30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("shimmer30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("cure30")
+		yield(get_tree().create_timer(1), "timeout")
+		_add_buff("shield30")
 		test_active = false
 		#_add_buff("life_steal")
 		#yield(get_tree().create_timer(2), "timeout")
@@ -590,14 +636,14 @@ func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
-	if playersprite.frame == 0:
+	if playersprite.frame == 1:
 		last_step += 1
 		if last_step == 4:
-			_add_jump_dust(5)
+			_add_walk_dust(5)
 			last_step = 0
 				
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-		_add_jump_dust(15)
+		_add_jump_dust()
 		_enter_air_state(true)
 		return
 	

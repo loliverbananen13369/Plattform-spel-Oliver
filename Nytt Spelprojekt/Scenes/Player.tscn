@@ -1801,6 +1801,18 @@ tracks/6/keys = {
 "update": 1,
 "values": [ 2, 2, 2 ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("PlayerSprite:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.40625, 0.421875 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 4, 0.5, 0.5, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=790]
 length = 0.001
@@ -2443,18 +2455,18 @@ position = Vector2( 10, -20 )
 rotation = 0.785398
 frames = SubResource( 537 )
 animation = "Acid"
-frame = 1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
-visible = false
-position = Vector2( 12, -10 )
+position = Vector2( 12, -9 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
+visible = false
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "AirAttack"
+animation = "FallF"
+frame = 2
 offset = Vector2( 0, 1 )
 flip_h = true
 
@@ -2467,9 +2479,9 @@ position = Vector2( 10, -10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 30, -15 )
-animation = "AirAttack"
+scale = Vector2( 3, 3 )
+animation = "Thrust2"
 frame = 0
 flip_h = true
 
