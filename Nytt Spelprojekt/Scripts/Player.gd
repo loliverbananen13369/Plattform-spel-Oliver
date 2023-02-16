@@ -10,7 +10,7 @@ const ACCELERATION = 1000
 const GRAVITY = 1300
 const JUMP_STRENGHT = -480
 
-export (String) var direction_x = "RIGHT"
+export(String)var direction_x = "RIGHT"
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
@@ -276,6 +276,7 @@ func _add_land_dust()-> void:
 	dust.play("LandSmoke")
 	get_tree().get_root().add_child(dust)
 
+
 func _add_jump_dust() -> void:
 	var dust = jl_scene.instance()
 	#dust_scene.instance()
@@ -285,8 +286,6 @@ func _add_jump_dust() -> void:
 	dust.global_position = playersprite.global_position + Vector2(0, 20)
 	dust.play("JumpSmokeSide")
 	get_tree().get_root().add_child(dust)
-
-	
 
 func _add_holy_particles(amount: int) -> void:
 	for i in range(amount):
@@ -323,24 +322,6 @@ func _add_buff(buff_name: String) -> void:
 		playersprite.modulate.r8 = 255
 		playersprite.modulate.g8 = 130
 		playersprite.modulate.b8 = 116
-	if buff_name == "barrier30":
-		effect1.animation = "barrier30"
-	if buff_name == "buff30":
-		effect1.animation = "buff30"
-	if buff_name == "slash30":
-		effect1.animation = "slash30"
-	if buff_name == "thrust30":
-		effect1.animation = "thrust30"
-	if buff_name == "punch30":
-		effect1.animation = "punch30"
-	if buff_name == "debuff30":
-		effect1.animation = "debuff30"
-	if buff_name == "shimmer30":
-		effect1.animation = "shimmer30"
-	if buff_name == "cure30":
-		effect1.animation = "cure30"
-	if buff_name == "shield30":
-		effect1.animation = "shield30"
 	get_tree().get_root().add_child(buff)
 	
 """
@@ -361,7 +342,7 @@ func _add_first_air_explosion() -> void:
 	explosion.global_position = global_position + Vector2(5, -15)
 	get_tree().get_root().add_child(explosion)
 	if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
-		tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		tween.start()
 		testpos = closest_enemy.global_position + Vector2(5, -15)
 		testpos2 = closest_enemy.global_position
@@ -381,7 +362,7 @@ func _add_airexplosions(amount: int) -> void:
 				explosion.global_position = testpos
 				get_tree().get_root().add_child(explosion)
 				if (closest_enemy.global_position.x - testpos.x < 50 ) or ( testpos.x - closest_enemy.global_position.x < 50 ):
-					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
+					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
 					tween.start()
 					testpos = closest_enemy.global_position + Vector2(5, -15)
 					testpos2 = closest_enemy.global_position
@@ -468,13 +449,13 @@ func _dash_to_enemy(switch_side: bool) -> void:
 		print("dukan")
 		if not switch_side:
 			if global_position.x >= close_enemy.global_position.x:
-				tween.interpolate_property(self, "global_position", global_position, close_enemy.global_position + Vector2(30, 0), 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				tween.interpolate_property(self, "global_position", global_position, close_enemy.global_position + Vector2(30, 0), 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 				tween.start()
 				#global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
 				direction_x = "LEFT"
 				_flip_sprite(false)
 			else:
-				tween.interpolate_property(self, "global_position", global_position.x, close_enemy.global_position.x - 30, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				tween.interpolate_property(self, "global_position", global_position.x, close_enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 				tween.start()
 				
 				#global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
@@ -565,6 +546,10 @@ func _add_preparing_attack_particles(amount) -> void:
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
+	
+	if Input.is_action_just_pressed("SkillTree"):
+		get_tree().change_scene("res://Skill-Tree/Skill_Tree_Test.tscn")
+	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_walk_dust(15)
 		_enter_air_state(true)
@@ -590,23 +575,7 @@ func _idle_state(delta) -> void:
 	
 	if Input.is_action_just_pressed("Fx000"):
 		test_active = true
-		_add_buff("barrier30")
-		yield(get_tree().create_timer(2), "timeout")
-		_add_buff("buff30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("slash30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("thrust30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("punch30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("debuff30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("shimmer30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("cure30")
-		yield(get_tree().create_timer(1), "timeout")
-		_add_buff("shield30")
+		yield(get_tree().create_timer(10), "timeout")
 		test_active = false
 		#_add_buff("life_steal")
 		#yield(get_tree().create_timer(2), "timeout")

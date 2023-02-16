@@ -818,7 +818,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
@@ -854,7 +854,7 @@ tracks/3/keys = {
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("SmearSprites:frame")
-tracks/4/interp = 1
+tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
@@ -1303,7 +1303,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
@@ -1327,7 +1327,7 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("ComboSprites:frame")
-tracks/3/interp = 1
+tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
@@ -1444,7 +1444,7 @@ tracks/11/keys = {
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("PlayerSprite:modulate")
-tracks/12/interp = 1
+tracks/12/interp = 2
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
@@ -2491,7 +2491,7 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
-animation = "ComboEWQE"
+animation = "SpinAttack"
 offset = Vector2( 0, 1 )
 flip_h = true
 
@@ -2506,8 +2506,7 @@ shape = SubResource( 53 )
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 visible = false
 position = Vector2( 30, -15 )
-scale = Vector2( 3, 3 )
-animation = "Thrust2"
+animation = "Smear3V"
 frame = 0
 flip_h = true
 
@@ -2610,11 +2609,11 @@ frame = 2
 
 [node name="ComboSprites" type="AnimatedSprite" parent="."]
 visible = false
-modulate = Color( 3, 1.5, 1.5, 1 )
 position = Vector2( 35, -12 )
 scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
-animation = "Acid3"
+animation = "Test7"
+frame = 10
 
 [node name="SpecialAttackArea" type="Area2D" parent="." groups=["ComboEWQE1"]]
 visible = false

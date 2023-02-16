@@ -52,24 +52,7 @@ func _ready() -> void:
 		spellsprite.scale.x = 2
 		spellsprite.scale.y = 2
 		vector = Vector2(10, -18)
-	if spellsprite.animation == "barrier30":
-		pass
-	if spellsprite.animation == "buff30":
-		pass
-	if spellsprite.animation == "slash30":
-		pass
-	if spellsprite.animation == "thrust30":
-		pass
-	if spellsprite.animation == "punch30":
-		pass
-	if spellsprite.animation == "debuff30":
-		pass
-	if spellsprite.animation == "shimmer30":
-		pass
-	if spellsprite.animation == "cure30":
-		pass
-	if spellsprite.animation == "shield30":
-		pass
+		
 
 		#tween.name = "Tween"
 		#add_child(tween)    
@@ -86,24 +69,6 @@ func _on_AnimatedSprite_animation_finished() -> void:
 	if spellsprite.animation == "lvl_up":
 		queue_free()
 	if spellsprite.animation == "test":
-		queue_free()
-	if spellsprite.animation == "buff30":
-		queue_free()
-	if spellsprite.animation == "barrier30":
-		queue_free()
-	if spellsprite.animation == "slash30":
-		queue_free()
-	if spellsprite.animation == "thrust30":
-		queue_free()
-	if spellsprite.animation == "punch30":
-		queue_free()
-	if spellsprite.animation == "debuff30":
-		queue_free()
-	if spellsprite.animation == "shimmer30":
-		queue_free()
-	if spellsprite.animation == "punch30":
-		queue_free()
-	if spellsprite.animation == "shield30":
 		queue_free()
 
 func _add_preparing_attack_particles(amount) -> void:

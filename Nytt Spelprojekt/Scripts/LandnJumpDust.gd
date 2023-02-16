@@ -9,9 +9,6 @@ func _ready():
 	if animation == "LandSmoke":
 		scale.x = 0.2
 		scale.y = 0.1
-	if animation == "JumpSmokeUp":
-		scale.x = 0.5
-		scale.y = 0.5
 	if animation == "JumpSmokeSide":
 		scale.x = 0.5
 		scale.y = 0.5

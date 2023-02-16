@@ -272,7 +272,7 @@ func _enter_hurt_state(number: int) -> void:
 	if number == 1:
 		$AnimationPlayer.play("Hurt1")
 	if number == 2:
-		$AnimationPlayer.play("Hurt2 2")
+		$AnimationPlayer.play("Hurt2")
 	flash()
 
 

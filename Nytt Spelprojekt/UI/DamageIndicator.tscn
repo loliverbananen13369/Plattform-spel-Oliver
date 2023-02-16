@@ -1,10 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/DamageIndicator.gd" type="Script" id=1]
-[ext_resource path="res://SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=2]
-
-[sub_resource type="DynamicFont" id=2]
-font_data = ExtResource( 2 )
+[ext_resource path="res://Font/MyFont.tres" type="DynamicFont" id=2]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -113,7 +110,7 @@ script = ExtResource( 1 )
 margin_right = 40.0
 margin_bottom = 14.0
 grow_horizontal = 2
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

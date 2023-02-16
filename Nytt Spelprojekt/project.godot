@@ -42,6 +42,10 @@ config/name="Nytt Spelprojekt"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/codeandweb.texturepacker/plugin.cfg" )
@@ -49,10 +53,12 @@ enabled=PoolStringArray( "res://addons/codeandweb.texturepacker/plugin.cfg" )
 [global]
 
 layers=false
+font=false
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+theme/custom_font="res://Font/MyFont.tres"
 
 [importer_defaults]
 
@@ -148,6 +154,11 @@ Fx000={
 AirExplosion={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":52,"unicode":0,"echo":false,"script":null)
+ ]
+}
+SkillTree={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":79,"unicode":0,"echo":false,"script":null)
  ]
 }
 
