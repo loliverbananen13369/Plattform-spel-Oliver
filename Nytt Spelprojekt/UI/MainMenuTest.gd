@@ -25,3 +25,7 @@ func _on_OptionsButton_pressed():
 
 func _on_QuitButton_pressed():
 	get_tree().quit()
+
+
+func _on_Skills_pressed() -> void:
+	get_tree().change_scene("res://Skill-Tree/Skill_Tree_Test.tscn")

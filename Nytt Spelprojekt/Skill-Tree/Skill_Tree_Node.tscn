@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Skill-Tree/Skill_Tree_Node.gd" type="Script" id=1]
 [ext_resource path="res://Skill-Tree/Outline_Shader.tres" type="Material" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://Skill-Tree/Skill_Tree_Line.tscn" type="PackedScene" id=4]
 
 [node name="TextureButton" type="TextureButton"]
@@ -11,12 +10,10 @@ margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 disabled = true
-texture_normal = ExtResource( 3 )
 expand = true
 script = ExtResource( 1 )
 tree_node_line_scene = ExtResource( 4 )
 max_row_selections = 0
-texture = ExtResource( 3 )
 on_learned_shader = ExtResource( 2 )
 
 [node name="LearnedColor" type="ColorRect" parent="."]
