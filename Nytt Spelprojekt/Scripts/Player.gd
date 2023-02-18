@@ -2,7 +2,7 @@ class_name Player
 extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
-
+#Det här är för att se om github fungerar
 enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 
 const MAX_SPEED = 200
@@ -548,7 +548,7 @@ func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	
 	if Input.is_action_just_pressed("SkillTree"):
-		get_tree().change_scene("res://Skill-Tree/Skill_Tree_Test.tscn")
+		get_tree().change_scene("res://UI/SkillSystemMenu.tscn")
 	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_walk_dust(15)
