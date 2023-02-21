@@ -24,6 +24,11 @@ func _on_TextureButton_pressed() -> void:
 
 
 func _on_Acid_2_on_learned(node) -> void:
-	player_stats_save_file.EWQE1 = true
+	PlayerStats.ewqe1_learned = true
+	
 
 	
+
+
+func _on_Acid_5_on_learned(node):
+	PlayerStats.ewqe2_learned = true

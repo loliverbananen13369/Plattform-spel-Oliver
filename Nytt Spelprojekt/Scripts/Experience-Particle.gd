@@ -16,7 +16,7 @@ onready var sprite := $Sprite
 onready var hitbox := $HitBox
 onready var player_detector := $PlayerDetector
 
-signal xp_gained
+
 
 
 func _ready():
@@ -31,7 +31,6 @@ func _physics_process(delta: float) -> void:
 		direction = global_position.direction_to((target.global_position + Vector2(3, -5)))
 
 	var desired_velocity := direction * max_speed
-	var previous_velocity = current_velocity
 	var change = (desired_velocity - current_velocity) * drag_factor
 	
 	current_velocity += change

@@ -5,6 +5,7 @@ const WIDTH = 1024
 const HEIGHT = 600
 
 var warrior_scene = preload("res://Scenes/SkeletonWarrior.tscn")
+var mage_scene = preload("res://Scenes/SkeletonMage.tscn")
 
 onready var player = get_node("../Node2D/Player")
 

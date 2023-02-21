@@ -120,7 +120,7 @@ func _hit():
 func _end_of_hit():
 	$AttackDetector.monitoring = false
 	$AttackDetector.monitorable = false
-	_die_b(hp)
+	_die_b()
 
 
 func take_damage(amount: int) -> void:
@@ -133,7 +133,7 @@ func knock_back(source_position: Vector2) -> void:
 	$HitParticles.rotation = get_angle_to(source_position) + PI
 	pushback_force = -global_position.direction_to(source_position) * 300
 	
-func _die_b(hp):
+func _die_b():
 	if hp <= 0:
 		state = DEAD
 		$AnimationPlayer.play("Dead")
@@ -156,7 +156,7 @@ func start_tween():
 	prutt - $ShakeTimer.time_left
 	$ShakeTimer.start(3)
 
-func on_tween_completed(object, key):
+func on_tween_completed(_object, _key):
 	tween_values.invert()
 	start_tween()
 
@@ -166,11 +166,11 @@ func _on_ShakeTimer_timeout() -> void:
 
 #STATES
 func _idle_state(delta) -> void:
-	_die_b(hp)
+	_die_b()
 	_air_movement(delta)
 
 func _run_state(delta) -> void:
-	_die_b(hp)
+	_die_b()
 	_apply_basic_movement(delta)
 	_turn_around()
 	$Tween.remove_all()	
@@ -178,7 +178,7 @@ func _run_state(delta) -> void:
 		direction_x *= -1
 		$RayCast2D.position.x += direction_x*20
 
-func _attack_state(delta) -> void:
+func _attack_state(_delta) -> void:
 	if (player.position.x >= ( global_position.x + 10) ) or (player.position.x <= (global_position.x -10)):
 		_enter_hunt_state()
 	
@@ -207,16 +207,16 @@ func _follow_player_state(delta) -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	
-	_die_b(hp)
+	_die_b()
 
-func _spawn_state(delta) -> void:
+func _spawn_state(_delta) -> void:
 	velocity.x = 0
 	velocity.y = 0
 	$Area2D/CollisionShape2D2.disabled = true
 	$Area2D/CollisionShape2D.disabled = true
 	$PlayerDetector.monitoring = false
 
-func _dead_state(delta) -> void:
+func _dead_state(_delta) -> void:
 	velocity.x = 0
 	velocity.y = 0
 	$Position2D/Particles2D.emitting = false
@@ -234,7 +234,7 @@ func _hurt_state(delta) -> void:
 
 	_air_movement(delta)
 	
-	_die_b(hp)
+	_die_b()
 		
 
 func _enter_idle_state() -> void:
@@ -324,7 +324,7 @@ func _on_Area2D_area_entered(area):
 		
 		
 	
-	_die_b(hp)
+	_die_b()
 		
 		#if hp <= 0:
 		#	state = DEAD

@@ -21,6 +21,7 @@ flip_h = true
 [node name="Control" parent="." instance=ExtResource( 1 )]
 
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="on_learned" from="Control/CanvasLayer/Acid 5" to="." method="_on_Acid_5_on_learned"]
 [connection signal="on_learned" from="Control/CanvasLayer/Acid 2" to="." method="_on_Acid_2_on_learned"]
 
 [editable path="Control"]

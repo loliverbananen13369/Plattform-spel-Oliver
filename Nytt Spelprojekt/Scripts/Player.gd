@@ -4,17 +4,25 @@ extends KinematicBody2D
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
 enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+enum {ASSASSIN, MAGE}
+
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
 const GRAVITY = 1300
 const JUMP_STRENGHT = -480
 
+const ASSASSIN_MAX_SPEED = 250
+const ASSASSIN_ACCELERATION = 1000
+const ASSASSIN_GRAVITY = 1000
+const ASSASSIN_JUMP_STRENGTH = -600
+
 export(String)var direction_x = "RIGHT"
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
 var state = IDLE
+var ass_or_mage = ASSASSIN
 
 var rng = RandomNumberGenerator.new()
 
@@ -44,6 +52,7 @@ signal LvlUp(current_lvl, xp_needed)
 
 
 var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
+var new_ghost_scene = preload("res://Scenes/AssassinGhost.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
@@ -101,10 +110,14 @@ var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
 
-var comboewqe1_learned 
 
 
 func _ready() -> void:
+	match ass_or_mage:
+		ASSASSIN:
+			_assassin_specifics()
+		MAGE:
+			pass
 	player_stats_save_file
 	$AnimationPlayer.playback_speed = 1
 
@@ -138,6 +151,74 @@ func _physics_process(delta: float) -> void:
 			_invisible_state(delta)
 
 #Help functions
+
+func _assassin_specifics():
+	return true
+func _apply_assassin_movement(delta) -> void:
+	if direction.x != 0:
+		velocity = velocity.move_toward(direction*ASSASSIN_MAX_SPEED, ASSASSIN_ACCELERATION*delta)
+	else:
+		velocity = velocity.move_toward(Vector2.ZERO, ASSASSIN_ACCELERATION*delta)
+	velocity.y += ASSASSIN_GRAVITY*delta
+	velocity = move_and_slide(velocity, Vector2.UP)
+	if not hit_the_ground and is_on_floor():
+		hit_the_ground = true
+		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8)
+		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9)
+	
+	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
+	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
+
+func _assassin_air_movement(delta) -> void:
+	velocity.y = velocity.y + ASSASSIN_GRAVITY * delta if velocity.y + ASSASSIN_GRAVITY * delta < 500 else 500 
+	direction.x = _get_input_x_update_direction()
+	if direction.x != 0:
+		velocity.x = move_toward(velocity.x, direction.x * ASSASSIN_MAX_SPEED, ASSASSIN_ACCELERATION*delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0, ASSASSIN_ACCELERATION * delta)
+	velocity = move_and_slide(velocity, Vector2.UP)
+	
+	if not is_on_floor():
+		hit_the_ground = false
+		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(ASSASSIN_JUMP_STRENGTH), 0.8, 1)
+		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(ASSASSIN_JUMP_STRENGTH), 1, 0.8)
+
+func _assassin_run_state(delta):
+	direction.x = _get_input_x_update_direction()
+	var input_x = Input.get_axis("move_left", "move_right")
+
+	if playersprite.frame == 1:
+		last_step += 1
+		if last_step == 4:
+			_add_walk_dust(5)
+			last_step = 0
+				
+	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
+		_add_jump_dust()
+		_enter_air_state(true)
+		return
+	
+	if Input.is_action_just_pressed("Dash") and can_dash:
+		_enter_dash_state(false)
+		return
+	_apply_assassin_movement(delta)
+	
+	if not is_on_floor():
+		_enter_air_state(false)
+		return
+	elif velocity.length() == 0:
+		_enter_idle_state()
+		return
+
+func _add_assassin_ghost():
+	var ghost = new_ghost_scene.instance()
+	ghost.animation = playersprite.animation
+	ghost.frame = playersprite.frame
+	ghost.global_position = global_position + Vector2(0, -20)
+	#ghost.global_position.y -= 20
+	ghost.flip_h = playersprite.flip_h
+	get_tree().get_root().add_child(ghost)
+
 func _apply_basic_movement(delta) -> void:
 	if direction.x != 0:
 		velocity = velocity.move_toward(direction*MAX_SPEED, ACCELERATION*delta)
@@ -282,7 +363,6 @@ func _add_land_dust()-> void:
 	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
 	dust.play("LandSmoke")
 	get_tree().get_root().add_child(dust)
-
 
 func _add_jump_dust() -> void:
 	var dust = jl_scene.instance()
@@ -493,10 +573,16 @@ func check_combo() -> void:
 				if re_combo_list[3] == 3: 
 					_enter_combo_state(2)
 
-func player_stats_lvl(current_lvl):
+func on_lvl_up_variables(current_lvl):
 	if current_lvl == 2:
 		$SpecialAttackArea.add_to_group("ComboEWQE2")
 		$SpecialAttackArea.remove_from_group("ComboEWQE1")
+	
+func player_stats_lvl(current_lvl):
+	if current_lvl == 2:
+		pass
+		#$SpecialAttackArea.add_to_group("ComboEWQE2")
+		#$SpecialAttackArea.remove_from_group("ComboEWQE1")
 
 func player_stats():
 	if holy_buff_active:
@@ -519,7 +605,7 @@ func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
 		current_lvl += 1
 		has_leveled_up = true
-		player_stats_lvl(current_lvl)
+		on_lvl_up_variables(current_lvl)
 		_add_buff("lvl_up")
 		return true
 	else:
@@ -601,6 +687,7 @@ func _idle_state(delta) -> void:
 		_dash_to_enemy(false)
 
 	
+	
 	_attack_function()
 	_apply_basic_movement(delta)
 	
@@ -640,7 +727,15 @@ func _run_state(delta) -> void:
 		_enter_stop_state()
 		return
 	
-	_apply_basic_movement(delta)
+	if _assassin_specifics():
+		_apply_assassin_movement(delta)
+		ghosttime += delta
+
+		if ghosttime >= 0.05:
+			_add_assassin_ghost()
+			ghosttime = 0.0
+	else:
+		_apply_basic_movement(delta)
 	
 	if not is_on_floor():
 		_enter_air_state(false)
@@ -673,7 +768,15 @@ func _air_state(delta) -> void:
 
 		
 	#_squash_player(delta)
-	_air_movement(delta)
+	if _assassin_specifics():
+		_assassin_air_movement(delta)
+		ghosttime += delta
+
+		if ghosttime >= 0.08:
+			_add_assassin_ghost()
+			ghosttime = 0.0
+	else:
+		_air_movement(delta)
 	var current_animation = playersprite.get_animation()
 	if velocity.y > 0  and not ( current_animation == "FallN" ) and ( velocity.x == 0 ):
 		playersprite.play("FallN")
@@ -887,11 +990,12 @@ func _enter_combo_state(number : int) -> void:
 			else:
 				$ComboSprites.position.x = -75
 			$ComboSprites.flip_h = true
-		if current_lvl <= 1 and player_stats_save_file.EWQE1 == true:#(comboewqe1_learned == true):
-			animationplayer.play("ComboEWQE1")
-		else:
+		if PlayerStats.ewqe2_learned == true:
 			animationplayer.play("ComboEWQE2")
 			emit_signal("test", 0.2)
+		elif PlayerStats.ewqe1_learned == true:
+			animationplayer.play("ComboEWQE1")
+		
 		combo_list.clear()
 		
 #Signals

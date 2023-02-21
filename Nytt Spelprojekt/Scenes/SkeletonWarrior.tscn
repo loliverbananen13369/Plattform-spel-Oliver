@@ -642,7 +642,7 @@ tracks/2/keys = {
 max_value = 100.0
 _data = [ Vector2( 0.0275229, 33.2539 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=145]
+[sub_resource type="CurveTexture" id=200]
 curve = SubResource( 144 )
 
 [sub_resource type="ParticlesMaterial" id=57]
@@ -656,7 +656,7 @@ initial_velocity = 100.61
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 damping = 43.18
-damping_curve = SubResource( 145 )
+damping_curve = SubResource( 200 )
 
 [sub_resource type="AtlasTexture" id=84]
 atlas = ExtResource( 7 )
@@ -937,7 +937,7 @@ script = ExtResource( 2 )
 material = SubResource( 50 )
 position = Vector2( 10, -20 )
 frames = SubResource( 3 )
-animation = "Idle"
+animation = "Hurt"
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -975,11 +975,9 @@ anims/Spawn = SubResource( 199 )
 one_shot = true
 
 [node name="HitParticles" type="Particles2D" parent="."]
-visible = false
 modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
 position = Vector2( 6, -16 )
 scale = Vector2( 2, 2 )
-emitting = false
 amount = 6
 lifetime = 0.3
 one_shot = true
@@ -989,13 +987,11 @@ randomness = 0.6
 process_material = SubResource( 57 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-visible = false
 modulate = Color( 2, 1.5, 1.5, 1 )
 position = Vector2( 10, -20 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 83 )
 animation = "Hurt1"
-frame = 5
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 visible = false
@@ -1049,7 +1045,6 @@ position = Vector2( 6, -15 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 160 )
 animation = "Test3"
-frame = 2
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]

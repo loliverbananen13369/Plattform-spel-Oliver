@@ -4,7 +4,8 @@ extends Node
 const SAVE_PLAYER_STATS_FILE = "res://Data/PlayerStats.gd"
 var game_data = {}
 
-var test_variabel = 1
+var ewqe1_learned = false
+var ewqe2_learned = false
 
 func _ready() -> void:
 	load_data()
