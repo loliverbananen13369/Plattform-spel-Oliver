@@ -51,7 +51,10 @@ var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackPartic
 var buff_scene = preload("res://Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
+
+
 var ghosttime := 0.0
+
 
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
@@ -62,6 +65,8 @@ onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
 onready var dashline = $Position2D/Line2D
 onready var tween = $Tween
+onready var player_stats_save_file = PlayerStats.game_data
+
 
 export var damage_a1 := 5
 export var damage_combo_qweq := 15
@@ -96,9 +101,11 @@ var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
 
+var comboewqe1_learned 
 
 
 func _ready() -> void:
+	player_stats_save_file
 	$AnimationPlayer.playback_speed = 1
 
 func _physics_process(delta: float) -> void:
@@ -880,7 +887,7 @@ func _enter_combo_state(number : int) -> void:
 			else:
 				$ComboSprites.position.x = -75
 			$ComboSprites.flip_h = true
-		if current_lvl <= 1:
+		if current_lvl <= 1 and player_stats_save_file.EWQE1 == true:#(comboewqe1_learned == true):
 			animationplayer.play("ComboEWQE1")
 		else:
 			animationplayer.play("ComboEWQE2")

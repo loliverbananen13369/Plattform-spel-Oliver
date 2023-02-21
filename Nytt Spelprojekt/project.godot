@@ -42,6 +42,10 @@ config/name="Nytt Spelprojekt"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+PlayerStats="*res://Data/PlayerStats.gd"
+
 [display]
 
 window/stretch/mode="viewport"
