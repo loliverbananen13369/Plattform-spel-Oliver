@@ -11,6 +11,16 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_TextureButton_pressed() -> void:
+	get_tree().change_scene("res://UI/MainMenuTest.tscn")
+
+
+func _on_Acid_2_on_learned(node) -> void:
+	PlayerStats.ewqe1_learned = true
+
+
+func _on_Acid_5_on_learned(node):
+	PlayerStats.ewqe2_learned = true
+
+
+

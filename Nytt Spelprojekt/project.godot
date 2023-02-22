@@ -39,12 +39,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Nytt Spelprojekt"
-run/main_scene="res://Scenes/World.tscn"
+run/main_scene="res://UI/ChooseClassScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 PlayerStats="*res://Data/PlayerStats.gd"
+GlobalSignals="*res://Scripts/GlobalSignals.gd"
 
 [display]
 

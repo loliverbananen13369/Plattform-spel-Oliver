@@ -6,6 +6,8 @@ var game_data = {}
 
 var ewqe1_learned = false
 var ewqe2_learned = false
+var is_assassin = false
+var mage = false
 
 func _ready() -> void:
 	load_data()

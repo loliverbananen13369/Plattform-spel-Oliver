@@ -98,7 +98,7 @@ func set_unlocked(_unlocked):
 	disabled = !unlocked
 	set_active(unlocked)
 	emit_signal("on_unlocked")
-	print("Skill_Node %s unlocked" % name)	
+	#print("Skill_Node %s unlocked" % name)	
 
 func set_active(_active):
 	active = _active
@@ -119,7 +119,7 @@ func refresh_lines(): #this sets the line2d to be connected with the previous_no
 	if Engine.is_editor_hint(): # deletes old lines if we are in the editor
 		for node in lines:
 			var line = lines[node]
-			print("line freed")
+		#	print("line freed")
 			line.queue_free()
 		lines = {}
 	
@@ -133,7 +133,7 @@ func refresh_line(previous_node):
 		return
 	var line = lines.get(previous_node)
 	if not line:
-		print("Line added")
+		#print("Line added")
 		line = tree_node_line_scene.instance()
 		line.position = rect_size / 2
 		lines[previous_node] = line
@@ -159,4 +159,4 @@ func _on_TextureButton_pressed():
 	emit_signal("on_learned", self)
 	texture_normal = on_learned_texture
 	$LearnedColor.show()
-	print("Skill_Node %s learned" % name)
+	#print("Skill_Node %s learned" % name)

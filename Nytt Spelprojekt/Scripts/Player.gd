@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+enum {IDLE, RUN, ASSASSIN_RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 enum {ASSASSIN, MAGE}
 
 
@@ -113,13 +113,9 @@ var current_lvl = 1
 
 
 func _ready() -> void:
-	match ass_or_mage:
-		ASSASSIN:
-			_assassin_specifics()
-		MAGE:
-			pass
-	player_stats_save_file
+	ass_or_mage = ASSASSIN
 	$AnimationPlayer.playback_speed = 1
+	$SkillTreeInGame/Control/CanvasLayer.visible = false
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -127,6 +123,8 @@ func _physics_process(delta: float) -> void:
 			_idle_state(delta)
 		RUN:
 			_run_state(delta)
+		ASSASSIN_RUN:
+			_assassin_run_state(delta)
 		AIR:
 			_air_state(delta)
 		DASH:
@@ -183,32 +181,6 @@ func _assassin_air_movement(delta) -> void:
 		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(ASSASSIN_JUMP_STRENGTH), 0.8, 1)
 		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(ASSASSIN_JUMP_STRENGTH), 1, 0.8)
 
-func _assassin_run_state(delta):
-	direction.x = _get_input_x_update_direction()
-	var input_x = Input.get_axis("move_left", "move_right")
-
-	if playersprite.frame == 1:
-		last_step += 1
-		if last_step == 4:
-			_add_walk_dust(5)
-			last_step = 0
-				
-	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-		_add_jump_dust()
-		_enter_air_state(true)
-		return
-	
-	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
-		return
-	_apply_assassin_movement(delta)
-	
-	if not is_on_floor():
-		_enter_air_state(false)
-		return
-	elif velocity.length() == 0:
-		_enter_idle_state()
-		return
 
 func _add_assassin_ghost():
 	var ghost = new_ghost_scene.instance()
@@ -640,8 +612,11 @@ func _add_preparing_attack_particles(amount) -> void:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	
-	if Input.is_action_just_pressed("SkillTree"):
-		get_tree().change_scene("res://UI/SkillSystemMenu.tscn")
+	if Input.is_action_pressed("SkillTree"):
+		$SkillTreeInGame/Control/CanvasLayer.visible = true
+		
+	if Input.is_action_just_released("SkillTree"):
+		$SkillTreeInGame/Control/CanvasLayer.visible = false
 	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_walk_dust(15)
@@ -699,7 +674,6 @@ func _idle_state(delta) -> void:
 		return
 	
 func _run_state(delta) -> void:
-	
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
@@ -727,15 +701,8 @@ func _run_state(delta) -> void:
 		_enter_stop_state()
 		return
 	
-	if _assassin_specifics():
-		_apply_assassin_movement(delta)
-		ghosttime += delta
 
-		if ghosttime >= 0.05:
-			_add_assassin_ghost()
-			ghosttime = 0.0
-	else:
-		_apply_basic_movement(delta)
+	_apply_basic_movement(delta)
 	
 	if not is_on_floor():
 		_enter_air_state(false)
@@ -744,6 +711,33 @@ func _run_state(delta) -> void:
 		_enter_idle_state()
 		return
 	
+func _assassin_run_state(delta):
+	direction.x = _get_input_x_update_direction()
+	var input_x = Input.get_axis("move_left", "move_right")
+
+	if playersprite.frame == 1:
+		last_step += 1
+		if last_step == 4:
+			_add_walk_dust(5)
+			last_step = 0
+				
+	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
+		_add_jump_dust()
+		_enter_air_state(true)
+		return
+	
+	if Input.is_action_just_pressed("Dash") and can_dash:
+		_enter_dash_state(false)
+		return
+	_apply_assassin_movement(delta)
+	
+	if not is_on_floor():
+		_enter_air_state(false)
+		return
+	elif velocity.length() == 0:
+		_enter_idle_state()
+		return
+
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_enter_dash_state(false)
@@ -911,7 +905,10 @@ func _enter_air_state(jump: bool) -> void:
 
 func _enter_run_state() -> void:
 	can_jump = true
-	state = RUN
+	if ass_or_mage != ASSASSIN:
+		state = RUN
+	else:
+		state = ASSASSIN_RUN
 	playersprite.play("Run")
 
 func _enter_stop_state() -> void:
@@ -1074,8 +1071,6 @@ func _on_timer_timeout() -> void:
 	#frameFreeze(0.1, 0.5)
 	pass
 
-
-
 func _on_HurtBox_area_entered(area):
 	var amount = 5
 	if dark_buff_active:
@@ -1086,7 +1081,6 @@ func _on_HurtBox_area_entered(area):
 	#	if area.is_in_group("Enemy"):
 	#		take_damage(amount, direction.x)
 	
-		
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
@@ -1102,9 +1096,6 @@ func _on_KinematicBody2D_dead() -> void:
 
 func _on_KinematicBody2D_hurt() -> void:
 	pass
-	
-		
-
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
@@ -1114,13 +1105,8 @@ func _on_NormalAttackArea_area_entered(area):
 		if test_active:
 			_add_buff("lifesteal_particles")
 		
-		
-
 func _on_KinematicBody2D_side_of_player(which_side):
 	enemy_side_of_you = which_side
-
-
-
 
 #Timers
 func _on_ImmuneTimer_timeout():
@@ -1152,8 +1138,10 @@ func _on_DashTimer_timeout():
 func _on_NewTimer_timeout():
 	can_follow_enemy = false
 
-
 func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
 
 
+
+func _on_AssassinTest_on_learned(node):
+	print("Assassin class chosen")
