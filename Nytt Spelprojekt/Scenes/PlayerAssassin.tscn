@@ -1017,7 +1017,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "Smear1V" ]
+"values": [ "Smear5V" ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("SmearSprites:visible")
@@ -2183,7 +2183,7 @@ animation = "Acid"
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
 visible = false
 position = Vector2( 30, -15 )
-animation = "Smear7H"
+animation = "Smear1V"
 frame = 0
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
@@ -2194,7 +2194,7 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "Attack3"
+animation = "Attack2"
 offset = Vector2( 0, 1 )
 flip_h = true
 
