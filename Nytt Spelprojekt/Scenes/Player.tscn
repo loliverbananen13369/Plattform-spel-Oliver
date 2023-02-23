@@ -1,10 +1,10 @@
-[gd_scene load_steps=353 format=2]
+[gd_scene load_steps=345 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Down/Jump Foward Going Down.ass.png" type="Texture" id=3]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Dash/Battlemage Dash.ass.png" type="Texture" id=4]
-[ext_resource path="res://Scenes/SmearSprites.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.new.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/SmearSpritesMage.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Down/Jump Neutral Going Down.1.png" type="Texture" id=6]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running5.ass.png" type="Texture" id=7]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Stop/Battlemage Stop.1.png" type="Texture" id=8]
@@ -506,34 +506,6 @@ region = Rect2( 0, 432, 56, 48 )
 atlas = ExtResource( 71 )
 region = Rect2( 0, 480, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=799]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=800]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 48, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=801]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 96, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=802]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 144, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=803]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 192, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=804]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 240, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=805]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 288, 56, 48 )
-
 [sub_resource type="AtlasTexture" id=806]
 atlas = ExtResource( 85 )
 region = Rect2( 0, 0, 56, 48 )
@@ -726,7 +698,7 @@ animations = [ {
 "name": "ComboEWQE",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 799 ), SubResource( 800 ), SubResource( 801 ), SubResource( 802 ), SubResource( 803 ), SubResource( 804 ), SubResource( 805 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": false,
 "name": "Dash",
 "speed": 14.0
@@ -1249,33 +1221,6 @@ tracks/9/keys = {
 "args": [  ],
 "method": "player_stats"
 } ]
-}
-
-[sub_resource type="Animation" id=653]
-resource_name = "Combo1"
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
 }
 
 [sub_resource type="Animation" id=672]
@@ -2206,107 +2151,86 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2595,8 +2519,7 @@ script = ExtResource( 2 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
 visible = false
-position = Vector2( 10, -20 )
-rotation = 0.785398
+position = Vector2( 10, -19 )
 frames = SubResource( 537 )
 animation = "Acid"
 
@@ -2605,6 +2528,7 @@ position = Vector2( 12, -9 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
+visible = false
 material = SubResource( 636 )
 position = Vector2( 10, -20 )
 frames = SubResource( 51 )
@@ -2612,7 +2536,6 @@ animation = "AirAttack"
 frame = 4
 playing = true
 offset = Vector2( 0, 1 )
-flip_h = true
 
 [node name="HurtBox" type="Area2D" parent="." groups=["Player"]]
 visible = false
@@ -2624,7 +2547,8 @@ shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 position = Vector2( 30, -15 )
-animation = "AirAttack"
+scale = Vector2( 3, 3 )
+animation = "Thrust2"
 frame = 0
 flip_h = true
 
@@ -2633,7 +2557,6 @@ anims/AirAttack = SubResource( 476 )
 anims/Attack1 = SubResource( 158 )
 anims/Attack2 = SubResource( 190 )
 anims/Attack3 = SubResource( 191 )
-anims/Combo1 = SubResource( 653 )
 anims/ComboEWQE1 = SubResource( 672 )
 anims/ComboEWQE2 = SubResource( 745 )
 anims/ComboSpinAttack = SubResource( 726 )
@@ -2726,11 +2649,11 @@ animation = "Test1"
 frame = 2
 
 [node name="ComboSprites" type="AnimatedSprite" parent="."]
-visible = false
-position = Vector2( 35, -12 )
+modulate = Color( 3, 1.5, 1.5, 1 )
+position = Vector2( 70, -12 )
 scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
-animation = "Test8"
+animation = "Test3"
 
 [node name="SpecialAttackArea" type="Area2D" parent="." groups=["ComboEWQE1"]]
 visible = false

@@ -3,8 +3,8 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, RUN, ASSASSIN_RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
-enum {ASSASSIN, MAGE}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+
 
 
 const MAX_SPEED = 200
@@ -12,17 +12,12 @@ const ACCELERATION = 1000
 const GRAVITY = 1300
 const JUMP_STRENGHT = -480
 
-const ASSASSIN_MAX_SPEED = 250
-const ASSASSIN_ACCELERATION = 1000
-const ASSASSIN_GRAVITY = 1000
-const ASSASSIN_JUMP_STRENGTH = -600
 
 export(String)var direction_x = "RIGHT"
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
 var state = IDLE
-var ass_or_mage = ASSASSIN
 
 var rng = RandomNumberGenerator.new()
 
@@ -51,8 +46,7 @@ signal XPChanged(current_xp)
 signal LvlUp(current_lvl, xp_needed)
 
 
-var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
-var new_ghost_scene = preload("res://Scenes/AssassinGhost.tscn")
+var ghost_scene = preload("res://Scenes/GhostDashMage.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
@@ -113,7 +107,6 @@ var current_lvl = 1
 
 
 func _ready() -> void:
-	ass_or_mage = ASSASSIN
 	$AnimationPlayer.playback_speed = 1
 	$SkillTreeInGame/Control/CanvasLayer.visible = false
 
@@ -123,8 +116,6 @@ func _physics_process(delta: float) -> void:
 			_idle_state(delta)
 		RUN:
 			_run_state(delta)
-		ASSASSIN_RUN:
-			_assassin_run_state(delta)
 		AIR:
 			_air_state(delta)
 		DASH:
@@ -149,47 +140,6 @@ func _physics_process(delta: float) -> void:
 			_invisible_state(delta)
 
 #Help functions
-
-func _assassin_specifics():
-	return true
-func _apply_assassin_movement(delta) -> void:
-	if direction.x != 0:
-		velocity = velocity.move_toward(direction*ASSASSIN_MAX_SPEED, ASSASSIN_ACCELERATION*delta)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, ASSASSIN_ACCELERATION*delta)
-	velocity.y += ASSASSIN_GRAVITY*delta
-	velocity = move_and_slide(velocity, Vector2.UP)
-	if not hit_the_ground and is_on_floor():
-		hit_the_ground = true
-		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8)
-		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9)
-	
-	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
-	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
-
-func _assassin_air_movement(delta) -> void:
-	velocity.y = velocity.y + ASSASSIN_GRAVITY * delta if velocity.y + ASSASSIN_GRAVITY * delta < 500 else 500 
-	direction.x = _get_input_x_update_direction()
-	if direction.x != 0:
-		velocity.x = move_toward(velocity.x, direction.x * ASSASSIN_MAX_SPEED, ASSASSIN_ACCELERATION*delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0, ASSASSIN_ACCELERATION * delta)
-	velocity = move_and_slide(velocity, Vector2.UP)
-	
-	if not is_on_floor():
-		hit_the_ground = false
-		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(ASSASSIN_JUMP_STRENGTH), 0.8, 1)
-		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(ASSASSIN_JUMP_STRENGTH), 1, 0.8)
-
-
-func _add_assassin_ghost():
-	var ghost = new_ghost_scene.instance()
-	ghost.animation = playersprite.animation
-	ghost.frame = playersprite.frame
-	ghost.global_position = global_position + Vector2(10, -20)
-	#ghost.global_position.y -= 20
-	ghost.flip_h = playersprite.flip_h
-	get_tree().get_root().add_child(ghost)
 
 func _apply_basic_movement(delta) -> void:
 	if direction.x != 0:
@@ -584,19 +534,19 @@ func _level_up(current_xp, xp_needed):
 		return false
 
 func _set_sprite_position(anim_name):
+	if anim_name == "ComboEWQE1":
+		if direction_x == "RIGHT":
+			$ComboSprites.position.x = 70
+			$ComboSprites.flip_h = false 
+		if direction_x == "LEFT":
+			$ComboSprites.position.x = -45
+			$ComboSprites.flip_h = true
 	if anim_name == "ComboEWQE2":
 		if direction_x == "RIGHT":
 			$ComboSprites.position.x = 95
 			$ComboSprites.flip_h = false 
-		if direction_x == "LEFT":
-			$ComboSprites.position.x = -75
-			$ComboSprites.flip_h = true
-	if anim_name == "ComboEWQE3":
-		if direction_x == "RIGHT":
-			$ComboSprites.position.x = 35
-			$ComboSprites.flip_h = false 
 		else:
-			$ComboSprites.position.x = -15
+			$ComboSprites.position.x = -75
 			$ComboSprites.flip_h = true
 
 func _add_preparing_attack_particles(amount) -> void:
@@ -711,32 +661,6 @@ func _run_state(delta) -> void:
 		_enter_idle_state()
 		return
 	
-func _assassin_run_state(delta):
-	direction.x = _get_input_x_update_direction()
-	var input_x = Input.get_axis("move_left", "move_right")
-
-	if playersprite.frame == 1:
-		last_step += 1
-		if last_step == 4:
-			_add_walk_dust(5)
-			last_step = 0
-				
-	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-		_add_jump_dust()
-		_enter_air_state(true)
-		return
-	
-	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
-		return
-	_apply_assassin_movement(delta)
-	
-	if not is_on_floor():
-		_enter_air_state(false)
-		return
-	elif velocity.length() == 0:
-		_enter_idle_state()
-		return
 
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
@@ -762,23 +686,13 @@ func _air_state(delta) -> void:
 
 		
 	#_squash_player(delta)
-	if _assassin_specifics():
-		_assassin_air_movement(delta)
-		ghosttime += delta
 
-		if ghosttime >= 0.08:
-			_add_assassin_ghost()
-			ghosttime = 0.0
-	else:
-		_air_movement(delta)
+	_air_movement(delta)
 	var current_animation = playersprite.get_animation()
 	if velocity.y > 0  and not ( current_animation == "FallN" ) and ( velocity.x == 0 ):
 		playersprite.play("FallN")
 	elif velocity.y > 0 and not ( current_animation == "FallF" ) and ( velocity.x != 0 ):
-		if ass_or_mage == ASSASSIN:
-			playersprite.play("FallFAss")
-		else:
-			playersprite.play("FallF")
+		playersprite.play("FallF")
 	if is_on_floor(): 
 		#if jump_pressed == false:
 		_add_land_dust()
@@ -876,10 +790,7 @@ func _invisible_state(delta) -> void:
 #Enter states
 func _enter_idle_state() -> void:
 	state = IDLE
-	if ass_or_mage == ASSASSIN:
-		playersprite.play("IdleAss")
-	else:
-		playersprite.play("Idle")
+	playersprite.play("Idle")
 	can_jump = true
 
 func _enter_dash_state(attack: bool) -> void:
@@ -889,9 +800,9 @@ func _enter_dash_state(attack: bool) -> void:
 			return
 		elif direction == Vector2.ZERO:
 			direction.x = 1 if direction_x == "RIGHT" else -1
-		playersprite.modulate.r = 3
-		playersprite.modulate.g = 3
-		playersprite.modulate.b = 3
+		playersprite.modulate.r = 2
+		playersprite.modulate.g = 1
+		playersprite.modulate.b = 1
 		playersprite.play("Dash")
 		state = DASH
 		dashparticles.emitting = true
@@ -908,21 +819,14 @@ func _enter_air_state(jump: bool) -> void:
 		if velocity.x == 0:
 			playersprite.play("JumpN")
 		else:
-			if ass_or_mage == ASSASSIN:
-				playersprite.play("JumpFAss")
-			else:
-				playersprite.play("JumpF")
+			playersprite.play("JumpF")
 	coyotetimer.start()
 	state = AIR
 
 func _enter_run_state() -> void:
 	can_jump = true
-	if ass_or_mage != ASSASSIN:
-		state = RUN
-		playersprite.play("Run")
-	else:
-		state = ASSASSIN_RUN
-		playersprite.play("RunAss")
+	state = RUN
+	playersprite.play("Run")
 
 func _enter_stop_state() -> void:
 	can_jump = true
@@ -1158,6 +1062,3 @@ func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
 
 
-
-func _on_AssassinTest_on_learned(node):
-	print("Assassin class chosen")

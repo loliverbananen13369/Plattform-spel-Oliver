@@ -15,6 +15,7 @@ var current_row_selections_count = 0
 export (Texture) var texture setget set_texture
 export (ShaderMaterial) var on_learned_shader
 export (Texture) var on_learned_texture
+export (Texture) var on_unlocked_texture
 export (String) var tooltip_text
 export (bool) var unlocked = false setget set_unlocked
 export (bool) var learned = false
@@ -98,6 +99,8 @@ func set_unlocked(_unlocked):
 	disabled = !unlocked
 	set_active(unlocked)
 	emit_signal("on_unlocked")
+	texture_normal = on_learned_texture
+	modulate = inactive_tint
 	#print("Skill_Node %s unlocked" % name)	
 
 func set_active(_active):
@@ -158,5 +161,5 @@ func _on_TextureButton_pressed():
 	learned = true
 	emit_signal("on_learned", self)
 	texture_normal = on_learned_texture
+	modulate = active_tint
 	$LearnedColor.show()
-	#print("Skill_Node %s learned" % name)

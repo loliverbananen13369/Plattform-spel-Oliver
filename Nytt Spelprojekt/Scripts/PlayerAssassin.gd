@@ -45,7 +45,7 @@ signal XPChanged(current_xp)
 signal LvlUp(current_lvl, xp_needed)
 
 
-var ghost_scene = preload("res://Scenes/NewTestGhostDash.tscn")
+var ghost_scene = preload("res://Scenes/GhostDashAssassin.tscn")
 var new_ghost_scene = preload("res://Scenes/AssassinGhost.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
@@ -139,6 +139,18 @@ func _physics_process(delta: float) -> void:
 
 #Help functions
 
+func check_sprites():
+	$NormalAttackArea/AirAttack.disabled = true
+	$NormalAttackArea/AttackGround.disabled = true
+	$NormalAttackArea/AttackJump.disabled = true
+	$SwordCutArea/SpinAttack.disabled = true
+	$Thrusts.visible = false
+	$ComboSprites.visible = false
+	animatedsmears.visible = false
+	
+	
+	
+	
 
 func _add_assassin_ghost():
 	var ghost = new_ghost_scene.instance()
@@ -251,8 +263,8 @@ func _attack_function():
 			_remember_attack()
 			
 func _flip_sprite(right: bool) -> void:
-	dashparticles.position.x = 0
-	dashparticles.position.y = 0
+	dashparticles.position.x = -10
+	dashparticles.position.y = 20
 	if right:
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
@@ -340,7 +352,7 @@ func _add_first_air_explosion() -> void:
 		tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		tween.start()
 		testpos = closest_enemy.global_position + Vector2(5, -15)
-		testpos2 = closest_enemy.global_position
+		testpos2 = closest_enemy.global_position + Vector2(0, - 30)
 		global_position = testpos2
 
 func _add_airexplosions(amount: int) -> void:
@@ -360,7 +372,7 @@ func _add_airexplosions(amount: int) -> void:
 					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
 					tween.start()
 					testpos = closest_enemy.global_position + Vector2(5, -15)
-					testpos2 = closest_enemy.global_position
+					testpos2 = closest_enemy.global_position + Vector2(0, - 30)
 					global_position = testpos2
 				all_enemy.erase(closest_enemy)
 				yield(get_tree().create_timer(0.2), "timeout")
@@ -776,11 +788,13 @@ func _invisible_state(delta) -> void:
 
 #Enter states
 func _enter_idle_state() -> void:
+	check_sprites()
 	state = IDLE
 	playersprite.play("Idle")
 	can_jump = true
 
 func _enter_dash_state(attack: bool) -> void:
+	check_sprites()
 	if attack == false:
 		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 		if state == IDLE and direction == Vector2.DOWN:
@@ -800,6 +814,7 @@ func _enter_dash_state(attack: bool) -> void:
 		pass
 
 func _enter_air_state(jump: bool) -> void:
+	check_sprites()
 	if jump:
 		velocity.y = JUMP_STRENGHT
 	#else:
@@ -811,6 +826,7 @@ func _enter_air_state(jump: bool) -> void:
 	state = AIR
 
 func _enter_run_state() -> void:
+	check_sprites()
 	state = RUN
 	can_jump = true
 	playersprite.play("Run")
@@ -828,7 +844,7 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 		$ComboTimer.start(1)
 	player_stats()
 	is_attacking = true
-	animatedsmears.position.y = -15
+	animatedsmears.position.y = 5
 	if attack == 1:
 		animationplayer.play("Attack1")
 		can_attack = false

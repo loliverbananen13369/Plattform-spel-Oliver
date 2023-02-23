@@ -8,6 +8,7 @@ var ewqe1_learned = false
 var ewqe2_learned = false
 var is_assassin = false
 var is_mage = false
+var player_lvl = 1
 
 func _ready() -> void:
 	load_data()
@@ -26,6 +27,7 @@ func load_data():
 			"hp" : 100,
 			"EWQE1": bool(false),
 			"EWQE2": bool(false),
+			"player_lvl" : 1,
 			
 			
 			

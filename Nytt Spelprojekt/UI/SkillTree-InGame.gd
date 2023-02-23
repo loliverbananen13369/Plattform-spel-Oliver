@@ -4,7 +4,7 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+onready var player_stats_save_file = PlayerStats.game_data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,11 +16,15 @@ func _on_TextureButton_pressed() -> void:
 
 
 func _on_Acid_2_on_learned(node) -> void:
+	print("Acid2 learned")
 	PlayerStats.ewqe1_learned = true
 
 
 func _on_Acid_5_on_learned(node):
+	print("Acid5 learned")
 	PlayerStats.ewqe2_learned = true
+
+
 
 
 
