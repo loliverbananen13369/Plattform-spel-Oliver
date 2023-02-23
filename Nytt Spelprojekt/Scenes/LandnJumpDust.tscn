@@ -6,7 +6,7 @@
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_01.png" type="Texture" id=4]
 [ext_resource path="res://Random_Effects/Sangoro/SMALL SIDE PUFF 2.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/LandnJumpDust.gd" type="Script" id=6]
-[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.png" type="Texture" id=7]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.new.png" type="Texture" id=7]
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 5 )
@@ -36,51 +36,51 @@ region = Rect2( 125, 0, 25, 23 )
 atlas = ExtResource( 5 )
 region = Rect2( 150, 0, 25, 23 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=28]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 7 )
 region = Rect2( 176, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 7 )
 region = Rect2( 352, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=31]
 atlas = ExtResource( 7 )
 region = Rect2( 528, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 7 )
 region = Rect2( 704, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 7 )
 region = Rect2( 880, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=34]
 atlas = ExtResource( 7 )
 region = Rect2( 1056, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=35]
 atlas = ExtResource( 7 )
 region = Rect2( 1232, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=36]
 atlas = ExtResource( 7 )
 region = Rect2( 1408, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 7 )
 region = Rect2( 1584, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=38]
 atlas = ExtResource( 7 )
 region = Rect2( 1760, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 7 )
 region = Rect2( 1936, 0, 176, 61 )
 
@@ -96,14 +96,13 @@ animations = [ {
 "name": "JumpSmokeSide",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": false,
 "name": "LandSmoke",
 "speed": 20.0
 } ]
 
 [node name="LandnJumpDust" type="AnimatedSprite"]
-modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
 position = Vector2( 10, -20 )
 scale = Vector2( 1, 0.6 )
 frames = SubResource( 2 )

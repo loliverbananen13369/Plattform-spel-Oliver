@@ -186,7 +186,7 @@ func _add_assassin_ghost():
 	var ghost = new_ghost_scene.instance()
 	ghost.animation = playersprite.animation
 	ghost.frame = playersprite.frame
-	ghost.global_position = global_position + Vector2(0, -20)
+	ghost.global_position = global_position + Vector2(10, -20)
 	#ghost.global_position.y -= 20
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
@@ -775,7 +775,10 @@ func _air_state(delta) -> void:
 	if velocity.y > 0  and not ( current_animation == "FallN" ) and ( velocity.x == 0 ):
 		playersprite.play("FallN")
 	elif velocity.y > 0 and not ( current_animation == "FallF" ) and ( velocity.x != 0 ):
-		playersprite.play("FallF")
+		if ass_or_mage == ASSASSIN:
+			playersprite.play("FallFAss")
+		else:
+			playersprite.play("FallF")
 	if is_on_floor(): 
 		#if jump_pressed == false:
 		_add_land_dust()
@@ -873,7 +876,10 @@ func _invisible_state(delta) -> void:
 #Enter states
 func _enter_idle_state() -> void:
 	state = IDLE
-	playersprite.play("Idle")
+	if ass_or_mage == ASSASSIN:
+		playersprite.play("IdleAss")
+	else:
+		playersprite.play("Idle")
 	can_jump = true
 
 func _enter_dash_state(attack: bool) -> void:
@@ -883,6 +889,9 @@ func _enter_dash_state(attack: bool) -> void:
 			return
 		elif direction == Vector2.ZERO:
 			direction.x = 1 if direction_x == "RIGHT" else -1
+		playersprite.modulate.r = 3
+		playersprite.modulate.g = 3
+		playersprite.modulate.b = 3
 		playersprite.play("Dash")
 		state = DASH
 		dashparticles.emitting = true
@@ -899,7 +908,10 @@ func _enter_air_state(jump: bool) -> void:
 		if velocity.x == 0:
 			playersprite.play("JumpN")
 		else:
-			playersprite.play("JumpF")
+			if ass_or_mage == ASSASSIN:
+				playersprite.play("JumpFAss")
+			else:
+				playersprite.play("JumpF")
 	coyotetimer.start()
 	state = AIR
 
@@ -907,9 +919,10 @@ func _enter_run_state() -> void:
 	can_jump = true
 	if ass_or_mage != ASSASSIN:
 		state = RUN
+		playersprite.play("Run")
 	else:
 		state = ASSASSIN_RUN
-	playersprite.play("Run")
+		playersprite.play("RunAss")
 
 func _enter_stop_state() -> void:
 	can_jump = true
@@ -1127,6 +1140,9 @@ func _on_CoyoteTimer_timeout():
 	can_jump = false
 
 func _on_DashTimer_timeout():
+	playersprite.modulate.r = 1
+	playersprite.modulate.g = 1
+	playersprite.modulate.b = 1
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
