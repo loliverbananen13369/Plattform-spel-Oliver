@@ -36,7 +36,7 @@ var test = 1
 onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
-onready var player = get_parent().get_node("../Node2D/Player")
+var player 
 
 var xp_scene = preload("res://Scenes/Experience-Particle.tscn")
 
@@ -59,6 +59,7 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
+	player = get_parent().get_parent().get_child(1).get_child(0)
 	#print(self.get_path())  # prints /root/Control/Node2D
 	animatedsprite.animation = "Dead"
 	animatedsprite.frame = 10

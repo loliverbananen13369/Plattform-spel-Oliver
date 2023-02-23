@@ -1,6 +1,10 @@
 extends Position2D
 
-onready var player = get_node("../Player")
+
+onready var player = get_parent().get_child(0)
+
+func _ready() -> void:
+	pass
 
 
 func _process(delta):

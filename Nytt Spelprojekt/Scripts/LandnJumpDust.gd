@@ -1,6 +1,6 @@
 extends AnimatedSprite
 
-onready var player = get_node("/root/Level 0/Node2D/Player")
+onready var player = get_parent().get_child(2).get_child(1).get_child(0)
 
 
 func _ready():

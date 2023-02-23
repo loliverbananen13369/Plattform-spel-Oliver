@@ -7,7 +7,7 @@ const LAUNCH_SPEED := 200
 var max_speed := 200
 var drag_factor := 0.15 setget set_drag_factor
 
-onready var target = get_node("../Level 0/Node2D/Player")
+onready var target = get_parent().get_child(2).get_child(1).get_child(0)
 
 var current_velocity := Vector2.ZERO
 

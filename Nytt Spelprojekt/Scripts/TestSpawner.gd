@@ -7,7 +7,7 @@ const HEIGHT = 600
 var warrior_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var mage_scene = preload("res://Scenes/SkeletonMage.tscn")
 
-onready var player = get_node("../Node2D/Player")
+#onready var player = get_parent().get_child(2).get_child(1).get_child(0)
 
 func _ready() -> void:
 	randomize()

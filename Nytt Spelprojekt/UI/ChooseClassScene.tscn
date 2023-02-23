@@ -22,3 +22,4 @@ margin_bottom = 46.0
 text = "Mage"
 
 [connection signal="pressed" from="AssassinButton" to="." method="_on_AssassinButton_pressed"]
+[connection signal="pressed" from="MageButton" to="." method="_on_MageButton_pressed"]

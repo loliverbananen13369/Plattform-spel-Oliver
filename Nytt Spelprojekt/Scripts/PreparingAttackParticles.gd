@@ -6,7 +6,7 @@ const LAUNCH_SPEED := 300
 
 var max_speed := 300
 
-onready var target = get_node("../Level 0/Node2D/Player")
+onready var target = get_parent().get_child(2).get_child(1).get_child(0)
 
 var current_velocity := Vector2.ZERO
 

@@ -6,8 +6,8 @@ var velocity := Vector2.ZERO
 
 
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
-onready var player = get_node("/root/Level 0/Node2D/Player")
-onready var test = get_node("/root/Level 0/Node")
+#onready var player = get_parent().get_child(1).get_child(0)
+
 
 #var enemy = _get_closest_enemy()
 #var direction_x := global_position.direction_to(enemy)

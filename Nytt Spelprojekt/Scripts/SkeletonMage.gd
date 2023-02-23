@@ -15,7 +15,7 @@ var direction := Vector2.ZERO
 
 
 onready var animatedsprite = $AnimatedSprite
-onready var player = get_parent().get_node("../Node2D/Player")
+onready var player = get_parent().get_parent().get_child(1).get_child(0)
 
 func _physics_process(delta: float) -> void:
 	match state:
