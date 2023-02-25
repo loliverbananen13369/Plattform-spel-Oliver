@@ -14,7 +14,9 @@ var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 
 func _ready() -> void:
 	#_test_function()
-	animation = ("default")
+	animation = ("AssTest2")
+	$Particles2D.emitting = true
+	#10, 2, 2
 	frame = 0
 
 

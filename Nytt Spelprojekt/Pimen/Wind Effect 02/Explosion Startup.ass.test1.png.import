@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Battlemage Attack 2 wo Effect.png-3cb1e8d40dd4419b98c06298bf63fa3d.stex"
+path="res://.import/Explosion Startup.ass.test1.png-326a32c726e7f13dc8fa7196bf7d121b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 2/Battlemage Attack 2 wo Effect.png"
-dest_files=[ "res://.import/Battlemage Attack 2 wo Effect.png-3cb1e8d40dd4419b98c06298bf63fa3d.stex" ]
+source_file="res://Pimen/Wind Effect 02/Explosion Startup.ass.test1.png"
+dest_files=[ "res://.import/Explosion Startup.ass.test1.png-326a32c726e7f13dc8fa7196bf7d121b.stex" ]
 
 [params]
 

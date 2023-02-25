@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+enum {IDLE, RUN, AIR, DASH_AIR, DASH_GROUND, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 
 
 const MAX_SPEED = 250
@@ -13,6 +13,7 @@ const JUMP_STRENGHT = -500
 
 
 export(String)var direction_x = "RIGHT"
+
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
@@ -29,6 +30,7 @@ var is_attacking := false
 var is_air_attacking := false
 var jump_pressed := false
 var can_follow_enemy := false
+var can_add_ass_ghost := false
 var attack_pressed = 0
 var previous_attack = 0
 var combo_list = []
@@ -47,6 +49,7 @@ signal LvlUp(current_lvl, xp_needed)
 
 var ghost_scene = preload("res://Scenes/GhostDashAssassin.tscn")
 var new_ghost_scene = preload("res://Scenes/AssassinGhost.tscn")
+var dash_smoke_scene = preload("res://Scenes/DashSmoke.tscn")
 var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
@@ -54,6 +57,7 @@ var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackPartic
 var buff_scene = preload("res://Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
+var dash_particles_scene = preload("res://Scenes/DashParticlesAssassin.tscn")
 
 var ghosttime := 0.0
 
@@ -62,9 +66,7 @@ onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
-onready var dashparticles = $Position2D/DashParticles
 onready var attackparticles = $AttackParticles
-onready var dashline = $Position2D/Line2D
 onready var tween = $Tween
 onready var player_stats_save_file = PlayerStats.game_data
 
@@ -101,6 +103,7 @@ var mana_max = 100
 var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
+var previous_state = IDLE
 
 
 
@@ -116,8 +119,10 @@ func _physics_process(delta: float) -> void:
 			_run_state(delta)
 		AIR:
 			_air_state(delta)
-		DASH:
-			_dash_state(delta)
+		DASH_AIR:
+			_dash_state_air(delta)
+		DASH_GROUND:
+			_dash_state_ground(delta)
 		STOP:
 			_stop_state(delta)
 		ATTACK_GROUND:
@@ -150,16 +155,44 @@ func check_sprites():
 	
 	
 	
+func _add_dash_smoke(name: String):
+	var smoke = dash_smoke_scene.instance()
+	if name == "ImpactMedium1":
+		smoke.animation = "ImpactMedium1"
+		smoke.global_position = global_position
+		smoke.flip_h = playersprite.flip_h
+	if name == "ImpactDustKick":
+		var flip 
+		if playersprite.flip_h == true:
+			flip = false
+		else:
+			flip = true
+		smoke.animation = "ImpactDustKick"
+		smoke.global_position = global_position + Vector2(-10*direction.x, 6)
+		smoke.flip_h = flip
+	get_tree().get_root().add_child(smoke)
 	
+		
 
-func _add_assassin_ghost():
-	var ghost = new_ghost_scene.instance()
-	ghost.animation = playersprite.animation
-	ghost.frame = playersprite.frame
-	ghost.global_position = global_position
-	#ghost.global_position.y -= 20
-	ghost.flip_h = playersprite.flip_h
-	get_tree().get_root().add_child(ghost)
+func _add_assassin_ghost(amount:int):
+	if amount == 0:
+		var ghost = new_ghost_scene.instance()
+		ghost.animation = playersprite.animation
+		ghost.frame = playersprite.frame
+		ghost.global_position = global_position
+		#ghost.global_position.y -= 20
+		ghost.flip_h = playersprite.flip_h
+		get_tree().get_root().add_child(ghost)
+	else:
+		for i in range(amount):
+			var ghost = new_ghost_scene.instance()
+			ghost.animation = playersprite.animation
+			ghost.frame = playersprite.frame
+			ghost.global_position = global_position
+			#ghost.global_position.y -= 20
+			ghost.flip_h = playersprite.flip_h
+			get_tree().get_root().add_child(ghost)
+			yield(get_tree().create_timer(0.1), "timeout")
 
 func _apply_basic_movement(delta) -> void:
 	if direction.x != 0:
@@ -205,20 +238,36 @@ func _air_movement(delta) -> void:
 		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
 		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
 
-func _get_closest_enemy():
-	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	if len(all_enemy) > 0:
-		var closest_enemy = all_enemy[0]
-		for i in range(1, len(all_enemy)):
-			if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
-				closest_enemy = all_enemy[i]
+func _get_closest_enemy_index(enemy_group):
+	var index 
+	if len(enemy_group) > 0:
+		var closest_enemy = enemy_group[0]
+		for i in range(1, len(enemy_group)):
+			if global_position.distance_to(enemy_group[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
+				closest_enemy = enemy_group[i]
+				index = i
+	
+		return index
+		
+
+	
+
+func _get_closest_enemy(enemy_group):
+	var closest_enemy = enemy_group[0]
+	if len(enemy_group) > 0:
+		for i in range(0, len(enemy_group)-1):
+			if is_instance_valid(enemy_group[i]):
+				if global_position.distance_to(enemy_group[i].global_position) < global_position.distance_to((closest_enemy.global_position + Vector2(5, 0))):
+					closest_enemy = enemy_group[i]
+			else:
+				return closest_enemy
 
 		return closest_enemy
 
 func _get_direction_to_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	if len(all_enemy) > 0:
-		var closest_enemy = _get_closest_enemy()
+		var closest_enemy = _get_closest_enemy(all_enemy)
 		var asdasd = global_position.direction_to(closest_enemy.global_position)
 		
 		tester = asdasd
@@ -263,8 +312,6 @@ func _attack_function():
 			_remember_attack()
 			
 func _flip_sprite(right: bool) -> void:
-	dashparticles.position.x = -10
-	dashparticles.position.y = 20
 	if right:
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
@@ -318,6 +365,14 @@ func _add_holy_particles(amount: int) -> void:
 		get_tree().get_root().add_child(particles)
 		yield(get_tree().create_timer(0.5), "timeout")
 
+func _add_dash_particles(amount: int) -> void:
+	for i in range(amount):
+		var particles = dash_particles_scene.instance()
+		particles.global_position = global_position
+		particles.emitting = true
+		get_tree().get_root().add_child(particles)
+		yield(get_tree().create_timer(0.05), "timeout") 
+
 func _add_buff(buff_name: String) -> void:
 	var buff = buff_scene.instance()
 	var effect1 = buff.get_child(0)
@@ -341,11 +396,12 @@ func _add_buff(buff_name: String) -> void:
 	
 
 func _add_first_air_explosion() -> void:
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	state = INVISIBLE
 	playersprite.visible = false
 	$HurtBox/CollisionShape2D.disabled = true
 	var explosion = air_explosion_scene.instance()
-	var closest_enemy = _get_closest_enemy()
+	var closest_enemy = _get_closest_enemy(all_enemy)
 	explosion.global_position = global_position + Vector2(5, -15)
 	get_tree().get_root().add_child(explosion)
 	if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
@@ -356,27 +412,26 @@ func _add_first_air_explosion() -> void:
 		global_position = testpos2
 
 func _add_airexplosions(amount: int) -> void:
+	state = INVISIBLE
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	if len(all_enemy) > 1:
-		for i in range(amount):
-			if len(all_enemy) > 1:
-				var explosion = air_explosion_scene.instance()
-				var closest_enemy = all_enemy[0]
-				if len(all_enemy) > 1:
-					for j in range(1, len(all_enemy)):
-						if testpos.distance_to(all_enemy[j].global_position) < testpos.distance_to((closest_enemy.global_position)):
-							closest_enemy = all_enemy[j]
-				explosion.global_position = testpos
-				get_tree().get_root().add_child(explosion)
+	var variable_enemy = all_enemy
+	var closest_enemy 
+	for i in range(amount):
+		var explosion = air_explosion_scene.instance()
+		if len(variable_enemy) > 0:
+			closest_enemy = _get_closest_enemy(variable_enemy)
+			explosion.global_position = testpos
+			get_tree().get_root().add_child(explosion)
+			if is_instance_valid(closest_enemy):	
 				if (closest_enemy.global_position.x - testpos.x < 50 ) or ( testpos.x - closest_enemy.global_position.x < 50 ):
 					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
 					tween.start()
 					testpos = closest_enemy.global_position + Vector2(5, -15)
 					testpos2 = closest_enemy.global_position + Vector2(0, - 30)
 					global_position = testpos2
-				all_enemy.erase(closest_enemy)
-				yield(get_tree().create_timer(0.2), "timeout")
-					
+					variable_enemy.erase(closest_enemy)
+				yield(get_tree().create_timer(0.1), "timeout")
+				
 	
 	playersprite.visible = true
 	_enter_idle_state()
@@ -450,10 +505,11 @@ func _remember_attack() -> void:
 	attack_pressed = 0
 
 func _dash_to_enemy(switch_side: bool) -> void:
-	var close_enemy = _get_closest_enemy()
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	var close_enemy = _get_closest_enemy(all_enemy)
 	var far_enemy = _get_furthest_away_enemy()
 	if can_follow_enemy:
-		print("dukan")
+		#print("dukan")
 		if not switch_side:
 			if global_position.x >= close_enemy.global_position.x:
 				tween.interpolate_property(self, "global_position", global_position, close_enemy.global_position + Vector2(30, 0), 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -635,7 +691,8 @@ func _run_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
+		_add_dash_smoke("ImpactDustKick")
+		_enter_dash_state(false, true)
 		return
 		
 	if Input.is_action_just_pressed("EAttack1"):
@@ -660,7 +717,8 @@ func _run_state(delta) -> void:
 
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
+		_add_dash_smoke("ImpactMedium1")
+		_enter_dash_state(false, false)
 		return
 	
 	if Input.is_action_pressed("EAttack1"):
@@ -682,7 +740,7 @@ func _air_state(delta) -> void:
 
 	ghosttime += delta
 	if ghosttime >= 0.08:
-		_add_assassin_ghost()
+		_add_assassin_ghost(0)
 		ghosttime = 0.0
 
 	_air_movement(delta)
@@ -696,18 +754,25 @@ func _air_state(delta) -> void:
 		#if jump_pressed == false:
 		_add_land_dust()
 		_enter_idle_state()
+		$JustLandedTimer.start(2)
+		can_add_ass_ghost = true
 		return
 
-func _dash_state(delta):
+func _dash_state_air(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	ghosttime += delta
 	
-	if ghosttime >= 0.03:
+	if ghosttime >= 0.09:
 		_add_dash_ghost()
-		ghosttime = 0.0
+		ghosttime = 0.06
+
+func _dash_state_ground(delta):
+	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
+	velocity = move_and_slide(velocity, Vector2.UP)
+
 func _stop_state(delta):
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
@@ -718,7 +783,7 @@ func _stop_state(delta):
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
+		_enter_dash_state(false, true)
 		return
 		
 	if (input_x == 1 and velocity.x > 0) or (input_x == -1 and velocity.x < 0):
@@ -792,27 +857,33 @@ func _enter_idle_state() -> void:
 	state = IDLE
 	playersprite.play("Idle")
 	can_jump = true
+	if can_add_ass_ghost:
+		pass
+		#_add_assassin_ghost(20)
 
-func _enter_dash_state(attack: bool) -> void:
+func _enter_dash_state(attack: bool, ground:bool) -> void:
 	check_sprites()
-	if attack == false:
-		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
-		if state == IDLE and direction == Vector2.DOWN:
-			return
-		elif direction == Vector2.ZERO:
-			direction.x = 1 if direction_x == "RIGHT" else -1
+	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
+	if state == IDLE and direction == Vector2.DOWN:
+		return
+	elif direction == Vector2.ZERO:
+		direction.x = 1 if direction_x == "RIGHT" else -1
+	if ground == false:
 		playersprite.modulate.r = 3
 		playersprite.modulate.g = 3
 		playersprite.modulate.b = 3
 		playersprite.play("Dash")
-		state = DASH
-		dashparticles.emitting = true
+		state = DASH_AIR
 		#dashline.visible = true
 		can_dash = false
 		dashtimer.start(0.25)
 	else:
-		pass
-
+		playersprite.play("Dash")
+		state = DASH_GROUND
+		#dashline.visible = true
+		can_dash = false
+		dashtimer.start(0.25)
+		#_add_dash_particles(5)
 func _enter_air_state(jump: bool) -> void:
 	check_sprites()
 	if jump:
@@ -1053,7 +1124,6 @@ func _on_DashTimer_timeout():
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
-	dashparticles.emitting = false
 	#dashline.visible = false
 	ghosttime = 0.0
 	can_dash = true
@@ -1068,3 +1138,6 @@ func _on_KinematicBody2D_pos(position) -> void:
 
 func _on_AssassinTest_on_learned(node):
 	print("Assassin class chosen")
+
+func _on_JustLandedTimer_timeout() -> void:
+	can_add_ass_ghost = false

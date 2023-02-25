@@ -60,9 +60,10 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=722]
+resource_local_to_scene = true
 shader = SubResource( 721 )
 shader_param/flash_color = Color( 0.47451, 0.211765, 0.482353, 1 )
-shader_param/flash_modifier = 0.8
+shader_param/flash_modifier = 0.9
 
 [sub_resource type="AtlasTexture" id=708]
 atlas = ExtResource( 47 )
@@ -377,7 +378,7 @@ length = 0.5
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -401,6 +402,7 @@ tracks/1/keys = {
 }
 
 [node name="AssassinGhost" type="AnimatedSprite"]
+modulate = Color( 1, 1, 1, 0.576471 )
 material = SubResource( 722 )
 position = Vector2( 10, -20 )
 frames = SubResource( 719 )

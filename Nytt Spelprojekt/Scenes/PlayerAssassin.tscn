@@ -1,24 +1,22 @@
-[gd_scene load_steps=324 format=2]
+[gd_scene load_steps=326 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Down/Jump Foward Going Down.ass.png" type="Texture" id=3]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Dash/Battlemage Dash.ass.png" type="Texture" id=4]
+[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 2/Battlemage Attack 2 wo Effect.ass.png" type="Texture" id=5]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Down/Jump Neutral Going Down.1.png" type="Texture" id=6]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running5.ass.png" type="Texture" id=7]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Stop/Battlemage Stop.1.png" type="Texture" id=8]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running1.ass.png" type="Texture" id=9]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Hurt 1 n 2/Hurt 2.new.png" type="Texture" id=10]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.7.2.png" type="Texture" id=11]
-[ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=12]
+[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.ass.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/DashParticlesAssassin.tscn" type="PackedScene" id=12]
 [ext_resource path="res://dash_particle.2.png" type="Texture" id=13]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.6.2.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.2.png" type="Texture" id=15]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running9.ass.png" type="Texture" id=16]
 [ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.test.png" type="Texture" id=17]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.4.2.png" type="Texture" id=18]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.png" type="Texture" id=19]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.9.2.png" type="Texture" id=20]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running7.ass.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running2.ass.png" type="Texture" id=22]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running8.ass.png" type="Texture" id=23]
@@ -34,8 +32,6 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle1.ass.png" type="Texture" id=34]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle5.ass.png" type="Texture" id=35]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle6.ass.png" type="Texture" id=36]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.3.2.png" type="Texture" id=37]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.5.2.png" type="Texture" id=38]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=39]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 03/Thrust VFX 03 Color 1.png" type="Texture" id=40]
 [ext_resource path="res://UI/SkillTree-InGame.tscn" type="PackedScene" id=41]
@@ -44,18 +40,10 @@
 [ext_resource path="res://LightningAnimations/Thunder Effect 01/Projectile 2/Projectile 2 wo blur.png" type="Texture" id=44]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 3/Acid VFX 03(56x48).new.png" type="Texture" id=45]
 [ext_resource path="res://Scripts/PlayerAssassin.gd" type="Script" id=46]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.7.2.png" type="Texture" id=47]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.6.2.png" type="Texture" id=48]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.8.2.png" type="Texture" id=49]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.4.2.png" type="Texture" id=50]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.2.2.png" type="Texture" id=51]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.3.2.png" type="Texture" id=52]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.png" type="Texture" id=53]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.5.2.png" type="Texture" id=54]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.1.2.png" type="Texture" id=55]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.2.2.png" type="Texture" id=56]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.7.2.png" type="Texture" id=57]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.8.2.png" type="Texture" id=58]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 4/Acid VFX 04(48x48).new.png" type="Texture" id=60]
 [ext_resource path="res://Scenes/player_shader.shader" type="Shader" id=61]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Sustain Magic/Sustain magic effect.png" type="Texture" id=62]
@@ -63,16 +51,12 @@
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.6.2.png" type="Texture" id=64]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.5.2.png" type="Texture" id=65]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.1.2.png" type="Texture" id=66]
-[ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.Red.8.2.png" type="Texture" id=68]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.4.2.png" type="Texture" id=69]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Sustain Magic/Battlemage Sustain magic wo effect.new.png" type="Texture" id=71]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).test.png" type="Texture" id=72]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).test2.png" type="Texture" id=75]
 [ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.test.1.png" type="Texture" id=76]
-[ext_resource path="res://Scenes/Line2D.tscn" type="PackedScene" id=80]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running3.ass.png" type="Texture" id=84]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.Red.2.2.png" type="Texture" id=95]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Attack 2/Battlemage Attack 2 wo Effect.Red.1.2.png" type="Texture" id=103]
 [ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.newer.test.png" type="Texture" id=104]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 4/Acid VFX 04(48x48).test.png" type="Texture" id=105]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Fast Magic/Fast magic effect.png" type="Texture" id=106]
@@ -478,6 +462,74 @@ region = Rect2( 0, 288, 56, 48 )
 atlas = ExtResource( 28 )
 region = Rect2( 0, 336, 56, 48 )
 
+[sub_resource type="AtlasTexture" id=848]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=849]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=850]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 96, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=851]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=852]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=853]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=854]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=855]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=856]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=857]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=858]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 96, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=859]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=860]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=861]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=862]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=863]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=864]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 384, 56, 48 )
+
 [sub_resource type="AtlasTexture" id=708]
 atlas = ExtResource( 71 )
 region = Rect2( 0, 0, 56, 48 )
@@ -699,12 +751,12 @@ animations = [ {
 "name": "Attack1",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 103 ), ExtResource( 51 ), ExtResource( 52 ), ExtResource( 69 ), ExtResource( 54 ), ExtResource( 48 ), ExtResource( 47 ), ExtResource( 58 ) ],
+"frames": [ SubResource( 848 ), SubResource( 849 ), SubResource( 850 ), SubResource( 851 ), SubResource( 852 ), SubResource( 853 ), SubResource( 854 ), SubResource( 855 ) ],
 "loop": false,
 "name": "Attack2",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 37 ), ExtResource( 18 ), ExtResource( 38 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 68 ), ExtResource( 20 ) ],
+"frames": [ SubResource( 856 ), SubResource( 857 ), SubResource( 858 ), SubResource( 859 ), SubResource( 860 ), SubResource( 861 ), SubResource( 862 ), SubResource( 863 ), SubResource( 864 ) ],
 "loop": false,
 "name": "Attack3",
 "speed": 30.0
@@ -1756,34 +1808,28 @@ tracks/5/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Gradient" id=637]
-colors = PoolColorArray( 0.835294, 0.235294, 0.415686, 1, 0.27451, 0.054902, 0.168627, 1 )
-
-[sub_resource type="GradientTexture" id=638]
-gradient = SubResource( 637 )
-
 [sub_resource type="Curve" id=513]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.33874, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.500372 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.10788, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=514]
 curve = SubResource( 513 )
 
 [sub_resource type="ParticlesMaterial" id=515]
+resource_local_to_scene = true
 emission_shape = 1
-emission_sphere_radius = 10.0
+emission_sphere_radius = 15.0
 flag_disable_z = true
 direction = Vector3( 0, 0, 0 )
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 20.0
-angular_velocity = -180.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = -0.4
 scale = 0.5
 scale_curve = SubResource( 514 )
-color_ramp = SubResource( 638 )
-anim_speed = 1.0
+color = Color( 0.96, 1.4, 2.2, 1 )
+anim_speed = 2.0
 
 [sub_resource type="RectangleShape2D" id=829]
 extents = Vector2( 22, 19 )
@@ -1793,10 +1839,6 @@ extents = Vector2( 43, 12.5 )
 
 [sub_resource type="RectangleShape2D" id=634]
 extents = Vector2( 12.7279, 14.1673 )
-
-[sub_resource type="Gradient" id=512]
-offsets = PoolRealArray( 0.00917431, 0.568965, 1 )
-colors = PoolColorArray( 1, 0.639216, 0.580392, 1, 0.905882, 0.32549, 0.537255, 1, 0.615686, 0.141176, 0.32549, 1 )
 
 [sub_resource type="AtlasTexture" id=783]
 atlas = ExtResource( 45 )
@@ -2195,6 +2237,34 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="Curve" id=867]
+_data = [ Vector2( 0, 0.500372 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.10788, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=866]
+curve = SubResource( 867 )
+
+[sub_resource type="ParticlesMaterial" id=869]
+resource_local_to_scene = true
+emission_shape = 1
+emission_sphere_radius = 15.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -0.4
+scale = 0.5
+scale_curve = SubResource( 866 )
+color = Color( 0.96, 1.4, 2.2, 1 )
+anim_speed = 2.0
+
+[sub_resource type="StreamTexture" id=868]
+resource_local_to_scene = true
+flags = 4
+load_path = "res://.import/Thunder hit wo blur.png-2b5fee213006774b38e4eeb985e647e2.stex"
+
 [sub_resource type="RectangleShape2D" id=725]
 extents = Vector2( 24, 9.5 )
 
@@ -2302,25 +2372,7 @@ one_shot = true
 [node name="NewTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Position2D" type="Position2D" parent="."]
-position = Vector2( -10, 5 )
-
-[node name="Line2D" parent="Position2D" instance=ExtResource( 80 )]
-visible = false
-show_behind_parent = false
-position = Vector2( 0, 10 )
-points = PoolVector2Array( -31, 3 )
-width = 2.0
-gradient = SubResource( 512 )
-
-[node name="DashParticles" type="Particles2D" parent="Position2D"]
-position = Vector2( -20, 30 )
-emitting = false
-amount = 60
-one_shot = true
-local_coords = false
-process_material = SubResource( 515 )
-texture = ExtResource( 12 )
+[node name="JustLandedTimer" type="Timer" parent="."]
 
 [node name="ComboTimer" type="Timer" parent="."]
 
@@ -2330,6 +2382,10 @@ position = Vector2( 25, 8 )
 scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
 animation = "Acid3"
+
+[node name="DashParticles" parent="." instance=ExtResource( 12 )]
+process_material = SubResource( 869 )
+texture = SubResource( 868 )
 
 [node name="SwordCutArea" type="Area2D" parent="." groups=["SwordCut"]]
 visible = false
@@ -2369,6 +2425,7 @@ visible = false
 [connection signal="timeout" from="ImmuneTimer" to="." method="_on_ImmuneTimer_timeout"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="timeout" from="NewTimer" to="." method="_on_NewTimer_timeout"]
+[connection signal="timeout" from="JustLandedTimer" to="." method="_on_JustLandedTimer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]
 [connection signal="area_entered" from="CollectParticlesArea" to="." method="_on_CollectParticlesArea_area_entered"]
 
