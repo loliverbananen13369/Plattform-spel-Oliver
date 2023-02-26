@@ -1,8 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Random_Effects/Sangoro/ImpactMedium1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/DashSmoke.gd" type="Script" id=2]
 [ext_resource path="res://Random_Effects/Sangoro/DASH SMOKE 2.png" type="Texture" id=3]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 04/Thrust VFX 04 Color 1.png" type="Texture" id=4]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.test1.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 3 )
@@ -48,6 +50,66 @@ region = Rect2( 96, 0, 48, 80 )
 atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 80 )
 
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 4 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 4 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 4 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 4 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 5 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 5 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 5 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 5 )
+region = Rect2( 288, 0, 48, 48 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
@@ -59,12 +121,21 @@ animations = [ {
 "loop": false,
 "name": "ImpactMedium1",
 "speed": 15.0
+}, {
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": false,
+"name": "New Anim",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": false,
+"name": "New Anim 1",
+"speed": 15.0
 } ]
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
-modulate = Color( 2.75, 1, 1.85, 1 )
 frames = SubResource( 5 )
-animation = "ImpactDustKick"
+animation = "New Anim 1"
 frame = 6
 playing = true
 script = ExtResource( 2 )

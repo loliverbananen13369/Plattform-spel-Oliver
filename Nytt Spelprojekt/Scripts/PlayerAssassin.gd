@@ -161,18 +161,26 @@ func check_sprites():
 	
 func _add_dash_smoke(name: String):
 	var smoke = dash_smoke_scene.instance()
+	var flip 
+	if playersprite.flip_h == true:
+		flip = false
+	else:
+		flip = true
 	if name == "ImpactMedium1":
 		smoke.animation = "ImpactMedium1"
-		smoke.global_position = global_position
-		smoke.flip_h = playersprite.flip_h
+		smoke.global_position = global_position + Vector2(-10*direction.x, -5)
+		smoke.flip_h = flip
 	if name == "ImpactDustKick":
-		var flip 
-		if playersprite.flip_h == true:
-			flip = false
-		else:
-			flip = true
 		smoke.animation = "ImpactDustKick"
-		smoke.global_position = global_position + Vector2(-10*direction.x, 6)
+		smoke.global_position = global_position + Vector2(-10*direction.x, -10)
+		smoke.flip_h = flip
+	if name == "test":
+		smoke.animation = "New Anim"
+		smoke.global_position = global_position + Vector2(-30* direction.x, 0)
+		smoke.flip_h = flip
+	if name == "test2":
+		smoke.animation = "New Anim 1"
+		smoke.global_position = global_position + Vector2(-30* direction.x, 0)
 		smoke.flip_h = flip
 	get_tree().get_root().add_child(smoke)
 	
@@ -257,8 +265,8 @@ func _get_closest_enemy_index(enemy_group):
 	
 
 func _get_closest_enemy(enemy_group):
-	var closest_enemy = enemy_group[0]
 	if len(enemy_group) > 0:
+		var closest_enemy = enemy_group[0]
 		for i in range(0, len(enemy_group)-1):
 			if is_instance_valid(enemy_group[i]):
 				if global_position.distance_to(enemy_group[i].global_position) < global_position.distance_to((closest_enemy.global_position + Vector2(5, 0))):
@@ -269,11 +277,13 @@ func _get_closest_enemy(enemy_group):
 		return closest_enemy
 
 func _get_direction_to_enemy(enemy):
-	#var closest_enemy = _get_closest_enemy(enemy)
-	var direction = global_position.direction_to(enemy.global_position)
-	tester = direction
-	
-	return direction
+	var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	if len(all_enemy) > 0:
+		
+		var direction = global_position.direction_to(enemy.global_position)
+		tester = direction
+		
+		return direction
 	
 
 func _get_furthest_away_enemy():
@@ -372,10 +382,10 @@ func _add_holy_particles(amount: int) -> void:
 func _add_dash_particles(amount: int) -> void:
 	for i in range(amount):
 		var particles = dash_particles_scene.instance()
-		particles.global_position = global_position
+		particles.global_position = global_position + Vector2(0, 5)
 		particles.emitting = true
 		get_tree().get_root().add_child(particles)
-		yield(get_tree().create_timer(0.05), "timeout") 
+		yield(get_tree().create_timer(0.01), "timeout") 
 
 func _add_buff(buff_name: String) -> void:
 	var buff = buff_scene.instance()
@@ -533,7 +543,16 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 				global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
 				direction_x = "RIGHT"
 				_flip_sprite(true)
-	
+		
+
+func _get_smearsprite(button: String):
+	if button == "q":
+		animatedsmears.animation = PlayerStats.assassin_smearsprite_q
+	if button == "w":
+		animatedsmears.animation = PlayerStats.assassin_smearsprite_w
+	if button == "e":
+		animatedsmears.animation = PlayerStats.assassin_smearsprite_e
+
 func check_combo() -> void:
 	var re_combo_list = []
 	for i in range(0, combo_list.size()):
@@ -574,7 +593,6 @@ func player_stats():
 		damage_combo_ewqe1 = 10
 		damage_combo_ewqe2 = 50
 		damage_combo_qweq = 15
-
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
 		current_lvl += 1
@@ -688,6 +706,7 @@ func _run_state(delta) -> void:
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_add_dash_smoke("ImpactDustKick")
+		#_add_dash_particles(25)
 		_enter_dash_state(false, true)
 		return
 		
@@ -713,7 +732,8 @@ func _run_state(delta) -> void:
 
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_add_dash_smoke("ImpactMedium1")
+		#_add_dash_smoke("ImpactMedium1")
+		_add_dash_smoke("test2")
 		_enter_dash_state(false, false)
 		return
 	
@@ -762,7 +782,7 @@ func _dash_state_air(delta):
 	
 	if ghosttime >= 0.09:
 		_add_dash_ghost()
-		ghosttime = 0.06
+		ghosttime = 0.07
 
 func _dash_state_ground(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
@@ -837,10 +857,9 @@ func _jump_attack_state(delta) -> void:
 func _combo_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash"):
 		_dash_to_enemy(test_var_enemy, true)
-
+	
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
-
 func _invisible_state(delta) -> void:
 	pass
 	#global_position = testpos2
@@ -866,11 +885,13 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 	elif direction == Vector2.ZERO:
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	if ground == false:
+		#3, 3, 3
 		playersprite.modulate.r = 3
-		playersprite.modulate.g = 3
+		playersprite.modulate.g = 2
 		playersprite.modulate.b = 3
 		playersprite.play("Dash")
 		state = DASH_AIR
+		#_add_dash_particles(25)
 		#dashline.visible = true
 		can_dash = false
 		dashtimer.start(0.25)
@@ -880,7 +901,7 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 		#dashline.visible = true
 		can_dash = false
 		dashtimer.start(0.25)
-		#_add_dash_particles(5)
+		
 func _enter_air_state(jump: bool) -> void:
 	check_sprites()
 	if jump:
@@ -914,7 +935,7 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	is_attacking = true
 	animatedsmears.position.y = 5
 	if attack == 1:
-		animationplayer.play("comboewqe1")
+		animationplayer.play("Attack1")
 		previous_attack = 1
 		#$NormalAttackArea/AttackGround.disabled = false
 	if attack == 2:
@@ -954,6 +975,8 @@ func _enter_attack_air_state(Jump: bool) -> void:
 
 func _enter_combo_state(number : int) -> void:
 	var enemy = _get_closest_enemy(hit_enemy)
+	print(test_var_enemy)
+	#print(enemy.typeof())
 	test_var_enemy = enemy
 	var side = _get_direction_to_enemy(enemy)
 	state = COMBO
@@ -961,9 +984,9 @@ func _enter_combo_state(number : int) -> void:
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
 	if number == 2:
-
-		animationplayer.play(PlayerStats.assassin_combo_ewqe)
-		
+		animationplayer.play("comboewqe3")#(PlayerStats.assassin_combo_ewqe)
+		if Input.is_action_pressed("Dash"):
+			_dash_to_enemy(enemy, true)
 
 		
 		combo_list.clear()
@@ -1014,7 +1037,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "comboewqe1":
 		_enter_idle_state()
 		can_attack = true
-	if anim_name =="ComboEWQE2":
+	if anim_name =="comboewqe2":
+		_enter_idle_state()
+		can_attack = true
+	if anim_name == "comboewqe3":
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "JumpAttack":
@@ -1103,15 +1129,16 @@ func _on_CoyoteTimer_timeout():
 	can_jump = false
 
 func _on_DashTimer_timeout():
-	playersprite.modulate.r = 1
-	playersprite.modulate.g = 1
-	playersprite.modulate.b = 1
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
 	#dashline.visible = false
 	ghosttime = 0.0
 	can_dash = true
+	yield(get_tree().create_timer(0.1), "timeout")
+	playersprite.modulate.r = 1
+	playersprite.modulate.g = 1
+	playersprite.modulate.b = 1
 
 func _on_NewTimer_timeout():
 	can_follow_enemy = false
