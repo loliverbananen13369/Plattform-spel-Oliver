@@ -9,6 +9,7 @@ var ewqe2_learned = false
 var is_assassin = false
 var is_mage = false
 var player_lvl = 1
+var assassin_combo_ewqe = "comboewqe1"
 
 func _ready() -> void:
 	load_data()

@@ -83,6 +83,8 @@ export (Vector2) var tester := Vector2.ZERO
 
 
 var dash_to_enemy_distance = 50
+var hit_enemy = []
+
 
 var hit_the_ground = false
 var motion_previous = Vector2()
@@ -92,6 +94,7 @@ var xp_needed = 40
 var has_leveled_up = false
 var testpos = Vector2.ZERO
 var testpos2 = Vector2.ZERO
+var test_var_enemy 
 
 
 #Player stats
@@ -152,6 +155,7 @@ func check_sprites():
 	$Thrusts.visible = false
 	$ComboSprites.visible = false
 	animatedsmears.visible = false
+	can_attack = true
 	
 	
 	
@@ -264,13 +268,13 @@ func _get_closest_enemy(enemy_group):
 
 		return closest_enemy
 
-func _get_direction_to_enemy():
-	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	if len(all_enemy) > 0:
-		var closest_enemy = _get_closest_enemy(all_enemy)
-		var asdasd = global_position.direction_to(closest_enemy.global_position)
-		
-		tester = asdasd
+func _get_direction_to_enemy(enemy):
+	#var closest_enemy = _get_closest_enemy(enemy)
+	var direction = global_position.direction_to(enemy.global_position)
+	tester = direction
+	
+	return direction
+	
 
 func _get_furthest_away_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
@@ -504,33 +508,29 @@ func _remember_attack() -> void:
 	yield(get_tree().create_timer(attack_buffer), "timeout")
 	attack_pressed = 0
 
-func _dash_to_enemy(switch_side: bool) -> void:
-	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	var close_enemy = _get_closest_enemy(all_enemy)
-	var far_enemy = _get_furthest_away_enemy()
+func _dash_to_enemy(enemy, switch_side: bool) -> void:
 	if can_follow_enemy:
-		#print("dukan")
 		if not switch_side:
-			if global_position.x >= close_enemy.global_position.x:
-				tween.interpolate_property(self, "global_position", global_position, close_enemy.global_position + Vector2(30, 0), 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			if global_position.x >= enemy.global_position.x:
+				tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x + 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 				tween.start()
 				#global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
 				direction_x = "LEFT"
 				_flip_sprite(false)
 			else:
-				tween.interpolate_property(self, "global_position", global_position.x, close_enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 				tween.start()
 				
 				#global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
 				direction_x = "RIGHT"
 				_flip_sprite(true)
 		else:
-			if global_position.x <= far_enemy.global_position.x:
-				global_position.x = far_enemy.global_position.x + 30# + Vector2(30, -4)
+			if global_position.x <= enemy.global_position.x:
+				global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
 				direction_x = "LEFT"
 				_flip_sprite(false)
 			else:
-				global_position.x = far_enemy.global_position.x - 30# - Vector2(30, 4)
+				global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
 				direction_x = "RIGHT"
 				_flip_sprite(true)
 	
@@ -654,14 +654,10 @@ func _idle_state(delta) -> void:
 		#playersprite.modulate.b8 = 255
 	
 	if Input.is_action_just_pressed("AirExplosion"):
-		_get_direction_to_enemy()
 		_add_first_air_explosion()
 		#emit_signal("test", 0.8)
 		yield(get_tree().create_timer(0.2), "timeout")
 		_add_airexplosions(10)
-	
-	if Input.is_action_just_pressed("Dash"):
-		_dash_to_enemy(false)
 
 	
 	
@@ -839,7 +835,8 @@ func _jump_attack_state(delta) -> void:
 		_enter_idle_state()
 
 func _combo_state(delta) -> void:
-	pass
+	if Input.is_action_just_pressed("Dash"):
+		_dash_to_enemy(test_var_enemy, true)
 
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
@@ -917,26 +914,23 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	is_attacking = true
 	animatedsmears.position.y = 5
 	if attack == 1:
-		animationplayer.play("Attack1")
-		can_attack = false
+		animationplayer.play("comboewqe1")
 		previous_attack = 1
 		#$NormalAttackArea/AttackGround.disabled = false
 	if attack == 2:
 		animationplayer.play("Attack2")
-		can_attack = false
 		previous_attack = 2
 	if attack == 3:
 		animationplayer.play("Attack3")
-		can_attack = false
 		previous_attack = 3
 	if attack == 4:
 		animationplayer.play("SpinAttack")
-		can_attack = false
+	can_attack = false
 	combo_list.append(previous_attack) 
 	if combo_list.size() >= 4:
 		check_combo()
-	if combo_list.size() == 0:
-		_enter_idle_state()
+	#if combo_list.size() == 0:
+	#	_enter_idle_state()
 
 func _enter_dash_attack_state(attack: int) -> void:
 	state = ATTACK_DASH
@@ -959,30 +953,18 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		frameFreeze(0.3, 0.4)
 
 func _enter_combo_state(number : int) -> void:
+	var enemy = _get_closest_enemy(hit_enemy)
+	test_var_enemy = enemy
+	var side = _get_direction_to_enemy(enemy)
 	state = COMBO
-	if Input.is_action_pressed("Dash"):
-		_dash_to_enemy(true)
 	if number == 1: 
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
 	if number == 2:
-		if direction_x == "RIGHT":
-			if current_lvl <= 1:
-				$ComboSprites.position.x = 62
-			else:
-				$ComboSprites.position.x = 95
-			$ComboSprites.flip_h = false
-		else:
-			if current_lvl <= 1:
-				$ComboSprites.position.x = -42
-			else:
-				$ComboSprites.position.x = -75
-			$ComboSprites.flip_h = true
-		if PlayerStats.ewqe2_learned == true:
-			animationplayer.play("ComboEWQE2")
-			emit_signal("test", 0.2)
-		elif PlayerStats.ewqe1_learned == true:
-			animationplayer.play("ComboEWQE1")
+
+		animationplayer.play(PlayerStats.assassin_combo_ewqe)
+		
+
 		
 		combo_list.clear()
 		
@@ -991,32 +973,32 @@ func _enter_combo_state(number : int) -> void:
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
 		if state == COMBO:
-			_enter_attack1_state(2, true)
+			pass
 		else:
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 				_enter_run_state()
-			elif Input.is_action_pressed("Dash"):
-				_dash_to_enemy(false)
 			else:
 				_enter_idle_state()
 	if anim_name == "Attack2":
-		can_attack = true
-		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-			_enter_run_state()
-		elif Input.is_action_pressed("Dash"):
-			_dash_to_enemy(false)
-		else:
-			_enter_idle_state()
-	if anim_name == "Attack3":
 		if state == COMBO:
 			pass
 		else:
 			can_attack = true
 			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 				_enter_run_state()
-			elif Input.is_action_pressed("Dash"):
-				_dash_to_enemy(false)
+			else:
+				_enter_idle_state()
+	if anim_name == "Attack3":
+		if state == COMBO:
+			_enter_idle_state()
+			can_attack = true
+		else:
+			can_attack = true
+			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+				_enter_run_state()
+			#elif Input.is_action_pressed("Dash"):
+			#	_dash_to_enemy(false)
 			else:
 				_enter_idle_state()
 	if anim_name == "SpinAttack":
@@ -1029,7 +1011,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		$SwordCutArea/SpinAttack.disabled = true
 		can_attack = true
 		_enter_idle_state()
-	if anim_name == "ComboEWQE1":
+	if anim_name == "comboewqe1":
 		_enter_idle_state()
 		can_attack = true
 	if anim_name =="ComboEWQE2":
@@ -1090,6 +1072,9 @@ func _on_KinematicBody2D_hurt() -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
+		hit_enemy = []
+		hit_enemy.append(area.get_parent())
+		$EnemyHitTimer.start(1.0)
 		if not can_follow_enemy:
 			can_follow_enemy = true
 			$NewTimer.start(1)
@@ -1141,3 +1126,7 @@ func _on_AssassinTest_on_learned(node):
 
 func _on_JustLandedTimer_timeout() -> void:
 	can_add_ass_ghost = false
+
+
+func _on_EnemyHitTimer_timeout() -> void:
+	hit_enemy.clear()
