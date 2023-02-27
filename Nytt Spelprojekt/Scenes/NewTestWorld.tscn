@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/NewTestWorld.gd" type="Script" id=1]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.new.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/WorldEnvironment.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/TestSpawner.gd" type="Script" id=6]
@@ -791,6 +792,118 @@ resource_local_to_scene = true
 33/shapes = [  ]
 33/z_index = 0
 
+[sub_resource type="Animation" id=44]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/force")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/Sprite:material:shader_param/force")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 5.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/Sprite:material:shader_param/size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 4.0 ]
+}
+
+[sub_resource type="Animation" id=45]
+resource_name = "Shockwave"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasLayer/Sprite:material:shader_param/force")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.04, 0.01 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/Sprite:material:shader_param/size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[sub_resource type="Shader" id=46]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec2 center;
+uniform float force;
+uniform float size;
+uniform float thickness;
+uniform float offset;
+
+void fragment() {
+	float ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
+	vec2 scaledUV = ( SCREEN_UV - vec2(0.5, 0.0) ) / vec2(ratio, 1.0) + vec2(0.5, 0.0);
+	float mask = (1.0 - smoothstep(size - 0.1, size, length(scaledUV - center))) *
+			smoothstep(size - thickness-0.1, size-thickness, length(scaledUV - center));
+	vec2 disp = normalize(UV - center) * force * mask;
+	COLOR = texture(SCREEN_TEXTURE, SCREEN_UV - disp);
+	COLOR.rgb = vec3(mask);
+	COLOR.r = texture(SCREEN_TEXTURE,vec2(SCREEN_UV.x + offset, SCREEN_UV.y) - disp).r;
+	COLOR.g = texture(SCREEN_TEXTURE,SCREEN_UV - disp).g;
+	COLOR.b = texture(SCREEN_TEXTURE,vec2(SCREEN_UV.x - offset, SCREEN_UV.y) - disp).b;
+	
+	
+}
+"
+
+[sub_resource type="ShaderMaterial" id=47]
+shader = SubResource( 46 )
+shader_param/center = Vector2( 0.5, 0.5 )
+shader_param/force = 5.0
+shader_param/size = 4.0
+shader_param/thickness = null
+shader_param/offset = null
+
 [node name="NewTestWorld" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -823,5 +936,16 @@ script = ExtResource( 6 )
 autostart = true
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 44 )
+anims/Shockwave = SubResource( 45 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer"]
+material = SubResource( 47 )
+scale = Vector2( 64.484, 40.359 )
+texture = ExtResource( 3 )
 
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

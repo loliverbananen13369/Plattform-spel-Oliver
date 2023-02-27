@@ -58,6 +58,7 @@ var buff_scene = preload("res://Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
 var dash_particles_scene = preload("res://Scenes/DashParticlesAssassin.tscn")
+var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
 
 var ghosttime := 0.0
 
@@ -185,6 +186,12 @@ func _add_dash_smoke(name: String):
 	get_tree().get_root().add_child(smoke)
 	
 		
+func _add_shockwave():
+	var wave = shockwave_scene.instance()
+	#wave.global_position = global_position
+	add_child(wave)
+	yield(get_tree().create_timer(0.5),"timeout")
+	wave.queue_free()
 
 func _add_assassin_ghost(amount:int):
 	if amount == 0:
@@ -879,6 +886,7 @@ func _enter_idle_state() -> void:
 
 func _enter_dash_state(attack: bool, ground:bool) -> void:
 	check_sprites()
+	_add_shockwave()
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 	if state == IDLE and direction == Vector2.DOWN:
 		return

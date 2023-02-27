@@ -2261,86 +2261,107 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2670,7 +2691,7 @@ modulate = Color( 0.473536, 0.334626, 2.29596, 1 )
 position = Vector2( 10, -30 )
 scale = Vector2( 3.5, 1.5 )
 animation = "Smear4H"
-frame = 4
+frame = 0
 playing = true
 flip_v = true
 
