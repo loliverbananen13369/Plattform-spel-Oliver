@@ -188,7 +188,6 @@ func _add_dash_smoke(name: String):
 		
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
-	#wave.global_position = global_position
 	add_child(wave)
 	yield(get_tree().create_timer(0.5),"timeout")
 	wave.queue_free()

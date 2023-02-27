@@ -1,6 +1,4 @@
-[gd_scene load_steps=6 format=2]
-
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[gd_scene load_steps=5 format=2]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -10,6 +8,7 @@ uniform float force;
 uniform float size;
 uniform float thickness;
 uniform float offset;
+uniform vec4 tone_color : hint_color;
 
 void fragment() {
 	float ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
@@ -17,12 +16,12 @@ void fragment() {
 	float mask = (1.0 - smoothstep(size - 0.1, size, length(scaledUV - center))) *
 			smoothstep(size - thickness-0.1, size-thickness, length(scaledUV - center));
 	vec2 disp = normalize(UV - center) * force * mask;
+	//COLOR = vec4(UV, 0.0, 1.0);
 	COLOR = texture(SCREEN_TEXTURE, SCREEN_UV - disp);
 	COLOR.rgb = vec3(mask);
 	COLOR.r = texture(SCREEN_TEXTURE,vec2(SCREEN_UV.x + offset, SCREEN_UV.y) - disp).r;
 	COLOR.g = texture(SCREEN_TEXTURE,SCREEN_UV - disp).g;
 	COLOR.b = texture(SCREEN_TEXTURE,vec2(SCREEN_UV.x - offset, SCREEN_UV.y) - disp).b;
-	
 	
 }
 "
@@ -31,23 +30,24 @@ void fragment() {
 shader = SubResource( 1 )
 shader_param/center = Vector2( 0.5, 0.5 )
 shader_param/force = 0.04
-shader_param/size = 1.0
+shader_param/size = 0.0
 shader_param/thickness = null
 shader_param/offset = null
+shader_param/tone_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="Animation" id=3]
-length = 0.001
+length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:material:shader_param/force")
 tracks/0/interp = 1
-tracks/0/loop_wrap = true
+tracks/0/loop_wrap = false
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.04 ]
+"values": [ 0.04, 0.01 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:material:shader_param/size")
@@ -56,10 +56,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 1.0 ]
+"values": [ 0.0, 1.0 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -91,10 +91,10 @@ tracks/1/keys = {
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite" type="ColorRect" parent="."]
 material = SubResource( 2 )
-scale = Vector2( 64.484, 40.359 )
-texture = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Shockwave"
