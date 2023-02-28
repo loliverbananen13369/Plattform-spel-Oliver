@@ -1,4 +1,4 @@
-[gd_scene load_steps=332 format=2]
+[gd_scene load_steps=364 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.1.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Hurt 1 n 2/Hurt 2.new.png" type="Texture" id=10]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.ass.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/DashParticlesAssassin.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Random_Effects/Sangoro/BIG SMOKE.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.2.png" type="Texture" id=15]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running9.ass.png" type="Texture" id=16]
 [ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.test.png" type="Texture" id=17]
@@ -426,7 +427,7 @@ height = 18.0
 [sub_resource type="ShaderMaterial" id=636]
 resource_local_to_scene = true
 shader = ExtResource( 61 )
-shader_param/flash_color = Color( 0.486275, 0.0941176, 0.235294, 1 )
+shader_param/flash_color = Color( 2.75, 1, 1.85, 1 )
 shader_param/flash_modifier = 0.0
 
 [sub_resource type="AtlasTexture" id=830]
@@ -673,6 +674,130 @@ region = Rect2( 0, 48, 56, 48 )
 atlas = ExtResource( 1 )
 region = Rect2( 0, 96, 56, 48 )
 
+[sub_resource type="AtlasTexture" id=896]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=897]
+atlas = ExtResource( 13 )
+region = Rect2( 118, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=898]
+atlas = ExtResource( 13 )
+region = Rect2( 236, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=899]
+atlas = ExtResource( 13 )
+region = Rect2( 354, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=900]
+atlas = ExtResource( 13 )
+region = Rect2( 472, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=901]
+atlas = ExtResource( 13 )
+region = Rect2( 590, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=902]
+atlas = ExtResource( 13 )
+region = Rect2( 708, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=903]
+atlas = ExtResource( 13 )
+region = Rect2( 826, 0, 118, 29 )
+
+[sub_resource type="AtlasTexture" id=872]
+atlas = ExtResource( 60 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=873]
+atlas = ExtResource( 60 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=874]
+atlas = ExtResource( 60 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=875]
+atlas = ExtResource( 60 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=876]
+atlas = ExtResource( 60 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=877]
+atlas = ExtResource( 60 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=878]
+atlas = ExtResource( 60 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=879]
+atlas = ExtResource( 60 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=880]
+atlas = ExtResource( 60 )
+region = Rect2( 384, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=881]
+atlas = ExtResource( 60 )
+region = Rect2( 432, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=882]
+atlas = ExtResource( 60 )
+region = Rect2( 480, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=883]
+atlas = ExtResource( 60 )
+region = Rect2( 528, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=884]
+atlas = ExtResource( 60 )
+region = Rect2( 576, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=885]
+atlas = ExtResource( 60 )
+region = Rect2( 624, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=886]
+atlas = ExtResource( 60 )
+region = Rect2( 672, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=887]
+atlas = ExtResource( 60 )
+region = Rect2( 720, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=888]
+atlas = ExtResource( 60 )
+region = Rect2( 768, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=889]
+atlas = ExtResource( 60 )
+region = Rect2( 816, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=890]
+atlas = ExtResource( 60 )
+region = Rect2( 864, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=891]
+atlas = ExtResource( 60 )
+region = Rect2( 912, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=892]
+atlas = ExtResource( 60 )
+region = Rect2( 960, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=893]
+atlas = ExtResource( 60 )
+region = Rect2( 1008, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=894]
+atlas = ExtResource( 60 )
+region = Rect2( 1056, 0, 48, 48 )
+
 [sub_resource type="AtlasTexture" id=642]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 0, 56, 48 )
@@ -805,6 +930,11 @@ animations = [ {
 "name": "JumpN",
 "speed": 5.0
 }, {
+"frames": [ SubResource( 896 ), SubResource( 897 ), SubResource( 898 ), SubResource( 899 ), SubResource( 900 ), SubResource( 901 ), SubResource( 902 ), SubResource( 903 ) ],
+"loop": false,
+"name": "New Anim",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 66 ), ExtResource( 95 ), ExtResource( 63 ) ],
 "loop": false,
 "name": "PrepareAirAttack",
@@ -814,6 +944,11 @@ animations = [ {
 "loop": true,
 "name": "Run",
 "speed": 15.0
+}, {
+"frames": [ SubResource( 872 ), SubResource( 873 ), SubResource( 874 ), SubResource( 875 ), SubResource( 876 ), SubResource( 877 ), SubResource( 878 ), SubResource( 879 ), SubResource( 880 ), SubResource( 881 ), SubResource( 882 ), SubResource( 883 ), SubResource( 884 ), SubResource( 885 ), SubResource( 886 ), SubResource( 887 ), SubResource( 888 ), SubResource( 889 ), SubResource( 890 ), SubResource( 891 ), SubResource( 892 ), SubResource( 893 ), SubResource( 894 ) ],
+"loop": false,
+"name": "Spawn",
+"speed": 45.0
 }, {
 "frames": [ SubResource( 642 ), SubResource( 643 ), SubResource( 644 ), SubResource( 645 ), SubResource( 646 ), SubResource( 647 ), SubResource( 648 ), SubResource( 649 ), SubResource( 650 ), SubResource( 651 ), SubResource( 652 ) ],
 "loop": true,
@@ -1053,7 +1188,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 0.6, 1.0 ]
+"values": [ 0.8, 1.0 ]
 }
 
 [sub_resource type="Animation" id=840]
@@ -1182,7 +1317,7 @@ tracks/9/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 0.6, 1.0 ]
+"values": [ 0.8, 1.0 ]
 }
 
 [sub_resource type="Animation" id=841]
@@ -1323,7 +1458,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 0.6, 1.0 ]
+"values": [ 0.8, 1.0 ]
 }
 
 [sub_resource type="Animation" id=842]
@@ -1964,8 +2099,7 @@ tracks/8/keys = {
 "values": [ Vector2( 2.5, 1.5 ) ]
 }
 
-[sub_resource type="Animation" id=875]
-resource_name = "comboewqe2"
+[sub_resource type="Animation" id=895]
 length = 0.566667
 step = 0.0333333
 tracks/0/type = "value"
@@ -2070,8 +2204,7 @@ tracks/7/keys = {
 "values": [ Vector2( 2.5, 1.5 ) ]
 }
 
-[sub_resource type="Animation" id=876]
-resource_name = "comboewqe3"
+[sub_resource type="Animation" id=904]
 length = 1.16667
 step = 0.0333333
 tracks/0/type = "value"
@@ -2151,7 +2284,7 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
-tracks/6/enabled = false
+tracks/6/enabled = true
 tracks/6/keys = {
 "times": PoolRealArray( 0.0666667 ),
 "transitions": PoolRealArray( 1 ),
@@ -2194,7 +2327,21 @@ tracks/9/keys = {
 "times": PoolRealArray( 0, 1.1, 1.13333 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.6, 1.5, 1.0 ]
+"values": [ 2.0, 2.0, 1.0 ]
+}
+tracks/10/type = "method"
+tracks/10/path = NodePath(".")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = false
+tracks/10/keys = {
+"times": PoolRealArray( 0.0666667 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ null, false ],
+"method": "_dash_to_enemy"
+} ]
 }
 
 [sub_resource type="Curve" id=513]
@@ -2634,7 +2781,7 @@ scale_curve = SubResource( 866 )
 color = Color( 0.96, 1.4, 2.2, 1 )
 anim_speed = 2.0
 
-[sub_resource type="StreamTexture" id=872]
+[sub_resource type="StreamTexture" id=905]
 resource_local_to_scene = true
 flags = 4
 load_path = "res://.import/Thunder hit wo blur.png-2b5fee213006774b38e4eeb985e647e2.stex"
@@ -2645,11 +2792,11 @@ extents = Vector2( 24, 9.5 )
 [sub_resource type="CircleShape2D" id=791]
 radius = 25.0
 
-[sub_resource type="StreamTexture" id=873]
+[sub_resource type="StreamTexture" id=906]
 resource_local_to_scene = true
 load_path = "res://.import/dash_particle.2.png-17eeda4d4eeed45c12d23d0a5d48b840.stex"
 
-[sub_resource type="StreamTexture" id=874]
+[sub_resource type="StreamTexture" id=907]
 resource_local_to_scene = true
 load_path = "res://.import/dash_particle.2.png-17eeda4d4eeed45c12d23d0a5d48b840.stex"
 
@@ -2660,19 +2807,17 @@ collision_mask = 16
 script = ExtResource( 46 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
-visible = false
 position = Vector2( 10, -19 )
+scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
-animation = "Acid"
+animation = "OnGround"
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
 modulate = Color( 0.473536, 0.334626, 2.29596, 1 )
-position = Vector2( 10, -30 )
-scale = Vector2( 3.5, 1.5 )
-animation = "Smear4H"
+position = Vector2( 30, -15 )
+animation = "AirAttack"
 frame = 4
 playing = true
-flip_v = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
 visible = false
@@ -2680,11 +2825,9 @@ position = Vector2( 2, 11 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
-visible = false
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "Attack1"
-frame = 7
+animation = "FallF"
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true
@@ -2698,7 +2841,7 @@ position = Vector2( 0, 10 )
 shape = SubResource( 53 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 0.6
+playback_speed = 2.0
 anims/AirAttack = SubResource( 838 )
 anims/Attack1 = SubResource( 839 )
 anims/Attack2 = SubResource( 840 )
@@ -2710,8 +2853,8 @@ anims/PrepareAirAttack = SubResource( 845 )
 anims/SpinAttack = SubResource( 846 )
 anims/Thrust2 = SubResource( 847 )
 anims/comboewqe1 = SubResource( 870 )
-anims/comboewqe2 = SubResource( 875 )
-anims/comboewqe3 = SubResource( 876 )
+anims/comboewqe2 = SubResource( 895 )
+anims/comboewqe3 = SubResource( 904 )
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.3
@@ -2737,6 +2880,7 @@ collision_mask = 2
 [node name="AttackGround" type="CollisionShape2D" parent="NormalAttackArea"]
 position = Vector2( 36, 5 )
 shape = SubResource( 829 )
+disabled = true
 
 [node name="AttackJump" type="CollisionShape2D" parent="NormalAttackArea"]
 position = Vector2( -20, -1 )
@@ -2774,7 +2918,7 @@ animation = "Acid3"
 [node name="DashParticles" parent="." instance=ExtResource( 12 )]
 material = SubResource( 871 )
 process_material = SubResource( 869 )
-texture = SubResource( 872 )
+texture = SubResource( 905 )
 
 [node name="SwordCutArea" type="Area2D" parent="." groups=["SwordCut"]]
 visible = false
@@ -2807,24 +2951,24 @@ shape = SubResource( 791 )
 visible = false
 
 [node name="Thingy" parent="SkillTreeInGame/Control/CanvasLayer" index="0"]
-texture_normal = SubResource( 873 )
-on_learned_texture = SubResource( 874 )
+texture_normal = SubResource( 906 )
+on_learned_texture = SubResource( 907 )
 
 [node name="Arrow" parent="SkillTreeInGame/Control/CanvasLayer" index="1"]
-texture_normal = SubResource( 873 )
-on_learned_texture = SubResource( 874 )
+texture_normal = SubResource( 906 )
+on_learned_texture = SubResource( 907 )
 
 [node name="Ray" parent="SkillTreeInGame/Control/CanvasLayer" index="2"]
-texture_normal = SubResource( 873 )
-on_learned_texture = SubResource( 874 )
+texture_normal = SubResource( 906 )
+on_learned_texture = SubResource( 907 )
 
 [node name="Time" parent="SkillTreeInGame/Control/CanvasLayer" index="3"]
-texture_normal = SubResource( 873 )
-on_learned_texture = SubResource( 874 )
+texture_normal = SubResource( 906 )
+on_learned_texture = SubResource( 907 )
 
 [node name="Lock" parent="SkillTreeInGame/Control/CanvasLayer" index="4"]
-texture_normal = SubResource( 873 )
-on_learned_texture = SubResource( 874 )
+texture_normal = SubResource( 906 )
+on_learned_texture = SubResource( 907 )
 
 [node name="EnemyHitTimer" type="Timer" parent="."]
 one_shot = true

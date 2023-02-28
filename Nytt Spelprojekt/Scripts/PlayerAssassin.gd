@@ -59,6 +59,7 @@ var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
 var dash_particles_scene = preload("res://Scenes/DashParticlesAssassin.tscn")
 var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
+var clone_scene = preload("res://Scenes/AssassinClone.tscn")
 
 var ghosttime := 0.0
 
@@ -112,6 +113,7 @@ var previous_state = IDLE
 
 
 func _ready() -> void:
+	playersprite.visible = true
 	$AnimationPlayer.playback_speed = 1
 	$SkillTreeInGame/Control/CanvasLayer.visible = false
 
@@ -158,6 +160,7 @@ func check_sprites():
 	animatedsmears.visible = false
 	can_attack = true
 	
+
 	
 	
 func _add_dash_smoke(name: String):
@@ -191,6 +194,29 @@ func _add_shockwave():
 	add_child(wave)
 	yield(get_tree().create_timer(0.5),"timeout")
 	wave.queue_free()
+
+func _add_clone(enemy, anim: String):
+	var clone = clone_scene.instance()
+	var animplayer = clone.get_child(2)
+	var smearsp = clone.get_child(1)
+	var flip 
+	var dir
+	if playersprite.flip_h == true:
+		flip = false
+		dir = -1
+	else:
+		flip = true
+		dir = 1
+	smearsp.animation = animatedsmears.animation
+	#clone.ani = _get_smearsprite("q")
+	#animplayer.animation_get_next("Attack1")
+	#clone.global_position = enemy.global_position + Vector2(60*dir,-25)
+	clone.global_position = global_position
+	#print(global_position)
+	#print(enemy.global_position)
+	clone.flip_h = playersprite.flip_h
+	get_tree().get_root().add_child(clone)
+	#print("hejsan")
 
 func _add_assassin_ghost(amount:int):
 	if amount == 0:
@@ -528,18 +554,19 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 	if can_follow_enemy:
 		if not switch_side:
 			if global_position.x >= enemy.global_position.x:
-				tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x + 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				tween.start()
-				#global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
+				#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x + 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				#tween.start()
+				global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
 				direction_x = "LEFT"
 				_flip_sprite(false)
 			else:
-				tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				tween.start()
+				#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				#tween.start()
 				
-				#global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
+				global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
 				direction_x = "RIGHT"
 				_flip_sprite(true)
+			print("heheheha")
 		else:
 			if global_position.x <= enemy.global_position.x:
 				global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
@@ -549,6 +576,8 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 				global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
 				direction_x = "RIGHT"
 				_flip_sprite(true)
+		
+			
 		
 
 func _get_smearsprite(button: String):
@@ -671,6 +700,7 @@ func _idle_state(delta) -> void:
 		test_active = true
 		yield(get_tree().create_timer(10), "timeout")
 		test_active = false
+		
 		#_add_buff("life_steal")
 		#yield(get_tree().create_timer(2), "timeout")
 		#playersprite.modulate.r8 = 255
@@ -864,6 +894,7 @@ func _combo_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash"):
 		_dash_to_enemy(test_var_enemy, true)
 	
+	
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
 func _invisible_state(delta) -> void:
@@ -893,9 +924,9 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	if ground == false:
 		#3, 3, 3
-		playersprite.modulate.r = 3
-		playersprite.modulate.g = 2
-		playersprite.modulate.b = 3
+		playersprite.modulate.r = 0.15
+		playersprite.modulate.g = 0.23
+		playersprite.modulate.b = 0.37
 		playersprite.play("Dash")
 		state = DASH_AIR
 		#_add_dash_particles(25)
@@ -903,6 +934,10 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 		can_dash = false
 		dashtimer.start(0.25)
 	else:
+		#playersprite.modulate.r = 2.75
+		#playersprite.modulate.g = 1
+		#playersprite.modulate.b = 1.85
+		playersprite.material.set_shader_param("flash_modifier", 0.8)
 		playersprite.play("Dash")
 		state = DASH_GROUND
 		#dashline.visible = true
@@ -981,18 +1016,28 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		frameFreeze(0.3, 0.4)
 
 func _enter_combo_state(number : int) -> void:
+	ghosttime = 0.0
 	var enemy = _get_closest_enemy(hit_enemy)
-	print(test_var_enemy)
-	#print(enemy.typeof())
 	test_var_enemy = enemy
-	var side = _get_direction_to_enemy(enemy)
+#	var side = _get_direction_to_enemy(enemy)
 	state = COMBO
 	if number == 1: 
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
 	if number == 2:
 		animationplayer.play("comboewqe3")#(PlayerStats.assassin_combo_ewqe)
+		_add_clone(enemy, "Attack1")
 		if Input.is_action_pressed("Dash"):
+			_add_shockwave()
+			_add_clone(enemy, "Attack1")
+			_dash_to_enemy(enemy, true)
+			yield(get_tree().create_timer(0.1333333), "timeout")
+			_add_clone(enemy, "Attack1")
+			_dash_to_enemy(enemy, false)
+			yield(get_tree().create_timer(0.1333333), "timeout")
+			_add_clone(enemy, "Attack1")
+			_dash_to_enemy(enemy, false)
+			yield(get_tree().create_timer(0.1333333), "timeout")
 			_dash_to_enemy(enemy, true)
 
 		
@@ -1136,6 +1181,7 @@ func _on_CoyoteTimer_timeout():
 	can_jump = false
 
 func _on_DashTimer_timeout():
+	playersprite.material.set_shader_param("flash_modifier", 0.0)
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
