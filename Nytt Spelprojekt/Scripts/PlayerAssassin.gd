@@ -1026,7 +1026,7 @@ func _enter_combo_state(number : int) -> void:
 		combo_list.clear()
 	if number == 2:
 		animationplayer.play("comboewqe3")#(PlayerStats.assassin_combo_ewqe)
-		_add_clone(enemy, "Attack1")
+		_add_clone(_get_closest_enemy(hit_enemy), "Attack1")
 		if Input.is_action_pressed("Dash"):
 			_add_shockwave()
 			_add_clone(enemy, "Attack1")
