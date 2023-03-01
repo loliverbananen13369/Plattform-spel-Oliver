@@ -26,6 +26,12 @@ func _ready() -> void:
 		spellsprite.modulate.g = 1.5
 		vector = Vector2(10, -18)
 		_add_preparing_attack_particles(20)
+	if spellsprite.animation == "holy_mage_test1":
+		spellsprite.modulate.r = 3
+		spellsprite.modulate.b = 3
+		spellsprite.modulate.g = 3
+		print("hejsan")
+		vector = Vector2(10,0)
 	if spellsprite.animation == "dark2":
 		spellsprite.scale.x = 1
 		spellsprite.scale.y = 1
@@ -69,6 +75,8 @@ func _on_AnimatedSprite_animation_finished() -> void:
 	if spellsprite.animation == "lvl_up":
 		queue_free()
 	if spellsprite.animation == "test":
+		queue_free()
+	if spellsprite.animation == "holy_mage_test1":
 		queue_free()
 
 func _add_preparing_attack_particles(amount) -> void:

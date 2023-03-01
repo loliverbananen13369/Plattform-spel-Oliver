@@ -54,6 +54,8 @@ var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackPartic
 var buff_scene = preload("res://Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
+var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
+var dash_smoke_scene = preload("res://Scenes/DashSmoke.tscn")
 
 
 var ghosttime := 0.0
@@ -64,9 +66,8 @@ onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
-onready var dashparticles = $Position2D/DashParticles
+onready var dashparticles = $DashParticles
 onready var attackparticles = $AttackParticles
-onready var dashline = $Position2D/Line2D
 onready var tween = $Tween
 onready var player_stats_save_file = PlayerStats.game_data
 
@@ -249,22 +250,46 @@ func _flip_sprite(right: bool) -> void:
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
 		$ComboSprites.flip_h = false
-		animatedsmears.position.x = 30
-		attackparticles.position.x = 30
-		$NormalAttackArea/AttackGround.position.x = 46
-		$SpecialAttackArea/Acid2.position.x = 62
-		$SpecialAttackArea/Acid5.position.x = 92
-		$SwordCutArea/SpinAttack.position.x = 44
+		animatedsmears.position.x = 20
+		attackparticles.position.x = 20
+		$NormalAttackArea/AttackGround.position.x = 36
+		$SpecialAttackArea/Acid2.position.x = 52
+		$SpecialAttackArea/Acid5.position.x = 82
+		$SwordCutArea/SpinAttack.position.x = 34
 	else:
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
 		$ComboSprites.flip_h = true
-		animatedsmears.position.x = -10
-		attackparticles.position.x = -10
-		$NormalAttackArea/AttackGround.position.x = -26
-		$SpecialAttackArea/Acid2.position.x = -42
-		$SpecialAttackArea/Acid5.position.x = -72
-		$SwordCutArea/SpinAttack.position.x = -24
+		animatedsmears.position.x = -20
+		attackparticles.position.x = -20
+		$NormalAttackArea/AttackGround.position.x = -36
+		$SpecialAttackArea/Acid2.position.x = -52
+		$SpecialAttackArea/Acid5.position.x = -82
+		$SwordCutArea/SpinAttack.position.x = -34
+
+func _add_shockwave():
+	var wave = shockwave_scene.instance()
+	add_child(wave)
+	yield(get_tree().create_timer(0.5),"timeout")
+	wave.queue_free()
+
+
+func _add_dash_smoke(name: String):
+	var smoke = dash_smoke_scene.instance()
+	var flip 
+	if playersprite.flip_h == true:
+		flip = false
+	else:
+		flip = true
+	if name == "ImpactDustKick":
+		smoke.animation = "ImpactDustKickMage"
+		smoke.global_position = global_position + Vector2(-10*direction.x, -30)
+		smoke.flip_h = flip
+	if name == "test2":
+		smoke.animation = "New Anim 1"
+		smoke.global_position = global_position + Vector2(-30* direction.x, 0)
+		smoke.flip_h = flip
+	get_tree().get_root().add_child(smoke)
 
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
@@ -301,11 +326,11 @@ func _add_holy_particles(amount: int) -> void:
 		rng.randomize()
 		var random_number = rng.randi_range(1, 2)
 		if random_number == 1:
-			$Position2D2.position.x = 30
-			$Position2D3.position.x = -10
+			$Position2D2.position.x = 20
+			$Position2D3.position.x = -20
 		else:
-			$Position2D2.position.x = -10
-			$Position2D3.position.x = 30
+			$Position2D2.position.x = -20
+			$Position2D3.position.x = 20
 		var particles = holy_particles_scene.instance()
 		particles.global_position = global_position
 		particles.emitting = true
@@ -319,7 +344,7 @@ func _add_buff(buff_name: String) -> void:
 	if buff_name == "lvl_up":
 		effect1.animation = "lvl_up"
 	if buff_name == "holy":
-		effect1.animation = "holy"
+		effect1.animation = "holy_mage_test1"
 		playersprite.modulate.r = 2
 		emit_signal("test", 0.3)
 	if buff_name == "dark2":
@@ -342,49 +367,6 @@ func _add_buff(buff_name: String) -> void:
 				closest_enemy = all_enemy[i]
 """
 
-func _add_first_air_explosion() -> void:
-	state = INVISIBLE
-	playersprite.visible = false
-	$HurtBox/CollisionShape2D.disabled = true
-	var explosion = air_explosion_scene.instance()
-	var closest_enemy = _get_closest_enemy()
-	explosion.global_position = global_position + Vector2(5, -15)
-	get_tree().get_root().add_child(explosion)
-	if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
-		tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-		tween.start()
-		testpos = closest_enemy.global_position + Vector2(5, -15)
-		testpos2 = closest_enemy.global_position
-		global_position = testpos2
-
-func _add_airexplosions(amount: int) -> void:
-	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	if len(all_enemy) > 1:
-		for i in range(amount):
-			if len(all_enemy) > 1:
-				var explosion = air_explosion_scene.instance()
-				var closest_enemy = all_enemy[0]
-				if len(all_enemy) > 1:
-					for j in range(1, len(all_enemy)):
-						if testpos.distance_to(all_enemy[j].global_position) < testpos.distance_to((closest_enemy.global_position)):
-							closest_enemy = all_enemy[j]
-				explosion.global_position = testpos
-				get_tree().get_root().add_child(explosion)
-				if (closest_enemy.global_position.x - testpos.x < 50 ) or ( testpos.x - closest_enemy.global_position.x < 50 ):
-					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
-					tween.start()
-					testpos = closest_enemy.global_position + Vector2(5, -15)
-					testpos2 = closest_enemy.global_position
-					global_position = testpos2
-				all_enemy.erase(closest_enemy)
-				yield(get_tree().create_timer(0.2), "timeout")
-					
-	
-	playersprite.visible = true
-	_enter_idle_state()
-	yield(get_tree().create_timer(1), "timeout")
-	$HurtBox/CollisionShape2D.disabled = false
-	
 func take_damage(amount: int, direction: int) -> void:
 	state = HURT
 	if enemy_side_of_you == "right":
@@ -534,20 +516,13 @@ func _level_up(current_xp, xp_needed):
 		return false
 
 func _set_sprite_position(anim_name):
-	if anim_name == "ComboEWQE1":
-		if direction_x == "RIGHT":
-			$ComboSprites.position.x = 70
-			$ComboSprites.flip_h = false 
-		if direction_x == "LEFT":
-			$ComboSprites.position.x = -45
-			$ComboSprites.flip_h = true
 	if anim_name == "ComboEWQE2":
+		$ComboSprites.position.y = 0
+		$ComboSprites.flip_h = playersprite.flip_h
 		if direction_x == "RIGHT":
-			$ComboSprites.position.x = 95
-			$ComboSprites.flip_h = false 
+			$ComboSprites.position.x = 80
 		else:
-			$ComboSprites.position.x = -75
-			$ComboSprites.flip_h = true
+			$ComboSprites.position.x = -80
 
 func _add_preparing_attack_particles(amount) -> void:
 	for n in range (amount):
@@ -601,12 +576,6 @@ func _idle_state(delta) -> void:
 		#playersprite.modulate.g8 = 255
 		#playersprite.modulate.b8 = 255
 	
-	if Input.is_action_just_pressed("AirExplosion"):
-		_get_direction_to_enemy()
-		_add_first_air_explosion()
-		#emit_signal("test", 0.8)
-		yield(get_tree().create_timer(0.2), "timeout")
-		_add_airexplosions(10)
 	
 	if Input.is_action_just_pressed("Dash"):
 		_dash_to_enemy(false)
@@ -639,6 +608,7 @@ func _run_state(delta) -> void:
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
+		_add_dash_smoke("ImpactDustKick")
 		_enter_dash_state(false)
 		return
 		
@@ -705,9 +675,9 @@ func _dash_state(delta):
 	velocity = move_and_slide(velocity, Vector2.UP)
 	ghosttime += delta
 	
-	if ghosttime >= 0.03:
+	if ghosttime >= 0.09:
 		_add_dash_ghost()
-		ghosttime = 0.0
+		ghosttime = 0.06
 	
 func _stop_state(delta):
 	direction.x = _get_input_x_update_direction()
@@ -794,6 +764,7 @@ func _enter_idle_state() -> void:
 	can_jump = true
 
 func _enter_dash_state(attack: bool) -> void:
+	_add_shockwave()
 	if attack == false:
 		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 		if state == IDLE and direction == Vector2.DOWN:
@@ -841,7 +812,7 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 		$ComboTimer.start(1)
 	player_stats()
 	is_attacking = true
-	animatedsmears.position.y = -15
+	animatedsmears.position.y = 5
 	if attack == 1:
 		animationplayer.play("Attack1")
 		can_attack = false
@@ -873,9 +844,9 @@ func _enter_dash_attack_state(attack: int) -> void:
 func _enter_attack_air_state(Jump: bool) -> void:	
 	if Jump:
 		if direction_x != "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = -10
+			$NormalAttackArea/AttackJump.position.x = -20
 		elif direction_x == "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = 30
+			$NormalAttackArea/AttackJump.position.x = 20
 		state = JUMP_ATTACK
 		animationplayer.play("JumpAttack")
 		$NormalAttackArea/AttackJump.disabled = false
@@ -894,15 +865,15 @@ func _enter_combo_state(number : int) -> void:
 	if number == 2:
 		if direction_x == "RIGHT":
 			if current_lvl <= 1:
-				$ComboSprites.position.x = 62
+				$ComboSprites.position.x = 52
 			else:
-				$ComboSprites.position.x = 95
+				$ComboSprites.position.x = 85
 			$ComboSprites.flip_h = false
 		else:
 			if current_lvl <= 1:
-				$ComboSprites.position.x = -42
+				$ComboSprites.position.x = -52
 			else:
-				$ComboSprites.position.x = -75
+				$ComboSprites.position.x = -85
 			$ComboSprites.flip_h = true
 		if PlayerStats.ewqe2_learned == true:
 			animationplayer.play("ComboEWQE2")

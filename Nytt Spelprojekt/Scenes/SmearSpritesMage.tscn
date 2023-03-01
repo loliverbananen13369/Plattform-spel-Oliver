@@ -4,12 +4,12 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 09/Smear 09 Horizontal 1.png" type="Texture" id=2]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 10/Smear 10 Horizontal 1.png" type="Texture" id=3]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Horizontal 1.png" type="Texture" id=4]
-[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Horizontal 1.test.png" type="Texture" id=5]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Horizontal 1.mage.png" type="Texture" id=5]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 10/Smear 10 Vertical 1.png" type="Texture" id=6]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 02/Smear 02 Horizontal 1.png" type="Texture" id=7]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 02/Smear 02 Vertical 1.png" type="Texture" id=8]
-[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Vertical 01.test.png" type="Texture" id=9]
-[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Horizontal 1.test.png" type="Texture" id=10]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Vertical 01.mage.png" type="Texture" id=9]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Horizontal 1.mage.png" type="Texture" id=10]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 04/Smear 4 Horizontal 1.png" type="Texture" id=11]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 06/Smear 06 Horizontal 1.png" type="Texture" id=12]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 06/Smear 06 Vertical 1.png" type="Texture" id=13]
@@ -111,47 +111,47 @@ region = Rect2( 192, 0, 48, 48 )
 atlas = ExtResource( 6 )
 region = Rect2( 240, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=516]
+[sub_resource type="AtlasTexture" id=545]
 atlas = ExtResource( 10 )
 region = Rect2( 0, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=517]
+[sub_resource type="AtlasTexture" id=546]
 atlas = ExtResource( 10 )
 region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=518]
+[sub_resource type="AtlasTexture" id=547]
 atlas = ExtResource( 10 )
 region = Rect2( 96, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=519]
+[sub_resource type="AtlasTexture" id=548]
 atlas = ExtResource( 10 )
 region = Rect2( 144, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=520]
+[sub_resource type="AtlasTexture" id=549]
 atlas = ExtResource( 10 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=521]
+[sub_resource type="AtlasTexture" id=550]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=522]
+[sub_resource type="AtlasTexture" id=551]
 atlas = ExtResource( 9 )
 region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=523]
+[sub_resource type="AtlasTexture" id=552]
 atlas = ExtResource( 9 )
 region = Rect2( 96, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=524]
+[sub_resource type="AtlasTexture" id=553]
 atlas = ExtResource( 9 )
 region = Rect2( 144, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=525]
+[sub_resource type="AtlasTexture" id=554]
 atlas = ExtResource( 9 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=526]
+[sub_resource type="AtlasTexture" id=555]
 atlas = ExtResource( 9 )
 region = Rect2( 240, 0, 48, 48 )
 
@@ -367,23 +367,23 @@ region = Rect2( 144, 0, 48, 48 )
 atlas = ExtResource( 13 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=527]
+[sub_resource type="AtlasTexture" id=556]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=528]
+[sub_resource type="AtlasTexture" id=557]
 atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=529]
+[sub_resource type="AtlasTexture" id=558]
 atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=530]
+[sub_resource type="AtlasTexture" id=559]
 atlas = ExtResource( 5 )
 region = Rect2( 144, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=531]
+[sub_resource type="AtlasTexture" id=560]
 atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
@@ -566,12 +566,12 @@ animations = [ {
 "name": "Smear10V",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 516 ), SubResource( 517 ), SubResource( 518 ), SubResource( 519 ), SubResource( 520 ) ],
+"frames": [ SubResource( 545 ), SubResource( 546 ), SubResource( 547 ), SubResource( 548 ), SubResource( 549 ) ],
 "loop": true,
 "name": "Smear1H",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 521 ), SubResource( 522 ), SubResource( 523 ), SubResource( 524 ), SubResource( 525 ), SubResource( 526 ) ],
+"frames": [ SubResource( 550 ), SubResource( 551 ), SubResource( 552 ), SubResource( 553 ), SubResource( 554 ), SubResource( 555 ) ],
 "loop": true,
 "name": "Smear1V",
 "speed": 30.0
@@ -626,7 +626,7 @@ animations = [ {
 "name": "Smear6V",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 527 ), SubResource( 528 ), SubResource( 529 ), SubResource( 530 ), SubResource( 531 ) ],
+"frames": [ SubResource( 556 ), SubResource( 557 ), SubResource( 558 ), SubResource( 559 ), SubResource( 560 ) ],
 "loop": true,
 "name": "Smear7H",
 "speed": 20.0
@@ -663,7 +663,7 @@ animations = [ {
 } ]
 
 [node name="SmearSprites" type="AnimatedSprite"]
-modulate = Color( 3, 1, 1, 1 )
+modulate = Color( 2.5, 2.5, 2.5, 1 )
 position = Vector2( 10, -20 )
 scale = Vector2( 2.5, 1.5 )
 frames = SubResource( 373 )

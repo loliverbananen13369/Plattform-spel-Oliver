@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Pimen/Holy VFX 01/Untitled.2.png" type="Texture" id=1]
+[ext_resource path="res://Pimen/Holy VFX 01/Untitled.2.mage.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/HolyParticles.gd" type="Script" id=3]
 
 [sub_resource type="CanvasItemMaterial" id=1]
@@ -8,12 +8,6 @@ particles_animation = true
 particles_anim_h_frames = 17
 particles_anim_v_frames = 1
 particles_anim_loop = false
-
-[sub_resource type="Gradient" id=7]
-colors = PoolColorArray( 5, 1.5, 1.5, 1, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=8]
-gradient = SubResource( 7 )
 
 [sub_resource type="Curve" id=5]
 max_value = 2.0
@@ -32,8 +26,7 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.5
 scale_curve = SubResource( 6 )
-color = Color( 5, 1.5, 1.5, 1 )
-color_ramp = SubResource( 8 )
+color = Color( 3, 3, 3, 1 )
 anim_speed = 1.0
 
 [node name="HolyParticles" type="Particles2D"]

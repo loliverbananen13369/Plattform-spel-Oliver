@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://Pimen/Holy VFX 02/Holy VFX 02.test.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/HolyEffect.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Random_Effects/Heal Effect Sprite Sheet.test.png" type="Texture" id=5]
 [ext_resource path="res://Random_Effects/Effect 1 - Sprite Sheet.new.png" type="Texture" id=6]
 [ext_resource path="res://Random_Effects/Heal Effect Sprite Sheet.test.2.png" type="Texture" id=7]
+[ext_resource path="res://Pimen/Holy VFX 02/Holy VFX 02.mage.png" type="Texture" id=8]
 
 [sub_resource type="AtlasTexture" id=86]
 atlas = ExtResource( 4 )
@@ -134,6 +135,70 @@ region = Rect2( 672, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=85]
 atlas = ExtResource( 1 )
+region = Rect2( 720, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=140]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=141]
+atlas = ExtResource( 8 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=142]
+atlas = ExtResource( 8 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=143]
+atlas = ExtResource( 8 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=144]
+atlas = ExtResource( 8 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=145]
+atlas = ExtResource( 8 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=146]
+atlas = ExtResource( 8 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=147]
+atlas = ExtResource( 8 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=148]
+atlas = ExtResource( 8 )
+region = Rect2( 384, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=149]
+atlas = ExtResource( 8 )
+region = Rect2( 432, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=150]
+atlas = ExtResource( 8 )
+region = Rect2( 480, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=151]
+atlas = ExtResource( 8 )
+region = Rect2( 528, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = ExtResource( 8 )
+region = Rect2( 576, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=153]
+atlas = ExtResource( 8 )
+region = Rect2( 624, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=154]
+atlas = ExtResource( 8 )
+region = Rect2( 672, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=155]
+atlas = ExtResource( 8 )
 region = Rect2( 720, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=118]
@@ -300,6 +365,11 @@ animations = [ {
 "name": "holy",
 "speed": 15.0
 }, {
+"frames": [ SubResource( 140 ), SubResource( 141 ), SubResource( 142 ), SubResource( 143 ), SubResource( 144 ), SubResource( 145 ), SubResource( 146 ), SubResource( 147 ), SubResource( 148 ), SubResource( 149 ), SubResource( 150 ), SubResource( 151 ), SubResource( 152 ), SubResource( 153 ), SubResource( 154 ), SubResource( 155 ) ],
+"loop": false,
+"name": "holy_mage_test1",
+"speed": 15.0
+}, {
 "frames": [ SubResource( 118 ), SubResource( 119 ), SubResource( 120 ), SubResource( 121 ), SubResource( 122 ), SubResource( 123 ) ],
 "loop": false,
 "name": "life_steal",
@@ -323,7 +393,7 @@ script = ExtResource( 2 )
 position = Vector2( 0, -13 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 17 )
-animation = "lifesteal_particles"
+animation = "holy_mage_test1"
 frame = 15
 playing = true
 

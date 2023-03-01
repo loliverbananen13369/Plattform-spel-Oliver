@@ -60,6 +60,8 @@ var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
 var dash_particles_scene = preload("res://Scenes/DashParticlesAssassin.tscn")
 var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
 var clone_scene = preload("res://Scenes/AssassinClone.tscn")
+var dash_attack_scene = preload("res://Scenes/AssassinDashAttack.tscn")
+var impact_scene = preload("res://Scenes/Impact_Scene.tscn")
 
 var ghosttime := 0.0
 
@@ -160,8 +162,25 @@ func check_sprites():
 	animatedsmears.visible = false
 	can_attack = true
 	
+func _add_impact(dir):
+	var flip 
+	var impact = impact_scene.instance()
+	impact.global_position = global_position + Vector2(dir*100, 15)
+	impact.flip_h = playersprite.flip_h
+	get_tree().get_root().add_child(impact)
 
-	
+func _add_dash_attack():
+	var dash = dash_attack_scene.instance()
+	if direction_x == "RIGHT":
+		dash.global_position = global_position + Vector2(50, -10)
+	else:
+		dash.global_position = global_position + Vector2(-50, -10)
+	dash.global_position = global_position
+	dash.flip_h = playersprite.flip_h
+	dashtimer.start(0.25)
+	add_child(dash)
+	yield(get_tree().create_timer(0.25),"timeout")
+	_add_impact(direction.x)
 	
 func _add_dash_smoke(name: String):
 	var smoke = dash_smoke_scene.instance()
@@ -170,17 +189,9 @@ func _add_dash_smoke(name: String):
 		flip = false
 	else:
 		flip = true
-	if name == "ImpactMedium1":
-		smoke.animation = "ImpactMedium1"
-		smoke.global_position = global_position + Vector2(-10*direction.x, -5)
-		smoke.flip_h = flip
 	if name == "ImpactDustKick":
 		smoke.animation = "ImpactDustKick"
 		smoke.global_position = global_position + Vector2(-10*direction.x, -10)
-		smoke.flip_h = flip
-	if name == "test":
-		smoke.animation = "New Anim"
-		smoke.global_position = global_position + Vector2(-30* direction.x, 0)
 		smoke.flip_h = flip
 	if name == "test2":
 		smoke.animation = "New Anim 1"
@@ -700,7 +711,8 @@ func _idle_state(delta) -> void:
 		test_active = true
 		yield(get_tree().create_timer(10), "timeout")
 		test_active = false
-		
+	
+	
 		#_add_buff("life_steal")
 		#yield(get_tree().create_timer(2), "timeout")
 		#playersprite.modulate.r8 = 255
@@ -749,7 +761,7 @@ func _run_state(delta) -> void:
 	if Input.is_action_just_pressed("EAttack1"):
 		_enter_dash_attack_state(1)
 	if Input.is_action_just_pressed("AttackE"):
-		pass
+		_enter_dash_attack_state(1)
 	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
@@ -855,8 +867,7 @@ func _attack_state_ground(_delta) -> void:
 	_attack_function()
 	
 func _attack_state_dash(attack_nr : int, delta) -> void:
-	velocity = velocity.move_toward(direction*MAX_SPEED*1, ACCELERATION*delta*1)
-	
+	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func _prepare_attack_air_state(delta) -> void:
@@ -998,7 +1009,9 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 func _enter_dash_attack_state(attack: int) -> void:
 	state = ATTACK_DASH
 	if attack == 1:
-		animationplayer.play("SpinAttack")
+		#animationplayer.play("DashAttack")
+		playersprite.play("SpinAttack")
+		_add_dash_attack()
 		can_attack = false
 
 func _enter_attack_air_state(Jump: bool) -> void:	
