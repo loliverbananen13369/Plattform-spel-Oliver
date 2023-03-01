@@ -1135,6 +1135,7 @@ func _on_HurtBox_area_entered(area):
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
+		print("hejsan")
 		current_xp += 40
 		if _level_up(current_xp, xp_needed):
 			current_xp = 0

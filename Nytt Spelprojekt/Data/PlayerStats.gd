@@ -9,6 +9,7 @@ var ewqe2_learned = false
 var is_assassin = false
 var is_mage = false
 var player_lvl = 1
+var current_xp = 0
 
 
 
