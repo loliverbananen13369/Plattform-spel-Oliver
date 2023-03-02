@@ -55,6 +55,7 @@ var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
 var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
 var dash_smoke_scene = preload("res://Scenes/DashSmoke.tscn")
+var pet_scene = preload("res://Scenes/MageGolem.tscn")
 
 
 var ghosttime := 0.0
@@ -264,12 +265,17 @@ func _flip_sprite(right: bool) -> void:
 		$NormalAttackArea/AttackGround.position.x = -36
 		$SwordCutArea/SpinAttack.position.x = -34
 
+func _add_pet():
+	var pet = pet_scene.instance()
+	pet.global_position = global_position + Vector2(20, -10)
+	get_tree().get_root().add_child(pet)
+
+
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
 	add_child(wave)
 	yield(get_tree().create_timer(0.5),"timeout")
 	wave.queue_free()
-
 
 func _add_dash_smoke(name: String):
 	var smoke = dash_smoke_scene.instance()
@@ -503,6 +509,9 @@ func _idle_state(delta) -> void:
 		_add_walk_dust(15)
 		_enter_air_state(true)
 		return
+	
+	if Input.is_action_just_pressed("add_pet"):
+		_add_pet()
 	
 	if Input.is_action_just_pressed("HolyBuff1") and not holy_buff_active:
 		_add_buff("holy")
@@ -877,6 +886,11 @@ func _on_HurtBox_area_entered(area):
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
+			PlayerStats.emit_signal("PlayerHurt")
+			PlayerStats.enemy_who_hurt = area.get_parent()
+			PlayerStats.enemy_who_hurt.add_to_group("EnemyWhoHurt")
+			yield(get_tree().create_timer(10),"timeout")
+			PlayerStats.enemy_who_hurt.remove_from_group("EnemyWhoHurt")
 	#	if area.is_in_group("Enemy"):
 	#		take_damage(amount, direction.x)
 	

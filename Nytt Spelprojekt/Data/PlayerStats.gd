@@ -10,7 +10,8 @@ var is_assassin = false
 var is_mage = false
 var player_lvl = 1
 var current_xp = 0
-
+signal PlayerHurt()
+var enemy_who_hurt
 
 
 var assassin_combo_ewqe = "comboewqe1"
