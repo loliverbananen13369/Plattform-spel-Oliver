@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+enum {IDLE, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, INVISIBLE, ABILITY}
 
 
 
@@ -32,7 +32,6 @@ var jump_pressed := false
 var can_follow_enemy := false
 var attack_pressed = 0
 var previous_attack = 0
-var combo_list = []
 
 var enemy_side_of_you
 
@@ -73,13 +72,13 @@ onready var player_stats_save_file = PlayerStats.game_data
 
 
 export var damage_a1 := 5
-export var damage_combo_qweq := 15
-export var damage_combo_ewqe1 := 10
-export var damage_combo_ewqe2 := 50
+export var damage_ability1 := 10
+export var damage_ability2 := 50
 export var holy_buff_active := false
 export var dark_buff_active := false
 export var test_active := false
 export (Vector2) var tester := Vector2.ZERO
+
 
 
 
@@ -95,6 +94,7 @@ var testpos = Vector2.ZERO
 var testpos2 = Vector2.ZERO
 
 
+
 #Player stats
 var hp = 100
 var max_hp = 100
@@ -104,6 +104,7 @@ var mana_max = 100
 var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
+var ability_anim
 
 
 
@@ -133,12 +134,12 @@ func _physics_process(delta: float) -> void:
 			_attack_state_air(delta)
 		JUMP_ATTACK:
 			_jump_attack_state(delta)
-		COMBO:
-			_combo_state(delta)
 		HURT:
 			_hurt_state(delta)
 		INVISIBLE:
 			_invisible_state(delta)
+		ABILITY:
+			_ability_state(delta)
 
 #Help functions
 
@@ -223,21 +224,21 @@ func _get_furthest_away_enemy():
 func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
-			_enter_attack1_state(1, false)
+			_enter_attack1_state(1)
 			previous_attack = 1
 		else:
 			attack_pressed = 1
 			_remember_attack()
 	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
 		if can_attack:
-			_enter_attack1_state(2, false)
+			_enter_attack1_state(2)
 			previous_attack = 2
 		else:
 			attack_pressed = 2
 			_remember_attack()
 	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
 		if can_attack:
-			_enter_attack1_state(3, false)
+			_enter_attack1_state(3)
 			previous_attack = 3
 		else:
 			attack_pressed = 3
@@ -249,22 +250,18 @@ func _flip_sprite(right: bool) -> void:
 	if right:
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
-		$ComboSprites.flip_h = false
+		$AbilitySprites.flip_h = false
 		animatedsmears.position.x = 20
 		attackparticles.position.x = 20
 		$NormalAttackArea/AttackGround.position.x = 36
-		$SpecialAttackArea/Acid2.position.x = 52
-		$SpecialAttackArea/Acid5.position.x = 82
 		$SwordCutArea/SpinAttack.position.x = 34
 	else:
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
-		$ComboSprites.flip_h = true
+		$AbilitySprites.flip_h = true
 		animatedsmears.position.x = -20
 		attackparticles.position.x = -20
 		$NormalAttackArea/AttackGround.position.x = -36
-		$SpecialAttackArea/Acid2.position.x = -52
-		$SpecialAttackArea/Acid5.position.x = -82
 		$SwordCutArea/SpinAttack.position.x = -34
 
 func _add_shockwave():
@@ -283,7 +280,7 @@ func _add_dash_smoke(name: String):
 		flip = true
 	if name == "ImpactDustKick":
 		smoke.animation = "ImpactDustKickMage"
-		smoke.global_position = global_position + Vector2(-10*direction.x, -30)
+		smoke.global_position = global_position + Vector2(-10*direction.x, -10)
 		smoke.flip_h = flip
 	if name == "test2":
 		smoke.animation = "New Anim 1"
@@ -293,7 +290,7 @@ func _add_dash_smoke(name: String):
 
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
-	ghost.global_position = global_position + Vector2(0, -22)
+	ghost.global_position = global_position + Vector2(0, -2)
 	#ghost.global_position.y -= 20
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
@@ -346,6 +343,8 @@ func _add_buff(buff_name: String) -> void:
 	if buff_name == "holy":
 		effect1.animation = "holy_mage_test1"
 		playersprite.modulate.r = 2
+		playersprite.modulate.g = 2
+		playersprite.modulate.b = 2
 		emit_signal("test", 0.3)
 	if buff_name == "dark2":
 		effect1.animation = "dark2"
@@ -432,97 +431,54 @@ func _remember_jump() -> void:
 func _remember_attack() -> void:
 	yield(get_tree().create_timer(attack_buffer), "timeout")
 	attack_pressed = 0
-
-func _dash_to_enemy(switch_side: bool) -> void:
-	var close_enemy = _get_closest_enemy()
-	var far_enemy = _get_furthest_away_enemy()
-	if can_follow_enemy:
-		print("dukan")
-		if not switch_side:
-			if global_position.x >= close_enemy.global_position.x:
-				tween.interpolate_property(self, "global_position", global_position, close_enemy.global_position + Vector2(30, 0), 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				tween.start()
-				#global_position.x = close_enemy.global_position.x + 30 #Vector2(30, 0)
-				direction_x = "LEFT"
-				_flip_sprite(false)
-			else:
-				tween.interpolate_property(self, "global_position", global_position.x, close_enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				tween.start()
-				
-				#global_position.x = close_enemy.global_position.x - 30# Vector2(30, 0)
-				direction_x = "RIGHT"
-				_flip_sprite(true)
-		else:
-			if global_position.x <= far_enemy.global_position.x:
-				global_position.x = far_enemy.global_position.x + 30# + Vector2(30, -4)
-				direction_x = "LEFT"
-				_flip_sprite(false)
-			else:
-				global_position.x = far_enemy.global_position.x - 30# - Vector2(30, 4)
-				direction_x = "RIGHT"
-				_flip_sprite(true)
 	
-func check_combo() -> void:
-	var re_combo_list = []
-	for i in range(0, combo_list.size()):
-		re_combo_list.push_front(combo_list[i])
-	if re_combo_list[0] == 1:
-		if re_combo_list[1] == 3:
-			if re_combo_list[2] == 2:
-				if re_combo_list[3] == 1: 
-					_enter_combo_state(1)
-	elif re_combo_list[0] == 3:
-		if re_combo_list[1] == 1:
-			if re_combo_list[2] == 2:
-				if re_combo_list[3] == 3: 
-					_enter_combo_state(2)
 
-func on_lvl_up_variables(current_lvl):
-	if current_lvl == 2:
-		$SpecialAttackArea.add_to_group("ComboEWQE2")
-		$SpecialAttackArea.remove_from_group("ComboEWQE1")
-	
+
 func player_stats_lvl(current_lvl):
 	if current_lvl == 2:
 		pass
-		#$SpecialAttackArea.add_to_group("ComboEWQE2")
-		#$SpecialAttackArea.remove_from_group("ComboEWQE1")
 
 func player_stats():
 	if holy_buff_active:
 		damage_a1 = 10
-		damage_combo_ewqe1 = 20
-		damage_combo_ewqe2 = 100
-		damage_combo_qweq = 30
+		damage_ability1 = 20
+		damage_ability2 = 100
 	elif dark_buff_active:
 		damage_a1 = 7
-		damage_combo_ewqe1 = 15
-		damage_combo_ewqe2 = 37
-		damage_combo_qweq = 23
+		damage_ability1 = 15
+		damage_ability2 = 37
 	else:
 		damage_a1 = 5
-		damage_combo_ewqe1 = 10
-		damage_combo_ewqe2 = 50
-		damage_combo_qweq = 15
+		damage_ability1 = 10
+		damage_ability2 = 50
 
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
 		current_lvl += 1
 		has_leveled_up = true
-		on_lvl_up_variables(current_lvl)
 		_add_buff("lvl_up")
 		return true
 	else:
 		return false
 
 func _set_sprite_position(anim_name):
-	if anim_name == "ComboEWQE2":
-		$ComboSprites.position.y = 0
-		$ComboSprites.flip_h = playersprite.flip_h
-		if direction_x == "RIGHT":
-			$ComboSprites.position.x = 80
-		else:
-			$ComboSprites.position.x = -80
+	$AbilitySprites.flip_h = playersprite.flip_h
+	var dir
+	if direction_x == "RIGHT":
+		dir = 1
+	else:
+		dir = -1
+	if anim_name == "Ability1":
+		$AbilitySprites.position.y = 9
+		$Acid2Area/Acid2.position.x = 52*dir
+		$AbilitySprites.position.x = 51*dir
+	if anim_name == "Ability2":
+		$Acid5Area/Acid5.position.x = 82*dir
+		$AbilitySprites.position.y = 0
+		$AbilitySprites.position.x = 80*dir
+	if anim_name == "OnGroundAfterAttack":
+		$Thrusts.position.x = 0
+		$Thrusts.position.y = 1
 
 func _add_preparing_attack_particles(amount) -> void:
 	for n in range (amount):
@@ -551,14 +507,10 @@ func _idle_state(delta) -> void:
 	if Input.is_action_just_pressed("HolyBuff1") and not holy_buff_active:
 		_add_buff("holy")
 		_add_holy_particles(10)
+		$HolyBuffTimer.start(5)
 		holy_buff_active = true
 		can_take_damage = false
-		yield(get_tree().create_timer(3), "timeout")
-		#_modulate_tween()
-		yield(get_tree().create_timer(2), "timeout")
-		playersprite.modulate.r = 1
-		can_take_damage = true
-		holy_buff_active = false
+
 	
 	if Input.is_action_just_pressed("DarkBuff") and not dark_buff_active:
 		_add_buff("dark2")
@@ -575,11 +527,13 @@ func _idle_state(delta) -> void:
 		#playersprite.modulate.r8 = 255
 		#playersprite.modulate.g8 = 255
 		#playersprite.modulate.b8 = 255
-	
-	
-	if Input.is_action_just_pressed("Dash"):
-		_dash_to_enemy(false)
 
+	if Input.is_action_just_pressed("Ability1") and PlayerStats.ability1_learned:
+		_enter_ability_state(1)
+	
+	if Input.is_action_just_pressed("Ability2") and PlayerStats.ability2_learned:
+		_enter_ability_state(2)
+	
 	
 	
 	_attack_function()
@@ -616,6 +570,12 @@ func _run_state(delta) -> void:
 		_enter_dash_attack_state(1)
 	if Input.is_action_just_pressed("AttackE"):
 		pass
+	
+	if Input.is_action_just_pressed("Ability1") and PlayerStats.ability1_learned:
+		_enter_ability_state(1)
+	
+	if Input.is_action_just_pressed("Ability2") and PlayerStats.ability2_learned:
+		_enter_ability_state(2)
 	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
@@ -744,9 +704,6 @@ func _jump_attack_state(delta) -> void:
 	if is_on_floor():
 		_enter_idle_state()
 
-func _combo_state(delta) -> void:
-	pass
-
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
 
@@ -756,6 +713,8 @@ func _invisible_state(delta) -> void:
 	#playersprite.visible = false
 	#$HurtBox/CollisionShape2D.disabled = true
 
+func _ability_state(delta) -> void:
+	pass
 
 #Enter states
 func _enter_idle_state() -> void:
@@ -804,12 +763,8 @@ func _enter_stop_state() -> void:
 	state = STOP
 	playersprite.play("Stop")
 
-func _enter_attack1_state(attack: int, combo: bool) -> void:
-	if combo:
-		state = COMBO
-	else:
-		state = ATTACK_GROUND
-		$ComboTimer.start(1)
+func _enter_attack1_state(attack: int) -> void:
+	state = ATTACK_GROUND
 	player_stats()
 	is_attacking = true
 	animatedsmears.position.y = 5
@@ -829,17 +784,19 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	if attack == 4:
 		animationplayer.play("SpinAttack")
 		can_attack = false
-	combo_list.append(previous_attack) 
-	if combo_list.size() >= 4:
-		check_combo()
-	if combo_list.size() == 0:
-		_enter_idle_state()
 
 func _enter_dash_attack_state(attack: int) -> void:
 	state = ATTACK_DASH
 	if attack == 1:
 		animationplayer.play("SpinAttack")
 		can_attack = false
+
+func _enter_ability_state(number: int) -> void:
+	state = ABILITY
+	if number == 1:
+		animationplayer.play("Ability1")
+	if number == 2:
+		animationplayer.play("Ability2")
 
 func _enter_attack_air_state(Jump: bool) -> void:	
 	if Jump:
@@ -855,81 +812,35 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		animationplayer.play("PrepareAirAttack")
 		frameFreeze(0.3, 0.4)
 
-func _enter_combo_state(number : int) -> void:
-	state = COMBO
-	if Input.is_action_pressed("Dash"):
-		_dash_to_enemy(true)
-	if number == 1: 
-		animationplayer.play("ComboSpinAttack")
-		combo_list.clear()
-	if number == 2:
-		if direction_x == "RIGHT":
-			if current_lvl <= 1:
-				$ComboSprites.position.x = 52
-			else:
-				$ComboSprites.position.x = 85
-			$ComboSprites.flip_h = false
-		else:
-			if current_lvl <= 1:
-				$ComboSprites.position.x = -52
-			else:
-				$ComboSprites.position.x = -85
-			$ComboSprites.flip_h = true
-		if PlayerStats.ewqe2_learned == true:
-			animationplayer.play("ComboEWQE2")
-			emit_signal("test", 0.2)
-		elif PlayerStats.ewqe1_learned == true:
-			animationplayer.play("ComboEWQE1")
-		
-		combo_list.clear()
 		
 #Signals
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1":
-		if state == COMBO:
-			_enter_attack1_state(2, true)
+		can_attack = true
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
 		else:
-			can_attack = true
-			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-				_enter_run_state()
-			elif Input.is_action_pressed("Dash"):
-				_dash_to_enemy(false)
-			else:
-				_enter_idle_state()
+			_enter_idle_state()
 	if anim_name == "Attack2":
 		can_attack = true
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
-		elif Input.is_action_pressed("Dash"):
-			_dash_to_enemy(false)
 		else:
 			_enter_idle_state()
 	if anim_name == "Attack3":
-		if state == COMBO:
-			pass
-		else:
-			can_attack = true
-			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-				_enter_run_state()
-			elif Input.is_action_pressed("Dash"):
-				_dash_to_enemy(false)
-			else:
-				_enter_idle_state()
-	if anim_name == "SpinAttack":
 		can_attack = true
-		if state == COMBO:
-			_enter_attack1_state(1, true)
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
 		else:
 			_enter_idle_state()
-	if anim_name == "ComboSpinAttack":
-		$SwordCutArea/SpinAttack.disabled = true
+	if anim_name == "SpinAttack":
 		can_attack = true
 		_enter_idle_state()
-	if anim_name == "ComboEWQE1":
+	if anim_name == "Ability1":
 		_enter_idle_state()
 		can_attack = true
-	if anim_name =="ComboEWQE2":
+	if anim_name == "Ability2":
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "JumpAttack":
@@ -969,7 +880,6 @@ func _on_HurtBox_area_entered(area):
 	#	if area.is_in_group("Enemy"):
 	#		take_damage(amount, direction.x)
 	
-
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
 		current_xp += 40
@@ -1008,16 +918,14 @@ func _on_FlashTimer_timeout():
 	tween.stop(playersprite)
 
 
-func _on_ComboTimer_timeout():
-	combo_list.clear()
-
 func _on_CoyoteTimer_timeout():
 	can_jump = false
 
 func _on_DashTimer_timeout():
-	playersprite.modulate.r = 1
-	playersprite.modulate.g = 1
-	playersprite.modulate.b = 1
+	if not holy_buff_active:
+		playersprite.modulate.r = 1
+		playersprite.modulate.g = 1
+		playersprite.modulate.b = 1
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
@@ -1033,3 +941,18 @@ func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
 
 
+func _on_HolyBuffTimer_timeout():
+	playersprite.modulate.r = 1
+	playersprite.modulate.g = 1
+	playersprite.modulate.b = 1
+	can_take_damage = true
+	holy_buff_active = false
+
+
+func _on_Acid_2_on_learned(node):
+	$Acid2Area.add_to_group("Ability1")
+	PlayerStats.ability1_learned = true
+
+func _on_Acid_5_on_learned(node):
+	$Acid5Area.add_to_group("Ability2")
+	PlayerStats.ability2_learned = true

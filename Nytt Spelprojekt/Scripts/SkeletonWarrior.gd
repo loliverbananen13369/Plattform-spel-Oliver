@@ -307,13 +307,13 @@ func _on_Area2D_area_entered(area):
 		damage_amount = damage
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("ComboEWQE1"):
-		var damage = player.get("damage_combo_ewqe1")
+	if area.is_in_group("Ability2"):
+		var damage = player.get("damage_ability2")
 		damage_amount = damage
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("ComboEWQE2"):
-		var damage = player.get("damage_combo_ewqe2")
+	elif area.is_in_group("Ability1"):
+		var damage = player.get("damage_ability1")
 		damage_amount = damage
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)

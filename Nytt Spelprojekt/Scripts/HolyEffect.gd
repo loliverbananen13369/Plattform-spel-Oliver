@@ -24,14 +24,16 @@ func _ready() -> void:
 		spellsprite.modulate.r = 5
 		spellsprite.modulate.b = 1.5
 		spellsprite.modulate.g = 1.5
-		vector = Vector2(10, -18)
+		#vector = Vector2(10, -18)
 		_add_preparing_attack_particles(20)
 	if spellsprite.animation == "holy_mage_test1":
+		spellsprite.scale.x = 2
+		spellsprite.scale.y = 3
 		spellsprite.modulate.r = 3
 		spellsprite.modulate.b = 3
 		spellsprite.modulate.g = 3
 		print("hejsan")
-		vector = Vector2(10,0)
+		#vector = Vector2(10,0)
 	if spellsprite.animation == "dark2":
 		spellsprite.scale.x = 1
 		spellsprite.scale.y = 1

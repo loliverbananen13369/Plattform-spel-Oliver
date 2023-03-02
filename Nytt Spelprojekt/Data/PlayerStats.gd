@@ -4,8 +4,8 @@ extends Node
 const SAVE_PLAYER_STATS_FILE = "res://Data/PlayerStats.gd"
 var game_data = {}
 
-var ewqe1_learned = false
-var ewqe2_learned = false
+var ability1_learned = false
+var ability2_learned = false
 var is_assassin = false
 var is_mage = false
 var player_lvl = 1
@@ -17,6 +17,8 @@ var assassin_combo_ewqe = "comboewqe1"
 var assassin_smearsprite_q = "Smear8H"
 var assassin_smearsprite_w = "Smear8V"
 var assassin_smearsprite_e = "Smear3H"
+
+
 
 func _ready() -> void:
 	load_data()
