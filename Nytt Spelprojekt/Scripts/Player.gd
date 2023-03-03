@@ -887,10 +887,8 @@ func _on_HurtBox_area_entered(area):
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
 			PlayerStats.enemy_who_hurt = area.get_parent()
+			PlayerStats.enemy_who_hurt_list.append(area.get_parent())
 			PlayerStats.emit_signal("PlayerHurt")
-			PlayerStats.enemy_who_hurt.add_to_group("EnemyWhoHurt")
-			yield(get_tree().create_timer(10),"timeout")
-			PlayerStats.enemy_who_hurt.remove_from_group("EnemyWhoHurt")
 	#	if area.is_in_group("Enemy"):
 	#		take_damage(amount, direction.x)
 	
@@ -911,6 +909,11 @@ func _on_KinematicBody2D_hurt() -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
+		#PlayerStats.enemies_hit_by_player = []
+		PlayerStats.emit_signal("EnemyHurt")
+		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
+			PlayerStats.enemies_hit_by_player.append(area.get_parent())
+			
 		if not can_follow_enemy:
 			can_follow_enemy = true
 			$NewTimer.start(1)

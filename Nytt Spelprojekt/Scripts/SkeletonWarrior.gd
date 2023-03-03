@@ -28,7 +28,7 @@ var hp = hp_max
 
 var can_attack = true
 
-
+var can_die := true
 var pushback_force = Vector2.ZERO
 
 var test = 1
@@ -67,6 +67,7 @@ func _ready():
 	$PlayerDetector.monitoring = false
 	state = SPAWN
 	$AnimationPlayer.play("Spawn")
+	
 
 	
 func _physics_process(delta: float) -> void:
@@ -129,6 +130,7 @@ func take_damage(amount: int) -> void:
 	#velocity.y = GRAVITY
 	hp = hp - amount
 	#$AnimationPlayer.play("Hurt1")
+	_die_b()
 
 func knock_back(source_position: Vector2) -> void:
 	$HitParticles.rotation = get_angle_to(source_position) + PI
@@ -137,7 +139,8 @@ func knock_back(source_position: Vector2) -> void:
 func _die_b():
 	if hp <= 0:
 		state = DEAD
-		$AnimationPlayer.play("Dead")
+		if can_die:
+			$AnimationPlayer.play("Dead")
 #Enter state
 
 func frameFreeze(timescale, duration):
@@ -303,6 +306,7 @@ func _on_Area2D_area_entered(area):
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("GolemAttack"):
+		print("Attackerad")
 		var damage = player.get("damage_a1")
 		damage_amount = damage
 		_enter_hurt_state(1)
@@ -343,12 +347,6 @@ func _on_Area2D_area_entered(area):
 		#$Area2D/CollisionShape2D.disabled = true
 
 
-func _on_AnimatedSprite_animation_finished():
-	if animatedsprite.animation == "Dead":
-		_spawn_xp()
-		queue_free()
-
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt1":
 		$Sprite.visible = false
@@ -377,6 +375,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		$Area2D/CollisionShape2D.disabled = false
 		$Area2D/CollisionShape2D2.disabled = false
 		$PlayerDetector.monitoring = true
+	if anim_name == "Dead":
+		_spawn_xp()
+		PlayerStats.emit_signal("EnemyDead", self)
+		queue_free()
 		
 
 
@@ -446,3 +448,5 @@ func _spawn_xp() -> void:
 	var xp = xp_scene.instance()
 	xp.position = global_position
 	get_tree().get_root().add_child(xp)
+
+

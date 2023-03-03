@@ -314,25 +314,27 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=59]
-radius = 307.366
+radius = 248.008
 
 [sub_resource type="CircleShape2D" id=60]
-radius = 85.0529
+radius = 153.0
 
 [sub_resource type="CircleShape2D" id=61]
-radius = 96.0469
+radius = 307.026
 
 [sub_resource type="RectangleShape2D" id=62]
+resource_local_to_scene = true
 extents = Vector2( 4.85, 10 )
 
 [sub_resource type="Animation" id=63]
 resource_name = "Attack1"
 length = 0.55
+loop = true
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:animation")
 tracks/0/interp = 1
-tracks/0/loop_wrap = true
+tracks/0/loop_wrap = false
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
@@ -344,7 +346,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/path = NodePath("AnimatedSprite:frame")
 tracks/1/interp = 1
-tracks/1/loop_wrap = true
+tracks/1/loop_wrap = false
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
@@ -354,19 +356,20 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Attack1Area:monitorable")
+tracks/2/path = NodePath("Attack1Area/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5 ),
+"times": PoolRealArray( 0, 0.2, 0.45 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ true, false, true ]
 }
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
+collision_layer = 256
 collision_mask = 16
 script = ExtResource( 2 )
 
@@ -377,8 +380,8 @@ shape = SubResource( 58 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 57 )
-animation = "Idle"
-frame = 3
+animation = "Attack1"
+frame = 7
 playing = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]
@@ -396,7 +399,8 @@ visible = false
 shape = SubResource( 60 )
 
 [node name="EnemyDetector" type="Area2D" parent="."]
-visible = false
+collision_layer = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
 modulate = Color( 0.72549, 0.792157, 0.109804, 1 )
@@ -422,23 +426,27 @@ collision_mask = 4
 position = Vector2( 12, 0 )
 rotation = 3.14159
 scale = Vector2( 2.5, 1 )
+z_as_relative = false
 shape = SubResource( 62 )
 
 [node name="Attack1Area" type="Area2D" parent="." groups=["GolemAttack"]]
+visible = false
 collision_layer = 128
 collision_mask = 4
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack1Area"]
 position = Vector2( 12, 0 )
 scale = Vector2( 2.5, 1 )
 shape = SubResource( 62 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack1 = SubResource( 63 )
 
+[connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
 [connection signal="body_entered" from="PlayerNearArea" to="." method="_on_PlayerNearArea_body_entered"]
 [connection signal="body_exited" from="PlayerNearArea" to="." method="_on_PlayerNearArea_body_exited"]
+[connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
 [connection signal="timeout" from="HitWallTimer" to="." method="_on_HitWallTimer_timeout"]
 [connection signal="body_entered" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_entered"]
 [connection signal="body_exited" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_exited"]

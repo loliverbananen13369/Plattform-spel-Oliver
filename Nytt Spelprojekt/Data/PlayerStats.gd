@@ -11,7 +11,11 @@ var is_mage = false
 var player_lvl = 1
 var current_xp = 0
 signal PlayerHurt()
+signal EnemyHurt()
+signal EnemyDead(test_enemy)
 var enemy_who_hurt
+var enemy_who_hurt_list = []
+var enemies_hit_by_player = []
 
 
 var assassin_combo_ewqe = "comboewqe1"
