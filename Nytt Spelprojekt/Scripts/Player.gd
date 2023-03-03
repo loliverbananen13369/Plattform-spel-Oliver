@@ -886,8 +886,8 @@ func _on_HurtBox_area_entered(area):
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
-			PlayerStats.emit_signal("PlayerHurt")
 			PlayerStats.enemy_who_hurt = area.get_parent()
+			PlayerStats.emit_signal("PlayerHurt")
 			PlayerStats.enemy_who_hurt.add_to_group("EnemyWhoHurt")
 			yield(get_tree().create_timer(10),"timeout")
 			PlayerStats.enemy_who_hurt.remove_from_group("EnemyWhoHurt")

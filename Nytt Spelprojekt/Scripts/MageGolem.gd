@@ -21,16 +21,14 @@ onready var playerneararea = $PlayerNearArea
 onready var enemydetector = $EnemyDetector
 onready var animationplayer = $AnimationPlayer
 
-var enemy 
 var player
+var follow_this_enemy
 var enemy_who_hurt
 var hit_wall = false
 
 func _ready():
-	
 	PlayerStats.connect("PlayerHurt", self, "on_PlayerHurt")
 	player = get_parent().get_child(2).get_child(1).get_child(0)
-	enemy = get_parent().get_child(2).get_child(3).get_child(1)
 func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
@@ -46,32 +44,49 @@ func _physics_process(delta: float) -> void:
 		PROTECT:
 			_protect_player_state(delta)
 		FOLLOW_ENEMY: 
-			_follow_enemy_state(delta, enemy)
+			_follow_enemy_state(delta)
 		SPAWN:
 			_spawn_state(delta)
 		FOLLOW_PLAYER:
 			_follow_player_state(delta)
 
+func _flip_sprite(right: bool):
+	if right:
+		animatedsprite.flip_h = false
+		$EnemyInRangeForAttack/CollisionShape2D.position.x = 12
+		$Attack1Area/CollisionShape2D.position.x = 12
+		$RayCast2D.rotation_degrees = -90
+	else:
+		animatedsprite.flip_h = true
+		$EnemyInRangeForAttack/CollisionShape2D.position.x = -12
+		$Attack1Area/CollisionShape2D.position.x = -12
+		$RayCast2D.rotation_degrees = 90
+
+func _get_direction():
+	if velocity.x < 0:
+		direction_x = -1
+		_flip_sprite(false)
+	if velocity.x > 0:
+		direction_x = 1
+		_flip_sprite(true)
+		
+
 func _get_direction_to_player():
 	if player.global_position.x <= global_position.x:
 		direction_x_to_player = -1
-		animatedsprite.flip_h = true
-		$RayCast2D.rotation_degrees = 90
+		_flip_sprite(false)
 	else:
 		direction_x_to_player = 1
-		animatedsprite.flip_h = false
-		$RayCast2D.rotation_degrees = -90
+		_flip_sprite(true)
+		
 
 func _get_direction_to_enemy(enemy):
-	#enemy = get_parent().get_child(2).get_child(3).get_child(1)
 	if enemy.global_position.x <= global_position.x:
 		direction_x_to_enemy = -1
-		animatedsprite.flip_h = true
-		$RayCast2D.rotation_degrees = 90
+		_flip_sprite(false)
 	else:
 		direction_x_to_enemy = 1
-		animatedsprite.flip_h = false
-		$RayCast2D.rotation_degrees = -90
+		_flip_sprite(true)
 
 
 func _basic_movement(delta) -> void:
@@ -79,6 +94,7 @@ func _basic_movement(delta) -> void:
 	
 	velocity.x = MAX_SPEED * direction_x
 	velocity = move_and_slide(velocity, Vector2.UP)
+	
 	
 
 func _air_movement(delta) -> void:
@@ -116,8 +132,8 @@ func _dead_state(delta) -> void:
 func _protect_player_state(delta) -> void:
 	pass
 
-func _follow_enemy_state(delta, enemy_who_hurt) -> void:
-	_get_direction_to_enemy(enemy_who_hurt)
+func _follow_enemy_state(delta) -> void:
+	_get_direction_to_enemy(follow_this_enemy)
 	velocity.y += GRAVITY*delta
 	velocity.x = MAX_SPEED* direction_x_to_enemy
 	velocity = move_and_slide(velocity, Vector2.UP)
@@ -130,7 +146,7 @@ func _spawn_state(delta) -> void:
 	pass
 
 func _follow_player_state(delta) -> void:
-	_get_direction_to_player()	
+	_get_direction_to_player()
 	velocity.y += GRAVITY*delta
 	velocity.x = MAX_SPEED* direction_x_to_player
 	velocity = move_and_slide(velocity, Vector2.UP)
@@ -158,11 +174,11 @@ func _enter_attack_state() -> void:
 	animationplayer.play("Attack1")
 
 func _enter_follow_enemy_state(playerhurt: bool) -> void:
-	state = FOLLOW_ENEMY
 	if playerhurt:
 		animatedsprite.play("Angry")
-		enemy_who_hurt = PlayerStats.enemy_who_hurt
-		yield(get_tree().create_timer(0.15), "timeout")
+		follow_this_enemy = PlayerStats.enemy_who_hurt
+		yield(get_tree().create_timer(1), "timeout")
+		state = FOLLOW_ENEMY
 		
 
 func _on_PlayerNearArea_body_exited(body):
@@ -186,7 +202,6 @@ func on_PlayerHurt():
 
 func _on_EnemyInRangeForAttack_body_entered(body):
 	if body.is_in_group("EnemyWhoHurt"):
-		print("bajs")
 		_enter_attack_state()
 
 

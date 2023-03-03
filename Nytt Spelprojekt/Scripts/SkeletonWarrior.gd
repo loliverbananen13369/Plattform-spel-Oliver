@@ -302,6 +302,11 @@ func _on_Area2D_area_entered(area):
 		damage_amount = damage
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
+	if area.is_in_group("GolemAttack"):
+		var damage = player.get("damage_a1")
+		damage_amount = damage
+		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("DashAttack"):
 		var damage = player.get("damage_combo_ewqe1")
 		damage_amount = damage
