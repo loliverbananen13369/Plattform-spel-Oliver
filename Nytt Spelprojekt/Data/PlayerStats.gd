@@ -6,6 +6,7 @@ var game_data = {}
 
 var ability1_learned = false
 var ability2_learned = false
+var golem_active = false
 var is_assassin = false
 var is_mage = false
 var player_lvl = 1
@@ -13,9 +14,13 @@ var current_xp = 0
 signal PlayerHurt()
 signal EnemyHurt()
 signal EnemyDead(test_enemy)
+signal GolemStatus(active)
+
 var enemy_who_hurt
 var enemy_who_hurt_list = []
 var enemies_hit_by_player = []
+var enemies_for_golem = []
+
 
 
 var assassin_combo_ewqe = "comboewqe1"

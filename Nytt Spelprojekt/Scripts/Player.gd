@@ -266,9 +266,11 @@ func _flip_sprite(right: bool) -> void:
 		$SwordCutArea/SpinAttack.position.x = -34
 
 func _add_pet():
-	var pet = pet_scene.instance()
-	pet.global_position = global_position + Vector2(20, -10)
-	get_tree().get_root().add_child(pet)
+	if PlayerStats.golem_active == false:
+		var pet = pet_scene.instance()
+		pet.global_position = global_position + Vector2(20, -10)
+		get_tree().get_root().add_child(pet)
+		#PlayerStats.emit_signal("GolemStatus")
 
 
 func _add_shockwave():
@@ -886,8 +888,10 @@ func _on_HurtBox_area_entered(area):
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
-			PlayerStats.enemy_who_hurt = area.get_parent()
-			PlayerStats.enemy_who_hurt_list.append(area.get_parent())
+			if not PlayerStats.enemies_for_golem.has(area.get_parent()): 
+				PlayerStats.enemies_for_golem.append(area.get_parent())
+			if not PlayerStats.enemy_who_hurt_list.has(area.get_parent()):
+				PlayerStats.enemy_who_hurt_list.append(area.get_parent())
 			PlayerStats.emit_signal("PlayerHurt")
 	#	if area.is_in_group("Enemy"):
 	#		take_damage(amount, direction.x)
@@ -910,10 +914,9 @@ func _on_KinematicBody2D_hurt() -> void:
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
 		#PlayerStats.enemies_hit_by_player = []
+		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
+			PlayerStats.enemies_for_golem.append(area.get_parent())
 		PlayerStats.emit_signal("EnemyHurt")
-		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
-			PlayerStats.enemies_hit_by_player.append(area.get_parent())
-			
 		if not can_follow_enemy:
 			can_follow_enemy = true
 			$NewTimer.start(1)

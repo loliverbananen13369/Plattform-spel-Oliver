@@ -37,6 +37,7 @@ onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
 var player 
+var golem
 
 var xp_scene = preload("res://Scenes/Experience-Particle.tscn")
 
@@ -59,6 +60,7 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
+	#PlayerStats.connect("GolemStatus", self, "on_GolemStatus")
 	player = get_parent().get_parent().get_child(1).get_child(0)
 	#print(self.get_path())  # prints /root/Control/Node2D
 	animatedsprite.animation = "Dead"
@@ -233,8 +235,8 @@ func _dead_state(_delta) -> void:
 
 
 func _hurt_state(delta) -> void:
-	pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10)
-	move_and_slide(pushback_force)
+	#pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10)
+	#move_and_slide(pushback_force)
 
 	_air_movement(delta)
 	
@@ -306,7 +308,6 @@ func _on_Area2D_area_entered(area):
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("GolemAttack"):
-		print("Attackerad")
 		var damage = player.get("damage_a1")
 		damage_amount = damage
 		_enter_hurt_state(1)
@@ -395,7 +396,10 @@ func _on_PlayerDetector_body_exited(body):
 		_enter_run_state()
 
 	
-	
+func on_GolemStatus():
+	if true:
+		print("true")
+
 
 func _on_AttackDetector_body_entered(body):
 	if state != HURT:	
