@@ -1,7 +1,7 @@
 class_name Enemy
 extends KinematicBody2D
 
-enum {IDLE, RUN, ATTACK, DEAD, HURT, HUNTING, SPAWN}
+enum {IDLE, AIR, RUN, ATTACK, DEAD, HURT, HUNTING, SPAWN}
 
 const MAX_SPEED = 100
 const ACCELERATION = 1000
@@ -76,6 +76,8 @@ func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
 			_idle_state(delta)
+		AIR:
+			_air_state(delta)
 		RUN:
 			_run_state(delta)
 		ATTACK:
@@ -173,7 +175,14 @@ func _on_ShakeTimer_timeout() -> void:
 #STATES
 func _idle_state(delta) -> void:
 	_die_b()
+	if not is_on_floor():
+		_enter_air_state(1)
+
+func _air_state(delta) -> void:
+	_die_b()
 	_air_movement(delta)
+	if is_on_floor():
+		_enter_idle_state()
 
 func _run_state(delta) -> void:
 	_die_b()
@@ -250,6 +259,11 @@ func _enter_idle_state() -> void:
 	var time = rng.randi_range(3,5)
 	idletimer.start(time)
 
+func _enter_air_state(num : int) -> void:
+	state = AIR
+	if num == 1:
+		velocity.y = -1000
+
 func _enter_run_state() -> void:
 	state = RUN
 	animatedsprite.play("Run")
@@ -279,6 +293,11 @@ func _enter_hurt_state(number: int) -> void:
 		$AnimationPlayer.play("Hurt1")
 	if number == 2:
 		$AnimationPlayer.play("Hurt2")
+	if number == 3:
+		$AnimationPlayer.play("Hurt1")
+		_enter_air_state(1)
+
+		
 	flash()
 
 
@@ -311,6 +330,12 @@ func _on_Area2D_area_entered(area):
 		var damage = player.get("damage_a1")
 		damage_amount = damage
 		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
+	if area.is_in_group("GolemBurst"):
+		var damage = player.get("damage_a1")
+		damage_amount = damage
+		print("Burst")
+		_enter_hurt_state(3)
 		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("DashAttack"):
 		var damage = player.get("damage_combo_ewqe1")

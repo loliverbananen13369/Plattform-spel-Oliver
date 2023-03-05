@@ -1482,6 +1482,7 @@ script = ExtResource( 1 )
 
 [node name="PinkMainTilemap" type="TileMap" parent="." groups=["Enviroment"]]
 show_behind_parent = true
+light_mask = 8
 z_index = 3
 tile_set = SubResource( 40 )
 cell_size = Vector2( 16, 16 )

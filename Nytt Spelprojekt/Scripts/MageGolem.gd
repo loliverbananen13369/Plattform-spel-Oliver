@@ -24,6 +24,7 @@ onready var enemydetector = $EnemyDetector
 onready var animationplayer = $AnimationPlayer
 
 var ksanteq_scene = preload("res://Instance_Scenes/MageGolemKsanteQ.tscn")
+var ksanteqimpact_scene = preload("res://Instance_Scenes/KsanteQImpact.tscn")
 
 var player
 var follow_this_enemy
@@ -184,6 +185,12 @@ func _add_ksanteq() -> void:
 		q.global_position.x = q_pos.x + (i*24*dir)
 		#get_parent().call_deferred("add_child", q)
 		yield(get_tree().create_timer(0.35), "timeout")
+	_add_ksanteqimpact(enemy)
+
+func _add_ksanteqimpact(enemy) -> void:
+	var q = ksanteqimpact_scene.instance()
+	q.global_position = enemy.global_position 
+	get_parent().add_child(q)
 
 #States
 func _idle_state(delta) -> void:
