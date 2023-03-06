@@ -5,10 +5,14 @@ func _ready() -> void:
 	if animation == "ImpactDustKick":
 		scale.x = 2
 		scale.y = 2
-		modulate.r = 2.75
-		modulate.g = 1
-		modulate.b = 1.85
-		$AnimationPlayer.play("ImpactDustKickMage")
+		#modulate.r = 2.75
+		#modulate.g = 1
+		#modulate.b = 1.85
+		modulate.r = 0.5
+		modulate.g = 0.5
+		modulate.b = 1.37
+
+		$AnimationPlayer.play("ImpactDustKick")
 	if animation == "ImpactDustKickMage":
 		scale.x = 2
 		scale.y = 2

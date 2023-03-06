@@ -18,21 +18,33 @@
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
+uniform vec4 line_color : hint_color = vec4(1.0);
+uniform float line_thickness : hint_range(0, 10) = 1.0;
 
-uniform sampler2D noise_img : hint_albedo;
-uniform float dissolve_value : hint_range(0,1);
+const vec2 OFFSETS[8] = {
+	vec2(-1, -1), vec2(-1, 0), vec2(-1, 1), vec2(0, -1), vec2(0, 1), 
+	vec2(1, -1), vec2(1, 0), vec2(1, 1)
+};
 
-void fragment(){
-
-    vec4 main_texture = texture(TEXTURE, UV); 
-    vec4 noise_texture = texture(noise_img, SCREEN_UV);
-    main_texture.a *= floor(dissolve_value + min(0.99, noise_texture.x));
-    COLOR = main_texture;
+void fragment() {
+	vec2 size = TEXTURE_PIXEL_SIZE * line_thickness;
+	float outline = 1.0;
+	
+	for (int i = 0; i < OFFSETS.length(); i++) {
+		outline *= texture(TEXTURE, UV + size * OFFSETS[i]).a;
+	}
+	outline = 1.0 - outline;
+	
+	vec4 color = texture(TEXTURE, UV);
+	vec4 outlined_result = mix(color, line_color, outline * color.a);
+	COLOR = mix(color, outlined_result, outlined_result.a);
 }"
 
 [sub_resource type="ShaderMaterial" id=156]
+resource_local_to_scene = true
 shader = SubResource( 155 )
-shader_param/dissolve_value = 1.0
+shader_param/line_color = Color( 2, 0, 2, 1 )
+shader_param/line_thickness = 0.5
 
 [sub_resource type="AtlasTexture" id=87]
 atlas = ExtResource( 7 )
@@ -607,18 +619,18 @@ scale_random = 0.5
 scale_curve = SubResource( 153 )
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
-modulate = Color( 0.105882, 0, 0.243137, 1 )
+modulate = Color( 0.0823529, 0.113725, 0.156863, 1 )
 material = SubResource( 156 )
 rotation = 1.5708
+scale = Vector2( 2, 2 )
 frames = SubResource( 22 )
-animation = "AssTest3"
-frame = 11
+animation = "AssTest2"
+frame = 20
 playing = true
 flip_v = true
 script = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="." groups=["AirExplosion"]]
-visible = false
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

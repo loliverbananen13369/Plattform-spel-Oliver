@@ -927,9 +927,11 @@ collision_mask = 16
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 50 )
 frames = SubResource( 3 )
-animation = "Hurt"
+animation = "Dead"
+frame = 4
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -948,7 +948,10 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 		#playersprite.modulate.r = 2.75
 		#playersprite.modulate.g = 1
 		#playersprite.modulate.b = 1.85
-		playersprite.material.set_shader_param("flash_modifier", 0.8)
+		playersprite.modulate.r = 0.15
+		playersprite.modulate.g = 0.23
+		playersprite.modulate.b = 0.37
+		#playersprite.material.set_shader_param("flash_modifier", 0.8)
 		playersprite.play("Dash")
 		state = DASH_GROUND
 		#dashline.visible = true

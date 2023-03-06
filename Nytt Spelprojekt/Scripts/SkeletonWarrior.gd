@@ -62,9 +62,6 @@ var damage_amount = 0
 func _ready(): 
 	
 	player = get_parent().get_parent().get_child(1).get_child(0)
-	animatedsprite.animation = "Dead"
-	animatedsprite.frame = 10
-	animatedsprite.modulate.a8 = 0
 	$PlayerDetector.monitoring = false
 	state = SPAWN
 	$AnimationPlayer.play("Spawn")
@@ -268,6 +265,7 @@ func _enter_idle_state() -> void:
 	rng.randomize()
 	var time = rng.randi_range(3,5)
 	idletimer.start(time)
+	_bug_fixer()
 
 func _enter_air_state(num : int) -> void:
 	idletimer.stop()
@@ -410,7 +408,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			_enter_idle_state()
 		can_attack = true
 	if anim_name == "Spawn":
-		animatedsprite.modulate.a8 = 255
+		_bug_fixer()
 		$PlayerDetector.monitoring = true
 		if player_in_radius:
 			_enter_hunt_state()

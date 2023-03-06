@@ -1164,7 +1164,7 @@ tracks/8/path = NodePath("SmearSprites:modulate")
 tracks/8/interp = 2
 tracks/8/loop_wrap = true
 tracks/8/imported = false
-tracks/8/enabled = true
+tracks/8/enabled = false
 tracks/8/keys = {
 "times": PoolRealArray( 0.066, 0.231 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -1190,7 +1190,7 @@ tracks/10/path = NodePath("AnimationPlayer:playback_speed")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
-tracks/10/enabled = true
+tracks/10/enabled = false
 tracks/10/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -1319,7 +1319,7 @@ tracks/9/path = NodePath("AnimationPlayer:playback_speed")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
-tracks/9/enabled = true
+tracks/9/enabled = false
 tracks/9/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -1460,7 +1460,7 @@ tracks/10/path = NodePath("AnimationPlayer:playback_speed")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
-tracks/10/enabled = true
+tracks/10/enabled = false
 tracks/10/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -2820,10 +2820,10 @@ frames = SubResource( 537 )
 animation = "OnGround"
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
-modulate = Color( 0.473536, 0.334626, 2.29596, 1 )
+visible = false
 position = Vector2( 30, -15 )
-animation = "AirAttack"
-frame = 4
+animation = "Smear2H"
+frame = 3
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
@@ -2834,8 +2834,8 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "AirAttack"
-frame = 4
+animation = "Attack1"
+frame = 7
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true
@@ -2849,7 +2849,7 @@ position = Vector2( 10, -10 )
 shape = SubResource( 53 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 2.0
+playback_speed = 0.8
 anims/AirAttack = SubResource( 838 )
 anims/Attack1 = SubResource( 839 )
 anims/Attack2 = SubResource( 840 )

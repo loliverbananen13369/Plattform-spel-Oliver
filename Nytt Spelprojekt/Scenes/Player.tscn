@@ -2694,7 +2694,6 @@ process_material = SubResource( 515 )
 texture = ExtResource( 12 )
 
 [node name="HUD" parent="." instance=ExtResource( 23 )]
-visible = false
 
 [node name="HolyBuffTimer" type="Timer" parent="."]
 one_shot = true
