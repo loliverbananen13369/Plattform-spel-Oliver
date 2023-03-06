@@ -882,20 +882,18 @@ func _on_timer_timeout() -> void:
 	pass
 
 func _on_HurtBox_area_entered(area):
-	print("_entered")
 	var amount = 5
 	if dark_buff_active:
 		amount = 10
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
-			print("EnemySword")
 			take_damage(amount, direction.x)
 			if not PlayerStats.enemies_for_golem.has(area.get_parent()): 
 				PlayerStats.enemies_for_golem.append(area.get_parent())
 			if not PlayerStats.enemy_who_hurt_list.has(area.get_parent()):
 				PlayerStats.enemy_who_hurt_list.append(area.get_parent())
 			PlayerStats.emit_signal("PlayerHurt")
-	#	if area.is_in_group("Enemy"):
+		#	if area.is_in_group("Enemy"):
 	#		take_damage(amount, direction.x)
 	
 func _on_CollectParticlesArea_area_entered(area) -> void:

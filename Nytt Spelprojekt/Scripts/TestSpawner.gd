@@ -11,7 +11,7 @@ var mage_scene = preload("res://Scenes/SkeletonMage.tscn")
 
 func _ready() -> void:
 	randomize()
-	$Timer.wait_time = 1 + rand_range(-1, 1)
+	$Timer.wait_time = 5 + rand_range(-1, 1)
 
 func _can_spawn_warrior() -> bool:
 	var number_of_warrior = len(get_tree().get_nodes_in_group("Enemy"))
@@ -19,7 +19,7 @@ func _can_spawn_warrior() -> bool:
 
 func _spawn_warrior() -> void:
 	var warrior = warrior_scene.instance()
-	warrior.position = Vector2(rand_range(200, 20), -15)
+	warrior.global_position = Vector2(rand_range(200, 20), -30)
 	add_child(warrior)
 """
 	var section = randi() % 4

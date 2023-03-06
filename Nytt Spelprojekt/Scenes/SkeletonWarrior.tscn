@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=2]
+[gd_scene load_steps=125 format=2]
 
 [ext_resource path="res://Random_Effects/Effect 2 - Sprite Sheet.new.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SkeletonWarrior.gd" type="Script" id=2]
@@ -262,11 +262,11 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=8]
-radius = 7.0
-height = 16.0
+radius = 8.0
+height = 14.0
 
 [sub_resource type="RectangleShape2D" id=49]
-extents = Vector2( 18.5, 18 )
+extents = Vector2( 13, 16 )
 
 [sub_resource type="Animation" id=198]
 resource_name = "Dead"
@@ -470,12 +470,12 @@ tracks/9/path = NodePath("Sprite:animation")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
-tracks/9/enabled = true
+tracks/9/enabled = false
 tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "Hurt3" ]
+"values": [ "Hurt1" ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("Sprite:modulate")
@@ -590,7 +590,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "Hurt1" ]
+"values": [ "Hurt2" ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("Sprite:frame")
@@ -799,52 +799,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=59]
-extents = Vector2( 81.75, 43 )
+[sub_resource type="CircleShape2D" id=283]
+radius = 157.204
 
 [sub_resource type="RectangleShape2D" id=60]
 extents = Vector2( 9.25, 16.25 )
-
-[sub_resource type="Gradient" id=141]
-colors = PoolColorArray( 0.835294, 0.235294, 0.415686, 1, 0.27451, 0.054902, 0.168627, 1 )
-
-[sub_resource type="GradientTexture" id=142]
-gradient = SubResource( 141 )
-
-[sub_resource type="ParticlesMaterial" id=143]
-emission_shape = 1
-emission_sphere_radius = 3.0
-flag_disable_z = true
-direction = Vector3( 0, 5, 0 )
-spread = 10.0
-gravity = Vector3( 0, -10, 0 )
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 10.0
-linear_accel_random = 0.26
-color_ramp = SubResource( 142 )
-
-[sub_resource type="Curve" id=152]
-max_value = 100.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.986239, 100 ), 370.34, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=153]
-curve = SubResource( 152 )
-
-[sub_resource type="ParticlesMaterial" id=146]
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_disable_z = true
-direction = Vector3( 10, 0, 0 )
-spread = 5.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 200.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 150.0
-damping_curve = SubResource( 153 )
-anim_speed = 16.48
-anim_speed_random = 0.14
 
 [sub_resource type="AtlasTexture" id=162]
 atlas = ExtResource( 6 )
@@ -964,19 +923,18 @@ animations = [ {
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["Enemy"]]
 light_mask = 2
 collision_layer = 4
-collision_mask = 18
+collision_mask = 16
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 50 )
-position = Vector2( 10, -20 )
 frames = SubResource( 3 )
-animation = "Attack"
+animation = "Hurt"
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2( 7, -15 )
+position = Vector2( 5, 4.5 )
 shape = SubResource( 8 )
 
 [node name="IdleTimer" type="Timer" parent="."]
@@ -985,16 +943,13 @@ one_shot = true
 [node name="RunTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="." groups=["EnemyHitbox"]]
+[node name="HurtBox" type="Area2D" parent="." groups=["EnemyHitbox"]]
+visible = false
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 7, -15 )
-shape = SubResource( 8 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 6, -18 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( 4, 3 )
 shape = SubResource( 49 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1010,7 +965,6 @@ one_shot = true
 
 [node name="HitParticles" type="Particles2D" parent="."]
 modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
-position = Vector2( 6, -16 )
 scale = Vector2( 2, 2 )
 emitting = false
 amount = 6
@@ -1022,56 +976,37 @@ randomness = 0.6
 process_material = SubResource( 57 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-visible = false
-modulate = Color( 0.223529, 0, 0.356863, 1 )
-position = Vector2( 10, -20 )
+modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 83 )
-animation = "Hurt3"
+animation = "Hurt1"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-visible = false
-position = Vector2( 100, -60 )
+position = Vector2( 15, 0 )
 enabled = true
 collision_mask = 16
 
 [node name="PlayerDetector" type="Area2D" parent="."]
 visible = false
 collision_layer = 0
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
-position = Vector2( 14, 2 )
-shape = SubResource( 59 )
+shape = SubResource( 283 )
 
-[node name="AttackDetector" type="Area2D" parent="." groups=["EnemySword"]]
-collision_layer = 0
-collision_mask = 0
+[node name="AttackDetector" type="Area2D" parent="."]
+visible = false
+collision_layer = 8
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetector"]
 modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
-position = Vector2( 24, -19.75 )
+position = Vector2( -10, 4 )
 shape = SubResource( 60 )
 
 [node name="AttackTimer" type="Timer" parent="."]
 
 [node name="ShakeTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 21, -29 )
-
-[node name="Particles2D" type="Particles2D" parent="Position2D"]
-position = Vector2( -2, 1 )
-amount = 4
-process_material = SubResource( 143 )
-
-[node name="Particles2D" type="Particles2D" parent="."]
-visible = false
-explosiveness = 0.8
-randomness = 0.13
-process_material = SubResource( 146 )
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 visible = false
@@ -1081,9 +1016,26 @@ scale = Vector2( 2, 1 )
 frames = SubResource( 160 )
 animation = "Test3"
 
+[node name="WallRayCast" type="RayCast2D" parent="."]
+visible = false
+position = Vector2( -2, 0 )
+rotation = -3.14159
+cast_to = Vector2( 25, 0 )
+collision_mask = 16
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="AttackArea" type="Area2D" parent="." groups=["EnemySword"]]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackArea"]
+modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
+position = Vector2( -10, 4 )
+shape = SubResource( 60 )
+disabled = true
+
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
 [connection signal="timeout" from="RunTimer" to="." method="_on_RunTimer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_changed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]

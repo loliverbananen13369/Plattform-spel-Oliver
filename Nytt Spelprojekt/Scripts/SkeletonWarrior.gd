@@ -1,4 +1,3 @@
-class_name Enemy
 extends KinematicBody2D
 
 enum {IDLE, AIR, RUN, ATTACK, DEAD, HURT, HUNTING, SPAWN}
@@ -10,6 +9,7 @@ const JUMP_STRENGHT = -410
 
 
 export var direction_x = 1
+var direction_x_to_player 
 var velocity := Vector2()
 var direction := Vector2.ZERO
 
@@ -102,11 +102,44 @@ func _apply_basic_movement(delta) -> void:
 	velocity.x = MAX_SPEED * direction_x
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if direction_x == -1:
-		animatedsprite.flip_h = true
-		$Position2D.position.x = 21
+		_flip_sprite(false)
 	if direction_x == 1:
+		_flip_sprite(true)
+
+func _apply_follow_player_movement(delta) -> void:
+	_get_direction_to_player()
+	velocity.y += GRAVITY*delta
+	velocity.x = MAX_SPEED* direction_x_to_player
+	velocity = move_and_slide(velocity, Vector2.UP)
+	
+
+func _flip_sprite(right: bool):
+	if right:
 		animatedsprite.flip_h = false
-		$Position2D.position.x = 1
+		$CollisionShape2D.position.x = -4
+		$HurtBox/CollisionShape2D.position.x = -4
+		$AttackDetector/CollisionShape2D.position.x  = 10
+		$AttackArea/CollisionShape2D2.position.x = 10
+	else:
+		animatedsprite.flip_h = true
+		$CollisionShape2D.position.x = 4
+		$HurtBox/CollisionShape2D.position.x = 4
+		$AttackDetector/CollisionShape2D.position.x  = -10
+		$AttackArea/CollisionShape2D2.position.x = -10
+
+func _get_direction_to_player():
+	if player.global_position.x <= global_position.x:
+		direction_x_to_player = -1
+		_flip_sprite(false)
+	else:
+		direction_x_to_player = 1
+		_flip_sprite(true)
+
+func _check_if_hit_wall() -> void:
+	if $WallRayCast.is_colliding():
+		velocity.y = JUMP_STRENGHT
+	else:
+		return
 
 func flash():
 	animatedsprite.material.set_shader_param("flash_modifier", 0.8)
@@ -115,15 +148,21 @@ func flash():
 func _turn_around():
 	if not $RayCast2D.is_colliding() and is_on_floor():
 		direction_x *= -1
-		$RayCast2D.position.x += direction_x*20
+		$RayCast2D.position.x = direction_x*15
 
 func _hit():
-	$AttackDetector.monitorable = true
+	$AttackArea/CollisionShape2D2.disabled = false
 	
 func _end_of_hit():
-	#$AttackDetector.monitorable = false
+	$AttackArea/CollisionShape2D2.disabled = true
 	_die_b()
 
+func _bug_fixer() -> void:
+	animatedsprite.modulate.a8 = 255
+	$Sprite.visible = false
+	$AnimatedSprite2.visible = false
+	$HitParticles.visible = false
+	$HitParticles.emitting = false
 
 func take_damage(amount: int) -> void:
 	knock_back(player.position)
@@ -170,9 +209,10 @@ func _on_ShakeTimer_timeout() -> void:
 
 #STATES
 func _idle_state(delta) -> void:
+	pass
 	#_die_b()
-	if not is_on_floor():
-		_enter_air_state(1)
+	#if not is_on_floor():
+		#_enter_air_state(1)
 
 func _air_state(delta) -> void:
 	#_die_b()
@@ -190,47 +230,25 @@ func _run_state(delta) -> void:
 		$RayCast2D.position.x += direction_x*20
 
 func _attack_state(delta) -> void:
-	pass
+	_air_movement(delta)
 
 func _follow_player_state(delta) -> void:
-	$Tween.remove_all()	
-	if (player.position.x >= ( global_position.x + 10) ) or (player.position.x <= (global_position.x -10)):
-		if global_position.x > player.position.x:
-			animatedsprite.flip_h = true
-			$AttackDetector/CollisionShape2D.position.x  = -4
-			test = -1
-		if global_position.x <= player.position.x:
-			animatedsprite.flip_h = false
-			$AttackDetector/CollisionShape2D.position.x  = 24
-			test = 1
-	else:
-		_enter_attack_state()
-		test = 0
-	
-	#_turn_around()
-	velocity.y += GRAVITY*delta
-	
-	velocity.x = MAX_SPEED* test
-	velocity = move_and_slide(velocity, Vector2.UP)
-	
-	
+	$Tween.remove_all()
+	_apply_follow_player_movement(delta)
 	_die_b()
 
 func _spawn_state(_delta) -> void:
 	velocity.x = 0
 	velocity.y = 0
-	$Area2D/CollisionShape2D2.disabled = true
-	$Area2D/CollisionShape2D.disabled = true
+	$HurtBox/CollisionShape2D.disabled = true
 	$PlayerDetector.monitoring = false
 
 func _dead_state(_delta) -> void:
 	velocity.x = 0
 	velocity.y = 0
-	$Position2D/Particles2D.emitting = false
 	$IdleTimer.stop()
 	$RunTimer.stop()
-	$Area2D/CollisionShape2D2.disabled = true
-	$Area2D/CollisionShape2D.disabled = true
+	$HurtBox/CollisionShape2D.disabled = true
 	#$CollisionShape2D.disabled = true
 	#_on_AnimatedSprite_animation_finished()
 
@@ -256,7 +274,7 @@ func _enter_air_state(num : int) -> void:
 	runtimer.stop()
 	state = AIR
 	if num == 1:
-		velocity.y = -600
+		velocity.y = JUMP_STRENGHT
 
 func _enter_run_state() -> void:
 	state = RUN
@@ -283,6 +301,7 @@ func _enter_hunt_state() -> void:
 	animatedsprite.play("Hunt")
 
 func _enter_hurt_state(number: int) -> void:
+	_get_direction_to_player()
 	rng.randomize()
 	var random_number = rng.randi_range(1,2)
 	take_damage(damage_amount)
@@ -316,7 +335,8 @@ func _on_RunTimer_timeout():
 func _on_FlashTimer_timeout():
 	animatedsprite.material.set_shader_param("flash_modifier", 0)
 
-func _on_Area2D_area_entered(area):
+
+func _on_HurtBox_area_entered(area):
 	var holy_active = player.get("holy_buff_active")
 	var dark_active = player.get("dark_buff_active")
 	var crit = false
@@ -364,15 +384,8 @@ func _on_Area2D_area_entered(area):
 		emit_signal("pos", global_position)
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
-		
-		
-	
+
 	_die_b()
-		
-		#if hp <= 0:
-		#	state = DEAD
-		#	animatedsprite.play("Dead")
-		#$Area2D/CollisionShape2D.disabled = true
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
@@ -397,13 +410,13 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			_enter_idle_state()
 		can_attack = true
 	if anim_name == "Spawn":
+		animatedsprite.modulate.a8 = 255
+		$PlayerDetector.monitoring = true
 		if player_in_radius:
 			_enter_hunt_state()
 		else:
 			_enter_idle_state()
-		$Area2D/CollisionShape2D.disabled = false
-		$Area2D/CollisionShape2D2.disabled = false
-		$PlayerDetector.monitoring = true
+		$HurtBox/CollisionShape2D.disabled = false
 	if anim_name == "Dead":
 		_spawn_xp()
 		PlayerStats.emit_signal("EnemyDead", self)
@@ -430,7 +443,7 @@ func on_GolemStatus():
 
 
 func _on_AttackDetector_body_entered(body):
-	if state != HURT:	
+	if state != HURT:
 		_enter_attack_state()
 
 func _on_AttackDetector_body_exited(body):
@@ -472,5 +485,8 @@ func _spawn_xp() -> void:
 	var xp = xp_scene.instance()
 	xp.position = global_position
 	get_tree().get_root().add_child(xp)
+
+
+
 
 

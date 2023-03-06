@@ -91,18 +91,6 @@ func _check_if_enemy_in_radius():
 	if group_size == 0:
 		return false
 	
-		
-		
-			
-	
-	
-	#var enemies = PlayerStats.enemies_for_golem
-	#if enemies.size() > 0:
-	#	if is_instance_valid(_get_closest_enemy_to_player(enemies)):
-	#		if $EnemyDetector.overlaps_body(_get_closest_enemy_to_player(enemies)):
-	#			follow_this_enemy = _get_closest_enemy_to_player(enemies)
-	#			_enter_follow_enemy_state()
-
 
 
 func _get_direction_to_player():
