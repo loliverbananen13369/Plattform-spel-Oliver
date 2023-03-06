@@ -60,9 +60,8 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	#PlayerStats.connect("GolemStatus", self, "on_GolemStatus")
+	
 	player = get_parent().get_parent().get_child(1).get_child(0)
-	#print(self.get_path())  # prints /root/Control/Node2D
 	animatedsprite.animation = "Dead"
 	animatedsprite.frame = 10
 	animatedsprite.modulate.a8 = 0
@@ -98,7 +97,6 @@ func _air_movement(delta) -> void:
 		velocity = move_and_slide(velocity, Vector2.UP)
 
 func _apply_basic_movement(delta) -> void:
-	
 	velocity.y += GRAVITY*delta
 	
 	velocity.x = MAX_SPEED * direction_x
@@ -120,12 +118,10 @@ func _turn_around():
 		$RayCast2D.position.x += direction_x*20
 
 func _hit():
-	$AttackDetector.monitoring = true
 	$AttackDetector.monitorable = true
 	
 func _end_of_hit():
-	$AttackDetector.monitoring = false
-	$AttackDetector.monitorable = false
+	#$AttackDetector.monitorable = false
 	_die_b()
 
 
@@ -174,18 +170,18 @@ func _on_ShakeTimer_timeout() -> void:
 
 #STATES
 func _idle_state(delta) -> void:
-	_die_b()
+	#_die_b()
 	if not is_on_floor():
 		_enter_air_state(1)
 
 func _air_state(delta) -> void:
-	_die_b()
+	#_die_b()
 	_air_movement(delta)
 	if is_on_floor():
 		_enter_idle_state()
 
 func _run_state(delta) -> void:
-	_die_b()
+	#_die_b()
 	_apply_basic_movement(delta)
 	_turn_around()
 	$Tween.remove_all()	
@@ -193,12 +189,8 @@ func _run_state(delta) -> void:
 		direction_x *= -1
 		$RayCast2D.position.x += direction_x*20
 
-func _attack_state(_delta) -> void:
-	if (player.position.x >= ( global_position.x + 10) ) or (player.position.x <= (global_position.x -10)):
-		_enter_hunt_state()
-	
-	velocity.x = 0
-	
+func _attack_state(delta) -> void:
+	pass
 
 func _follow_player_state(delta) -> void:
 	$Tween.remove_all()	
@@ -260,9 +252,11 @@ func _enter_idle_state() -> void:
 	idletimer.start(time)
 
 func _enter_air_state(num : int) -> void:
+	idletimer.stop()
+	runtimer.stop()
 	state = AIR
 	if num == 1:
-		velocity.y = -1000
+		velocity.y = -600
 
 func _enter_run_state() -> void:
 	state = RUN
@@ -272,10 +266,19 @@ func _enter_run_state() -> void:
 	runtimer.start(time)
 
 func _enter_attack_state() -> void:
+	if global_position.x > player.position.x:
+		side = "right"
+	else:
+		side = "left"
 	state = ATTACK
 	$AnimationPlayer.play("Hit")
+	emit_signal("side_of_player", side)
+	velocity.x = 0
+	can_attack = false
 	
 func _enter_hunt_state() -> void:
+	idletimer.stop()
+	runtimer.stop()
 	state = HUNTING
 	animatedsprite.play("Hunt")
 
@@ -302,12 +305,12 @@ func _enter_hurt_state(number: int) -> void:
 
 
 func _on_IdleTimer_timeout():
-	if state != ATTACK:
+	if state != ATTACK and state != AIR:
 		 _enter_run_state()
 
 
 func _on_RunTimer_timeout():
-	if state != ATTACK:
+	if state != ATTACK and state != AIR:
 		_enter_idle_state()
 
 func _on_FlashTimer_timeout():
@@ -334,7 +337,6 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group("GolemBurst"):
 		var damage = player.get("damage_a1")
 		damage_amount = damage
-		print("Burst")
 		_enter_hurt_state(3)
 		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("DashAttack"):
@@ -387,12 +389,13 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		else:
 			_enter_idle_state()
 	if anim_name == "Hit":
-		if player_in_radius:
+		if $AttackDetector.overlaps_body(player):
+			_enter_attack_state()
+		elif player_in_radius:
 			_enter_hunt_state()
-			can_attack = true
 		else:
 			_enter_idle_state()
-			can_attack = true
+		can_attack = true
 	if anim_name == "Spawn":
 		if player_in_radius:
 			_enter_hunt_state()
@@ -428,19 +431,11 @@ func on_GolemStatus():
 
 func _on_AttackDetector_body_entered(body):
 	if state != HURT:	
-		if body.is_in_group("Player"):
-			if global_position.x > player.position.x:
-				side = "right"
-			else:
-				side = "left"
-			state = ATTACK
-			$AnimationPlayer.play("Hit")
-			emit_signal("side_of_player", side)
-			velocity.x = 0
-			can_attack = false
+		_enter_attack_state()
 
 func _on_AttackDetector_body_exited(body):
-	pass
+	if body.is_in_group("Player") and not can_attack:
+		_enter_hunt_state()
 	#if body.is_in_group("Player"):
 	#	can_attack = true
 

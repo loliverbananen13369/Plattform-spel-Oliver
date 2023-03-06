@@ -2541,8 +2541,7 @@ radius = 25.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 1
-collision_layer = 9
-collision_mask = 16
+collision_mask = 24
 script = ExtResource( 2 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
@@ -2552,6 +2551,7 @@ frames = SubResource( 537 )
 animation = "OnGround"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
+visible = false
 position = Vector2( 0, 11 )
 shape = SubResource( 53 )
 
@@ -2564,11 +2564,10 @@ playing = true
 offset = Vector2( 0, 1 )
 
 [node name="HurtBox" type="Area2D" parent="." groups=["Player"]]
-visible = false
-collision_mask = 44
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" groups=["Player"]]
-position = Vector2( 10, -10 )
+position = Vector2( 0, 10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
@@ -2652,6 +2651,7 @@ animation = "Test1"
 frame = 2
 
 [node name="AbilitySprites" type="AnimatedSprite" parent="."]
+visible = false
 modulate = Color( 3, 1.5, 1.5, 1 )
 position = Vector2( 51, 9 )
 scale = Vector2( 1.5, 2 )

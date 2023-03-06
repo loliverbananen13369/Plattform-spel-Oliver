@@ -273,10 +273,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.0333333 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
 "update": 1,
-"values": [ true ]
+"values": [  ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:frame")
@@ -285,10 +285,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333, 0.566667, 0.6, 0.633333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Area2D/Impale:disabled")
@@ -311,8 +311,8 @@ extents = Vector2( 25, 23.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
 frames = SubResource( 41 )
-animation = "Impale"
-frame = 19
+animation = "Burst"
+frame = 24
 playing = true
 script = ExtResource( 3 )
 
@@ -326,13 +326,11 @@ anims/Impale = SubResource( 93 )
 [node name="Burst" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( -15.5, -3 )
 shape = SubResource( 155 )
-disabled = true
 
 [node name="Impale" type="CollisionShape2D" parent="Area2D"]
 visible = false
 position = Vector2( -1, 3.5 )
 shape = SubResource( 156 )
-disabled = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]

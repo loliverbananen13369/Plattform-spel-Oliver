@@ -882,11 +882,13 @@ func _on_timer_timeout() -> void:
 	pass
 
 func _on_HurtBox_area_entered(area):
+	print("_entered")
 	var amount = 5
 	if dark_buff_active:
 		amount = 10
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
+			print("EnemySword")
 			take_damage(amount, direction.x)
 			if not PlayerStats.enemies_for_golem.has(area.get_parent()): 
 				PlayerStats.enemies_for_golem.append(area.get_parent())
@@ -934,6 +936,7 @@ func _on_ImmuneTimer_timeout():
 
 func _on_FlashTimer_timeout():
 	if not holy_buff_active:
+		print("if not holy buff activee")
 		can_take_damage = true
 	tween.stop(playersprite)
 
