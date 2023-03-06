@@ -47,20 +47,20 @@ signal XPChanged(current_xp)
 signal LvlUp(current_lvl, xp_needed)
 
 
-var ghost_scene = preload("res://Scenes/GhostDashAssassin.tscn")
-var new_ghost_scene = preload("res://Scenes/AssassinGhost.tscn")
-var dash_smoke_scene = preload("res://Scenes/DashSmoke.tscn")
-var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
-var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
+var ghost_scene = preload("res://Instance_Scenes/GhostDashAssassin.tscn")
+var new_ghost_scene = preload("res://Instance_Scenes/AssassinGhost.tscn")
+var dash_smoke_scene = preload("res://Instance_Scenes/DashSmoke.tscn")
+var jl_scene = preload("res://Instance_Scenes/LandnJumpDust.tscn")
+var dust_scene = preload("res://Instance_Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
-var buff_scene = preload("res://Scenes/BuffEffect.tscn")
+var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
-var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
-var dash_particles_scene = preload("res://Scenes/DashParticlesAssassin.tscn")
-var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
-var clone_scene = preload("res://Scenes/AssassinClone.tscn")
-var dash_attack_scene = preload("res://Scenes/AssassinDashAttack.tscn")
+var air_explosion_scene = preload("res://Instance_Scenes/AirExplosion.tscn")
+var dash_particles_scene = preload("res://Instance_Scenes/DashParticlesAssassin.tscn")
+var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
+var clone_scene = preload("res://Instance_Scenes/AssassinClone.tscn")
+var dash_attack_scene = preload("res://Instance_Scenes/AssassinDashAttack.tscn")
 var impact_scene = preload("res://Scenes/Impact_Scene.tscn")
 
 var ghosttime := 0.0
@@ -87,7 +87,6 @@ export (Vector2) var tester := Vector2.ZERO
 
 
 var dash_to_enemy_distance = 50
-var hit_enemy = []
 
 
 var hit_the_ground = false
@@ -115,6 +114,7 @@ var previous_state = IDLE
 
 
 func _ready() -> void:
+	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	playersprite.visible = true
 	$AnimationPlayer.playback_speed = 1
 	$SkillTreeInGame/Control/CanvasLayer.visible = false
@@ -207,6 +207,10 @@ func _add_shockwave():
 	wave.queue_free()
 
 func _add_clone(enemy, anim: String):
+	var all_enemy = PlayerStats.enemies_hit_by_player
+	rng.randomize()
+	var enemy_ind = rng.randi_range(0, all_enemy.size() - 1)
+	enemy = all_enemy[enemy_ind]
 	var clone = clone_scene.instance()
 	var animplayer = clone.get_child(2)
 	var smearsp = clone.get_child(1)
@@ -220,14 +224,9 @@ func _add_clone(enemy, anim: String):
 		dir = 1
 	smearsp.animation = animatedsmears.animation
 	#clone.ani = _get_smearsprite("q")
-	#animplayer.animation_get_next("Attack1")
-	#clone.global_position = enemy.global_position + Vector2(60*dir,-25)
-	clone.global_position = global_position
-	#print(global_position)
-	#print(enemy.global_position)
-	clone.flip_h = playersprite.flip_h
+	clone.global_position = enemy.global_position + Vector2(30*dir, -5)
+	clone.flip_h = flip #playersprite.flip_h
 	get_tree().get_root().add_child(clone)
-	#print("hejsan")
 
 func _add_assassin_ghost(amount:int):
 	if amount == 0:
@@ -329,21 +328,18 @@ func _get_direction_to_enemy(enemy):
 		return direction
 	
 
-func _get_furthest_away_enemy():
-	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	var furthest_away_enemy = all_enemy[0]
-	if direction_x == "RIGHT":
-		for i in range(1, len(all_enemy)):
-			if all_enemy[i].global_position.x > furthest_away_enemy.global_position.x :
-			#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
-				furthest_away_enemy = all_enemy[i]
-	else:
-		for i in range(1, len(all_enemy)):
-			if all_enemy[i].global_position.x < furthest_away_enemy.global_position.x :
-			#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
-				furthest_away_enemy = all_enemy[i]
+func _get_furthest_away_enemy(enemy_group):
+	if len(enemy_group) > 0:
+		var furthest_enemy = enemy_group[0]
+		for i in range(0, len(enemy_group)-1):
+			if is_instance_valid(enemy_group[i]):
+				if global_position.distance_to(enemy_group[i].global_position) > global_position.distance_to((furthest_enemy.global_position )):
+					furthest_enemy = enemy_group[i]
+			else:
+				return furthest_enemy
 
-	return furthest_away_enemy
+		return furthest_enemy
+
 
 func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
@@ -564,29 +560,30 @@ func _remember_attack() -> void:
 func _dash_to_enemy(enemy, switch_side: bool) -> void:
 	if can_follow_enemy:
 		if not switch_side:
-			if global_position.x >= enemy.global_position.x:
-				#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x + 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				#tween.start()
-				global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
-				direction_x = "LEFT"
-				_flip_sprite(false)
-			else:
-				#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				#tween.start()
-				
-				global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
-				direction_x = "RIGHT"
-				_flip_sprite(true)
-			print("heheheha")
+			if is_instance_valid(enemy):
+				if global_position.x >= enemy.global_position.x:
+					#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x + 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+					#tween.start()
+					global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
+					direction_x = "LEFT"
+					_flip_sprite(false)
+				else:
+					#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+					#tween.start()
+					
+					global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
+					direction_x = "RIGHT"
+					_flip_sprite(true)
 		else:
-			if global_position.x <= enemy.global_position.x:
-				global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
-				direction_x = "LEFT"
-				_flip_sprite(false)
-			else:
-				global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
-				direction_x = "RIGHT"
-				_flip_sprite(true)
+			if is_instance_valid(enemy):
+				if global_position.x <= enemy.global_position.x:
+					global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
+					direction_x = "LEFT"
+					_flip_sprite(false)
+				else:
+					global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
+					direction_x = "RIGHT"
+					_flip_sprite(true)
 		
 			
 		
@@ -1033,7 +1030,9 @@ func _enter_attack_air_state(Jump: bool) -> void:
 
 func _enter_combo_state(number : int) -> void:
 	ghosttime = 0.0
-	var enemy = _get_closest_enemy(hit_enemy)
+	var enemy_list = PlayerStats.enemies_hit_by_player
+	var enemy = _get_closest_enemy(PlayerStats.enemies_hit_by_player)
+	var furthest_away_enemy = _get_furthest_away_enemy(PlayerStats.enemies_hit_by_player)
 	test_var_enemy = enemy
 #	var side = _get_direction_to_enemy(enemy)
 	state = COMBO
@@ -1042,19 +1041,27 @@ func _enter_combo_state(number : int) -> void:
 		combo_list.clear()
 	if number == 2:
 		animationplayer.play("comboewqe3")#(PlayerStats.assassin_combo_ewqe)
-		_add_clone(_get_closest_enemy(hit_enemy), "Attack1")
+		_add_clone(enemy, "Attack1")
 		if Input.is_action_pressed("Dash"):
-			_add_shockwave()
-			_add_clone(enemy, "Attack1")
-			_dash_to_enemy(enemy, true)
-			yield(get_tree().create_timer(0.1333333), "timeout")
-			_add_clone(enemy, "Attack1")
-			_dash_to_enemy(enemy, false)
-			yield(get_tree().create_timer(0.1333333), "timeout")
-			_add_clone(enemy, "Attack1")
-			_dash_to_enemy(enemy, false)
-			yield(get_tree().create_timer(0.1333333), "timeout")
-			_dash_to_enemy(enemy, true)
+			for i in range(int((PlayerStats.enemies_hit_by_player.size())/2)):
+				_add_shockwave()
+				_add_clone(_get_closest_enemy(PlayerStats.enemies_hit_by_player), "Attack1")
+				_dash_to_enemy(_get_closest_enemy(PlayerStats.enemies_hit_by_player), true)
+				yield(get_tree().create_timer(0.1333333), "timeout")
+				_dash_to_enemy(_get_closest_enemy(PlayerStats.enemies_hit_by_player), true)
+				yield(get_tree().create_timer(0.1333333), "timeout")
+				#yield
+		#	_add_shockwave()
+		#	_add_clone(enemy, "Attack1")
+		#	_dash_to_enemy(enemy, true)
+		#	yield(get_tree().create_timer(0.1333333), "timeout")
+		#	_add_clone(enemy, "Attack1")
+		#	_dash_to_enemy(enemy, false)
+		#	yield(get_tree().create_timer(0.1333333), "timeout")
+		#	_add_clone(enemy, "Attack1")
+		#	_dash_to_enemy(enemy, false)
+		#	yield(get_tree().create_timer(0.1333333), "timeout")
+		#	_dash_to_enemy(enemy, true)
 
 		
 		combo_list.clear()
@@ -1159,17 +1166,16 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
 
-func _on_KinematicBody2D_dead() -> void:
-	pass
+
 
 func _on_KinematicBody2D_hurt() -> void:
 	pass
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
-		hit_enemy = []
-		hit_enemy.append(area.get_parent())
-		$EnemyHitTimer.start(1.0)
+		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
+			PlayerStats.enemies_hit_by_player.append(area.get_parent())
+		$EnemyHitTimer.start(10)
 		if not can_follow_enemy:
 			can_follow_enemy = true
 			$NewTimer.start(1)
@@ -1226,4 +1232,9 @@ func _on_JustLandedTimer_timeout() -> void:
 
 
 func _on_EnemyHitTimer_timeout() -> void:
-	hit_enemy.clear()
+	pass
+	#PlayerStats.enemies_hit_by_player.clear()
+func on_EnemyDead(body) -> void:
+	if PlayerStats.enemies_hit_by_player.has(body):
+		PlayerStats.enemies_hit_by_player.erase(body)
+	

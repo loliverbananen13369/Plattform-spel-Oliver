@@ -11,7 +11,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Running/Battlemage Running1.ass.png" type="Texture" id=9]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Down/Jump Neutral Going Down.ass.png" type="Texture" id=10]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 3/Attack 3 wo Effect.ass.png" type="Texture" id=11]
-[ext_resource path="res://Scenes/DashParticlesAssassin.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Instance_Scenes/DashParticlesAssassin.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Random_Effects/Sangoro/BIG SMOKE.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Neutral/Going Up/Jump Neutral Going Up.ass.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.ass.png" type="Texture" id=15]
@@ -2823,7 +2823,6 @@ animation = "OnGround"
 visible = false
 position = Vector2( 30, -15 )
 animation = "Smear2H"
-frame = 3
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]

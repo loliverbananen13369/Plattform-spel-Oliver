@@ -39,7 +39,7 @@ onready var runtimer = $RunTimer
 var player 
 var golem
 
-var xp_scene = preload("res://Scenes/Experience-Particle.tscn")
+var xp_scene = preload("res://Instance_Scenes/Experience-Particle.tscn")
 
 var motion_previous = Vector2()
 
@@ -60,8 +60,11 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	
 	player = get_parent().get_parent().get_child(1).get_child(0)
+	$PlayerDetector.monitoring = false
+	velocity.x = 0
+	velocity.y = 0
+	$HurtBox/CollisionShape2D.disabled = true
 	$PlayerDetector.monitoring = false
 	state = SPAWN
 	$AnimationPlayer.play("Spawn")
@@ -155,6 +158,7 @@ func _end_of_hit():
 	_die_b()
 
 func _bug_fixer() -> void:
+	$HurtBox/CollisionShape2D.disabled = false
 	animatedsprite.modulate.a8 = 255
 	$Sprite.visible = false
 	$AnimatedSprite2.visible = false
@@ -235,10 +239,7 @@ func _follow_player_state(delta) -> void:
 	_die_b()
 
 func _spawn_state(_delta) -> void:
-	velocity.x = 0
-	velocity.y = 0
-	$HurtBox/CollisionShape2D.disabled = true
-	$PlayerDetector.monitoring = false
+	pass
 
 func _dead_state(_delta) -> void:
 	velocity.x = 0

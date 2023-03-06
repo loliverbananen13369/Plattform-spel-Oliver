@@ -46,16 +46,15 @@ signal LvlUp(current_lvl, xp_needed)
 
 
 var ghost_scene = preload("res://Scenes/GhostDashMage.tscn")
-var jl_scene = preload("res://Scenes/LandnJumpDust.tscn")
-var dust_scene = preload("res://Scenes/ParticlesDust.tscn")
+var jl_scene = preload("res://Instance_Scenes/LandnJumpDust.tscn")
+var dust_scene = preload("res://Instance_Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
-var buff_scene = preload("res://Scenes/BuffEffect.tscn")
+var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
-var air_explosion_scene = preload("res://Scenes/AirExplosion.tscn")
-var shockwave_scene = preload("res://Scenes/Shockwave.tscn")
-var dash_smoke_scene = preload("res://Scenes/DashSmoke.tscn")
-var pet_scene = preload("res://Scenes/MageGolem.tscn")
+var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
+var dash_smoke_scene = preload("res://Instance_Scenes/DashSmoke.tscn")
+var pet_scene = preload("res://Instance_Scenes/MageGolem.tscn")
 
 
 var ghosttime := 0.0
