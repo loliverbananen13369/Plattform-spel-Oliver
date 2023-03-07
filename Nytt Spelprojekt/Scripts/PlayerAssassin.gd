@@ -13,6 +13,7 @@ const JUMP_STRENGHT = -500
 
 
 export(String)var direction_x = "RIGHT"
+export(String) var direction_y = "UP"
 
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
@@ -48,8 +49,9 @@ signal LvlUp(current_lvl, xp_needed)
 
 
 var ghost_scene = preload("res://Instance_Scenes/GhostDashAssassin.tscn")
+var speedline_scene = preload("res://Instance_Scenes/Speedlines.tscn")
 var new_ghost_scene = preload("res://Instance_Scenes/AssassinGhost.tscn")
-var dash_smoke_scene = preload("res://Instance_Scenes/DashSmoke.tscn")
+var dash_smoke_scene = preload("res://Instance_Scenes/DashSmokeAssassin.tscn")
 var jl_scene = preload("res://Instance_Scenes/LandnJumpDust.tscn")
 var dust_scene = preload("res://Instance_Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
@@ -199,34 +201,41 @@ func _add_dash_smoke(name: String):
 		smoke.flip_h = flip
 	get_tree().get_root().add_child(smoke)
 	
-		
+func _add_speedlines():
+	var lines = speedline_scene.instance()
+	lines.global_position = global_position
+	add_child(lines)
+
+
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
 	add_child(wave)
+	#_add_speedlines()
 	yield(get_tree().create_timer(0.5),"timeout")
 	wave.queue_free()
 
 func _add_clone(enemy, anim: String):
 	var all_enemy = PlayerStats.enemies_hit_by_player
 	rng.randomize()
-	var enemy_ind = rng.randi_range(0, all_enemy.size() - 1)
-	enemy = all_enemy[enemy_ind]
-	var clone = clone_scene.instance()
-	var animplayer = clone.get_child(2)
-	var smearsp = clone.get_child(1)
-	var flip 
-	var dir
-	if playersprite.flip_h == true:
-		flip = false
-		dir = -1
-	else:
-		flip = true
-		dir = 1
-	smearsp.animation = animatedsmears.animation
-	#clone.ani = _get_smearsprite("q")
-	clone.global_position = enemy.global_position + Vector2(30*dir, -5)
-	clone.flip_h = flip #playersprite.flip_h
-	get_tree().get_root().add_child(clone)
+	if all_enemy.size() > 0:
+		var enemy_ind = rng.randi_range(0, all_enemy.size() - 1)
+		enemy = all_enemy[enemy_ind]
+		var clone = clone_scene.instance()
+		var animplayer = clone.get_child(2)
+		var smearsp = clone.get_child(1)
+		var flip 
+		var dir
+		if playersprite.flip_h == true:
+			flip = false
+			dir = -1
+		else:
+			flip = true
+			dir = 1
+		smearsp.animation = animatedsmears.animation
+		#clone.ani = _get_smearsprite("q")
+		clone.global_position = enemy.global_position + Vector2(30*dir, -5)
+		clone.flip_h = flip #playersprite.flip_h
+		get_tree().get_root().add_child(clone)
 
 func _add_assassin_ghost(amount:int):
 	if amount == 0:
@@ -930,6 +939,10 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 		return
 	elif direction == Vector2.ZERO:
 		direction.x = 1 if direction_x == "RIGHT" else -1
+		direction_y = "DOWN"
+	if direction == Vector2.UP:
+		direction_y = "UP"
+		#direction
 	if ground == false:
 		#3, 3, 3
 		playersprite.modulate.r = 0.15

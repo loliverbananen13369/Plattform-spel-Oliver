@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://Scripts/NewTestWorld.gd" type="Script" id=1]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.new.png" type="Texture" id=2]
@@ -730,6 +730,90 @@ resource_local_to_scene = true
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 16/z_index = 0
+
+[sub_resource type="Shader" id=80]
+code = "shader_type canvas_item;
+
+// helpful to visually debug the noise scrolling texture.
+uniform bool render_noise = false;
+// Change if you want to move the bottom vertex of each tile.
+uniform bool move_top = true;
+// how strong is the vertex going to be pulled.
+uniform vec2 distortion_force = vec2(10.0, 0.0);
+// how fast is the noise texture is going to scroll.
+uniform float time_scale :hint_range(0.0, 1.0, 0.01) = 0.1;
+// the distortion texture, can be hand made or generated with the Godot builtin
+// noise texture.
+uniform sampler2D noise_texture: hint_white;
+// the scale of the texture
+uniform float noise_scale :hint_range(0.0, 2.0, 0.0001)= 0.002;
+
+// you need to pass the world position from a script as seen
+// https://docs.godotengine.org/en/3.5/tutorials/shaders/shader_reference/canvas_item_shader.html#vertex-built-ins
+uniform mat4 global_transform;
+varying vec2 world_position;
+
+// the size of the tilemap tiles.
+const float tile_size = 16.0;
+
+vec2 get_uv(vec2 uv, float scale, float time) {
+	vec2 new_uv = uv;
+	new_uv *= scale;
+	new_uv += time;
+	return new_uv;
+}
+
+void vertex(){
+    world_position = (global_transform * vec4(VERTEX, 0.0, 1.0)).xy;
+	vec2 world_uv = get_uv(world_position, noise_scale, TIME * time_scale); 
+	vec2 noise = texture(noise_texture, world_uv).rg;
+	noise *= 2.0;
+	noise -= 1.0;
+	noise *= distortion_force;
+	
+	float a = fract(VERTEX.y / tile_size);
+	
+	if (a == 0.0 && move_top) {
+		VERTEX.x += noise.x;
+		VERTEX.y += noise.y;
+	}
+	if (a > 0.0 && !move_top) {
+		VERTEX.x += noise.x;
+		VERTEX.y += noise.y;
+	}
+}
+
+void fragment() {
+	vec4 sample = texture(TEXTURE, UV);
+	COLOR = sample;
+	
+	if (render_noise) {
+		vec3 color = sample.rgb;
+		vec2 world_uv = get_uv(world_position, noise_scale, TIME * time_scale); 
+		color = texture(noise_texture, world_uv).rgb;
+		COLOR = vec4(color, 1.0);
+	}
+}"
+
+[sub_resource type="OpenSimplexNoise" id=82]
+period = 251.1
+persistence = 0.0
+lacunarity = 0.1
+
+[sub_resource type="NoiseTexture" id=83]
+seamless = true
+bump_strength = 0.0
+noise = SubResource( 82 )
+
+[sub_resource type="ShaderMaterial" id=81]
+shader = SubResource( 80 )
+shader_param/render_noise = false
+shader_param/move_top = false
+shader_param/distortion_force = Vector2( 10, 0 )
+shader_param/time_scale = 0.33
+shader_param/noise_scale = 2.0
+shader_param/global_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shader_param/noise_texture = SubResource( 83 )
 
 [sub_resource type="TileSet" id=41]
 0/name = "Blood Temple Tileset.new.png 0"
@@ -1493,6 +1577,7 @@ tile_data = PoolIntArray( -1179648, 12, 65537, -1179647, 12, 65537, -1179642, 12
 
 [node name="Decorations" type="TileMap" parent="PinkMainTilemap"]
 show_behind_parent = true
+material = SubResource( 81 )
 tile_set = SubResource( 41 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 0

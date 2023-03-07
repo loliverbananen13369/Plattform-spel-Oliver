@@ -475,6 +475,7 @@ shape = SubResource( 62 )
 visible = false
 collision_layer = 128
 collision_mask = 4
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack1Area"]
 modulate = Color( 0.866667, 0.0627451, 0.364706, 1 )
@@ -493,5 +494,6 @@ anims/Attack2 = SubResource( 110 )
 [connection signal="timeout" from="HitWallTimer" to="." method="_on_HitWallTimer_timeout"]
 [connection signal="body_entered" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_entered"]
 [connection signal="body_exited" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_exited"]
+[connection signal="body_entered" from="Attack1Area" to="." method="_on_Attack1Area_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]

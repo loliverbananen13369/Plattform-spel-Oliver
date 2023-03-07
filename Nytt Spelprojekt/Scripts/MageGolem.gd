@@ -86,11 +86,23 @@ func _check_if_enemy_in_radius():
 	for body in $EnemyDetector.get_overlapping_bodies():
 		if PlayerStats.enemies_for_golem.has(body):
 			group_size += 1
-			print("group_size > 0")
 			return true
 	if group_size == 0:
 		return false
-	
+
+func _check_if_enemy_in_range_for_attack():
+	var group_size = 0
+	if $EnemyInRangeForAttack:
+		for body in $EnemyInRangeForAttack.get_overlapping_bodies():
+			if PlayerStats.enemies_for_golem.has(body):
+				group_size += 1
+				return true
+	else:
+		if $Attack1Area.overlaps_body(must_follow_this_enemy):
+			group_size += 1
+			return true
+	if group_size == 0:
+		return false
 
 
 func _get_direction_to_player():
@@ -151,7 +163,7 @@ func _air_movement(delta) -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func _check_if_hit_wall() -> void:
-	if $RayCast2D.is_colliding():
+	if $RayCast2D.is_colliding() and state == FOLLOW_PLAYER:
 		velocity.y = JUMP_STRENGHT
 	else:
 		return
@@ -215,7 +227,7 @@ func _follow_enemy_state(delta) -> void:
 	velocity.x = MAX_SPEED* direction_x_to_enemy
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	
+	_check_if_enemy_in_range_for_attack()
 	
 	if velocity.x == 0:
 		_check_if_hit_wall()
@@ -290,13 +302,13 @@ func _enter_follow_enemy_who_hurt_state() -> void:
 		
 
 func _on_PlayerNearArea_body_exited(body):
-	if state != ATTACK:
+	if state != ATTACK and state != FOLLOW_ENEMY:
 		if body.is_in_group("Player"):
 			yield(get_tree().create_timer(0.15), "timeout")
 			_enter_follow_player_state()
 
 func _on_PlayerNearArea_body_entered(body):
-	if state != ATTACK:
+	if state != ATTACK and state != FOLLOW_ENEMY:
 		if body.is_in_group("Player"):
 			yield(get_tree().create_timer(0.15), "timeout")
 			_enter_idle_state()
@@ -311,16 +323,29 @@ func on_PlayerHurt():
 	follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemies_for_golem)
 	must_follow_this_enemy = follow_this_enemy
 	_enter_follow_enemy_who_hurt_state()
-	$Attack1Area.set_deferred("monitoring", false)
+	$EnemyInRangeForAttack.set_deferred("monitoring", false)
+	$Attack1Area.set_deferred("monitoring", true)
 
 func on_EnemyDead(body):
+	if body == must_follow_this_enemy:
+		must_follow_this_enemy = 0
+		$EnemyInRangeForAttack.set_deferred("monitoring", true)
+		$Attack1Area.set_deferred("monitoring", false)
 	if PlayerStats.enemies_for_golem.has(body):
-		PlayerStats.enemies_for_golem.erase(body)
-		if PlayerStats.enemies_for_golem.size() > 0:
-			if _check_if_enemy_in_radius():
-				_enter_follow_enemy_state()
+		PlayerStats.enemies_for_golem.erase(body)	
+	if PlayerStats.enemies_for_golem.size() > 0:
+		if _check_if_enemy_in_radius():
+			_enter_follow_enemy_state()
 		else:
 			_enter_idle_state()
+	else:
+		_enter_idle_state()
+		
+		
+
+	
+		
+	
 		#else:
 		#	_teleport_to_player()
 		#	animationplayer.stop(true)
@@ -344,10 +369,10 @@ func on_EnemyHurt():
 	#		_enter_follow_enemy_state(false)
 	pass
 func _on_EnemyInRangeForAttack_body_entered(body):
-	if body == must_follow_this_enemy:
-		$Attack1Area.monitoring = true
-		_enter_attack_state()
-		return
+	#if body == must_follow_this_enemy:
+	#	_enter_attack_state()
+	#	return
+	print("bajs")
 	if PlayerStats.enemies_for_golem.has(body):
 		_enter_attack_state()
 
@@ -386,10 +411,16 @@ func _on_PlayerDetector_body_exited(body):
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "Attack1":
 		attack1_finished = true
-		if $Attack1Area.monitoring == false:
-			_enter_follow_enemy_who_hurt_state()
-		if wants_to_follow_enemy:
-			_enter_follow_enemy_state()
+		if $Attack1Area.monitoring == true:
+			if $Attack1Area.overlaps_body(must_follow_this_enemy):
+				_enter_attack_state()
+			else:
+				_enter_follow_enemy_who_hurt_state()
+		elif _check_if_enemy_in_radius():
+			if _check_if_enemy_in_range_for_attack():
+				_enter_attack_state()
+			else:
+				_enter_follow_enemy_state()
 		else:
 			_enter_idle_state()
 		
@@ -398,3 +429,9 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
 	if anim_name == "Attack1":
 		attack1_finished = false
+
+
+func _on_Attack1Area_body_entered(body):
+	print("hejsansvejsna")
+	if body == must_follow_this_enemy:
+		_enter_attack_state()

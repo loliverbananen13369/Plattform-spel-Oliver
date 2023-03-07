@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scripts/AssassinDashAttack.gd" type="Script" id=1]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 03/Thrust VFX 03 Color 1.png" type="Texture" id=2]
@@ -6,6 +6,98 @@
 [ext_resource path="res://Random_Effects/Sangoro/IMPACT 1.png" type="Texture" id=4]
 [ext_resource path="res://Random_Effects/Sangoro/Hslash1.png" type="Texture" id=5]
 [ext_resource path="res://Random_Effects/Sangoro/BigSlashV.png" type="Texture" id=6]
+
+[sub_resource type="Shader" id=38]
+code = "shader_type canvas_item;
+
+uniform float max_line_width = 10.0;
+uniform float min_line_width = 5.0;
+uniform float freq = 1.0;
+uniform float block_size = 20.0;
+uniform vec4 starting_colour = vec4(0,0,0,1);
+uniform vec4 ending_colour = vec4(1);
+
+const float pi = 3.1415;
+const int ang_res = 16;
+const int grad_res = 8;
+
+float hash(vec2 p, float s) {
+	return fract(35.1 * sin(dot(vec3(112.3, 459.2, 753.2), vec3(p, s))));
+}
+
+float noise(vec2 p, float s) {
+	vec2 d = vec2(0, 1);
+	vec2 b = floor(p);
+	vec2 f = fract(p);
+	return mix(
+		mix(hash(b + d.xx, s), hash(b + d.yx, s), f.x),
+		mix(hash(b + d.xy, s), hash(b + d.yy, s), f.x), f.y);
+}
+
+float getLineWidth(vec2 p, float s) {
+	p /= block_size;
+	float w = 0.0;
+	float intensity = 1.0;
+	for (int i = 0; i < 3; i++) {
+		w = mix(w, noise(p, s), intensity);
+		p /= 2.0;
+		intensity /= 2.0;
+	}
+	
+	return mix(max_line_width, min_line_width, w);
+}
+
+bool pixelInRange(sampler2D text, vec2 uv, vec2 dist) {
+	float alpha = 0.0;
+	for (int i = 0; i < ang_res; i++) {
+		float angle = 2.0 * pi * float(i) / float(ang_res);
+		vec2 disp = dist * vec2(cos(angle), sin(angle));
+		if (texture(text, uv + disp).a > 0.0) return true;
+	}
+	return false;
+}
+
+float getClosestDistance(sampler2D text, vec2 uv, vec2 maxDist) {
+	if (!pixelInRange(text, uv, maxDist)) return -1.0;
+	
+	float hi = 1.0; float lo = 0.0;
+	
+	for (int i = 1; i <= grad_res; i++) {
+		float curr = (hi + lo) / 2.0;
+		if (pixelInRange(text, uv, curr * maxDist)) {
+			hi = curr;
+		}
+		else {
+			lo = curr;
+		}
+	}
+	return hi;
+	
+}
+
+void fragment() {
+	float timeStep = floor(freq * TIME);
+	vec2 scaledDist = TEXTURE_PIXEL_SIZE;
+	scaledDist *= getLineWidth(UV / TEXTURE_PIXEL_SIZE, timeStep);
+	float w = getClosestDistance(TEXTURE, UV, scaledDist);
+	
+	if (( w > 0.0) && (texture(TEXTURE, UV).a < 0.2)) {
+		COLOR = mix(starting_colour, ending_colour, tanh(3.0*w));
+	}
+	else {
+		COLOR = texture(TEXTURE, UV);
+	}
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=39]
+shader = SubResource( 38 )
+shader_param/max_line_width = 0.3
+shader_param/min_line_width = 0.1
+shader_param/freq = 1.0
+shader_param/block_size = 0.5
+shader_param/starting_colour = Plane( 2, 1, 1, 1 )
+shader_param/ending_colour = Plane( 3, 3, 3, 1 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 5 )
@@ -150,6 +242,11 @@ animations = [ {
 "name": "New Anim",
 "speed": 30.0
 }, {
+"frames": [  ],
+"loop": true,
+"name": "New Anim 1",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
 "loop": false,
 "name": "Thrust3",
@@ -194,11 +291,13 @@ tracks/1/keys = {
 }
 
 [node name="AssassinDashAttack" type="AnimatedSprite"]
-modulate = Color( 0.0156863, 0.0235294, 0.141176, 1 )
+modulate = Color( 0.0705882, 0, 0.0509804, 1 )
+material = SubResource( 39 )
 position = Vector2( 35.5, 14.5 )
 scale = Vector2( 4, 2 )
 frames = SubResource( 15 )
 animation = "New Anim"
+frame = 6
 script = ExtResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="." groups=["DashAttack"]]
