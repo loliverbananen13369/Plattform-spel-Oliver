@@ -53,7 +53,7 @@ var speedline_scene = preload("res://Instance_Scenes/Speedlines.tscn")
 var new_ghost_scene = preload("res://Instance_Scenes/AssassinGhost.tscn")
 var dash_smoke_scene = preload("res://Instance_Scenes/DashSmokeAssassin.tscn")
 var jl_scene = preload("res://Instance_Scenes/LandnJumpDust.tscn")
-var dust_scene = preload("res://Instance_Scenes/ParticlesDust.tscn")
+var dust_scene = preload("res://Instance_Scenes/ParticlesDustAssassin.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
 var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
@@ -408,13 +408,13 @@ func _add_walk_dust(amount: int) -> void:
 func _add_land_dust()-> void:
 	var dust = jl_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
-	dust.play("LandSmoke")
+	dust.play("LandSmokeAssassin")
 	get_tree().get_root().add_child(dust)
 
 func _add_jump_dust() -> void:
 	var dust = jl_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 20)
-	dust.play("JumpSmokeSide")
+	dust.play("JumpSmokeSideAssassin")
 	get_tree().get_root().add_child(dust)
 
 func _add_holy_particles(amount: int) -> void:
