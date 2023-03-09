@@ -27,6 +27,7 @@ var assassin_combo_ewqe = "comboewqe1"
 var assassin_smearsprite_q = "Smear7H"
 var assassin_smearsprite_w = "Smear7V"
 var assassin_smearsprite_e = "Smear3H"
+var assassin_clone_targets = 1
 
 
 

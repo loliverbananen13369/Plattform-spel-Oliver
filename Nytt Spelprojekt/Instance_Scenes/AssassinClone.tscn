@@ -1,4 +1,4 @@
-[gd_scene load_steps=322 format=2]
+[gd_scene load_steps=328 format=2]
 
 [ext_resource path="res://Scripts/AssassinClone.gd" type="Script" id=1]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle2.ass.png" type="Texture" id=2]
@@ -65,6 +65,7 @@
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 4/Acid VFX 04(48x48).new.png" type="Texture" id=63]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage (Separeted Frames)/Idle/Battlemage Idle4.ass.png" type="Texture" id=64]
 [ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=65]
+[ext_resource path="res://Random_Effects/Sangoro/BigSlashV.png" type="Texture" id=66]
 
 [sub_resource type="Shader" id=867]
 resource_local_to_scene = true
@@ -724,6 +725,26 @@ region = Rect2( 192, 0, 48, 48 )
 atlas = ExtResource( 4 )
 region = Rect2( 240, 0, 48, 48 )
 
+[sub_resource type="AtlasTexture" id=935]
+atlas = ExtResource( 66 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=936]
+atlas = ExtResource( 66 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=937]
+atlas = ExtResource( 66 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=938]
+atlas = ExtResource( 66 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=939]
+atlas = ExtResource( 66 )
+region = Rect2( 256, 0, 64, 48 )
+
 [sub_resource type="AtlasTexture" id=561]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 0, 48, 48 )
@@ -1180,6 +1201,11 @@ animations = [ {
 "name": "Smear10V",
 "speed": 10.0
 }, {
+"frames": [ SubResource( 935 ), SubResource( 936 ), SubResource( 937 ), SubResource( 938 ), SubResource( 939 ) ],
+"loop": true,
+"name": "Smear12H",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 561 ), SubResource( 562 ), SubResource( 563 ), SubResource( 564 ), SubResource( 565 ) ],
 "loop": true,
 "name": "Smear1H",
@@ -1532,8 +1558,8 @@ material = SubResource( 870 )
 position = Vector2( 20, 5 )
 scale = Vector2( 3.5, 1.5 )
 frames = SubResource( 373 )
-animation = "Smear3H"
-frame = 4
+animation = "Smear12H"
+frame = 1
 playing = true
 
 [node name="Position2D" type="Position2D" parent="."]

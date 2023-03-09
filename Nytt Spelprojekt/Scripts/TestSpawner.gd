@@ -19,7 +19,7 @@ func _can_spawn_warrior() -> bool:
 
 func _spawn_warrior() -> void:
 	var warrior = warrior_scene.instance()
-	warrior.global_position = Vector2(rand_range(200, 20), -30)
+	warrior.global_position = Vector2(rand_range(200, 20), -35)
 	add_child(warrior)
 """
 	var section = randi() % 4

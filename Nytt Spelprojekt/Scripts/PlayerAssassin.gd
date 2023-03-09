@@ -35,6 +35,7 @@ var can_add_ass_ghost := false
 var attack_pressed = 0
 var previous_attack = 0
 var combo_list = []
+var hit_count = 0
 
 var enemy_side_of_you
 
@@ -45,7 +46,11 @@ var hit_amount = 0
 signal test(length)
 signal HPChanged(hp)
 signal XPChanged(current_xp)
+signal EnergyChanged(energy)
 signal LvlUp(current_lvl, xp_needed)
+
+var jump_sounds = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
+var can_jump_sound = true
 
 
 var ghost_scene = preload("res://Instance_Scenes/GhostDashAssassin.tscn")
@@ -64,6 +69,7 @@ var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
 var clone_scene = preload("res://Instance_Scenes/AssassinClone.tscn")
 var dash_attack_scene = preload("res://Instance_Scenes/AssassinDashAttack.tscn")
 var impact_scene = preload("res://Scenes/Impact_Scene.tscn")
+var energy_scene = preload("res://Instance_Scenes/AssassinEnergyParticle.tscn")
 
 var ghosttime := 0.0
 
@@ -81,9 +87,6 @@ export var damage_a1 := 5
 export var damage_combo_qweq := 15
 export var damage_combo_ewqe1 := 10
 export var damage_combo_ewqe2 := 50
-export var holy_buff_active := false
-export var dark_buff_active := false
-export var test_active := false
 export (Vector2) var tester := Vector2.ZERO
 
 
@@ -105,10 +108,9 @@ var test_var_enemy
 #Player stats
 var hp = 100
 var max_hp = 100
-var hp_regeneration = 1
-var mana = 100
-var mana_max = 100
-var mana_regeneration = 2
+var energy = 50
+var max_energy = 50
+var mana_regeneration = 5
 var current_xp = 0
 var current_lvl = 1
 var previous_state = IDLE
@@ -163,7 +165,20 @@ func check_sprites():
 	$ComboSprites.visible = false
 	animatedsmears.visible = false
 	can_attack = true
-	
+
+func _get_random_sound(type: String) -> void:
+	rng.randomize()
+	if type == "Jump":
+		var number = rng.randi_range(0, jump_sounds.size()-1)
+		$JumpSound.stream = jump_sounds[number]
+		var jump_sound_timer = Timer.new()
+		jump_sound_timer.one_shot = true
+		jump_sound_timer.connect("timeout", self, "on_jump_sound_timer_timeout")
+		add_child(jump_sound_timer)
+		jump_sound_timer.start(1.0)
+		#print(jump_sound_timer)
+		
+
 func _add_impact(dir):
 	var flip 
 	var impact = impact_scene.instance()
@@ -206,6 +221,12 @@ func _add_speedlines():
 	lines.global_position = global_position
 	add_child(lines)
 
+func _spawn_energy(enemy):
+	var energy = energy_scene.instance()
+	energy.global_position = enemy.global_position
+	hit_count = 0
+	get_tree().get_root().call_deferred("add_child", energy)
+	
 
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
@@ -381,6 +402,7 @@ func _flip_sprite(right: bool) -> void:
 		animatedsmears.position.x = 20
 		attackparticles.position.x = 20
 		$NormalAttackArea/AttackGround.position.x = 36
+		$NormalAttackArea/AttackJump.position.x = 20
 		$SwordCutArea/SpinAttack.position.x = 34
 	else:
 		playersprite.flip_h = true
@@ -389,6 +411,7 @@ func _flip_sprite(right: bool) -> void:
 		animatedsmears.position.x = -20
 		attackparticles.position.x = -20
 		$NormalAttackArea/AttackGround.position.x = -36
+		$NormalAttackArea/AttackJump.position.x = -20
 		$SwordCutArea/SpinAttack.position.x = -34
 
 func _add_dash_ghost() -> void:
@@ -417,15 +440,6 @@ func _add_jump_dust() -> void:
 	dust.play("JumpSmokeSideAssassin")
 	get_tree().get_root().add_child(dust)
 
-func _add_holy_particles(amount: int) -> void:
-	$Position2D2.position.x = 20
-	$Position2D3.position.x = -20
-	for i in range(amount):
-		var particles = holy_particles_scene.instance()
-		particles.global_position = global_position
-		particles.emitting = true
-		get_tree().get_root().add_child(particles)
-		yield(get_tree().create_timer(0.5), "timeout")
 
 func _add_dash_particles(amount: int) -> void:
 	for i in range(amount):
@@ -441,19 +455,6 @@ func _add_buff(buff_name: String) -> void:
 	buff.global_position = playersprite.global_position 
 	if buff_name == "lvl_up":
 		effect1.animation = "lvl_up"
-	if buff_name == "holy":
-		effect1.animation = "holy"
-		playersprite.modulate.r = 2
-		emit_signal("test", 0.3)
-	if buff_name == "dark2":
-		effect1.animation = "dark2"
-	if buff_name == "lifesteal_particles":
-		effect1.animation = "lifesteal_particles"
-	if buff_name == "life_steal":
-		effect1.animation = "life_steal"
-		playersprite.modulate.r8 = 255
-		playersprite.modulate.g8 = 130
-		playersprite.modulate.b8 = 116
 	get_tree().get_root().add_child(buff)
 	
 
@@ -473,12 +474,12 @@ func _add_first_air_explosion() -> void:
 		testpos2 = closest_enemy.global_position + Vector2(0, - 30)
 		global_position = testpos2
 
-func _add_airexplosions(amount: int) -> void:
+func _add_airexplosions() -> void:
 	state = INVISIBLE
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	var variable_enemy = all_enemy
 	var closest_enemy 
-	for i in range(amount):
+	for i in range(all_enemy.size()):
 		var explosion = air_explosion_scene.instance()
 		if len(variable_enemy) > 0:
 			closest_enemy = _get_closest_enemy(variable_enemy)
@@ -614,11 +615,17 @@ func check_combo() -> void:
 			if re_combo_list[2] == 2:
 				if re_combo_list[3] == 1: 
 					_enter_combo_state(1)
-	elif re_combo_list[0] == 3:
+	if re_combo_list[0] == 3: # elif
 		if re_combo_list[1] == 1:
 			if re_combo_list[2] == 2:
 				if re_combo_list[3] == 3: 
 					_enter_combo_state(2)
+	if re_combo_list[0] == 2:
+		if re_combo_list[1] == 1:
+			if re_combo_list[2] == 3:
+				if re_combo_list[3] == 2:
+					_enter_combo_state(3)
+	
 
 func on_lvl_up_variables(current_lvl):
 	pass
@@ -630,21 +637,9 @@ func player_stats_lvl(current_lvl):
 		#$SpecialAttackArea.remove_from_group("ComboEWQE1")
 
 func player_stats():
-	if holy_buff_active:
-		damage_a1 = 10
-		damage_combo_ewqe1 = 20
-		damage_combo_ewqe2 = 100
-		damage_combo_qweq = 30
-	elif dark_buff_active:
-		damage_a1 = 7
-		damage_combo_ewqe1 = 15
-		damage_combo_ewqe2 = 37
-		damage_combo_qweq = 23
-	else:
-		damage_a1 = 5
-		damage_combo_ewqe1 = 10
-		damage_combo_ewqe2 = 50
-		damage_combo_qweq = 15
+	damage_a1 = 5
+	damage_combo_ewqe1 = 10
+	damage_combo_qweq = 15
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
 		current_lvl += 1
@@ -694,41 +689,14 @@ func _idle_state(delta) -> void:
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_walk_dust(15)
 		_enter_air_state(true)
+		if can_jump_sound:
+			_get_random_sound("Jump")
+			$JumpSound.play()
+			can_jump_sound = false
 		return
 	
-	if Input.is_action_just_pressed("HolyBuff1") and not holy_buff_active:
-		_add_buff("holy")
-		_add_holy_particles(10)
-		holy_buff_active = true
-		can_take_damage = false
-		yield(get_tree().create_timer(3), "timeout")
-		#_modulate_tween()
-		yield(get_tree().create_timer(2), "timeout")
-		playersprite.modulate.r = 1
-		can_take_damage = true
-		holy_buff_active = false
-	
-	if Input.is_action_just_pressed("DarkBuff") and not dark_buff_active:
-		_add_buff("dark2")
-		dark_buff_active = true
-		yield(get_tree().create_timer(7.2), "timeout")
-		dark_buff_active = false
-	
-	if Input.is_action_just_pressed("Fx000"):
-		test_active = true
-		yield(get_tree().create_timer(10), "timeout")
-		test_active = false
-		#_add_buff("life_steal")
-		#yield(get_tree().create_timer(2), "timeout")
-		#playersprite.modulate.r8 = 255
-		#playersprite.modulate.g8 = 255
-		#playersprite.modulate.b8 = 255
-	
 	if Input.is_action_just_pressed("AirExplosion"):
-		_add_first_air_explosion()
-		#emit_signal("test", 0.8)
-		yield(get_tree().create_timer(0.2), "timeout")
-		_add_airexplosions(10)
+		pass
 
 	
 	
@@ -755,6 +723,10 @@ func _run_state(delta) -> void:
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_jump_dust()
 		_enter_air_state(true)
+		if can_jump_sound:
+			_get_random_sound("Jump")
+			$JumpSound.play()
+			can_jump_sound = false
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
@@ -790,7 +762,7 @@ func _air_state(delta) -> void:
 		_enter_dash_state(false, false)
 		return
 	
-	if Input.is_action_pressed("EAttack1"):
+	if Input.is_action_just_pressed("EAttack1"):
 		_enter_attack_air_state(true)
 		return
 	if Input.is_action_pressed("AttackE"):
@@ -814,11 +786,6 @@ func _air_state(delta) -> void:
 
 	_air_movement(delta)
 	var current_animation = playersprite.get_animation()
-	if velocity.y > 0  and not ( current_animation == "FallN" ) and ( velocity.x == 0 ):
-		playersprite.play("FallN")
-	elif velocity.y > 0 and not ( current_animation == "FallF" ) and ( velocity.x != 0 ):
-		playersprite.play("FallF")
-
 	if is_on_floor(): 
 		#if jump_pressed == false:
 		_add_land_dust()
@@ -826,6 +793,15 @@ func _air_state(delta) -> void:
 		$JustLandedTimer.start(2)
 		can_add_ass_ghost = true
 		return
+	if velocity.y >= 0:
+		if velocity.x == 0:
+			playersprite.play("FallN")
+			return
+		else: 
+			playersprite.play("FallF")
+			return
+
+	
 
 func _dash_state_air(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
@@ -849,6 +825,10 @@ func _stop_state(delta):
 
 	if Input.is_action_just_pressed("Jump") and can_jump:
 		_enter_air_state(true)
+		if can_jump_sound:
+			_get_random_sound("Jump")
+			$JumpSound.play()
+			can_jump_sound = false
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
@@ -942,30 +922,31 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 	if direction == Vector2.UP:
 		direction_y = "UP"
 		#direction
+	$DashSound.play()
 	if ground == false:
 		#3, 3, 3
-		playersprite.modulate.r = 0.15
-		playersprite.modulate.g = 0.23
-		playersprite.modulate.b = 0.37
-		playersprite.play("Dash")
+		#playersprite.modulate.r = 0.15
+		#playersprite.modulate.g = 0.23
+		#playersprite.modulate.b = 0.37
+		#playersprite.play("Dash")
 		state = DASH_AIR
 		#_add_dash_particles(25)
 		#dashline.visible = true
-		can_dash = false
-		dashtimer.start(0.25)
+		#can_dash = false
+		#dashtimer.start(0.25)
 	else:
+		state = DASH_GROUND
 		#playersprite.modulate.r = 2.75
 		#playersprite.modulate.g = 1
 		#playersprite.modulate.b = 1.85
-		playersprite.modulate.r = 0.15
-		playersprite.modulate.g = 0.23
-		playersprite.modulate.b = 0.37
-		#playersprite.material.set_shader_param("flash_modifier", 0.8)
-		playersprite.play("Dash")
-		state = DASH_GROUND
-		#dashline.visible = true
-		can_dash = false
-		dashtimer.start(0.25)
+	playersprite.modulate.r = 0.15
+	playersprite.modulate.g = 0.23
+	playersprite.modulate.b = 0.37
+	#playersprite.material.set_shader_param("flash_modifier", 0.8)
+	playersprite.play("Dash")
+	#dashline.visible = true
+	can_dash = false
+	dashtimer.start(0.25)
 		
 func _enter_air_state(jump: bool) -> void:
 	check_sprites()
@@ -978,6 +959,7 @@ func _enter_air_state(jump: bool) -> void:
 			playersprite.play("JumpF")
 	coyotetimer.start()
 	state = AIR
+
 
 func _enter_run_state() -> void:
 	check_sprites()
@@ -1026,16 +1008,12 @@ func _enter_dash_attack_state(attack: int) -> void:
 		_add_dash_attack()
 		can_attack = false
 
-func _enter_attack_air_state(Jump: bool) -> void:	
+func _enter_attack_air_state(Jump: bool) -> void:
 	if Jump:
-		if direction_x != "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = -10
-		elif direction_x == "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = 30
+		animatedsmears.position.y = 0
 		state = JUMP_ATTACK
 		animationplayer.play("JumpAttack")
 		$NormalAttackArea/AttackJump.disabled = false
-
 	else:
 		animationplayer.play("PrepareAirAttack")
 		frameFreeze(0.3, 0.4)
@@ -1051,6 +1029,10 @@ func _enter_combo_state(number : int) -> void:
 	if number == 1: 
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
+		if Input.is_action_pressed("Dash"):
+			for i in range(PlayerStats.assassin_clone_targets):
+				_add_clone(enemy, "Attack1") # spinattack
+				print("spin attack clone")
 	if number == 2:
 		animationplayer.play("comboewqe3")#(PlayerStats.assassin_combo_ewqe)
 		_add_clone(enemy, "Attack1")
@@ -1062,6 +1044,14 @@ func _enter_combo_state(number : int) -> void:
 				yield(get_tree().create_timer(0.1333333), "timeout")
 				_dash_to_enemy(_get_closest_enemy(PlayerStats.enemies_hit_by_player), true)
 				yield(get_tree().create_timer(0.1333333), "timeout")
+	if number == 3:
+		_add_first_air_explosion()
+		#emit_signal("test", 0.8)
+		yield(get_tree().create_timer(0.2), "timeout")
+		_add_airexplosions()
+		if Input.is_action_pressed("Dash"):
+			for i in range(PlayerStats.assassin_clone_targets):
+				_add_clone(enemy, "Attack1")
 				#yield
 		#	_add_shockwave()
 		#	_add_clone(enemy, "Attack1")
@@ -1157,10 +1147,11 @@ func _on_timer_timeout() -> void:
 	#frameFreeze(0.1, 0.5)
 	pass
 
+func on_jump_sound_timer_timeout() -> void:
+	can_jump_sound = true
+
 func _on_HurtBox_area_entered(area):
 	var amount = 5
-	if dark_buff_active:
-		amount = 10
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
@@ -1170,7 +1161,6 @@ func _on_HurtBox_area_entered(area):
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		print("hejsan")
 		current_xp += 40
 		if _level_up(current_xp, xp_needed):
 			current_xp = 0
@@ -1178,6 +1168,9 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 			PlayerStats.skilltree_points += 1
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
+	if area.is_in_group("EnergyParticle"):
+		energy += 5
+		emit_signal("EnergyChanged", energy)
 
 
 
@@ -1186,14 +1179,16 @@ func _on_KinematicBody2D_hurt() -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
+		hit_count += 1
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
 			PlayerStats.enemies_hit_by_player.append(area.get_parent())
 		$EnemyHitTimer.start(10)
 		if not can_follow_enemy:
 			can_follow_enemy = true
 			$NewTimer.start(1)
-		if test_active:
-			_add_buff("lifesteal_particles")
+		if hit_count >= 2:
+			_spawn_energy(area.get_parent())
+		
 		
 func _on_KinematicBody2D_side_of_player(which_side):
 	enemy_side_of_you = which_side
@@ -1205,8 +1200,7 @@ func _on_ImmuneTimer_timeout():
 	#_enter_idle_state()
 
 func _on_FlashTimer_timeout():
-	if not holy_buff_active:
-		can_take_damage = true
+	can_take_damage = true
 	tween.stop(playersprite)
 
 
@@ -1236,17 +1230,13 @@ func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
 
 
-
-func _on_AssassinTest_on_learned(node):
-	print("Assassin class chosen")
-
 func _on_JustLandedTimer_timeout() -> void:
 	can_add_ass_ghost = false
 
 
 func _on_EnemyHitTimer_timeout() -> void:
 	pass
-	#PlayerStats.enemies_hit_by_player.clear()
+	
 func on_EnemyDead(body) -> void:
 	if PlayerStats.enemies_hit_by_player.has(body):
 		PlayerStats.enemies_hit_by_player.erase(body)

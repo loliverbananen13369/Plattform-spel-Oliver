@@ -41,6 +41,7 @@ var golem
 
 var xp_scene = preload("res://Instance_Scenes/Experience-Particle.tscn")
 
+
 var motion_previous = Vector2()
 
 signal dead
@@ -383,7 +384,7 @@ func _on_HurtBox_area_entered(area):
 		emit_signal("pos", global_position)
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
-
+	
 	_die_b()
 
 
@@ -421,8 +422,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		PlayerStats.emit_signal("EnemyDead", self)
 		queue_free()
 		
-
-
 
 func _on_PlayerDetector_body_entered(body):
 	if state != HURT:
@@ -478,13 +477,10 @@ func _spawn_damage_indicator(damage: int, crit: bool):
 	emit_signal("hurt")
 
 
-
-	
 func _spawn_xp() -> void:
 	var xp = xp_scene.instance()
 	xp.position = global_position
 	get_tree().get_root().add_child(xp)
-
 
 
 
