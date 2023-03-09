@@ -1,6 +1,7 @@
 extends Control
 
-
+func _ready():
+	BackgroundMusic.play_sound("MainMenuMusic")
 
 func _on_AssassinButton_pressed():
 	PlayerStats.is_assassin = true

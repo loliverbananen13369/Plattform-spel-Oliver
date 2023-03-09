@@ -1,4 +1,4 @@
-[gd_scene load_steps=155 format=2]
+[gd_scene load_steps=166 format=2]
 
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 08/Smear 08 Horizontal 1.newtest.png" type="Texture" id=1]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 09/Smear 09 Horizontal 1.png" type="Texture" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Vertical 1.png" type="Texture" id=20]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack effect.png" type="Texture" id=22]
+[ext_resource path="res://Random_Effects/Sangoro/vSlash1.png" type="Texture" id=23]
+[ext_resource path="res://Random_Effects/Sangoro/BigSlashV.png" type="Texture" id=24]
 
 [sub_resource type="Shader" id=572]
 resource_local_to_scene = true
@@ -204,6 +206,42 @@ region = Rect2( 192, 0, 48, 48 )
 [sub_resource type="AtlasTexture" id=359]
 atlas = ExtResource( 6 )
 region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=574]
+atlas = ExtResource( 23 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=575]
+atlas = ExtResource( 23 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=576]
+atlas = ExtResource( 23 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=577]
+atlas = ExtResource( 23 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=578]
+atlas = ExtResource( 24 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=579]
+atlas = ExtResource( 24 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=580]
+atlas = ExtResource( 24 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=581]
+atlas = ExtResource( 24 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=582]
+atlas = ExtResource( 24 )
+region = Rect2( 256, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=561]
 atlas = ExtResource( 5 )
@@ -660,6 +698,16 @@ animations = [ {
 "name": "Smear10V",
 "speed": 10.0
 }, {
+"frames": [ SubResource( 574 ), SubResource( 575 ), SubResource( 576 ), SubResource( 577 ) ],
+"loop": true,
+"name": "Smear11H",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 578 ), SubResource( 579 ), SubResource( 580 ), SubResource( 581 ), SubResource( 582 ) ],
+"loop": true,
+"name": "Smear12H",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 561 ), SubResource( 562 ), SubResource( 563 ), SubResource( 564 ), SubResource( 565 ) ],
 "loop": true,
 "name": "Smear1H",
@@ -762,5 +810,4 @@ material = SubResource( 573 )
 position = Vector2( 10, -20 )
 scale = Vector2( 2.5, 1.5 )
 frames = SubResource( 373 )
-animation = "Smear7H"
-frame = 2
+animation = "Smear12H"

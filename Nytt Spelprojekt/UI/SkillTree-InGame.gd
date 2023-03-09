@@ -1,6 +1,6 @@
 extends Node2D
 
-
+#mage
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"

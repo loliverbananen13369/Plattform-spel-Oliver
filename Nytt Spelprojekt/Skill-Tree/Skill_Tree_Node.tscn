@@ -6,6 +6,7 @@
 
 [node name="TextureButton" type="TextureButton"]
 modulate = Color( 0.6, 0.6, 0.6, 1 )
+show_behind_parent = true
 margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )

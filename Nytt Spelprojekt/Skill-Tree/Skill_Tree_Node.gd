@@ -158,6 +158,9 @@ func _on_TextureButton_pressed():
 		return
 	if learned:
 		return
+	if PlayerStats.skilltree_points < 1:
+		return
+	PlayerStats.skilltree_points -= 1
 	learned = true
 	emit_signal("on_learned", self)
 	texture_normal = on_learned_texture

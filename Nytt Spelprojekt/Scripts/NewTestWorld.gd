@@ -6,6 +6,7 @@ var mage_scene = preload("res://Scenes/Player.tscn")
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
 
 func _ready() -> void:
+	BackgroundMusic.play_sound("GameMusic")
 	var target = anchor_scene.instance()
 	if PlayerStats.is_assassin == true:
 		player = assassin_scene.instance()

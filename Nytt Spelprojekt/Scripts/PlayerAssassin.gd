@@ -119,7 +119,7 @@ func _ready() -> void:
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	playersprite.visible = true
 	$AnimationPlayer.playback_speed = 1
-	$SkillTreeInGame/Control/CanvasLayer.visible = false
+	$SkillTreeInGameAssassin/Control/CanvasLayer.visible = false
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -655,6 +655,7 @@ func _level_up(current_xp, xp_needed):
 	else:
 		return false
 
+
 func _set_sprite_position(anim_name):
 	if anim_name == "ComboEWQE2":
 		if direction_x == "RIGHT":
@@ -685,10 +686,10 @@ func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	
 	if Input.is_action_pressed("SkillTree"):
-		$SkillTreeInGame/Control/CanvasLayer.visible = true
+		$SkillTreeInGameAssassin/Control/CanvasLayer.visible = true
 		
 	if Input.is_action_just_released("SkillTree"):
-		$SkillTreeInGame/Control/CanvasLayer.visible = false
+		$SkillTreeInGameAssassin/Control/CanvasLayer.visible = false
 	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_walk_dust(15)
@@ -717,8 +718,6 @@ func _idle_state(delta) -> void:
 		test_active = true
 		yield(get_tree().create_timer(10), "timeout")
 		test_active = false
-	
-	
 		#_add_buff("life_steal")
 		#yield(get_tree().create_timer(2), "timeout")
 		#playersprite.modulate.r8 = 255
@@ -1176,6 +1175,7 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 		if _level_up(current_xp, xp_needed):
 			current_xp = 0
 			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
+			PlayerStats.skilltree_points += 1
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
 

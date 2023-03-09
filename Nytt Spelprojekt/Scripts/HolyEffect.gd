@@ -4,7 +4,7 @@ extends Node2D
 var tween_values = [0.5, 1]
 var tween = Tween.new()
 onready var spellsprite = $Spellsprite
-onready var player = get_parent().get_child(2).get_child(1).get_child(0)
+onready var player = get_parent().get_child(3).get_child(1).get_child(0)
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
 
 var rng = RandomNumberGenerator.new()

@@ -21,11 +21,11 @@ var enemy_who_hurt_list = []
 var enemies_hit_by_player = []
 var enemies_for_golem = []
 
-
+var skilltree_points = 0
 
 var assassin_combo_ewqe = "comboewqe1"
-var assassin_smearsprite_q = "Smear8H"
-var assassin_smearsprite_w = "Smear8V"
+var assassin_smearsprite_q = "Smear7H"
+var assassin_smearsprite_w = "Smear7V"
 var assassin_smearsprite_e = "Smear3H"
 
 

@@ -1,6 +1,6 @@
 extends AnimatedSprite
 
-onready var player = get_parent().get_child(2).get_child(1).get_child(0)
+onready var player = get_parent().get_child(3).get_child(1).get_child(0)
 
 
 func _ready():

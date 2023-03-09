@@ -314,13 +314,13 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=59]
-radius = 248.008
+radius = 300.0
 
 [sub_resource type="CircleShape2D" id=60]
 radius = 153.0
 
-[sub_resource type="CircleShape2D" id=61]
-radius = 307.026
+[sub_resource type="RectangleShape2D" id=111]
+extents = Vector2( 200, 50 )
 
 [sub_resource type="RectangleShape2D" id=62]
 resource_local_to_scene = true
@@ -422,11 +422,10 @@ shape = SubResource( 58 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 57 )
 animation = "Attack2"
-frame = 7
+frame = 2
 playing = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
 modulate = Color( 0.0117647, 0.333333, 0.32549, 1 )
@@ -440,13 +439,12 @@ visible = false
 shape = SubResource( 60 )
 
 [node name="EnemyDetector" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
 modulate = Color( 0.72549, 0.792157, 0.109804, 1 )
-shape = SubResource( 61 )
+shape = SubResource( 111 )
 
 [node name="HitWallTimer" type="Timer" parent="."]
 one_shot = true
@@ -461,6 +459,7 @@ collision_mask = 16
 collide_with_areas = true
 
 [node name="EnemyInRangeForAttack" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -471,11 +470,23 @@ scale = Vector2( 2.5, 1 )
 z_as_relative = false
 shape = SubResource( 62 )
 
+[node name="MustEnemyInRangeForAttack2" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MustEnemyInRangeForAttack2"]
+position = Vector2( 12, 0 )
+rotation = 3.14159
+scale = Vector2( 2.5, 1 )
+z_as_relative = false
+shape = SubResource( 62 )
+
 [node name="Attack1Area" type="Area2D" parent="." groups=["GolemAttack"]]
 visible = false
 collision_layer = 128
 collision_mask = 4
-monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack1Area"]
 modulate = Color( 0.866667, 0.0627451, 0.364706, 1 )
@@ -494,6 +505,7 @@ anims/Attack2 = SubResource( 110 )
 [connection signal="timeout" from="HitWallTimer" to="." method="_on_HitWallTimer_timeout"]
 [connection signal="body_entered" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_entered"]
 [connection signal="body_exited" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_exited"]
-[connection signal="body_entered" from="Attack1Area" to="." method="_on_Attack1Area_body_entered"]
+[connection signal="body_entered" from="MustEnemyInRangeForAttack2" to="." method="_on_MustEnemyInRangeForAttack2_body_entered"]
+[connection signal="body_exited" from="MustEnemyInRangeForAttack2" to="." method="_on_MustEnemyInRangeForAttack2_body_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
