@@ -7,6 +7,7 @@ onready var xpbar = $XPBar
 onready var xpbarunder = $XPBarUnder
 onready var leveltext = $XPBarUnder/LevelText
 onready var energybar = $EnergyBar
+onready var energybarunder = $EnergyBarUnder
 onready var tween = $Tween
 
 
@@ -23,6 +24,7 @@ func _ready():
 	xpbarunder.max_value = max_xp
 	leveltext.text = "Level: " + str(level)
 	energybar.value = 50
+	energybarunder.value = 50
 
 
 func _on_Player_HPChanged(hp):
@@ -30,7 +32,7 @@ func _on_Player_HPChanged(hp):
 		#minskning
 		hpbar.value = hp
 		tween.stop_all()
-		tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_LINEAR)
+		tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)
 		tween.start()
 		$AnimationPlayer.play("TakeDamage")
 	if hpbar.value < 30:
@@ -55,7 +57,7 @@ func _on_Player_LvlUp(current_lvl, xp_needed):
 
 func _on_Player_EnergyChanged(energy):
 	energybar.value = energy
-	#tween.stop_all()
-#	tween.interpolate_property(xpbarunder, "value", xpbarunder.value, current_xp, 0.5,Tween.TRANS_LINEAR)
-	#tween.start()
+	tween.stop_all()
+	tween.interpolate_property(energybarunder, "value", energybarunder.value, energy, 0.5,Tween.TRANS_LINEAR)
+	tween.start()
 	

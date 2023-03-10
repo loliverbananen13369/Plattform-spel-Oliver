@@ -901,6 +901,7 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 		if _level_up(current_xp, xp_needed):
 			current_xp = 0
 			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
+			PlayerStats.skilltree_points += 1
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
 

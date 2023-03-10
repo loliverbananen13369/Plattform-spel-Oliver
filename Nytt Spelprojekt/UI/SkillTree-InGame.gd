@@ -16,8 +16,10 @@ func _on_TextureButton_pressed() -> void:
 
 
 func _on_Acid_2_on_learned(node) -> void:
+	PlayerStats.ability1_learned = true
 	print("Acid2 learned")
 	
 
 func _on_Acid_5_on_learned(node):
+	PlayerStats.ability2_learned = true
 	print("Acid5 learned")

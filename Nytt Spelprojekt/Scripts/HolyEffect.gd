@@ -19,7 +19,7 @@ func _ready() -> void:
 		spellsprite.modulate.r = 3
 		spellsprite.modulate.b = 1.5
 		spellsprite.modulate.g = 1.5
-		vector = Vector2(10, -18)
+		#vector = Vector2(10, -18)
 	if spellsprite.animation == "holy":
 		spellsprite.modulate.r = 5
 		spellsprite.modulate.b = 1.5

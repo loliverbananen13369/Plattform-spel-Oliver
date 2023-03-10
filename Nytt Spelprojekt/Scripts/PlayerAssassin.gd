@@ -49,8 +49,10 @@ signal XPChanged(current_xp)
 signal EnergyChanged(energy)
 signal LvlUp(current_lvl, xp_needed)
 
-var jump_sounds = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
+const JUMP_SOUNDS = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
+const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/AttackSounds/001_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/002_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/003_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/004_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/005_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/006_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/007_swing.wav")]
 var can_jump_sound = true
+var can_attack_sound = true
 
 
 var ghost_scene = preload("res://Instance_Scenes/GhostDashAssassin.tscn")
@@ -110,7 +112,6 @@ var hp = 100
 var max_hp = 100
 var energy = 50
 var max_energy = 50
-var mana_regeneration = 5
 var current_xp = 0
 var current_lvl = 1
 var previous_state = IDLE
@@ -118,6 +119,7 @@ var previous_state = IDLE
 
 
 func _ready() -> void:
+
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	playersprite.visible = true
 	$AnimationPlayer.playback_speed = 1
@@ -169,14 +171,23 @@ func check_sprites():
 func _get_random_sound(type: String) -> void:
 	rng.randomize()
 	if type == "Jump":
-		var number = rng.randi_range(0, jump_sounds.size()-1)
-		$JumpSound.stream = jump_sounds[number]
+		var number = rng.randi_range(0, JUMP_SOUNDS.size()-1)
+		$JumpSound.stream = JUMP_SOUNDS[number]
 		var jump_sound_timer = Timer.new()
 		jump_sound_timer.one_shot = true
 		jump_sound_timer.connect("timeout", self, "on_jump_sound_timer_timeout")
 		add_child(jump_sound_timer)
-		jump_sound_timer.start(1.0)
-		#print(jump_sound_timer)
+	#	jump_sound_timer.start(1.0)
+	if type == "Attack":
+		var number = rng.randi_range(0, ATTACK_SOUNDS.size()-1)
+		$AttackSound.stream = ATTACK_SOUNDS[number]
+		var attack_sound_timer = Timer.new()
+		attack_sound_timer.one_shot = true
+		attack_sound_timer.connect("timeout", self, "on_attack_sound_timer_timeout")
+		add_child(attack_sound_timer)
+	#	attack_sound_timer.start(0.5)
+	$JumpSound.pitch_scale = BackgroundMusic.voice_pitch_scale
+	$AttackSound.pitch_scale = BackgroundMusic.voice_pitch_scale
 		
 
 func _add_impact(dir):
@@ -586,14 +597,15 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 					_flip_sprite(true)
 		else:
 			if is_instance_valid(enemy):
-				if global_position.x <= enemy.global_position.x:
-					global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
-					direction_x = "LEFT"
-					_flip_sprite(false)
-				else:
-					global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
-					direction_x = "RIGHT"
-					_flip_sprite(true)
+				if global_position.distance_to(enemy.global_position) < 100:
+					if global_position.x <= enemy.global_position.x:
+						global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
+						direction_x = "LEFT"
+						_flip_sprite(false)
+					else:
+						global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
+						direction_x = "RIGHT"
+						_flip_sprite(true)
 		
 			
 		
@@ -610,22 +622,32 @@ func check_combo() -> void:
 	var re_combo_list = []
 	for i in range(0, combo_list.size()):
 		re_combo_list.push_front(combo_list[i])
-	if re_combo_list[0] == 1:
+	if re_combo_list[0] == 1 and energy >= 10:
 		if re_combo_list[1] == 3:
 			if re_combo_list[2] == 2:
 				if re_combo_list[3] == 1: 
 					_enter_combo_state(1)
-	if re_combo_list[0] == 3: # elif
+	elif re_combo_list[0] == 3 and energy >= 20: # elif
 		if re_combo_list[1] == 1:
 			if re_combo_list[2] == 2:
 				if re_combo_list[3] == 3: 
 					_enter_combo_state(2)
-	if re_combo_list[0] == 2:
+	elif re_combo_list[0] == 2 and energy >= 20:
 		if re_combo_list[1] == 1:
 			if re_combo_list[2] == 3:
 				if re_combo_list[3] == 2:
 					_enter_combo_state(3)
+	else:
+		_enter_idle_state()
 	
+
+func _get_random_attack():
+	var attack = "Attack"
+	rng.randomize()
+	var nr = rng.randi_range(1, 3)
+	attack = "Attack"+str(nr)
+	print("attack: " + str(attack))
+	return attack
 
 func on_lvl_up_variables(current_lvl):
 	pass
@@ -692,7 +714,7 @@ func _idle_state(delta) -> void:
 		if can_jump_sound:
 			_get_random_sound("Jump")
 			$JumpSound.play()
-			can_jump_sound = false
+			#can_jump_sound = false
 		return
 	
 	if Input.is_action_just_pressed("AirExplosion"):
@@ -726,7 +748,7 @@ func _run_state(delta) -> void:
 		if can_jump_sound:
 			_get_random_sound("Jump")
 			$JumpSound.play()
-			can_jump_sound = false
+			#can_jump_sound = false
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
@@ -994,6 +1016,10 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	if attack == 4:
 		animationplayer.play("SpinAttack")
 	can_attack = false
+	if can_attack_sound:
+		_get_random_sound("Attack")
+		$AttackSound.play()
+		#can_attack_sound = false
 	combo_list.append(previous_attack) 
 	if combo_list.size() >= 4:
 		check_combo()
@@ -1001,11 +1027,13 @@ func _enter_attack1_state(attack: int, combo: bool) -> void:
 	#	_enter_idle_state()
 
 func _enter_dash_attack_state(attack: int) -> void:
-	state = ATTACK_DASH
-	if attack == 1:
+	if attack == 1 and energy >= 5:
+		state = ATTACK_DASH
 		#animationplayer.play("DashAttack")
 		playersprite.play("SpinAttack")
 		_add_dash_attack()
+		energy -= 5
+		emit_signal("EnergyChanged", energy)
 		can_attack = false
 
 func _enter_attack_air_state(Jump: bool) -> void:
@@ -1029,84 +1057,58 @@ func _enter_combo_state(number : int) -> void:
 	if number == 1: 
 		animationplayer.play("ComboSpinAttack")
 		combo_list.clear()
-		if Input.is_action_pressed("Dash"):
+		energy -= 10
+		if Input.is_action_pressed("Dash") and energy >= 10:
 			for i in range(PlayerStats.assassin_clone_targets):
 				_add_clone(enemy, "Attack1") # spinattack
-				print("spin attack clone")
+				energy -= 10
+		emit_signal("EnergyChanged", energy)
 	if number == 2:
-		animationplayer.play("comboewqe3")#(PlayerStats.assassin_combo_ewqe)
-		_add_clone(enemy, "Attack1")
-		if Input.is_action_pressed("Dash"):
-			for i in range(int((PlayerStats.enemies_hit_by_player.size())/2)):
-				_add_shockwave()
-				_add_clone(_get_closest_enemy(PlayerStats.enemies_hit_by_player), "Attack1")
-				_dash_to_enemy(_get_closest_enemy(PlayerStats.enemies_hit_by_player), true)
-				yield(get_tree().create_timer(0.1333333), "timeout")
-				_dash_to_enemy(_get_closest_enemy(PlayerStats.enemies_hit_by_player), true)
-				yield(get_tree().create_timer(0.1333333), "timeout")
+		can_take_damage = false
+		var list = PlayerStats.enemies_hit_by_player
+		var clone_added = false
+		energy -= 20
+		for i in range(0, list.size() -1):
+			if list.size()-1 >= i:
+				var attack = _get_random_attack()
+				animationplayer.playback_speed = 4.0
+				animationplayer.play(attack)
+				frameFreeze(0.2*i, 0.2)
+				_dash_to_enemy(list[i], true)
+				if Input.is_action_pressed("Dash") and energy >= 10:
+					_add_clone(list[i], attack)
+					clone_added = true
+				yield(get_tree().create_timer(0.06675), "timeout")
+		animationplayer.playback_speed = 1.0
+		if clone_added:
+			energy -= 10
+		emit_signal("EnergyChanged", energy)
 	if number == 3:
 		_add_first_air_explosion()
+		energy -= 20
 		#emit_signal("test", 0.8)
 		yield(get_tree().create_timer(0.2), "timeout")
 		_add_airexplosions()
-		if Input.is_action_pressed("Dash"):
+		if Input.is_action_pressed("Dash")  and energy >= 10:
+			energy -= 10
 			for i in range(PlayerStats.assassin_clone_targets):
 				_add_clone(enemy, "Attack1")
-				#yield
-		#	_add_shockwave()
-		#	_add_clone(enemy, "Attack1")
-		#	_dash_to_enemy(enemy, true)
-		#	yield(get_tree().create_timer(0.1333333), "timeout")
-		#	_add_clone(enemy, "Attack1")
-		#	_dash_to_enemy(enemy, false)
-		#	yield(get_tree().create_timer(0.1333333), "timeout")
-		#	_add_clone(enemy, "Attack1")
-		#	_dash_to_enemy(enemy, false)
-		#	yield(get_tree().create_timer(0.1333333), "timeout")
-		#	_dash_to_enemy(enemy, true)
-
+		emit_signal("EnergyChanged", energy)
 		
-		combo_list.clear()
+	combo_list.clear()
 		
 #Signals
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "Attack1":
-		if state == COMBO:
-			pass
+	if anim_name == "Attack1" or "Attack2" or "Attack3":
+		can_attack = true
+		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+			_enter_run_state()
 		else:
-			can_attack = true
-			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-				_enter_run_state()
-			else:
-				_enter_idle_state()
-	if anim_name == "Attack2":
-		if state == COMBO:
-			pass
-		else:
-			can_attack = true
-			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-				_enter_run_state()
-			else:
-				_enter_idle_state()
-	if anim_name == "Attack3":
-		if state == COMBO:
 			_enter_idle_state()
-			can_attack = true
-		else:
-			can_attack = true
-			if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-				_enter_run_state()
-			#elif Input.is_action_pressed("Dash"):
-			#	_dash_to_enemy(false)
-			else:
-				_enter_idle_state()
 	if anim_name == "SpinAttack":
 		can_attack = true
-		if state == COMBO:
-			_enter_attack1_state(1, true)
-		else:
-			_enter_idle_state()
+		_enter_idle_state()
 	if anim_name == "ComboSpinAttack":
 		$SwordCutArea/SpinAttack.disabled = true
 		can_attack = true
@@ -1150,6 +1152,9 @@ func _on_timer_timeout() -> void:
 func on_jump_sound_timer_timeout() -> void:
 	can_jump_sound = true
 
+func on_attack_sound_timer_timeout() -> void:
+	can_attack_sound = true
+
 func _on_HurtBox_area_entered(area):
 	var amount = 5
 	if can_take_damage:
@@ -1170,6 +1175,8 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 		emit_signal("XPChanged", current_xp)
 	if area.is_in_group("EnergyParticle"):
 		energy += 5
+		if energy > 50:
+			energy = 50
 		emit_signal("EnergyChanged", energy)
 
 

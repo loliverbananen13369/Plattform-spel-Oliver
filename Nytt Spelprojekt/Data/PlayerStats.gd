@@ -24,6 +24,7 @@ var enemies_for_golem = []
 var skilltree_points = 0
 
 var assassin_combo_ewqe = "comboewqe1"
+var assassin_combo1_learned = "hej"
 var assassin_smearsprite_q = "Smear7H"
 var assassin_smearsprite_w = "Smear7V"
 var assassin_smearsprite_e = "Smear3H"

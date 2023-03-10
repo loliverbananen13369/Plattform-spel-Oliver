@@ -1,5 +1,6 @@
 extends Node
 
+var voice_pitch_scale = 1 
 
 func play_sound(sound: String) -> void:
 	for node in get_children():

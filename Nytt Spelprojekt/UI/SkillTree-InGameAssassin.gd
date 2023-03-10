@@ -14,9 +14,6 @@ func _ready():
 func _on_TextureButton_pressed() -> void:
 	get_tree().change_scene("res://UI/MainMenuTest.tscn")
 
-
-
-
 func _on_BasicAttack1_on_learned(node):
 	PlayerStats.assassin_smearsprite_q = "Smear6H"
 	PlayerStats.assassin_smearsprite_w = "Smear6V"
@@ -39,3 +36,13 @@ func _on_BasicAttack4_on_learned(node):
 	PlayerStats.assassin_smearsprite_q = "Smear9H"
 	PlayerStats.assassin_smearsprite_w = "Smear9V"
 	PlayerStats.assassin_smearsprite_e = "Smear9H"
+
+
+func _on_Clone1_on_learned(node):
+	PlayerStats.assassin_clone_targets = 1
+	
+func _on_Clone2_on_learned(node):
+	PlayerStats.assassin_clone_targets = int(PlayerStats.enemies_hit_by_player.size()/2)
+
+func _on_Clone3_on_learned(node):
+	PlayerStats.assassin_clone_targets = PlayerStats.enemies_hit_by_player.size()

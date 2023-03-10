@@ -101,6 +101,7 @@ func _check_if_enemy_in_range_for_attack():
 				group_size += 1
 				return true
 	else:
+		print("not monitoring")
 		if $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy):
 			group_size += 1
 			return true
@@ -319,7 +320,7 @@ func on_PlayerHurt():
 	animatedsprite.play("Angry")
 	yield(get_tree().create_timer(1),"timeout")
 	follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemy_who_hurt_list)
-	must_follow_this_enemy = follow_this_enemy
+	must_follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemy_who_hurt_list)
 	angry = true
 	_enter_follow_enemy_state()
 	$EnemyInRangeForAttack.set_deferred("monitoring", false)
