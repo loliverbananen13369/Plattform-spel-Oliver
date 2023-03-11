@@ -477,13 +477,14 @@ func _add_first_air_explosion() -> void:
 	var explosion = air_explosion_scene.instance()
 	var closest_enemy = _get_closest_enemy(all_enemy)
 	explosion.global_position = global_position + Vector2(5, -15)
-	get_tree().get_root().add_child(explosion)
-	if (closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
-		tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-		tween.start()
-		testpos = closest_enemy.global_position + Vector2(5, -15)
-		testpos2 = closest_enemy.global_position + Vector2(0, - 30)
-		global_position = testpos2
+	if is_instance_valid(closest_enemy):
+		get_tree().get_root().add_child(explosion)
+		if global_position.distance_to(closest_enemy.global_position) < 60:#(closest_enemy.global_position.x - global_position.x < 50 ) or ( global_position.x - closest_enemy.global_position.x < 50 ):
+			tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			tween.start()
+			testpos = closest_enemy.global_position + Vector2(5, -15)
+			testpos2 = closest_enemy.global_position + Vector2(0, - 30)
+			global_position = testpos2
 
 func _add_airexplosions() -> void:
 	state = INVISIBLE

@@ -40,7 +40,7 @@ func _ready():
 	PlayerStats.connect("PlayerHurt", self, "on_PlayerHurt")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	PlayerStats.connect("EnemyHurt", self, "on_EnemyHurt")
-	player = get_parent().get_child(3).get_child(1).get_child(0)
+	player = PlayerStats.player#get_parent().get_child(3).get_child(1).get_child(0)
 func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:

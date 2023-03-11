@@ -202,6 +202,7 @@ PetAttackReady={
 2d_physics/layer_7="PlayerCollectParticlesArea"
 2d_physics/layer_8="GolemAttack"
 2d_physics/layer_9="Golem"
+2d_physics/layer_10="NPC"
 
 [physics]
 

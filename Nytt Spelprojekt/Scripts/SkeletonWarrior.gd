@@ -61,7 +61,7 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	player = get_parent().get_parent().get_child(1).get_child(0)
+	player = PlayerStats.player#get_parent().get_parent().get_child(1).get_child(0)
 	$PlayerDetector.monitoring = false
 	velocity.x = 0
 	velocity.y = 0

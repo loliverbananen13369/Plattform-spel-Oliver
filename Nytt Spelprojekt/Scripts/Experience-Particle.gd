@@ -7,7 +7,7 @@ var LAUNCH_SPEED := 500
 var max_speed := 300
 var drag_factor := 0.15 setget set_drag_factor
 
-onready var target = get_parent().get_child(3).get_child(1).get_child(0)
+onready var target = PlayerStats.player#get_parent().get_child(3).get_child(1).get_child(0)
 var dir = 1#Vector2.RIGHT
 
 

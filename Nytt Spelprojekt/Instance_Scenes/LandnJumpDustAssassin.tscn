@@ -105,7 +105,7 @@ animations = [ {
 [sub_resource type="GDScript" id=40]
 script/source = "extends AnimatedSprite
 
-onready var player = get_parent().get_child(2).get_child(1).get_child(0)
+onready var player = PlayerStats.player#get_parent().get_child(2).get_child(1).get_child(0)
 
 func _ready():
 	var direction_x = player.get(\"direction_x\")

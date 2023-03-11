@@ -2934,7 +2934,7 @@ radius = 25.0
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 1
 collision_layer = 9
-collision_mask = 16
+collision_mask = 528
 script = ExtResource( 46 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
@@ -2951,7 +2951,7 @@ material = SubResource( 955 )
 position = Vector2( 10, -30 )
 scale = Vector2( 3.5, 1.5 )
 animation = "Smear2H"
-frame = 3
+frame = 2
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
