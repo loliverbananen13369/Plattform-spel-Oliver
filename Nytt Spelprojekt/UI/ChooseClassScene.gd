@@ -8,6 +8,7 @@ func _ready():
 
 func _on_AssassinButton_pressed():
 	PlayerStats.player = assassin.instance()
+	PlayerStats.player_instance = preload("res://Scenes/PlayerAssassin.tscn")
 	PlayerStats.is_assassin = true
 	get_tree().change_scene("res://UI/MainMenuTest.tscn")
 	
@@ -15,5 +16,6 @@ func _on_AssassinButton_pressed():
 
 func _on_MageButton_pressed() -> void:
 	PlayerStats.player = mage.instance()
+	PlayerStats.player_instance = preload("res://Scenes/Player.tscn")
 	PlayerStats.is_mage = true
 	get_tree().change_scene("res://UI/MainMenuTest.tscn")

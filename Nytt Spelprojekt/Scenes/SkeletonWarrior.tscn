@@ -1012,7 +1012,6 @@ one_shot = true
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 visible = false
 modulate = Color( 2, 1.5, 1.5, 1 )
-position = Vector2( 6, -15 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 160 )
 animation = "Test3"

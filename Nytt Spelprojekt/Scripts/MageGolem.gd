@@ -101,7 +101,6 @@ func _check_if_enemy_in_range_for_attack():
 				group_size += 1
 				return true
 	else:
-		print("not monitoring")
 		if $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy):
 			group_size += 1
 			return true
@@ -193,8 +192,9 @@ func _add_ksanteq() -> void:
 
 func _add_ksanteqimpact(enemy) -> void:
 	var q = ksanteqimpact_scene.instance()
-	q.global_position = enemy.global_position 
-	get_parent().add_child(q)
+	if is_instance_valid(enemy):
+		q.global_position = enemy.global_position 
+		get_parent().add_child(q)
 
 #States
 func _idle_state(delta) -> void:

@@ -55,6 +55,7 @@ var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
 var dash_smoke_scene = preload("res://Instance_Scenes/DashSmoke.tscn")
 var pet_scene = preload("res://Instance_Scenes/MageGolem.tscn")
+var dead_skeletton_scene = preload("res://Instance_Scenes/DeadSkeletton.tscn")
 
 
 var ghosttime := 0.0
@@ -109,6 +110,7 @@ var ability_anim
 
 
 func _ready() -> void:
+	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	$AnimationPlayer.playback_speed = 1
 	$SkillTreeInGame/Control/CanvasLayer.visible = false
 
@@ -271,6 +273,10 @@ func _add_pet():
 		get_tree().get_root().add_child(pet)
 		#PlayerStats.emit_signal("GolemStatus")
 
+func _add_dead_skeletton(this_enemy):
+	var body = dead_skeletton_scene.instance()
+	body.global_position = this_enemy.global_position
+	get_tree().get_root().add_child(body)
 
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
@@ -905,8 +911,9 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 			emit_signal("LvlUp", current_lvl, xp_needed)
 		emit_signal("XPChanged", current_xp)
 
-func _on_KinematicBody2D_dead() -> void:
-	pass
+func on_EnemyDead(body):
+	_add_dead_skeletton(body)
+	
 
 func _on_KinematicBody2D_hurt() -> void:
 	pass

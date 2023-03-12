@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/censored-cursing-103129.mp3-2f5335231dd73a78df886f6949cf5452.mp3str"
+
+[deps]
+
+source_file="res://CityHall/NPC/censored-cursing-103129.mp3"
+dest_files=[ "res://.import/censored-cursing-103129.mp3-2f5335231dd73a78df886f6949cf5452.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

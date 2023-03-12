@@ -4,7 +4,7 @@ extends Node
 const SAVE_PLAYER_STATS_FILE = "res://Data/PlayerStats.gd"
 var game_data = {}
 
-
+var player_instance
 var player
 var ability1_learned = false
 var ability2_learned = false
@@ -33,7 +33,7 @@ var assassin_smearsprite_e = "Smear3H"
 var assassin_clone_targets = 1
 
 var visited_bs_house = false
-
+var next_scene = "res://Scenes/CityHall.tscn"
 
 func _ready() -> void:
 	load_data()

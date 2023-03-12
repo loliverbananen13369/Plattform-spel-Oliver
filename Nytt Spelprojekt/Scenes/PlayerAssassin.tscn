@@ -2951,7 +2951,7 @@ material = SubResource( 955 )
 position = Vector2( 10, -30 )
 scale = Vector2( 3.5, 1.5 )
 animation = "Smear2H"
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
@@ -3045,6 +3045,7 @@ one_shot = true
 [node name="ComboTimer" type="Timer" parent="."]
 
 [node name="ComboSprites" type="AnimatedSprite" parent="."]
+visible = false
 modulate = Color( 3, 1.5, 1.5, 1 )
 position = Vector2( 25, 8 )
 scale = Vector2( 1.5, 2 )

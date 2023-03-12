@@ -42,6 +42,7 @@ config/icon="res://icon.png"
 PlayerStats="*res://Data/PlayerStats.gd"
 GlobalSignals="*res://Scripts/GlobalSignals.gd"
 BackgroundMusic="*res://Sounds/SoundPlayer.tscn"
+Transition="*res://Scenes/Transition.tscn"
 
 [display]
 
@@ -203,6 +204,7 @@ PetAttackReady={
 2d_physics/layer_8="GolemAttack"
 2d_physics/layer_9="Golem"
 2d_physics/layer_10="NPC"
+2d_physics/layer_11="DeadBody"
 
 [physics]
 

@@ -22,9 +22,9 @@ var state = IDLE
 
 var rng = RandomNumberGenerator.new()
 
-var can_jump := true
-var can_dash := true
-var can_attack := true
+export var can_jump := true
+export var can_dash := true
+export var can_attack := true
 var can_take_damage := true
 var jump_attack := false
 var is_attacking := false
@@ -119,7 +119,7 @@ var previous_state = IDLE
 
 
 func _ready() -> void:
-
+	playersprite.play("Idle")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	playersprite.visible = true
 	$AnimationPlayer.playback_speed = 1
