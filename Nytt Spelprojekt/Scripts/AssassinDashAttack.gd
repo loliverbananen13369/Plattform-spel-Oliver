@@ -5,6 +5,8 @@ extends AnimatedSprite
 # var a = 2
 # var b = "text"
 
+#18, 0 ,13
+
 onready var player = get_parent()
 onready var player_dir = player.get("direction_x")
 var dir

@@ -96,7 +96,7 @@ shader_param/max_line_width = 0.3
 shader_param/min_line_width = 0.1
 shader_param/freq = 1.0
 shader_param/block_size = 0.5
-shader_param/starting_colour = Plane( 2, 1, 1, 1 )
+shader_param/starting_colour = Plane( 3, 1, 1, 1 )
 shader_param/ending_colour = Plane( 3, 3, 3, 1 )
 
 [sub_resource type="AtlasTexture" id=17]
@@ -291,7 +291,7 @@ tracks/1/keys = {
 }
 
 [node name="AssassinDashAttack" type="AnimatedSprite"]
-modulate = Color( 0.0705882, 0, 0.0509804, 1 )
+modulate = Color( 2.73, 2.28, 1.32, 1 )
 material = SubResource( 39 )
 position = Vector2( 35.5, 14.5 )
 scale = Vector2( 4, 2 )
