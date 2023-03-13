@@ -1,4 +1,4 @@
-[gd_scene load_steps=331 format=2]
+[gd_scene load_steps=323 format=2]
 
 [ext_resource path="res://dash_particle.2.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
@@ -11,7 +11,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Stop/Battlemage Stop.mage.png" type="Texture" id=9]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Up/Jump Foward Going Up.mage.png" type="Texture" id=10]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Idle/Battlemage Idle.mage.png" type="Texture" id=11]
-[ext_resource path="res://Instance_Scenes/DashParticlesAssassin.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=12]
 [ext_resource path="res://Random_Effects/Sangoro/BIG SMOKE.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 1/Battlemage Attack 1 wo effect.mage.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Running/Battlemage Run.mage.png" type="Texture" id=15]
@@ -20,7 +20,7 @@
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 4/Acid VFX 04(48x48).ass2.png" type="Texture" id=18]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.png" type="Texture" id=19]
 [ext_resource path="res://Scenes/HUDAssassin.tscn" type="PackedScene" id=20]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Dash/Battlemage Dash.mage.png" type="Texture" id=21]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.mage.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.new.ass.png" type="Texture" id=22]
 [ext_resource path="res://UI/SkillTree-InGameAssassin.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/30_Jump_03.wav" type="AudioStream" id=24]
@@ -493,100 +493,6 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="Shader" id=954]
-resource_local_to_scene = true
-code = "shader_type canvas_item;
-
-uniform float max_line_width = 10.0;
-uniform float min_line_width = 5.0;
-uniform float freq = 1.0;
-uniform float block_size = 20.0;
-uniform vec4 starting_colour = vec4(0,0,0,1);
-uniform vec4 ending_colour = vec4(1);
-
-const float pi = 3.1415;
-const int ang_res = 16;
-const int grad_res = 8;
-
-float hash(vec2 p, float s) {
-	return fract(35.1 * sin(dot(vec3(112.3, 459.2, 753.2), vec3(p, s))));
-}
-
-float noise(vec2 p, float s) {
-	vec2 d = vec2(0, 1);
-	vec2 b = floor(p);
-	vec2 f = fract(p);
-	return mix(
-		mix(hash(b + d.xx, s), hash(b + d.yx, s), f.x),
-		mix(hash(b + d.xy, s), hash(b + d.yy, s), f.x), f.y);
-}
-
-float getLineWidth(vec2 p, float s) {
-	p /= block_size;
-	float w = 0.0;
-	float intensity = 1.0;
-	for (int i = 0; i < 3; i++) {
-		w = mix(w, noise(p, s), intensity);
-		p /= 2.0;
-		intensity /= 2.0;
-	}
-	
-	return mix(max_line_width, min_line_width, w);
-}
-
-bool pixelInRange(sampler2D text, vec2 uv, vec2 dist) {
-	float alpha = 0.0;
-	for (int i = 0; i < ang_res; i++) {
-		float angle = 2.0 * pi * float(i) / float(ang_res);
-		vec2 disp = dist * vec2(cos(angle), sin(angle));
-		if (texture(text, uv + disp).a > 0.0) return true;
-	}
-	return false;
-}
-
-float getClosestDistance(sampler2D text, vec2 uv, vec2 maxDist) {
-	if (!pixelInRange(text, uv, maxDist)) return -1.0;
-	
-	float hi = 1.0; float lo = 0.0;
-	
-	for (int i = 1; i <= grad_res; i++) {
-		float curr = (hi + lo) / 2.0;
-		if (pixelInRange(text, uv, curr * maxDist)) {
-			hi = curr;
-		}
-		else {
-			lo = curr;
-		}
-	}
-	return hi;
-	
-}
-
-void fragment() {
-	float timeStep = floor(freq * TIME);
-	vec2 scaledDist = TEXTURE_PIXEL_SIZE;
-	scaledDist *= getLineWidth(UV / TEXTURE_PIXEL_SIZE, timeStep);
-	float w = getClosestDistance(TEXTURE, UV, scaledDist);
-	
-	if (( w > 0.0) && (texture(TEXTURE, UV).a < 0.2)) {
-		COLOR = mix(starting_colour, ending_colour, tanh(3.0*w));
-	}
-	else {
-		COLOR = texture(TEXTURE, UV);
-	}
-	
-}"
-
-[sub_resource type="ShaderMaterial" id=955]
-resource_local_to_scene = true
-shader = SubResource( 954 )
-shader_param/max_line_width = 0.3
-shader_param/min_line_width = 0.1
-shader_param/freq = 1.0
-shader_param/block_size = 0.5
-shader_param/starting_colour = Plane( 2, 1, 1, 1 )
-shader_param/ending_colour = Plane( 3, 3, 3, 1 )
-
 [sub_resource type="CapsuleShape2D" id=53]
 radius = 5.0
 height = 18.0
@@ -697,33 +603,9 @@ region = Rect2( 0, 336, 56, 48 )
 atlas = ExtResource( 7 )
 region = Rect2( 0, 384, 56, 48 )
 
-[sub_resource type="AtlasTexture" id=1129]
+[sub_resource type="AtlasTexture" id=1188]
 atlas = ExtResource( 21 )
 region = Rect2( 0, 0, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=1130]
-atlas = ExtResource( 21 )
-region = Rect2( 0, 48, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=1131]
-atlas = ExtResource( 21 )
-region = Rect2( 0, 96, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=1132]
-atlas = ExtResource( 21 )
-region = Rect2( 0, 144, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=1133]
-atlas = ExtResource( 21 )
-region = Rect2( 0, 192, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=1134]
-atlas = ExtResource( 21 )
-region = Rect2( 0, 240, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=1135]
-atlas = ExtResource( 21 )
-region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=1136]
 atlas = ExtResource( 4 )
@@ -987,7 +869,7 @@ animations = [ {
 "name": "Attack3",
 "speed": 30.0
 }, {
-"frames": [ SubResource( 1129 ), SubResource( 1130 ), SubResource( 1131 ), SubResource( 1132 ), SubResource( 1133 ), SubResource( 1134 ), SubResource( 1135 ) ],
+"frames": [ SubResource( 1188 ) ],
 "loop": false,
 "name": "Dash",
 "speed": 14.0
@@ -2547,86 +2429,107 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
+flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2894,42 +2797,40 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=871]
-resource_local_to_scene = true
-
-[sub_resource type="Curve" id=867]
-_data = [ Vector2( 0, 0.500372 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.10788, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=866]
-curve = SubResource( 867 )
-
-[sub_resource type="ParticlesMaterial" id=869]
-resource_local_to_scene = true
-emission_shape = 1
-emission_sphere_radius = 15.0
-flag_disable_z = true
-direction = Vector3( 0, 0, 0 )
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 20.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = -0.4
-scale = 0.5
-scale_curve = SubResource( 866 )
-color = Color( 0.96, 1.4, 2.2, 1 )
-anim_speed = 2.0
-
-[sub_resource type="StreamTexture" id=905]
-resource_local_to_scene = true
-flags = 4
-load_path = "res://.import/Thunder hit wo blur.png-2b5fee213006774b38e4eeb985e647e2.stex"
-
 [sub_resource type="RectangleShape2D" id=725]
 extents = Vector2( 24, 9.5 )
 
 [sub_resource type="CircleShape2D" id=791]
 radius = 25.0
+
+[sub_resource type="Gradient" id=1189]
+colors = PoolColorArray( 0.835294, 0.235294, 0.415686, 1, 0.27451, 0.054902, 0.168627, 1 )
+
+[sub_resource type="GradientTexture" id=638]
+gradient = SubResource( 1189 )
+
+[sub_resource type="Curve" id=1190]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.33874, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=1191]
+curve = SubResource( 1190 )
+
+[sub_resource type="ParticlesMaterial" id=1192]
+emission_shape = 1
+emission_sphere_radius = 10.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+angular_velocity = -180.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -0.4
+scale = 0.5
+scale_curve = SubResource( 1191 )
+color_ramp = SubResource( 638 )
+anim_speed = 1.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 1
@@ -2947,7 +2848,6 @@ animation = "OnGround"
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
 visible = false
-material = SubResource( 955 )
 position = Vector2( 10, -30 )
 scale = Vector2( 3.5, 1.5 )
 animation = "Smear2H"
@@ -3052,11 +2952,6 @@ scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
 animation = "Acid3"
 
-[node name="DashParticles" parent="." instance=ExtResource( 12 )]
-material = SubResource( 871 )
-process_material = SubResource( 869 )
-texture = SubResource( 905 )
-
 [node name="SwordCutArea" type="Area2D" parent="." groups=["SwordCut"]]
 visible = false
 
@@ -3105,6 +3000,15 @@ pitch_scale = 0.7
 stream = ExtResource( 26 )
 volume_db = -20.0
 pitch_scale = 0.7
+
+[node name="DashParticles2" type="Particles2D" parent="."]
+position = Vector2( 0, -15 )
+emitting = false
+amount = 60
+one_shot = true
+local_coords = false
+process_material = SubResource( 1192 )
+texture = ExtResource( 12 )
 
 [connection signal="EnergyChanged" from="." to="HUD" method="_on_Player_EnergyChanged"]
 [connection signal="HPChanged" from="." to="HUD" method="_on_Player_HPChanged"]

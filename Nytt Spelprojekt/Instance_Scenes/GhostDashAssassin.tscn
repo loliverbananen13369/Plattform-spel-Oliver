@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/GhostDashAssassin.gd" type="Script" id=1]
-[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Dash/Battlemage Dash.ass1.png" type="Texture" id=2]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.mage.png" type="Texture" id=2]
 [ext_resource path="res://dash_particle.2.png" type="Texture" id=3]
 
 [sub_resource type="Shader" id=5]
@@ -19,24 +19,12 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = SubResource( 5 )
-shader_param/flash_color = Color( 0, 0, 0, 1 )
-shader_param/flash_modifier = 1.0
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 48, 56, 48 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 96, 56, 48 )
+shader_param/flash_color = Color( 3, 3, 1.5, 1 )
+shader_param/flash_modifier = 0.8
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "default",
 "speed": 10.0
@@ -68,27 +56,15 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.560784 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0.560784 ), Color( 1, 0.568627, 0.568627, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath(".:material")
+tracks/2/path = NodePath("Particles2D:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ SubResource( 4 ), SubResource( 4 ), SubResource( 4 ), SubResource( 4 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Particles2D:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -128,6 +104,7 @@ scale = 0.5
 scale_random = 1.0
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
+modulate = Color( 1, 1, 1, 0.560784 )
 show_behind_parent = true
 material = SubResource( 4 )
 position = Vector2( 10, -20 )
@@ -142,7 +119,6 @@ anims/Dash = SubResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 material = SubResource( 739 )
 position = Vector2( -1, 7 )
-emitting = false
 amount = 20
 one_shot = true
 explosiveness = 0.41

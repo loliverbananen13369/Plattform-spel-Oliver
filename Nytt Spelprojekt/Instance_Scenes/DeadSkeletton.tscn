@@ -1,9 +1,10 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=1]
 [ext_resource path="res://Fantasy Skeleton Enemies/Fantasy Skeleton Enemies/Skeleton Warrior.new1.png" type="Texture" id=2]
 [ext_resource path="res://InstanceScripts/Necromancer.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/flash.shader" type="Shader" id=4]
+[ext_resource path="res://Random_Effects/Sangoro/EXPLOSION.png" type="Texture" id=5]
 
 [sub_resource type="ShaderMaterial" id=283]
 resource_local_to_scene = true
@@ -63,57 +64,53 @@ region = Rect2( 528, 48, 48, 48 )
 atlas = ExtResource( 2 )
 region = Rect2( 576, 48, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=259]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=289]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=260]
-atlas = ExtResource( 2 )
-region = Rect2( 48, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=290]
+atlas = ExtResource( 5 )
+region = Rect2( 109, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=261]
-atlas = ExtResource( 2 )
-region = Rect2( 96, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=291]
+atlas = ExtResource( 5 )
+region = Rect2( 218, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=262]
-atlas = ExtResource( 2 )
-region = Rect2( 144, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=292]
+atlas = ExtResource( 5 )
+region = Rect2( 327, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=263]
-atlas = ExtResource( 2 )
-region = Rect2( 192, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=293]
+atlas = ExtResource( 5 )
+region = Rect2( 436, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=264]
-atlas = ExtResource( 2 )
-region = Rect2( 240, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=294]
+atlas = ExtResource( 5 )
+region = Rect2( 545, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=265]
-atlas = ExtResource( 2 )
-region = Rect2( 288, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=295]
+atlas = ExtResource( 5 )
+region = Rect2( 654, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=266]
-atlas = ExtResource( 2 )
-region = Rect2( 336, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=296]
+atlas = ExtResource( 5 )
+region = Rect2( 763, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=267]
-atlas = ExtResource( 2 )
-region = Rect2( 384, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=297]
+atlas = ExtResource( 5 )
+region = Rect2( 872, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=268]
-atlas = ExtResource( 2 )
-region = Rect2( 432, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=298]
+atlas = ExtResource( 5 )
+region = Rect2( 981, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=269]
-atlas = ExtResource( 2 )
-region = Rect2( 480, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=299]
+atlas = ExtResource( 5 )
+region = Rect2( 1090, 0, 109, 38 )
 
-[sub_resource type="AtlasTexture" id=270]
-atlas = ExtResource( 2 )
-region = Rect2( 528, 192, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=271]
-atlas = ExtResource( 2 )
-region = Rect2( 576, 192, 48, 48 )
+[sub_resource type="AtlasTexture" id=300]
+atlas = ExtResource( 5 )
+region = Rect2( 1199, 0, 109, 38 )
 
 [sub_resource type="AtlasTexture" id=272]
 atlas = ExtResource( 2 )
@@ -223,7 +220,7 @@ animations = [ {
 "name": "Attack",
 "speed": 40.0
 }, {
-"frames": [ SubResource( 259 ), SubResource( 260 ), SubResource( 261 ), SubResource( 262 ), SubResource( 263 ), SubResource( 264 ), SubResource( 265 ), SubResource( 266 ), SubResource( 267 ), SubResource( 268 ), SubResource( 269 ), SubResource( 270 ), SubResource( 271 ) ],
+"frames": [ SubResource( 289 ), SubResource( 290 ), SubResource( 291 ), SubResource( 292 ), SubResource( 293 ), SubResource( 294 ), SubResource( 295 ), SubResource( 296 ), SubResource( 297 ), SubResource( 298 ), SubResource( 299 ), SubResource( 300 ) ],
 "loop": false,
 "name": "Dead",
 "speed": 10.0
@@ -304,6 +301,64 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 }
 
+[sub_resource type="Animation" id=301]
+resource_name = "Dead"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Dead" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=302]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("EnemyDetector/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="RectangleShape2D" id=303]
+extents = Vector2( 62, 32.5 )
+
 [node name="KinematicBody2D" type="KinematicBody2D"]
 collision_layer = 1024
 collision_mask = 16
@@ -313,9 +368,8 @@ script = ExtResource( 3 )
 modulate = Color( 0.972549, 0, 0, 1 )
 material = SubResource( 283 )
 frames = SubResource( 284 )
-animation = "Attack"
-frame = 12
-playing = true
+animation = "Dead"
+frame = 11
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -325,6 +379,7 @@ shape = SubResource( 285 )
 [node name="EnemyDetector" type="Area2D" parent="."]
 visible = false
 collision_layer = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
 shape = SubResource( 286 )
@@ -333,26 +388,39 @@ shape = SubResource( 286 )
 one_shot = true
 
 [node name="AttackDetector" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 0
+collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetector"]
 modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
 position = Vector2( -10, 4 )
 shape = SubResource( 287 )
+disabled = true
 
 [node name="AttackArea" type="Area2D" parent="." groups=["DeadSword"]]
 visible = false
-collision_layer = 8
+collision_layer = 1024
+collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
 position = Vector2( -10, 4 )
 shape = SubResource( 287 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 288 )
+anims/Dead = SubResource( 301 )
+anims/RESET = SubResource( 302 )
+
+[node name="ExplosionArea" type="Area2D" parent="." groups=["DeadExplosion"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
+position = Vector2( 0, -5 )
+shape = SubResource( 303 )
+disabled = true
 
 [connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
 [connection signal="body_exited" from="EnemyDetector" to="." method="_on_EnemyDetector_body_exited"]

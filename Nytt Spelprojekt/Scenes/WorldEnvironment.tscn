@@ -16,14 +16,13 @@ dof_blur_near_transition = 2.23
 glow_enabled = true
 glow_levels/2 = true
 glow_levels/3 = false
-glow_levels/4 = true
 glow_levels/5 = false
 glow_intensity = 0.91
+glow_strength = 0.77
 glow_hdr_threshold = 2.0
 glow_hdr_luminance_cap = 256.0
-glow_hdr_scale = 4.0
+glow_hdr_scale = 1.43
 glow_bicubic_upscale = true
-glow_high_quality = true
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource( 476 )

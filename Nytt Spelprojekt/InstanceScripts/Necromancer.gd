@@ -80,6 +80,17 @@ func _enter_attack_state() -> void:
 	state = ATTACK
 	animplayer.play("Attack")
 
+func _enter_dead_state() -> void:
+	velocity.x = 0
+	state = DEAD
+	$AttackDetector/CollisionShape2D.disabled = true
+	$AttackArea/CollisionShape2D.disabled = true
+	$EnemyDetector/CollisionShape2D.disabled = true
+	$ExplosionArea/CollisionShape2D.disabled = false
+	animsprite.animation = "Dead"
+	animsprite.frame = 0
+	animplayer.play("Dead")
+
 func _flip_sprite(right:bool) -> void:
 	if right:
 		animsprite.flip_h = false
@@ -130,9 +141,8 @@ func _check_if_enemy_in_attack():
 	return false
 
 func _on_LifeTimer_timeout():
-	print("explosion")
-	queue_free()
-
+	_enter_dead_state()
+	
 
 func _on_EnemyDetector_body_entered(body):
 	if state != ATTACK or RUN:
@@ -143,16 +153,17 @@ func _on_EnemyDetector_body_exited(body):
 		_enter_idle_state()
 
 func _on_AttackDetector_body_entered(body):
-	if state != ATTACK:
+	var all_enemy = get_parent().get_child(4).get_node("Node").get_tree().get_nodes_in_group("Enemy")
+	if state != ATTACK and all_enemy.has(body):
 		_enter_attack_state()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	print("anim_finished")
 	if anim_name == "Attack":
-		print("Attack Finished")
 		if _check_if_enemy_in_attack():
 			_enter_attack_state()
 		elif _check_enemy_irad():
 			_enter_run_state()
 		else:
 			_enter_idle_state()
+	if anim_name == "Dead":
+		queue_free()

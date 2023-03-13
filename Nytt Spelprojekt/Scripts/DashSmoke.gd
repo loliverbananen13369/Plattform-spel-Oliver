@@ -30,9 +30,9 @@ func _ready() -> void:
 	if animation == "New Anim 1":
 		scale.x = 3
 		scale.y = 4
-		#modulate.r = 0.5
-		#modulate.g = 0
-	#	modulate.b = 0.62
+		#modulate.r = 2.73
+		#modulate.g = 2.28
+		#modulate.b = 1.32
 		$AnimationPlayer.play("Hejsan2")
 
 func _on_AnimatedSprite_animation_finished() -> void:

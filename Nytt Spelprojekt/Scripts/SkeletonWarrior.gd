@@ -349,6 +349,16 @@ func _on_HurtBox_area_entered(area):
 		damage_amount = damage
 		_enter_hurt_state(1)
 		_spawn_damage_indicator(damage_amount, crit)
+	if area.is_in_group("DeadSword"):
+		var damage = player.get("damage_a1")
+		damage_amount = damage
+		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
+	if area.is_in_group("DeadExplosion"):
+		var damage = player.get("damage_a1")
+		damage_amount = damage
+		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("GolemAttack"):
 		var damage = player.get("damage_a1")
 		damage_amount = damage

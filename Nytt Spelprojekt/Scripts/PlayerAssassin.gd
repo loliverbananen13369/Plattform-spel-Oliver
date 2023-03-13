@@ -66,7 +66,6 @@ var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackPartic
 var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Instance_Scenes/AirExplosion.tscn")
-var dash_particles_scene = preload("res://Instance_Scenes/DashParticlesAssassin.tscn")
 var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
 var clone_scene = preload("res://Instance_Scenes/AssassinClone.tscn")
 var dash_attack_scene = preload("res://Instance_Scenes/AssassinDashAttack.tscn")
@@ -227,6 +226,7 @@ func _add_dash_smoke(name: String):
 		smoke.flip_h = flip
 	get_tree().get_root().add_child(smoke)
 	
+	
 func _add_speedlines():
 	var lines = speedline_scene.instance()
 	lines.global_position = global_position
@@ -298,8 +298,8 @@ func _apply_basic_movement(delta) -> void:
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if not hit_the_ground and is_on_floor():
 		hit_the_ground = true
-		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8)
-		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9)
+		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8) # 0.9, 0.8
+		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9) # 0.9, 0.9
 	
 	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
@@ -330,8 +330,8 @@ func _air_movement(delta) -> void:
 	
 	if not is_on_floor():
 		hit_the_ground = false
-		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.8, 1)
-		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 1, 0.8)
+		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.9, 0.8) #0.8, 1
+		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 0.9, 0.7)#0.9, 0.65) # 1, o.8
 
 func _get_closest_enemy_index(enemy_group):
 	var index 
@@ -451,14 +451,6 @@ func _add_jump_dust() -> void:
 	dust.play("JumpSmokeSideAssassin")
 	get_tree().get_root().add_child(dust)
 
-
-func _add_dash_particles(amount: int) -> void:
-	for i in range(amount):
-		var particles = dash_particles_scene.instance()
-		particles.global_position = global_position + Vector2(0, 5)
-		particles.emitting = true
-		get_tree().get_root().add_child(particles)
-		yield(get_tree().create_timer(0.01), "timeout") 
 
 func _add_buff(buff_name: String) -> void:
 	var buff = buff_scene.instance()
@@ -584,15 +576,10 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 		if not switch_side:
 			if is_instance_valid(enemy):
 				if global_position.x >= enemy.global_position.x:
-					#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x + 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-					#tween.start()
 					global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
 					direction_x = "LEFT"
 					_flip_sprite(false)
 				else:
-					#tween.interpolate_property(self, "global_position", global_position.x, enemy.global_position.x - 30, 0.05, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)# + Vector2(5, -15), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-					#tween.start()
-					
 					global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
 					direction_x = "RIGHT"
 					_flip_sprite(true)
@@ -737,7 +724,7 @@ func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
-	if playersprite.frame == 1:
+	if playersprite.frame == 1 or 4:
 		last_step += 1
 		if last_step == 4:
 			_add_walk_dust(5)
@@ -802,10 +789,10 @@ func _air_state(delta) -> void:
 			jump_pressed = true
 			_remember_jump()
 
-	ghosttime += delta
-	if ghosttime >= 0.08:
-		_add_assassin_ghost(0)
-		ghosttime = 0.0
+	#ghosttime += delta
+	#if ghosttime >= 0.08:
+	#	_add_assassin_ghost(0)
+	#	ghosttime = 0.0
 
 	_air_movement(delta)
 	var current_animation = playersprite.get_animation()
@@ -834,12 +821,17 @@ func _dash_state_air(delta):
 	
 	if ghosttime >= 0.09:
 		_add_dash_ghost()
-		ghosttime = 0.07
+		ghosttime = 0.06
 
 func _dash_state_ground(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
+	
+	ghosttime += delta
+	if ghosttime >= 0.09:
+		_add_dash_ghost()
+		ghosttime = 0.06
 
 func _stop_state(delta):
 	direction.x = _get_input_x_update_direction()
@@ -855,6 +847,7 @@ func _stop_state(delta):
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
+		
 		_enter_dash_state(false, true)
 		return
 		
@@ -936,6 +929,7 @@ func _enter_idle_state() -> void:
 func _enter_dash_state(attack: bool, ground:bool) -> void:
 	check_sprites()
 	_add_shockwave()
+	$DashParticles2.emitting = true
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 	if state == IDLE and direction == Vector2.DOWN:
 		return
@@ -962,9 +956,11 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 		#playersprite.modulate.r = 2.75
 		#playersprite.modulate.g = 1
 		#playersprite.modulate.b = 1.85
-	playersprite.modulate.r = 0.15
-	playersprite.modulate.g = 0.23
-	playersprite.modulate.b = 0.37
+	#playersprite.modulate.r = 0.15
+	#playersprite.modulate.g = 0.23
+	#playersprite.modulate.b = 0.37
+	playersprite.modulate.r = 2
+	
 	#playersprite.material.set_shader_param("flash_modifier", 0.8)
 	playersprite.play("Dash")
 	#dashline.visible = true
@@ -1224,6 +1220,7 @@ func _on_DashTimer_timeout():
 	velocity = direction * MAX_SPEED
 	direction.y = 0
 	#dashline.visible = false
+	$DashParticles2.emitting = false
 	ghosttime = 0.0
 	can_dash = true
 	yield(get_tree().create_timer(0.1), "timeout")

@@ -2071,13 +2071,13 @@ tracks/6/keys = {
 [sub_resource type="Gradient" id=637]
 colors = PoolColorArray( 0.835294, 0.235294, 0.415686, 1, 0.27451, 0.054902, 0.168627, 1 )
 
-[sub_resource type="GradientTexture" id=638]
+[sub_resource type="GradientTexture" id=1010]
 gradient = SubResource( 637 )
 
 [sub_resource type="Curve" id=513]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.33874, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=514]
+[sub_resource type="CurveTexture" id=1011]
 curve = SubResource( 513 )
 
 [sub_resource type="ParticlesMaterial" id=515]
@@ -2093,8 +2093,8 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = -0.4
 scale = 0.5
-scale_curve = SubResource( 514 )
-color_ramp = SubResource( 638 )
+scale_curve = SubResource( 1011 )
+color_ramp = SubResource( 1010 )
 anim_speed = 1.0
 
 [sub_resource type="RectangleShape2D" id=521]
@@ -2167,86 +2167,107 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
+flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
+flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
