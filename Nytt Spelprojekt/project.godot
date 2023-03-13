@@ -55,7 +55,7 @@ enabled=PoolStringArray( "res://addons/codeandweb.texturepacker/plugin.cfg" )
 [global]
 
 layers=false
-font=false
+font=true
 filter=false
 
 [gui]

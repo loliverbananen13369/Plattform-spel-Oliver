@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Dialogues/dialogue_box.png" type="Texture" id=1]
-[ext_resource path="res://Font/MyFont.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Dialogues/Dialouge_test.gd" type="Script" id=3]
 
 [node name="Dialogue" type="CanvasLayer"]
@@ -24,17 +23,16 @@ patch_margin_bottom = 5
 [node name="Name" type="RichTextLabel" parent="NinePatchRect"]
 margin_left = 17.0
 margin_top = 12.0
-margin_right = 93.0
+margin_right = 154.0
 margin_bottom = 52.0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "Name"
 
 [node name="Chat" type="RichTextLabel" parent="NinePatchRect"]
-margin_left = 48.0
-margin_top = 36.0
-margin_right = 302.0
-margin_bottom = 108.0
-custom_fonts/normal_font = ExtResource( 2 )
+margin_left = 71.0
+margin_top = 44.0
+margin_right = 752.0
+margin_bottom = 112.0
 text = "Chatting..."
 
 [node name="Timer" type="Timer" parent="."]

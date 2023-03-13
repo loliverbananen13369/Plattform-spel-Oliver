@@ -1,6 +1,5 @@
 [gd_scene load_steps=323 format=2]
 
-[ext_resource path="res://dash_particle.2.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 2/Battlemage Attack 2 wo Effect.mage.png" type="Texture" id=3]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Down/Jump Foward Going Down.mage.png" type="Texture" id=4]
@@ -747,6 +746,10 @@ region = Rect2( 708, 0, 118, 29 )
 atlas = ExtResource( 13 )
 region = Rect2( 826, 0, 118, 29 )
 
+[sub_resource type="StreamTexture" id=1193]
+resource_local_to_scene = true
+load_path = "res://.import/dash_particle.2.png-17eeda4d4eeed45c12d23d0a5d48b840.stex"
+
 [sub_resource type="AtlasTexture" id=1162]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 0, 56, 48 )
@@ -909,7 +912,7 @@ animations = [ {
 "name": "JumpN",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 896 ), SubResource( 897 ), SubResource( 898 ), SubResource( 899 ), SubResource( 900 ), SubResource( 901 ), SubResource( 902 ), SubResource( 903 ), ExtResource( 1 ) ],
+"frames": [ SubResource( 896 ), SubResource( 897 ), SubResource( 898 ), SubResource( 899 ), SubResource( 900 ), SubResource( 901 ), SubResource( 902 ), SubResource( 903 ), SubResource( 1193 ) ],
 "loop": false,
 "name": "New Anim",
 "speed": 5.0
@@ -2818,6 +2821,7 @@ collision_mask = 528
 script = ExtResource( 46 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
+visible = false
 modulate = Color( 0.0705882, 0, 0.0509804, 1 )
 material = SubResource( 1065 )
 position = Vector2( 0, 5 )
@@ -2981,7 +2985,7 @@ volume_db = -20.0
 pitch_scale = 0.7
 
 [node name="DashParticles2" type="Particles2D" parent="."]
-position = Vector2( 0, -15 )
+position = Vector2( 0, 5 )
 emitting = false
 amount = 60
 one_shot = true

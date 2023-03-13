@@ -157,6 +157,12 @@ func _physics_process(delta: float) -> void:
 
 #Help functions
 
+func set_active(active):
+	print(active)
+	set_physics_process(active)
+	set_process(active)
+	set_process_input(active)
+
 func check_sprites():
 	$NormalAttackArea/AirAttack.disabled = true
 	$NormalAttackArea/AttackGround.disabled = true

@@ -144,7 +144,10 @@ func _physics_process(delta: float) -> void:
 			_ability_state(delta)
 
 #Help functions
-
+func set_active(active):
+	set_physics_process(active)
+	set_process(active)
+	set_process_input(active)
 func _apply_basic_movement(delta) -> void:
 	if direction.x != 0:
 		velocity = velocity.move_toward(direction*MAX_SPEED, ACCELERATION*delta)

@@ -13,7 +13,7 @@ func _ready():
 
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
-	player.global_position = global_position + Vector2(30, -20)
+	player.global_position = global_position + Vector2(100, -20)
 	if PlayerStats.visited_bs_house == true:
 		player.global_position = global_position  + Vector2(0, -20)
 	get_child(2).add_child(player)

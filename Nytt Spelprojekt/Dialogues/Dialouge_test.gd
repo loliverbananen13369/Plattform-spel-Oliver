@@ -15,6 +15,7 @@ func _start():
 	d_active = true
 	$NinePatchRect.visible = true
 	dialogue = _load_dialogue()
+	_set_player_inactive()
 	current_dialogue_id = -1
 	_next_script()
 	
@@ -37,6 +38,7 @@ func _next_script():
 	if current_dialogue_id >= len(dialogue):
 		$Timer.start(0.4)
 		$NinePatchRect.visible = false
+		_set_player_active()
 		return
 	
 	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
@@ -45,3 +47,13 @@ func _next_script():
 
 func _on_Timer_timeout():
 	d_active = false
+
+func _set_player_active():
+	var player = PlayerStats.player
+	if player:
+		player.set_active(true)
+
+func _set_player_inactive():
+	var player = PlayerStats.player
+	if player:
+		player.set_active(false)

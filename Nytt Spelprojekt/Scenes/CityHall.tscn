@@ -358,7 +358,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 29/z_index = 0
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 18, 27.5 )
+extents = Vector2( 30, 27.5 )
 
 [sub_resource type="TileSet" id=12]
 0/name = "Vegetation Tileset 2.png 0"
@@ -547,7 +547,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -87, -78 ), Vector2( -87, -83 ) ]
+"values": [ Vector2( -87, -110 ), Vector2( -87, -115 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Bshouse:visible")
@@ -592,32 +592,9 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=15]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Portal:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PortalLabel:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -21, -65 ) ]
-}
 
 [sub_resource type="DynamicFontData" id=19]
+antialiased = false
 font_path = "res://SRAFreePixelFontPack/PixelMiddle.ttf"
 
 [sub_resource type="DynamicFont" id=20]
@@ -626,6 +603,7 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 19 )
 
 [sub_resource type="DynamicFontData" id=16]
+resource_local_to_scene = true
 antialiased = false
 font_path = "res://SRAFreePixelFontPack/PixelMiddle.ttf"
 
@@ -711,7 +689,6 @@ anims/Portal = SubResource( 18 )
 anims/RESET = SubResource( 15 )
 
 [node name="PortalLabel" type="Label" parent="."]
-visible = false
 margin_left = -21.0
 margin_top = -65.0
 margin_right = 29.0
@@ -721,9 +698,10 @@ text = "Portal"
 
 [node name="Bshouse" type="Label" parent="."]
 margin_left = -87.0
-margin_top = -78.0
+margin_top = -110.0
 margin_right = 100.0
-margin_bottom = -57.0
+margin_bottom = -89.0
+custom_colors/font_color = Color( 0.203922, 0.109804, 0.152941, 1 )
 custom_fonts/font = SubResource( 17 )
 text = "The Blacksmith's House"
 
