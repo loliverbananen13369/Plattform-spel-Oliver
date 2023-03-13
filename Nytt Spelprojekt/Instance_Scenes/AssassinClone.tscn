@@ -1,4 +1,4 @@
-[gd_scene load_steps=282 format=2]
+[gd_scene load_steps=287 format=2]
 
 [ext_resource path="res://Scripts/AssassinClone.gd" type="Script" id=1]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Up/Jump Foward Going Up.mage.png" type="Texture" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.new.ass.png" type="Texture" id=30]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 03/Smear 03 Horizontal 1.png" type="Texture" id=31]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.mage.png" type="Texture" id=32]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.newass.png" type="Texture" id=33]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Vertical 01.png" type="Texture" id=37]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 06/Smear 06 Horizontal 1.png" type="Texture" id=39]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Vertical 1.png" type="Texture" id=42]
@@ -58,7 +59,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=868]
 resource_local_to_scene = true
 shader = SubResource( 867 )
-shader_param/flash_color = Color( 0.870588, 0.619608, 0.254902, 1 )
+shader_param/flash_color = Color( 0.647059, 0.188235, 0.188235, 1 )
 shader_param/flash_modifier = 0.918
 
 [sub_resource type="AtlasTexture" id=1104]
@@ -1186,41 +1187,57 @@ orbit_velocity_random = 0.0
 scale_random = 1.0
 color = Color( 0, 0.0745098, 0.231373, 1 )
 
-[sub_resource type="AtlasTexture" id=904]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1189]
+atlas = ExtResource( 33 )
+region = Rect2( 0, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=905]
-atlas = ExtResource( 5 )
-region = Rect2( 118, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1190]
+atlas = ExtResource( 33 )
+region = Rect2( 176, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=906]
-atlas = ExtResource( 5 )
-region = Rect2( 236, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1191]
+atlas = ExtResource( 33 )
+region = Rect2( 352, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=907]
-atlas = ExtResource( 5 )
-region = Rect2( 354, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1192]
+atlas = ExtResource( 33 )
+region = Rect2( 528, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=908]
-atlas = ExtResource( 5 )
-region = Rect2( 472, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1193]
+atlas = ExtResource( 33 )
+region = Rect2( 704, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=909]
-atlas = ExtResource( 5 )
-region = Rect2( 590, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1194]
+atlas = ExtResource( 33 )
+region = Rect2( 880, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=910]
-atlas = ExtResource( 5 )
-region = Rect2( 708, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1195]
+atlas = ExtResource( 33 )
+region = Rect2( 1056, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=911]
-atlas = ExtResource( 5 )
-region = Rect2( 826, 0, 118, 29 )
+[sub_resource type="AtlasTexture" id=1196]
+atlas = ExtResource( 33 )
+region = Rect2( 1232, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=1197]
+atlas = ExtResource( 33 )
+region = Rect2( 1408, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=1198]
+atlas = ExtResource( 33 )
+region = Rect2( 1584, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=1199]
+atlas = ExtResource( 33 )
+region = Rect2( 1760, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=1200]
+atlas = ExtResource( 33 )
+region = Rect2( 1936, 0, 176, 61 )
 
 [sub_resource type="SpriteFrames" id=912]
 animations = [ {
-"frames": [ SubResource( 904 ), SubResource( 905 ), SubResource( 906 ), SubResource( 907 ), SubResource( 908 ), SubResource( 909 ), SubResource( 910 ), SubResource( 911 ) ],
+"frames": [ SubResource( 1189 ), SubResource( 1190 ), SubResource( 1191 ), SubResource( 1192 ), SubResource( 1193 ), SubResource( 1194 ), SubResource( 1195 ), SubResource( 1196 ), SubResource( 1197 ), SubResource( 1198 ), SubResource( 1199 ), SubResource( 1200 ) ],
 "loop": true,
 "name": "default",
 "speed": 15.0
@@ -1331,7 +1348,7 @@ tracks/7/keys = {
 
 [sub_resource type="Animation" id=895]
 resource_name = "Spawn"
-length = 0.6
+length = 0.8
 step = 0.0666667
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:animation")
@@ -1350,9 +1367,9 @@ tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.533333 ),
+"times": PoolRealArray( 0, 0.666667 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -1364,10 +1381,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("AnimatedSprite:visible")
@@ -1376,7 +1393,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.533333 ),
+"times": PoolRealArray( 0, 0.733333 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -1388,10 +1405,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.333333, 0.733333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0 ]
+"values": [ 4.0, 1.0, 1.0 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath(".:material")
@@ -1400,14 +1417,26 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.533333 ),
+"times": PoolRealArray( 0, 0.666667 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ SubResource( 868 ), SubResource( 868 ) ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:self_modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.666667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 3, 2, 1.5, 0 ), Color( 3, 2, 1.50196, 1 ) ]
+}
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
-modulate = Color( 2, 2, 2, 0 )
+self_modulate = Color( 3, 2, 1.50196, 1 )
 material = SubResource( 868 )
 frames = SubResource( 51 )
 animation = "Attack1"
@@ -1424,12 +1453,13 @@ disabled = true
 
 [node name="SmearSprite" type="AnimatedSprite" parent="."]
 visible = false
-modulate = Color( 2, 0.5, 2, 1 )
+modulate = Color( 3, 3, 1, 1 )
 material = SubResource( 870 )
 position = Vector2( 20, 5 )
 scale = Vector2( 3.5, 1.5 )
 frames = SubResource( 373 )
 animation = "Smear12H"
+frame = 2
 playing = true
 
 [node name="Position2D" type="Position2D" parent="."]
@@ -1445,14 +1475,16 @@ process_material = SubResource( 871 )
 texture = ExtResource( 65 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+self_modulate = Color( 3, 2.5, 1.5, 1 )
 material = SubResource( 868 )
-position = Vector2( 0, 10 )
-scale = Vector2( 2, 2 )
+position = Vector2( 0, -20 )
+scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 912 )
+frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
-playback_speed = 0.5
 anims/Attack1 = SubResource( 866 )
 anims/Spawn = SubResource( 895 )
 __meta__ = {

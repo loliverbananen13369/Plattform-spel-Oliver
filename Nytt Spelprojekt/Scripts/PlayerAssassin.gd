@@ -457,7 +457,7 @@ func _add_buff(buff_name: String) -> void:
 	var effect1 = buff.get_child(0)
 	buff.global_position = playersprite.global_position 
 	if buff_name == "lvl_up":
-		effect1.animation = "lvl_up"
+		effect1.animation = "holy_mage_test1"
 	get_tree().get_root().add_child(buff)
 	
 

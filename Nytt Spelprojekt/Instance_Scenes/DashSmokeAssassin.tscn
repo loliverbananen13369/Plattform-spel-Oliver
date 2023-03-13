@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Random_Effects/Sangoro/DASH SMOKE 2.ass.png" type="Texture" id=1]
 [ext_resource path="res://InstanceScripts/DashSmokeAssassin.gd" type="Script" id=2]
-[ext_resource path="res://Random_Effects/Sangoro/DASH SMOKE 2.png" type="Texture" id=3]
+[ext_resource path="res://Random_Effects/Sangoro/DASH SMOKE 2.ass2.png" type="Texture" id=3]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.newass1.png" type="Texture" id=4]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.test1.png" type="Texture" id=5]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.newass2.png" type="Texture" id=6]
@@ -35,31 +35,31 @@ region = Rect2( 295, 0, 59, 42 )
 atlas = ExtResource( 1 )
 region = Rect2( 354, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=28]
+[sub_resource type="AtlasTexture" id=68]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=29]
+[sub_resource type="AtlasTexture" id=69]
 atlas = ExtResource( 3 )
 region = Rect2( 59, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=30]
+[sub_resource type="AtlasTexture" id=70]
 atlas = ExtResource( 3 )
 region = Rect2( 118, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=31]
+[sub_resource type="AtlasTexture" id=71]
 atlas = ExtResource( 3 )
 region = Rect2( 177, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=32]
+[sub_resource type="AtlasTexture" id=72]
 atlas = ExtResource( 3 )
 region = Rect2( 236, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=33]
+[sub_resource type="AtlasTexture" id=73]
 atlas = ExtResource( 3 )
 region = Rect2( 295, 0, 59, 42 )
 
-[sub_resource type="AtlasTexture" id=34]
+[sub_resource type="AtlasTexture" id=74]
 atlas = ExtResource( 3 )
 region = Rect2( 354, 0, 59, 42 )
 
@@ -155,7 +155,7 @@ animations = [ {
 "name": "ImpactDustKick",
 "speed": 25.0
 }, {
-"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
+"frames": [ SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ) ],
 "loop": false,
 "name": "ImpactDustKickMage",
 "speed": 25.0

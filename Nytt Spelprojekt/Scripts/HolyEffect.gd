@@ -26,6 +26,10 @@ func _ready() -> void:
 		spellsprite.modulate.g = 1.5
 		#vector = Vector2(10, -18)
 		_add_preparing_attack_particles(20)
+	if spellsprite.animation == "holy_lvl_up":
+		spellsprite.modulate.r = 5
+		spellsprite.modulate.b = 1.5
+		spellsprite.modulate.g = 1.5
 	if spellsprite.animation == "holy_mage_test1":
 		spellsprite.scale.x = 2
 		spellsprite.scale.y = 3
