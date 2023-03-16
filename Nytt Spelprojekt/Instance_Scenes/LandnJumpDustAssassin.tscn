@@ -1,39 +1,41 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=41 format=2]
 
-[ext_resource path="res://Random_Effects/Sangoro/SMALL SIDE PUFF 2.ass1.png" type="Texture" id=1]
+[ext_resource path="res://Random_Effects/Sangoro/SMALL SIDE PUFF.newass.png" type="Texture" id=1]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_03.png" type="Texture" id=2]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_04.png" type="Texture" id=3]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_02.png" type="Texture" id=4]
-[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.ass1.png" type="Texture" id=5]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.newass1.png" type="Texture" id=5]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_01.png" type="Texture" id=6]
+[ext_resource path="res://Random_Effects/Sangoro/SMALL IMPACT2.png" type="Texture" id=7]
+[ext_resource path="res://Random_Effects/Sangoro/SMALL IMPACT.png" type="Texture" id=8]
 
 [sub_resource type="AtlasTexture" id=41]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 25, 23 )
+region = Rect2( 0, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=42]
 atlas = ExtResource( 1 )
-region = Rect2( 25, 0, 25, 23 )
+region = Rect2( 23, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=43]
 atlas = ExtResource( 1 )
-region = Rect2( 50, 0, 25, 23 )
+region = Rect2( 46, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=44]
 atlas = ExtResource( 1 )
-region = Rect2( 75, 0, 25, 23 )
+region = Rect2( 69, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=45]
 atlas = ExtResource( 1 )
-region = Rect2( 100, 0, 25, 23 )
+region = Rect2( 92, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=46]
 atlas = ExtResource( 1 )
-region = Rect2( 125, 0, 25, 23 )
+region = Rect2( 115, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=47]
 atlas = ExtResource( 1 )
-region = Rect2( 150, 0, 25, 23 )
+region = Rect2( 138, 0, 23, 20 )
 
 [sub_resource type="AtlasTexture" id=48]
 atlas = ExtResource( 5 )
@@ -83,6 +85,50 @@ region = Rect2( 1760, 0, 176, 61 )
 atlas = ExtResource( 5 )
 region = Rect2( 1936, 0, 176, 61 )
 
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 14, 12 )
+
+[sub_resource type="AtlasTexture" id=61]
+atlas = ExtResource( 8 )
+region = Rect2( 14, 0, 14, 12 )
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 8 )
+region = Rect2( 28, 0, 14, 12 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 8 )
+region = Rect2( 42, 0, 14, 12 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 8 )
+region = Rect2( 56, 0, 14, 12 )
+
+[sub_resource type="AtlasTexture" id=65]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 75, 23 )
+
+[sub_resource type="AtlasTexture" id=66]
+atlas = ExtResource( 7 )
+region = Rect2( 75, 0, 75, 23 )
+
+[sub_resource type="AtlasTexture" id=67]
+atlas = ExtResource( 7 )
+region = Rect2( 150, 0, 75, 23 )
+
+[sub_resource type="AtlasTexture" id=68]
+atlas = ExtResource( 7 )
+region = Rect2( 225, 0, 75, 23 )
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 7 )
+region = Rect2( 300, 0, 75, 23 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 7 )
+region = Rect2( 375, 0, 75, 23 )
+
 [sub_resource type="SpriteFrames" id=2]
 resource_local_to_scene = true
 animations = [ {
@@ -100,6 +146,16 @@ animations = [ {
 "loop": false,
 "name": "LandSmoke",
 "speed": 20.0
+}, {
+"frames": [ SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ) ],
+"loop": true,
+"name": "SmallWalkSmoke",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ) ],
+"loop": true,
+"name": "SmallWalkSmoke2",
+"speed": 5.0
 } ]
 
 [sub_resource type="GDScript" id=40]
@@ -129,8 +185,8 @@ func _on_LandnJumpDust_animation_finished():
 position = Vector2( 10, -20 )
 scale = Vector2( 1, 0.6 )
 frames = SubResource( 2 )
-animation = "JumpSmokeSide"
-frame = 6
+animation = "SmallWalkSmoke2"
+frame = 4
 playing = true
 script = SubResource( 40 )
 

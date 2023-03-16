@@ -6,6 +6,10 @@ var dialogue = []
 var current_dialogue_id = 0
 var d_active = false
 
+onready var animp = $AnimationPlayer
+
+signal active(active)
+
 func _ready():
 	$NinePatchRect.visible = false
 
@@ -18,6 +22,7 @@ func _start():
 	_set_player_inactive()
 	current_dialogue_id = -1
 	_next_script()
+	emit_signal("active", true)
 	
 
 func _load_dialogue():
@@ -39,11 +44,12 @@ func _next_script():
 		$Timer.start(0.4)
 		$NinePatchRect.visible = false
 		_set_player_active()
+		emit_signal("active", false)
 		return
 	
 	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
 	$NinePatchRect/Chat.text = dialogue[current_dialogue_id]["text"]
-
+	animp.play("Ny Anim")
 
 func _on_Timer_timeout():
 	d_active = false

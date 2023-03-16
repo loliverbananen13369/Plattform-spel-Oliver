@@ -12,9 +12,9 @@ func _ready():
 	if animation == "LandSmokeAssassin":
 		scale.x = 0.2
 		scale.y = 0.1
-		modulate.r8 = 18
-		modulate.g8 = 0
-		modulate.b8 = 13
+		modulate.r8 = 232
+		modulate.g8 = 193
+		modulate.b8 = 112
 	if animation == "JumpSmokeSide":
 		scale.x = 0.5
 		scale.y = 0.5
@@ -29,9 +29,9 @@ func _ready():
 			flip_h = false
 		else:
 			flip_h = true
-		modulate.r8 = 18
-		modulate.g8 = 0
-		modulate.b8 = 13
+		modulate.r8 = 232
+		modulate.g8 = 193
+		modulate.b8 = 112
 	if animation == "DustExplosion":
 		scale.x = 1
 		scale.y = 0.6

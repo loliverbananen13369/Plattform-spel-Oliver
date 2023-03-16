@@ -10,7 +10,7 @@
 [ext_resource path="res://CityHall/NPC/BlackSmith/Lively NPC_ blacksmith/animations/spritesheets/work_01.png" type="Texture" id=8]
 [ext_resource path="res://CityHall/NPC/BlackSmith/Lively NPC_ blacksmith/animations/spritesheets/bored_02.png" type="Texture" id=9]
 [ext_resource path="res://Dialogues/Dialouge.tscn" type="PackedScene" id=10]
-[ext_resource path="res://CityHall/NPC/male-voice-and-sounds-trying-to-explain-himself-unsure-embarrassed-25230.mp3" type="AudioStream" id=11]
+[ext_resource path="res://CityHall/NPC/human_male_crazy-mumbles_1-30950.mp3" type="AudioStream" id=11]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -639,6 +639,7 @@ position = Vector2( -116, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 15 )
 animation = "Bored2"
+frame = 3
 playing = true
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite"]
@@ -649,8 +650,8 @@ shape = SubResource( 68 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AnimatedSprite"]
 stream = ExtResource( 11 )
-volume_db = -8.595
-pitch_scale = 1.27
+volume_db = 0.739
+pitch_scale = 0.85
 max_distance = 1962.0
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -662,7 +663,7 @@ tile_data = PoolIntArray( -589808, 10, 0, -327694, 13, 0, -327691, 10, 0, -32768
 [node name="Door" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
-position = Vector2( 271.5, -23.5 )
+position = Vector2( 272, -22 )
 shape = SubResource( 67 )
 
 [node name="Dialogue" parent="." instance=ExtResource( 10 )]
@@ -673,3 +674,4 @@ shape = SubResource( 67 )
 [connection signal="body_exited" from="AnimatedSprite/Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="Door" to="." method="_on_Door_body_entered"]
 [connection signal="body_exited" from="Door" to="." method="_on_Door_body_exited"]
+[connection signal="active" from="Dialogue" to="." method="_on_Dialogue_active"]

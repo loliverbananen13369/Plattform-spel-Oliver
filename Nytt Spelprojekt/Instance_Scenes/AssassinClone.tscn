@@ -1,4 +1,4 @@
-[gd_scene load_steps=287 format=2]
+[gd_scene load_steps=289 format=2]
 
 [ext_resource path="res://Scripts/AssassinClone.gd" type="Script" id=1]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Up/Jump Foward Going Up.mage.png" type="Texture" id=2]
@@ -32,7 +32,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.new.ass.png" type="Texture" id=30]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 03/Smear 03 Horizontal 1.png" type="Texture" id=31]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.mage.png" type="Texture" id=32]
-[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.newass.png" type="Texture" id=33]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.newass1.png" type="Texture" id=33]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Vertical 01.png" type="Texture" id=37]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 06/Smear 06 Horizontal 1.png" type="Texture" id=39]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 07/Smear 07 Vertical 1.png" type="Texture" id=42]
@@ -59,8 +59,8 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=868]
 resource_local_to_scene = true
 shader = SubResource( 867 )
-shader_param/flash_color = Color( 0.647059, 0.188235, 0.188235, 1 )
-shader_param/flash_modifier = 0.918
+shader_param/flash_color = Color( 2.73, 2.28, 1.32, 1 )
+shader_param/flash_modifier = 0.841
 
 [sub_resource type="AtlasTexture" id=1104]
 atlas = ExtResource( 23 )
@@ -506,8 +506,8 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=870]
 shader = SubResource( 869 )
-shader_param/flash_color = Color( 1, 1, 1, 1 )
-shader_param/flash_modifier = 0.9
+shader_param/flash_color = Color( 2.54, 1.32, 0.36, 1 )
+shader_param/flash_modifier = 0.0
 
 [sub_resource type="AtlasTexture" id=532]
 atlas = ExtResource( 31 )
@@ -1187,6 +1187,23 @@ orbit_velocity_random = 0.0
 scale_random = 1.0
 color = Color( 0, 0.0745098, 0.231373, 1 )
 
+[sub_resource type="Shader" id=1201]
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : hint_color = vec4(1.0);
+uniform float flash_modifier: hint_range(0.0, 1.0) = 0.8;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	color.rgb = mix(color.rgb, flash_color.rgb, flash_modifier);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=1202]
+shader = SubResource( 1201 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
 [sub_resource type="AtlasTexture" id=1189]
 atlas = ExtResource( 33 )
 region = Rect2( 0, 0, 176, 61 )
@@ -1453,13 +1470,13 @@ disabled = true
 
 [node name="SmearSprite" type="AnimatedSprite" parent="."]
 visible = false
-modulate = Color( 3, 3, 1, 1 )
+modulate = Color( 2.29, 1.32, 0.09, 1 )
 material = SubResource( 870 )
 position = Vector2( 20, 5 )
 scale = Vector2( 3.5, 1.5 )
 frames = SubResource( 373 )
 animation = "Smear12H"
-frame = 2
+frame = 4
 playing = true
 
 [node name="Position2D" type="Position2D" parent="."]
@@ -1477,11 +1494,10 @@ texture = ExtResource( 65 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
 self_modulate = Color( 3, 2.5, 1.5, 1 )
-material = SubResource( 868 )
+material = SubResource( 1202 )
 position = Vector2( 0, -20 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 912 )
-frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
