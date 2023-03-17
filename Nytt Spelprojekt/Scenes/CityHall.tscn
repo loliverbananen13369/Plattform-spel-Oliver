@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/Terrain Tileset.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/CityHall.gd" type="Script" id=2]
@@ -360,7 +360,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 29/z_index = 0
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 30, 27.5 )
+extents = Vector2( 30, 29.25 )
 
 [sub_resource type="ConvexPolygonShape2D" id=22]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -611,6 +611,34 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 27.5, 24.5 )
 
+[sub_resource type="Animation" id=30]
+resource_name = "AssHouse"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("AssHouseDoor/AssHouseLabel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -431, -110 ), Vector2( -431, -115 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AssHouseDoor/AssHouseLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
 [sub_resource type="Animation" id=14]
 resource_name = "BSHouse"
 length = 2.0
@@ -788,6 +816,7 @@ position = Vector2( 1053, -25 )
 texture = ExtResource( 11 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/AssHouse = SubResource( 30 )
 anims/BSHouse = SubResource( 14 )
 anims/Portal = SubResource( 18 )
 
@@ -840,6 +869,22 @@ visible = false
 position = Vector2( 2.5, 1.125 )
 shape = SubResource( 29 )
 
+[node name="AssHouseDoor" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AssHouseDoor"]
+position = Vector2( -367, -21.75 )
+shape = SubResource( 11 )
+
+[node name="AssHouseLabel" type="Label" parent="AssHouseDoor"]
+margin_left = -431.0
+margin_top = -110.0
+margin_right = -302.0
+margin_bottom = -89.0
+custom_colors/font_color = Color( 0.203922, 0.109804, 0.152941, 1 )
+custom_fonts/font = SubResource( 17 )
+text = "Katalina's House"
+
 [connection signal="body_entered" from="TileMap/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="TileMap/Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="Portal" to="." method="_on_Portal_body_entered"]
@@ -848,3 +893,5 @@ shape = SubResource( 29 )
 [connection signal="body_exited" from="Well" to="." method="_on_Well_body_exited"]
 [connection signal="body_entered" from="Elder/Area2D" to="." method="_on_Elder_body_entered"]
 [connection signal="body_exited" from="Elder/Area2D" to="." method="_on_Area2D_body_exited"]
+[connection signal="body_entered" from="AssHouseDoor" to="." method="_on_AssHouseDoor_body_entered"]
+[connection signal="body_exited" from="AssHouseDoor" to="." method="_on_AssHouseDoor_body_exited"]
