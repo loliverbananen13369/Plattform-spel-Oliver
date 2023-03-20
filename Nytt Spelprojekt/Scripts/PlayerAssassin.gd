@@ -243,6 +243,7 @@ func _spawn_energy(enemy):
 	energy.global_position = enemy.global_position
 	hit_count = 0
 	get_tree().get_root().call_deferred("add_child", energy)
+	#call_deferred("add_child", energy)
 	
 
 func _add_shockwave():
@@ -1189,6 +1190,7 @@ func _on_KinematicBody2D_hurt() -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
+		
 		hit_count += 1
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
 			PlayerStats.enemies_hit_by_player.append(area.get_parent())
@@ -1198,10 +1200,10 @@ func _on_NormalAttackArea_area_entered(area):
 			$NewTimer.start(1)
 		if hit_count >= 2:
 			_spawn_energy(area.get_parent())
-		if area.is_in_group("Dummy"):
-			hit_count += 1
-			if hit_count >= 2:
-				_spawn_energy(area.get_parent())
+	if area.is_in_group("Dummy"):
+		hit_count += 1
+		if hit_count >= 2:
+			_spawn_energy(area)#.get_parent())
 		
 		
 func _on_KinematicBody2D_side_of_player(which_side):

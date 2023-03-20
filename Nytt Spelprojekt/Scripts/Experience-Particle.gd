@@ -14,7 +14,6 @@ var dir = 1#Vector2.RIGHT
 var current_velocity := Vector2.ZERO
 
 onready var sprite := $Sprite
-
 onready var hitbox := $HitBox
 onready var player_detector := $PlayerDetector
 
@@ -25,14 +24,13 @@ func _ready():
 	if target.direction_x != "RIGHT":
 		dir = -1#Vector2.LEFT
 	rng.randomize()
-	LAUNCH_SPEED *= rng.randf_range(1, 3.5)
+	LAUNCH_SPEED *= rng.randf_range(1, 2.5)
 	#current_velocity = LAUNCH_SPEED * 3 * dir.rotated(rotation)
 	current_velocity.x = LAUNCH_SPEED * dir
 	current_velocity.y = LAUNCH_SPEED * -1
 	
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.RIGHT.rotated(rotation).normalized()
-	
 	if target:
 		direction = global_position.direction_to((target.global_position + Vector2(0, 0)))
 
@@ -47,7 +45,6 @@ func _physics_process(delta: float) -> void:
 	
 func set_drag_factor(new_value: float) -> void:
 	drag_factor = clamp(new_value, 0.01, 0.5)
-
 
 
 

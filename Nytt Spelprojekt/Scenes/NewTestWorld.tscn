@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/NewTestWorld.gd" type="Script" id=1]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.new.png" type="Texture" id=2]
@@ -8,9 +8,7 @@
 [ext_resource path="res://Scripts/TestSpawner.gd" type="Script" id=6]
 [ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.hej1.png" type="Texture" id=7]
 [ext_resource path="res://TestFolder/TileMap1.tres" type="TileSet" id=8]
-[ext_resource path="res://TestMap/oak_woods_v1.0/background/background_layer_1.png" type="Texture" id=9]
-[ext_resource path="res://TestMap/oak_woods_v1.0/background/background_layer_3.png" type="Texture" id=10]
-[ext_resource path="res://TestMap/oak_woods_v1.0/background/background_layer_2.png" type="Texture" id=11]
+[ext_resource path="res://TestBackground.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Shader" id=80]
 code = "shader_type canvas_item;
@@ -887,39 +885,11 @@ anims/Shockwave = SubResource( 45 )
 [node name="Sprite" type="Sprite" parent="."]
 visible = false
 light_mask = 0
-position = Vector2( 577, -120.5 )
-scale = Vector2( 3.00347, 3.02778 )
+position = Vector2( 523, -213 )
 texture = ExtResource( 3 )
-offset = Vector2( 100, 0 )
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-scroll_offset = Vector2( 0, 50 )
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.1, 0 )
-motion_mirroring = Vector2( 480, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2( 345, -150 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
-
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.3, 0 )
-motion_mirroring = Vector2( 480, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-position = Vector2( 345, -150 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 11 )
-
-[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.5, 0 )
-motion_mirroring = Vector2( 480, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
-position = Vector2( 345, -150 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 10 )
+[node name="ParallaxBackground" parent="." instance=ExtResource( 9 )]
+offset = Vector2( 0, -150 )
+transform = Transform2D( 1, 0, 0, 1, 0, -150 )
 
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

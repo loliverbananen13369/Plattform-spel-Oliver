@@ -12,6 +12,10 @@ func _ready() -> void:
 #	else:
 	#	player = mage_scene.instance()
 	player.global_position = global_position + Vector2(30, -200)
+	target.get_child(0).limit_right = 1000
+	target.get_child(0).limit_left = -220
+	target.get_child(0).limit_bottom = 140
+	target.get_child(0).limit_top = -220
 	get_child(1).add_child(player)
 	get_child(1).add_child(target)
 	#var hej2 = get_child(1)
