@@ -1198,6 +1198,10 @@ func _on_NormalAttackArea_area_entered(area):
 			$NewTimer.start(1)
 		if hit_count >= 2:
 			_spawn_energy(area.get_parent())
+		if area.is_in_group("Dummy"):
+			hit_count += 1
+			if hit_count >= 2:
+				_spawn_energy(area.get_parent())
 		
 		
 func _on_KinematicBody2D_side_of_player(which_side):

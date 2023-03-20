@@ -27,6 +27,8 @@ func _ready():
 	get_child(2).add_child(player)
 	get_child(2).add_child(target)
 	#get_child(1).add_child(target)
+	PlayerStats.visited_bs_house = false
+	PlayerStats.visited_katalina_house = false
 
 
 func _on_Area2D_body_entered(body):

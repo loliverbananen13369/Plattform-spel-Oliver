@@ -3,6 +3,7 @@ extends Position2D
 
 onready var player = get_parent().get_child(0)
 
+
 func _ready() -> void:
 	pass
 

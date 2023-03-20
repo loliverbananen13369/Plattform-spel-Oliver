@@ -85,20 +85,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 0.835294, 0.235294, 0.415686, 1 ), Color( 0.486275, 0.0941176, 0.235294, 1 ), Color( 0.486275, 0.0941176, 0.235294, 0 ) ]
 }
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
-}
 
 [node name="DamageIndicator" type="Node2D"]
 modulate = Color( 0.835294, 0.235294, 0.415686, 1 )

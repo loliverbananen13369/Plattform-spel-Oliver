@@ -15,3 +15,4 @@ func _ready():
 func _process(delta):
 	global_position += SPEED * SHIFT_DIRECTION * delta
 	SPEED = max(SPEED - FRICTION * delta, 0)
+

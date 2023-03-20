@@ -2855,6 +2855,7 @@ visible = false
 position = Vector2( 10, -30 )
 scale = Vector2( 3.5, 1.5 )
 animation = "Smear2H"
+frame = 4
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
