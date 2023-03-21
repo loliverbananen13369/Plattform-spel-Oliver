@@ -885,7 +885,9 @@ position = Vector2( 523, -213 )
 texture = ExtResource( 3 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 9 )]
-offset = Vector2( 0, -600 )
-transform = Transform2D( 2, 0, 0, 2, 0, -600 )
+offset = Vector2( 0, -500 )
+scale = Vector2( 1.5, 1.5 )
+transform = Transform2D( 1.5, 0, 0, 1.5, 0, -500 )
+scroll_base_scale = Vector2( 1, 0.5 )
 
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

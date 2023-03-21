@@ -69,7 +69,7 @@ func _input(event):
 			PlayerStats.next_scene = "res://Scenes/NewTestWorld.tscn"
 			Transition.load_scene(PlayerStats.next_scene)
 		if entered_portal2:
-			PlayerStats.next_scene = "res://Scenes/PracticeTool.tscn"
+			PlayerStats.next_scene = "res://Scenes/WinterLevel1.tscn"
 			Transition.load_scene((PlayerStats.next_scene))
 		if entered_well:
 			if can_start_d:

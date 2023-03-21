@@ -5,29 +5,27 @@
 [ext_resource path="res://TestMap/New folder/background_2.test.png" type="Texture" id=3]
 
 [node name="ParallaxBackground" type="ParallaxBackground"]
-scale = Vector2( 2, 2 )
-transform = Transform2D( 2, 0, 0, 2, 0, 0 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0.1, 1 )
-motion_mirroring = Vector2( 432, 0 )
+motion_mirroring = Vector2( 288, 0 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer"]
-scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 1 )
+centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0.2, 1 )
-motion_mirroring = Vector2( 432, 0 )
+motion_mirroring = Vector2( 288, 0 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer2"]
-scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
+centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0.4, 1 )
-motion_mirroring = Vector2( 432, 0 )
+motion_mirroring = Vector2( 288, 0 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer3"]
-scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 3 )
+centered = false

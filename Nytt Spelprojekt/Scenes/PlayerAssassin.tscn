@@ -1,5 +1,6 @@
-[gd_scene load_steps=323 format=2]
+[gd_scene load_steps=334 format=2]
 
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Crouch/Battlemage Crouch.newass.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Attack 2/Battlemage Attack 2 wo Effect.mage.png" type="Texture" id=3]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Down/Jump Foward Going Down.mage.png" type="Texture" id=4]
@@ -602,6 +603,42 @@ region = Rect2( 0, 336, 56, 48 )
 atlas = ExtResource( 7 )
 region = Rect2( 0, 384, 56, 48 )
 
+[sub_resource type="AtlasTexture" id=1194]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1195]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1196]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 96, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1197]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1198]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1199]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1200]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1201]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1202]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 384, 56, 48 )
+
 [sub_resource type="AtlasTexture" id=1188]
 atlas = ExtResource( 21 )
 region = Rect2( 0, 0, 56, 48 )
@@ -871,6 +908,11 @@ animations = [ {
 "loop": false,
 "name": "Attack3",
 "speed": 30.0
+}, {
+"frames": [ SubResource( 1194 ), SubResource( 1195 ), SubResource( 1196 ), SubResource( 1197 ), SubResource( 1198 ), SubResource( 1199 ), SubResource( 1200 ), SubResource( 1201 ), SubResource( 1202 ) ],
+"loop": false,
+"name": "Crouch",
+"speed": 10.0
 }, {
 "frames": [ SubResource( 1188 ) ],
 "loop": false,
@@ -2432,107 +2474,86 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
-flags = 4
 atlas = ExtResource( 106 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2835,10 +2856,13 @@ scale_curve = SubResource( 1191 )
 color_ramp = SubResource( 638 )
 anim_speed = 1.0
 
+[sub_resource type="RectangleShape2D" id=1203]
+extents = Vector2( 10, 1 )
+
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 1
 collision_layer = 9
-collision_mask = 528
+collision_mask = 2576
 script = ExtResource( 46 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
@@ -2866,8 +2890,8 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "Attack1"
-frame = 7
+animation = "Idle"
+frame = 1
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true
@@ -2987,6 +3011,7 @@ shape = SubResource( 791 )
 one_shot = true
 
 [node name="HUD" parent="." instance=ExtResource( 20 )]
+visible = false
 
 [node name="SkillTreeInGameAssassin" parent="." instance=ExtResource( 23 )]
 
@@ -3014,6 +3039,14 @@ local_coords = false
 process_material = SubResource( 1192 )
 texture = ExtResource( 12 )
 
+[node name="DropDetect" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropDetect"]
+position = Vector2( 0, 25 )
+shape = SubResource( 1203 )
+
 [connection signal="EnergyChanged" from="." to="HUD" method="_on_Player_EnergyChanged"]
 [connection signal="HPChanged" from="." to="HUD" method="_on_Player_HPChanged"]
 [connection signal="LvlUp" from="." to="HUD" method="_on_Player_LvlUp"]
@@ -3030,6 +3063,7 @@ texture = ExtResource( 12 )
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]
 [connection signal="area_entered" from="CollectParticlesArea" to="." method="_on_CollectParticlesArea_area_entered"]
 [connection signal="timeout" from="EnemyHitTimer" to="." method="_on_EnemyHitTimer_timeout"]
+[connection signal="body_exited" from="DropDetect" to="." method="_on_DropDetect_body_exited"]
 
 [editable path="SkillTreeInGameAssassin"]
 [editable path="SkillTreeInGameAssassin/Control"]

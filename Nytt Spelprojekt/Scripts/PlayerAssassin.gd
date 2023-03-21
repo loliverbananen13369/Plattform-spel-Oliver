@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, RUN, AIR, DASH_AIR, DASH_GROUND, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+enum {IDLE, CROUCH, RUN, AIR, DASH_AIR, DASH_GROUND, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 
 
 const MAX_SPEED = 250
@@ -128,6 +128,8 @@ func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
 			_idle_state(delta)
+		CROUCH:
+			_crouch_state(delta)
 		RUN:
 			_run_state(delta)
 		AIR:
@@ -710,6 +712,9 @@ func _idle_state(delta) -> void:
 			$JumpSound.play()
 			#can_jump_sound = false
 		return
+	if Input.is_action_just_pressed("Crouch"):
+		_enter_crouch_state()
+		return
 	
 	if Input.is_action_just_pressed("AirExplosion"):
 		pass
@@ -725,7 +730,26 @@ func _idle_state(delta) -> void:
 	if velocity.x != 0:
 		_enter_run_state()
 		return
+
+func _crouch_state(delta) -> void:
+	direction.x = _get_input_x_update_direction()
+	#if direction.x != 0:
+	#	velocity = velocity.move_toward(direction*MAX_SPEED*0.5, ACCELERATION*delta)
+	#else:
+	velocity = velocity.move_toward(Vector2.ZERO, ACCELERATION*delta)
+	velocity.y += GRAVITY*delta
+	velocity = move_and_slide(velocity, Vector2.UP)
 	
+	if Input.is_action_just_pressed("Dash"):
+		if Input.is_action_pressed("Crouch"):
+			velocity.y = JUMP_STRENGHT * 0.3
+			playersprite.play("JumpN")
+			set_collision_mask_bit(11, false)
+			state = AIR
+	
+	if Input.is_action_just_released("Crouch"):
+		_enter_run_state()
+
 func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
@@ -755,6 +779,9 @@ func _run_state(delta) -> void:
 		_enter_dash_attack_state(1)
 	if Input.is_action_just_pressed("AttackE"):
 		_enter_dash_attack_state(1)
+	
+	if Input.is_action_just_pressed("Crouch"):
+		_enter_crouch_state()
 	
 	if (input_x == 1 and velocity.x < 0) or (input_x == -1 and velocity.x > 0):
 		_enter_stop_state()
@@ -973,6 +1000,11 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 	can_dash = false
 	dashtimer.start(0.25)
 		
+func _enter_crouch_state() -> void:
+	
+	state = CROUCH
+	playersprite.play("Crouch")
+
 func _enter_air_state(jump: bool) -> void:
 	check_sprites()
 	if jump:
@@ -1255,4 +1287,7 @@ func _on_EnemyHitTimer_timeout() -> void:
 func on_EnemyDead(body) -> void:
 	if PlayerStats.enemies_hit_by_player.has(body):
 		PlayerStats.enemies_hit_by_player.erase(body)
-	
+
+
+func _on_DropDetect_body_exited(body):
+	set_collision_mask_bit(11, true)
