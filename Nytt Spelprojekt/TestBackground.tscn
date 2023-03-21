@@ -5,6 +5,8 @@
 [ext_resource path="res://TestMap/New folder/background_2.test.png" type="Texture" id=3]
 
 [node name="ParallaxBackground" type="ParallaxBackground"]
+scale = Vector2( 2, 2 )
+transform = Transform2D( 2, 0, 0, 2, 0, 0 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0.1, 1 )
