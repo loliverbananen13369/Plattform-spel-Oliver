@@ -61,7 +61,7 @@ func _stop_physics() -> void:
 	set_physics_process(false)
 
 func _get_direction():
-	var pos = get_parent().get_node("Node2D").get_child(0).global_position.x #get_parent().get_parent().get_node("Node2D").get_child(0).global_position.x#
+	var pos = get_parent().get_parent().get_node("Node2D").get_child(0).global_position.x #get_parent().get_parent().get_node("Node2D").get_child(0).global_position.x#
 	if pos > global_position.x:
 		direction_x = 1
 		animsprite.flip_h = true

@@ -3,6 +3,7 @@ extends Node2D
 
 var entered_bs_house = false
 var entered_portal = false
+var entered_portal2 = false
 var entered_well = false
 var entered_katalina = false
 var can_start_d = false
@@ -24,6 +25,10 @@ func _ready():
 		player.global_position = global_position  + Vector2(0, -20)
 	if PlayerStats.visited_katalina_house == true:
 		player.global_position = global_position + Vector2(-367, -24)
+	target.get_child(0).limit_right = 1100
+	target.get_child(0).limit_left = -2208
+	target.get_child(0).limit_bottom = 40
+	target.get_child(0).limit_top = -220
 	get_child(2).add_child(player)
 	get_child(2).add_child(target)
 	#get_child(1).add_child(target)
@@ -35,6 +40,7 @@ func _on_Area2D_body_entered(body):
 	entered_bs_house = true
 	can_start_d = false
 	entered_portal = false
+	entered_portal2 = false
 	anim.play("BSHouse")
 
 
@@ -62,6 +68,9 @@ func _input(event):
 		if entered_portal:
 			PlayerStats.next_scene = "res://Scenes/NewTestWorld.tscn"
 			Transition.load_scene(PlayerStats.next_scene)
+		if entered_portal2:
+			PlayerStats.next_scene = "res://Scenes/PracticeTool.tscn"
+			Transition.load_scene((PlayerStats.next_scene))
 		if entered_well:
 			if can_start_d:
 				_use_dialogue()
@@ -69,12 +78,14 @@ func _input(event):
 			else:
 				get_node("Well/WellDialogue")._stop_dialogue()
 				can_start_d = true
+		
 			
 
 
 func _on_Portal_body_entered(body):
 	entered_portal = true
 	entered_bs_house = false
+	entered_portal2 = false
 	can_start_d = false
 	anim.play("Portal")
 
@@ -88,6 +99,7 @@ func _on_Portal_body_exited(body):
 func _on_Well_body_entered(body: Node) -> void:
 	entered_well = true
 	entered_portal = false
+	entered_portal2 = false
 	entered_bs_house = false
 	can_start_d = true
 
@@ -104,6 +116,7 @@ func _on_Elder_body_entered(body: Node) -> void:
 func _on_AssHouseDoor_body_entered(body: Node) -> void:
 	entered_katalina = true
 	entered_bs_house = false
+	entered_portal2 = false
 	can_start_d = false
 	entered_portal = false
 	anim.play("AssHouse")
@@ -113,3 +126,19 @@ func _on_AssHouseDoor_body_exited(body: Node) -> void:
 	entered_katalina = false
 	anim.stop(true)
 	$AssHouseDoor/AssHouseLabel.visible = false
+
+
+func _on_Portal2_body_entered(body: Node) -> void:
+	entered_portal2 = true
+	entered_bs_house = false
+	entered_portal = false
+	entered_katalina = false
+	can_start_d = false
+	anim.play("Portal2")
+	
+
+
+func _on_Portal2_body_exited(body: Node) -> void:
+	entered_portal2 = false
+	anim.stop(true)
+	$PortalLabel2.visible = false

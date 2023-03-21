@@ -483,5 +483,7 @@ texture = ExtResource( 5 )
 position = Vector2( 360, -166.5 )
 shape = SubResource( 23 )
 
+[node name="Node" type="Node" parent="."]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

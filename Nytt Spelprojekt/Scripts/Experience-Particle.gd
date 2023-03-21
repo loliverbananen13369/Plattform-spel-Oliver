@@ -29,6 +29,7 @@ func _ready():
 	current_velocity.x = LAUNCH_SPEED * dir
 	current_velocity.y = LAUNCH_SPEED * -1
 	
+	
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.RIGHT.rotated(rotation).normalized()
 	if target:

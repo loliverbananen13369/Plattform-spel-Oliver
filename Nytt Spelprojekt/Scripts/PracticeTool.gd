@@ -11,7 +11,7 @@ var can_add_dummy = false
 
 
 func _ready() -> void:
-	player = player_scene.instance()
+	player = PlayerStats.player
 	var target = anchor_scene.instance()
 	var dummy = dummy_scene.instance()
 	player.global_position = global_position + Vector2(360, -165)
@@ -23,7 +23,7 @@ func _ready() -> void:
 	dummy.global_position = Vector2(200, -20)
 	get_child(0).add_child(player)
 	get_child(0).add_child(target)
-	add_child((dummy))
+	get_node("Node").add_child(dummy)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
@@ -39,7 +39,7 @@ func _input(event):
 func _add_dummy() -> void:
 	var dummy = dummy_scene.instance()
 	dummy.global_position = player.global_position + Vector2(0, -40)
-	add_child(dummy)
+	get_node("Node").add_child(dummy)
 
 func _on_Area2D_body_entered(body: Node) -> void:
 	can_exit = true

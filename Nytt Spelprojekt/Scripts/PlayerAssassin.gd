@@ -30,7 +30,7 @@ var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
 var jump_pressed := false
-var can_follow_enemy := false
+#var can_follow_enemy := false
 var can_add_ass_ghost := false
 var attack_pressed = 0
 var previous_attack = 0
@@ -579,31 +579,30 @@ func _remember_attack() -> void:
 	attack_pressed = 0
 
 func _dash_to_enemy(enemy, switch_side: bool) -> void:
-	if can_follow_enemy:
-		if not switch_side:
-			if is_instance_valid(enemy):
-				if global_position.x >= enemy.global_position.x:
-					global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
+	if not switch_side:
+		if is_instance_valid(enemy):
+			if global_position.x >= enemy.global_position.x:
+				global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
+				direction_x = "LEFT"
+				_flip_sprite(false)
+			else:
+				global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
+				direction_x = "RIGHT"
+				_flip_sprite(true)
+	else:
+		if is_instance_valid(enemy):
+			if global_position.distance_to(enemy.global_position) < 100:
+				if global_position.x <= enemy.global_position.x:
+					global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
 					direction_x = "LEFT"
 					_flip_sprite(false)
 				else:
-					global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
+					global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
 					direction_x = "RIGHT"
 					_flip_sprite(true)
-		else:
-			if is_instance_valid(enemy):
-				if global_position.distance_to(enemy.global_position) < 100:
-					if global_position.x <= enemy.global_position.x:
-						global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
-						direction_x = "LEFT"
-						_flip_sprite(false)
-					else:
-						global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
-						direction_x = "RIGHT"
-						_flip_sprite(true)
+	
 		
-			
-		
+	
 
 func _get_smearsprite(button: String):
 	if button == "q":
@@ -1195,13 +1194,12 @@ func _on_NormalAttackArea_area_entered(area):
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
 			PlayerStats.enemies_hit_by_player.append(area.get_parent())
 		$EnemyHitTimer.start(10)
-		if not can_follow_enemy:
-			can_follow_enemy = true
-			$NewTimer.start(1)
 		if hit_count >= 2:
 			_spawn_energy(area.get_parent())
 	if area.is_in_group("Dummy"):
 		hit_count += 1
+		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
+			PlayerStats.enemies_hit_by_player.append(area.get_parent())
 		if hit_count >= 2:
 			_spawn_energy(area)#.get_parent())
 		
@@ -1241,7 +1239,7 @@ func _on_DashTimer_timeout():
 	playersprite.modulate.b = 1
 
 func _on_NewTimer_timeout():
-	can_follow_enemy = false
+	pass
 
 func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
