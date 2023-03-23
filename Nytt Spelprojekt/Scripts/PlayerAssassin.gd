@@ -59,7 +59,8 @@ var ghost_scene = preload("res://Instance_Scenes/GhostDashAssassin.tscn")
 var speedline_scene = preload("res://Instance_Scenes/Speedlines.tscn")
 var new_ghost_scene = preload("res://Instance_Scenes/AssassinGhost.tscn")
 var dash_smoke_scene = preload("res://Instance_Scenes/DashSmokeAssassin.tscn")
-var jl_scene = preload("res://Instance_Scenes/LandnJumpDust.tscn")
+var land_scene = preload("res://Instance_Scenes/LandDust.tscn")
+var jump_scene = preload("res://Instance_Scenes/JumpDust.tscn")
 var dust_scene = preload("res://Instance_Scenes/ParticlesDustAssassin.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
@@ -71,8 +72,10 @@ var clone_scene = preload("res://Instance_Scenes/AssassinClone.tscn")
 var dash_attack_scene = preload("res://Instance_Scenes/AssassinDashAttack.tscn")
 var impact_scene = preload("res://Scenes/Impact_Scene.tscn")
 var energy_scene = preload("res://Instance_Scenes/AssassinEnergyParticle.tscn")
+var crouch_smoke_scene = preload("res://Instance_Scenes/CrouchSmoke.tscn")
 
 var ghosttime := 0.0
+var crouchtime := 0.0
 
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
@@ -321,10 +324,22 @@ func _get_input_x_update_direction() -> float:
 	elif input_x < 0:
 		direction_x = "LEFT"
 		_flip_sprite(false)
-	playersprite.flip_h = direction_x != "RIGHT"
-	animatedsmears.flip_h = direction_x != "RIGHT"
+	
+	#playersprite.flip_h = direction_x != "RIGHT"
+	#animatedsmears.flip_h = direction_x != "RIGHT"
 	
 	#$Thrusts.flip_h  = direction_x != "RIGHT"
+	
+	return input_x
+
+func _get_input_x_crouch_direction() -> float:
+	var input_x = Input.get_axis("move_left", "move_right")
+	if input_x > 0:
+		direction_x = "RIGHT"
+		_flip_sprite(false)
+	elif input_x < 0:
+		direction_x = "LEFT"
+		_flip_sprite(true)
 	
 	return input_x
 
@@ -434,12 +449,25 @@ func _flip_sprite(right: bool) -> void:
 		$NormalAttackArea/AttackJump.position.x = -20
 		$SwordCutArea/SpinAttack.position.x = -34
 
+func _add_crouch_ghost() -> void:
+	var dir 
+	if direction_x == "RIGHT":
+		dir = 1
+	else:
+		dir = -1
+	var smoke = crouch_smoke_scene.instance()
+	smoke.global_position = global_position + Vector2(22*dir, 25)
+	smoke.flip_h = playersprite.flip_h
+	get_tree().get_root().add_child(smoke)
+
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
 	ghost.global_position = global_position + Vector2(0, -2)
 	#ghost.global_position.y -= 20
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
+
+
 
 func _add_walk_dust(amount: int) -> void:
 	var dust = dust_scene.instance()
@@ -449,15 +477,15 @@ func _add_walk_dust(amount: int) -> void:
 	get_tree().get_root().add_child(dust)
 
 func _add_land_dust()-> void:
-	var dust = jl_scene.instance()
+	var dust = land_scene.instance()#jl_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
-	dust.play("LandSmokeAssassin")
+	#dust.play("LandSmokeAssassin")
 	get_tree().get_root().add_child(dust)
 
 func _add_jump_dust() -> void:
-	var dust = jl_scene.instance()
-	dust.global_position = playersprite.global_position + Vector2(0, 20)
-	dust.play("JumpSmokeSideAssassin")
+	var dust = jump_scene.instance()#jl_scene.instance()
+	dust.global_position = playersprite.global_position + Vector2(0, 15)
+	#dust.play("JumpSmokeSideAssassin")
 	get_tree().get_root().add_child(dust)
 
 
@@ -705,7 +733,8 @@ func _idle_state(delta) -> void:
 		$SkillTreeInGameAssassin/Control/CanvasLayer.visible = false
 	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-		_add_walk_dust(15)
+	#	_add_walk_dust(15)
+		_add_jump_dust()
 		_enter_air_state(true)
 		if can_jump_sound:
 			_get_random_sound("Jump")
@@ -714,12 +743,6 @@ func _idle_state(delta) -> void:
 		return
 	if Input.is_action_just_pressed("Crouch"):
 		_enter_crouch_state()
-		return
-	
-	if Input.is_action_just_pressed("AirExplosion"):
-		pass
-
-	
 	
 	_attack_function()
 	_apply_basic_movement(delta)
@@ -732,17 +755,16 @@ func _idle_state(delta) -> void:
 		return
 
 func _crouch_state(delta) -> void:
-	direction.x = _get_input_x_update_direction()
-	#if direction.x != 0:
-	#	velocity = velocity.move_toward(direction*MAX_SPEED*0.5, ACCELERATION*delta)
-	#else:
-	velocity = velocity.move_toward(Vector2.ZERO, ACCELERATION*delta)
+	
+	#direction.x = _get_input_x_update_direction()
+	direction.x = _get_input_x_crouch_direction()
+	velocity = velocity.move_toward(Vector2.ZERO, 0.5*ACCELERATION*delta)
 	velocity.y += GRAVITY*delta
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	if Input.is_action_just_pressed("Dash"):
 		if Input.is_action_pressed("Crouch"):
-			velocity.y = JUMP_STRENGHT * 0.3
+			velocity.y = JUMP_STRENGHT * 0.1
 			playersprite.play("JumpN")
 			set_collision_mask_bit(11, false)
 			state = AIR
@@ -750,6 +772,11 @@ func _crouch_state(delta) -> void:
 	if Input.is_action_just_released("Crouch"):
 		_enter_run_state()
 
+	if abs(velocity.x) >= 50:
+		crouchtime += delta
+		if crouchtime >= 0.07:
+			_add_crouch_ghost()
+			crouchtime = 0
 func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
@@ -768,6 +795,7 @@ func _run_state(delta) -> void:
 			$JumpSound.play()
 			#can_jump_sound = false
 		return
+
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_add_dash_smoke("ImpactDustKick")
@@ -844,8 +872,6 @@ func _air_state(delta) -> void:
 			playersprite.play("FallF")
 			return
 
-	
-
 func _dash_state_air(delta):
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
@@ -896,7 +922,7 @@ func _stop_state(delta):
 	elif velocity.length() == 0:
 		_enter_idle_state()
 		return
-	
+
 func _attack_state_ground(_delta) -> void:
 	_attack_function()
 	
@@ -938,8 +964,7 @@ func _jump_attack_state(delta) -> void:
 func _combo_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash"):
 		_dash_to_enemy(test_var_enemy, true)
-	
-	
+
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
 func _invisible_state(delta) -> void:
@@ -947,7 +972,6 @@ func _invisible_state(delta) -> void:
 	#global_position = testpos2
 	#playersprite.visible = false
 	#$HurtBox/CollisionShape2D.disabled = true
-
 
 #Enter states
 func _enter_idle_state() -> void:
@@ -958,7 +982,6 @@ func _enter_idle_state() -> void:
 	if can_add_ass_ghost:
 		pass
 		#_add_assassin_ghost(20)
-
 func _enter_dash_state(attack: bool, ground:bool) -> void:
 	check_sprites()
 	_add_shockwave()
@@ -1001,8 +1024,12 @@ func _enter_dash_state(attack: bool, ground:bool) -> void:
 	dashtimer.start(0.25)
 		
 func _enter_crouch_state() -> void:
-	
 	state = CROUCH
+	if velocity.x >= 1 or velocity.x <= -1:
+		if direction_x == "RIGHT":
+			_flip_sprite(false)
+		else:
+			_flip_sprite(true)
 	playersprite.play("Crouch")
 
 func _enter_air_state(jump: bool) -> void:
@@ -1016,7 +1043,6 @@ func _enter_air_state(jump: bool) -> void:
 			playersprite.play("JumpF")
 	coyotetimer.start()
 	state = AIR
-
 
 func _enter_run_state() -> void:
 	check_sprites()

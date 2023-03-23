@@ -1,54 +1,54 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/LandnJumpDust.gd" type="Script" id=1]
-[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.this.png" type="Texture" id=8]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.this.png" type="Texture" id=2]
 
 [sub_resource type="AtlasTexture" id=54]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=55]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 176, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=56]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 352, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=57]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 528, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=58]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 704, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=59]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 880, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=60]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 1056, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=61]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 1232, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=62]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 1408, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=63]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 1584, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=64]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 1760, 0, 176, 61 )
 
 [sub_resource type="AtlasTexture" id=65]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 2 )
 region = Rect2( 1936, 0, 176, 61 )
 
 [sub_resource type="SpriteFrames" id=2]

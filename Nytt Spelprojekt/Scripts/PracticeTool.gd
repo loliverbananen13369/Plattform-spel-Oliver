@@ -11,6 +11,7 @@ var can_add_dummy = false
 
 
 func _ready() -> void:
+	PlayerStats.ground_color = "3a2122"
 	player = PlayerStats.player
 	var target = anchor_scene.instance()
 	var dummy = dummy_scene.instance()

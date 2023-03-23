@@ -14,6 +14,7 @@ onready var anim = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	PlayerStats.ground_color = "cf573c"
 	$Bshouse.rect_position.x = -87#(-87, -110)
 	$Bshouse.visible = false
 	$PortalLabel.rect_position.x = 1032

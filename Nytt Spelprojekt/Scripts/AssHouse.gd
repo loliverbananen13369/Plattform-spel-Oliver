@@ -11,6 +11,7 @@ onready var audiop = $Area2D/AudioStreamPlayer2D
 
 
 func _ready():
+	PlayerStats.ground_color = "3a2122"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(-365, -40)

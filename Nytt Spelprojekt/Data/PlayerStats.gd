@@ -37,6 +37,8 @@ var visited_katalina_house = false
 var visited_practice_tool = false
 var next_scene = "res://Scenes/CityHall.tscn"
 
+var ground_color 
+
 func _ready() -> void:
 	load_data()
 

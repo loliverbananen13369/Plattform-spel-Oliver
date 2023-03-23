@@ -639,7 +639,7 @@ position = Vector2( -116, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 15 )
 animation = "Bored2"
-frame = 1
+frame = 6
 playing = true
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite"]
@@ -663,6 +663,7 @@ tile_data = PoolIntArray( -589808, 10, 0, -327694, 13, 0, -327691, 10, 0, -32768
 [node name="Door" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+modulate = Color( 0.227451, 0.129412, 0.133333, 1 )
 position = Vector2( 272, -22 )
 shape = SubResource( 67 )
 

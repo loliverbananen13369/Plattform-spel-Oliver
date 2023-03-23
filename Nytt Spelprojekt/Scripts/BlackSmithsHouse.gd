@@ -10,7 +10,9 @@ onready var audiop = $AnimatedSprite/AudioStreamPlayer2D
 
 
 func _ready():
-	player = player_scene.instance()
+	PlayerStats.ground_color = "3a2122"
+	#player = player_scene.instance()
+	player = PlayerStats.player
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(270, -20)
 

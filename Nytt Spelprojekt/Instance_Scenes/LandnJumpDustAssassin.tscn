@@ -4,7 +4,7 @@
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_03.png" type="Texture" id=2]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_04.png" type="Texture" id=3]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_02.png" type="Texture" id=4]
-[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.newass1.png" type="Texture" id=5]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.this.png" type="Texture" id=5]
 [ext_resource path="res://Random_Effects/FX052_nyknck/FX052_01.png" type="Texture" id=6]
 [ext_resource path="res://Random_Effects/Sangoro/SMALL IMPACT2.png" type="Texture" id=7]
 [ext_resource path="res://Random_Effects/Sangoro/SMALL IMPACT.png" type="Texture" id=8]
@@ -37,51 +37,51 @@ region = Rect2( 115, 0, 23, 20 )
 atlas = ExtResource( 1 )
 region = Rect2( 138, 0, 23, 20 )
 
-[sub_resource type="AtlasTexture" id=48]
+[sub_resource type="AtlasTexture" id=71]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=49]
+[sub_resource type="AtlasTexture" id=72]
 atlas = ExtResource( 5 )
 region = Rect2( 176, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=50]
+[sub_resource type="AtlasTexture" id=73]
 atlas = ExtResource( 5 )
 region = Rect2( 352, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=51]
+[sub_resource type="AtlasTexture" id=74]
 atlas = ExtResource( 5 )
 region = Rect2( 528, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=52]
+[sub_resource type="AtlasTexture" id=75]
 atlas = ExtResource( 5 )
 region = Rect2( 704, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=53]
+[sub_resource type="AtlasTexture" id=76]
 atlas = ExtResource( 5 )
 region = Rect2( 880, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=54]
+[sub_resource type="AtlasTexture" id=77]
 atlas = ExtResource( 5 )
 region = Rect2( 1056, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=55]
+[sub_resource type="AtlasTexture" id=78]
 atlas = ExtResource( 5 )
 region = Rect2( 1232, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=56]
+[sub_resource type="AtlasTexture" id=79]
 atlas = ExtResource( 5 )
 region = Rect2( 1408, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=57]
+[sub_resource type="AtlasTexture" id=80]
 atlas = ExtResource( 5 )
 region = Rect2( 1584, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=58]
+[sub_resource type="AtlasTexture" id=81]
 atlas = ExtResource( 5 )
 region = Rect2( 1760, 0, 176, 61 )
 
-[sub_resource type="AtlasTexture" id=59]
+[sub_resource type="AtlasTexture" id=82]
 atlas = ExtResource( 5 )
 region = Rect2( 1936, 0, 176, 61 )
 
@@ -142,7 +142,7 @@ animations = [ {
 "name": "JumpSmokeSide",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ) ],
+"frames": [ SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ), SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ) ],
 "loop": false,
 "name": "LandSmoke",
 "speed": 20.0
@@ -164,6 +164,7 @@ script/source = "extends AnimatedSprite
 onready var player = PlayerStats.player#get_parent().get_child(2).get_child(1).get_child(0)
 
 func _ready():
+	print(\"aSSASSINNASJKDHSJKDFHSDKJFHDS\")
 	var direction_x = player.get(\"direction_x\")
 	frame = 0
 	if animation == \"LandSmoke\":
@@ -186,7 +187,6 @@ position = Vector2( 10, -20 )
 scale = Vector2( 1, 0.6 )
 frames = SubResource( 2 )
 animation = "SmallWalkSmoke2"
-frame = 4
 playing = true
 script = SubResource( 40 )
 
