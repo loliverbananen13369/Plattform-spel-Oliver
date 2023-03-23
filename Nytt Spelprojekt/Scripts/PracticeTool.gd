@@ -12,10 +12,11 @@ var can_add_dummy = false
 
 func _ready() -> void:
 	PlayerStats.ground_color = "3a2122"
-	player = PlayerStats.player
+	#player = PlayerStats.player
+	player = player_scene.instance()
 	var target = anchor_scene.instance()
 	var dummy = dummy_scene.instance()
-	player.global_position = global_position + Vector2(360, -165)
+	
 	target.get_child(0).limit_right = 440
 	target.get_child(0).limit_left = -395
 	target.get_child(0).limit_top = -510
@@ -23,6 +24,8 @@ func _ready() -> void:
 	PlayerStats.visited_practice_tool = true
 	dummy.global_position = Vector2(200, -20)
 	get_child(0).add_child(player)
+	PlayerStats.player = player
+	player.global_position = global_position + Vector2(360, -165)
 	get_child(0).add_child(target)
 	get_node("Node").add_child(dummy)
 # Called every frame. 'delta' is the elapsed time since the previous frame.

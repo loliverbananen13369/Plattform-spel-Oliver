@@ -18,6 +18,7 @@ signal EnemyHurt()
 signal EnemyDead(test_enemy)
 signal GolemStatus(active)
 
+
 var enemy_who_hurt
 var enemy_who_hurt_list = []
 var enemies_hit_by_player = []
@@ -36,6 +37,7 @@ var visited_bs_house = false
 var visited_katalina_house = false
 var visited_practice_tool = false
 var next_scene = "res://Scenes/CityHall.tscn"
+var prev_scene = "res://Scenes/CityHall.tscn"
 
 var ground_color 
 

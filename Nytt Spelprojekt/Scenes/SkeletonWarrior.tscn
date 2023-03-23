@@ -1,4 +1,4 @@
-[gd_scene load_steps=125 format=2]
+[gd_scene load_steps=127 format=2]
 
 [ext_resource path="res://Random_Effects/Effect 2 - Sprite Sheet.new.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SkeletonWarrior.gd" type="Script" id=2]
@@ -799,8 +799,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=283]
-radius = 157.204
+[sub_resource type="RectangleShape2D" id=284]
+extents = Vector2( 10, 15.5 )
+
+[sub_resource type="RectangleShape2D" id=286]
+extents = Vector2( 80, 5 )
 
 [sub_resource type="RectangleShape2D" id=60]
 extents = Vector2( 9.25, 16.25 )
@@ -920,18 +923,19 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=285]
+extents = Vector2( 7, 10 )
+
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["Enemy"]]
 light_mask = 2
 collision_layer = 4
-collision_mask = 16
+collision_mask = 2064
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 50 )
 frames = SubResource( 3 )
-animation = "Dead"
-frame = 4
+animation = "Idle"
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -982,17 +986,22 @@ scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 83 )
 animation = "Hurt1"
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="Area2D" parent="."]
 position = Vector2( 15, 0 )
-enabled = true
-collision_mask = 16
+collision_layer = 0
+collision_mask = 2064
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RayCast2D"]
+position = Vector2( 0, 12.5 )
+scale = Vector2( 0.3, 1 )
+shape = SubResource( 284 )
 
 [node name="PlayerDetector" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
-shape = SubResource( 283 )
+position = Vector2( 0, 5 )
+shape = SubResource( 286 )
 
 [node name="AttackDetector" type="Area2D" parent="."]
 visible = false
@@ -1016,14 +1025,16 @@ scale = Vector2( 2, 1 )
 frames = SubResource( 160 )
 animation = "Test3"
 
-[node name="WallRayCast" type="RayCast2D" parent="."]
+[node name="WallRayCast" type="Area2D" parent="."]
 visible = false
-position = Vector2( -2, 0 )
-rotation = -3.14159
-cast_to = Vector2( 25, 0 )
-collision_mask = 16
-collide_with_areas = true
-collide_with_bodies = false
+collision_layer = 0
+collision_mask = 2064
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRayCast"]
+position = Vector2( -5, 0 )
+scale = Vector2( 1, 0.1 )
+shape = SubResource( 285 )
 
 [node name="AttackArea" type="Area2D" parent="." groups=["EnemySword"]]
 visible = false
@@ -1040,8 +1051,10 @@ disabled = true
 [connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_changed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
+[connection signal="body_exited" from="RayCast2D" to="." method="_on_RayCast2D_body_exited"]
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
 [connection signal="body_entered" from="AttackDetector" to="." method="_on_AttackDetector_body_entered"]
 [connection signal="body_exited" from="AttackDetector" to="." method="_on_AttackDetector_body_exited"]
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
+[connection signal="body_entered" from="WallRayCast" to="." method="_on_WallRayCast_body_entered"]

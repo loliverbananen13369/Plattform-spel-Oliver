@@ -11,6 +11,7 @@ onready var audiop = $Area2D/AudioStreamPlayer2D
 
 
 func _ready():
+	PlayerStats.visited_katalina_house = true
 	PlayerStats.ground_color = "3a2122"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
@@ -23,6 +24,7 @@ func _ready():
 	target.get_child(0).limit_top = -200
 	target.get_child(0).limit_bottom = 400
 	get_child(0).add_child(player)
+	PlayerStats.player = player
 	get_child(0).add_child(target)
 	yield(get_tree().create_timer(0.5),"timeout")
 	in_range_for_talk = false

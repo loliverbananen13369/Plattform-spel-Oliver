@@ -6,14 +6,19 @@ var player
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
 var can_talk_rock = false
 var d_active = false
+export (String) var next_scene 
+export (String) var previous_scene
 
 onready var mission_d = $NPCRock/MissionDialogue
 onready var normal_d = $NPCRock/Dialogue
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	PlayerStats.ground_color = "a4dddb"
 	player = player_scene.instance()
+	#player = PlayerStats.player
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(0, -20)
 	target.get_child(0).limit_right = 1870
@@ -22,7 +27,9 @@ func _ready():
 	target.get_child(0).limit_top = -640
 	get_child(0).add_child(player)
 	get_child(0).add_child(target)
-
+	
+	PlayerStats.player = player
+	PlayerStats.next_scene = next_scene
 func _input(event) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		if can_talk_rock:

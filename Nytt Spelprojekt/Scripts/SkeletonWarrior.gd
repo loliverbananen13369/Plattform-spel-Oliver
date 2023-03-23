@@ -9,6 +9,7 @@ const JUMP_STRENGHT = -410
 
 
 export var direction_x = 1
+
 var direction_x_to_player 
 var velocity := Vector2()
 var direction := Vector2.ZERO
@@ -32,6 +33,7 @@ var can_die := true
 var pushback_force = Vector2.ZERO
 
 var test = 1
+var can_hunt = true
 
 onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
@@ -90,6 +92,7 @@ func _physics_process(delta: float) -> void:
 			_follow_player_state(delta)
 		SPAWN:
 			_spawn_state(delta)
+
 	
 func _air_movement(delta) -> void:
 	if not is_on_floor():
@@ -121,13 +124,16 @@ func _flip_sprite(right: bool):
 		$HurtBox/CollisionShape2D.position.x = -4
 		$AttackDetector/CollisionShape2D.position.x  = 10
 		$AttackArea/CollisionShape2D2.position.x = 10
+		$WallRayCast/CollisionShape2D.position.x = 5
+		$RayCast2D.position.x = 15
 	else:
 		animatedsprite.flip_h = true
 		$CollisionShape2D.position.x = 4
 		$HurtBox/CollisionShape2D.position.x = 4
 		$AttackDetector/CollisionShape2D.position.x  = -10
 		$AttackArea/CollisionShape2D2.position.x = -10
-
+		$WallRayCast/CollisionShape2D.position.x = -5
+		$RayCast2D.position.x = -15
 func _get_direction_to_player():
 	if player.global_position.x <= global_position.x:
 		direction_x_to_player = -1
@@ -137,19 +143,18 @@ func _get_direction_to_player():
 		_flip_sprite(true)
 
 func _check_if_hit_wall() -> void:
-	if $WallRayCast.is_colliding():
-		velocity.y = JUMP_STRENGHT
-	else:
-		return
+	pass
 
 func flash():
 	animatedsprite.material.set_shader_param("flash_modifier", 0.8)
 	$FlashTimer.start(0.2)
 	
 func _turn_around():
-	if not $RayCast2D.is_colliding() and is_on_floor():
+	if direction_x !=0:
 		direction_x *= -1
-		$RayCast2D.position.x = direction_x*15
+	else:
+		direction_x = 1
+	#$RayCast2D.position.x = direction_x*15
 
 func _hit():
 	$AttackArea/CollisionShape2D2.disabled = false
@@ -159,7 +164,7 @@ func _end_of_hit():
 	_die_b()
 
 func _bug_fixer() -> void:
-	$HurtBox/CollisionShape2D.disabled = false
+	$HurtBox.set_deferred("monitoring", true)#$HurtBox/CollisionShape2D.disabled = false
 	animatedsprite.modulate.a8 = 255
 	$Sprite.visible = false
 	$AnimatedSprite2.visible = false
@@ -213,8 +218,8 @@ func _on_ShakeTimer_timeout() -> void:
 func _idle_state(delta) -> void:
 	pass
 	#_die_b()
-	#if not is_on_floor():
-		#_enter_air_state(1)
+	if not is_on_floor():
+		_enter_air_state(0)
 
 func _air_state(delta) -> void:
 	#_die_b()
@@ -225,19 +230,20 @@ func _air_state(delta) -> void:
 func _run_state(delta) -> void:
 	#_die_b()
 	_apply_basic_movement(delta)
-	_turn_around()
-	$Tween.remove_all()	
-	if is_on_wall():
-		direction_x *= -1
-		$RayCast2D.position.x += direction_x*20
+	#$Tween.remove_all()	
+#	if is_on_wall():
+	#	direction_x *= -1
+	#	$RayCast2D.position.x += direction_x*20
 
 func _attack_state(delta) -> void:
 	_air_movement(delta)
 
 func _follow_player_state(delta) -> void:
-	$Tween.remove_all()
+	#$Tween.remove_all()
 	_apply_follow_player_movement(delta)
-	_die_b()
+	if not can_hunt:
+		_enter_idle_state()
+	#_die_b()
 
 func _spawn_state(_delta) -> void:
 	pass
@@ -324,12 +330,12 @@ func _enter_hurt_state(number: int) -> void:
 
 
 func _on_IdleTimer_timeout():
-	if state != ATTACK and state != AIR:
+	if state != ATTACK and state != AIR and state != HUNTING:
 		 _enter_run_state()
 
 
 func _on_RunTimer_timeout():
-	if state != ATTACK and state != AIR:
+	if state != ATTACK and state != AIR and state != HUNTING:
 		_enter_idle_state()
 
 func _on_FlashTimer_timeout():
@@ -401,20 +407,20 @@ func _on_HurtBox_area_entered(area):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt1":
 		$Sprite.visible = false
-		if player_in_radius:
+		if player_in_radius and can_hunt:
 			_enter_hunt_state()
 		else:
 			_enter_idle_state()
 	if anim_name == "Hurt2":
 		$AnimatedSprite2.visible = false
-		if player_in_radius:
+		if player_in_radius and can_hunt:
 			_enter_hunt_state()
 		else:
 			_enter_idle_state()
 	if anim_name == "Hit":
 		if $AttackDetector.overlaps_body(player):
 			_enter_attack_state()
-		elif player_in_radius:
+		elif player_in_radius and can_hunt:
 			_enter_hunt_state()
 		else:
 			_enter_idle_state()
@@ -422,20 +428,24 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Spawn":
 		_bug_fixer()
 		$PlayerDetector.monitoring = true
-		if player_in_radius:
+		if player_in_radius and can_hunt:
 			_enter_hunt_state()
 		else:
 			_enter_idle_state()
-		$HurtBox/CollisionShape2D.disabled = false
 	if anim_name == "Dead":
 		_spawn_xp()
 		PlayerStats.emit_signal("EnemyDead", self)
+		var groups = get_groups()
+		print(groups)
+		if groups.size() > 1:
+			remove_from_group(groups[1])
 		queue_free()
 		
 
 func _on_PlayerDetector_body_entered(body):
+	print(can_hunt)
 	if state != HURT:
-		if body.is_in_group("Player"):
+		if body.is_in_group("Player") and can_hunt:
 			player_in_radius = true
 			_enter_hunt_state()
 		
@@ -455,7 +465,7 @@ func _on_AttackDetector_body_entered(body):
 		_enter_attack_state()
 
 func _on_AttackDetector_body_exited(body):
-	if body.is_in_group("Player") and not can_attack:
+	if body.is_in_group("Player") and not can_attack and can_hunt:
 		_enter_hunt_state()
 	#if body.is_in_group("Player"):
 	#	can_attack = true
@@ -493,5 +503,8 @@ func _spawn_xp() -> void:
 	get_tree().get_root().add_child(xp)
 
 
+func _on_RayCast2D_body_exited(body):
+	_turn_around()
 
-
+func _on_WallRayCast_body_entered(body):
+	_turn_around()
