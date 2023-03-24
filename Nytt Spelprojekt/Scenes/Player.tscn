@@ -1,4 +1,4 @@
-[gd_scene load_steps=335 format=2]
+[gd_scene load_steps=346 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Idle/Battlemage Idle.nec.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Acid VFX 02Ending.mage1.png" type="Texture" id=24]
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).mage1.png" type="Texture" id=25]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.nec.png" type="Texture" id=26]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Crouch/Battlemage Crouch.nec.png" type="Texture" id=27]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=39]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 03/Thrust VFX 03 Color 1.png" type="Texture" id=40]
 [ext_resource path="res://UI/SkillTree-InGame.tscn" type="PackedScene" id=41]
@@ -560,6 +561,42 @@ region = Rect2( 0, 432, 56, 48 )
 atlas = ExtResource( 3 )
 region = Rect2( 0, 480, 56, 48 )
 
+[sub_resource type="AtlasTexture" id=1012]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1013]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1014]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 96, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1015]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1016]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1017]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1018]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1019]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1020]
+atlas = ExtResource( 27 )
+region = Rect2( 0, 384, 56, 48 )
+
 [sub_resource type="AtlasTexture" id=956]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 56, 48 )
@@ -802,6 +839,11 @@ animations = [ {
 "frames": [ SubResource( 945 ), SubResource( 946 ), SubResource( 947 ), SubResource( 948 ), SubResource( 949 ), SubResource( 950 ), SubResource( 951 ), SubResource( 952 ), SubResource( 953 ), SubResource( 954 ), SubResource( 955 ) ],
 "loop": false,
 "name": "ComboEWQE",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 1012 ), SubResource( 1013 ), SubResource( 1014 ), SubResource( 1015 ), SubResource( 1016 ), SubResource( 1017 ), SubResource( 1018 ), SubResource( 1019 ), SubResource( 1020 ) ],
+"loop": false,
+"name": "Crouch",
 "speed": 10.0
 }, {
 "frames": [ SubResource( 956 ), SubResource( 957 ) ],
@@ -1352,6 +1394,18 @@ tracks/8/keys = {
 "method": "player_stats"
 } ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("SmearSprites:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0.066 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Color( 0, 2, 0.54, 1 ) ]
+}
 
 [sub_resource type="Animation" id=190]
 length = 0.266667
@@ -1465,6 +1519,18 @@ tracks/8/keys = {
 "args": [  ],
 "method": "player_stats"
 } ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("SmearSprites:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0.066 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Color( 1.89063, 0, 2, 1 ) ]
 }
 
 [sub_resource type="Animation" id=191]
@@ -2167,107 +2233,86 @@ atlas = ExtResource( 45 )
 region = Rect2( 336, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=673]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=674]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=675]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=676]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=677]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=678]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=679]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=680]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=681]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=682]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 432, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=683]
-flags = 4
 atlas = ExtResource( 62 )
 region = Rect2( 0, 480, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=684]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 0, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=685]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 48, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=686]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 96, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=687]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 144, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=688]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 192, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=689]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 240, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=690]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 288, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=691]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=692]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=693]
-flags = 4
 atlas = ExtResource( 70 )
 region = Rect2( 0, 432, 56, 48 )
 
@@ -2547,9 +2592,12 @@ extents = Vector2( 24, 9.5 )
 [sub_resource type="CircleShape2D" id=791]
 radius = 25.0
 
+[sub_resource type="RectangleShape2D" id=1021]
+extents = Vector2( 10, 3 )
+
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 1
-collision_mask = 536
+collision_mask = 2584
 script = ExtResource( 2 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
@@ -2579,10 +2627,9 @@ position = Vector2( 0, 10 )
 shape = SubResource( 53 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 30, 5 )
-animation = "Smear3V"
-frame = 0
+animation = "Smear1V"
+frame = 1
 flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -2610,7 +2657,6 @@ wait_time = 0.1
 [node name="AttackParticles" type="Particles2D" parent="."]
 modulate = Color( 2.31, 1.74, 1.73, 1 )
 position = Vector2( 35, -35 )
-emitting = false
 amount = 10
 local_coords = false
 process_material = SubResource( 515 )
@@ -2624,7 +2670,6 @@ collision_mask = 2
 [node name="AttackGround" type="CollisionShape2D" parent="NormalAttackArea"]
 position = Vector2( 36, 5 )
 shape = SubResource( 521 )
-disabled = true
 
 [node name="AttackJump" type="CollisionShape2D" parent="NormalAttackArea"]
 visible = false
@@ -2727,6 +2772,14 @@ texture = ExtResource( 12 )
 [node name="HolyBuffTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="DropDetect" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropDetect"]
+position = Vector2( 0, 25 )
+shape = SubResource( 1021 )
+
 [connection signal="HPChanged" from="." to="HUD" method="_on_Player_HPChanged"]
 [connection signal="LvlUp" from="." to="HUD" method="_on_Player_LvlUp"]
 [connection signal="XPChanged" from="." to="HUD" method="_on_Player_XPChanged"]
@@ -2742,6 +2795,7 @@ one_shot = true
 [connection signal="on_learned" from="SkillTreeInGame/Control/CanvasLayer/Acid 5" to="." method="_on_Acid_5_on_learned"]
 [connection signal="on_learned" from="SkillTreeInGame/Control/CanvasLayer/Acid 2" to="." method="_on_Acid_2_on_learned"]
 [connection signal="timeout" from="HolyBuffTimer" to="." method="_on_HolyBuffTimer_timeout"]
+[connection signal="body_exited" from="DropDetect" to="." method="_on_DropDetect_body_exited"]
 
 [editable path="SkillTreeInGame"]
 [editable path="SkillTreeInGame/Control"]

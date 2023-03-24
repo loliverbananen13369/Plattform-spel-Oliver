@@ -16,12 +16,14 @@ func _ready() -> void:
 #	else:
 	#	player = mage_scene.instance()
 	#player.global_position = global_position + Vector2(30, -200)
-	#target.get_child(0).limit_right = 1000
-	#target.get_child(0).limit_left = -220
-	#target.get_child(0).limit_bottom = 140
-	#target.get_child(0).limit_top = -220
+	target.get_child(0).limit_right = $CameraLimits/TopRIght.position.x
+	target.get_child(0).limit_left = $CameraLimits/BottomLeft.position.x
+	target.get_child(0).limit_bottom = $CameraLimits/BottomLeft.position.y 
+	target.get_child(0).limit_top = $CameraLimits/TopRIght.position.y
 	get_child(0).add_child(player)
+	player.global_position = $PlayerNode/Position2D.global_position
 	get_child(0).add_child(target)
+	PlayerStats.player = player
 	#var hej2 = get_child(1)
 
 func _on_Dialogue_active(active) -> void:

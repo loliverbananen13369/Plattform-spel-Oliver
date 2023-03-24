@@ -7,13 +7,9 @@ script = ExtResource( 2 )
 
 [node name="PlayerNode" type="Node2D" parent="."]
 
-[node name="EnemySpawnPoints" type="Node2D" parent="."]
+[node name="Position2D" type="Position2D" parent="PlayerNode"]
 
-[node name="Decorations" type="TileMap" parent="."]
-cell_size = Vector2( 16, 16 )
-collision_layer = 0
-collision_mask = 0
-format = 1
+[node name="EnemySpawnPoints" type="Node2D" parent="."]
 
 [node name="MainTileMap" type="TileMap" parent="."]
 cell_size = Vector2( 16, 16 )
@@ -25,6 +21,14 @@ format = 1
 format = 1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="OneWayBlocks"]
+collision_layer = 2048
+collision_mask = 0
+
+[node name="Decorations" type="TileMap" parent="."]
+cell_size = Vector2( 16, 16 )
+collision_layer = 0
+collision_mask = 0
+format = 1
 
 [node name="ControlZone" type="StaticBody2D" parent="."]
 
@@ -33,3 +37,9 @@ format = 1
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+[node name="CameraLimits" type="Node2D" parent="."]
+
+[node name="TopRIght" type="Position2D" parent="CameraLimits"]
+
+[node name="BottomLeft" type="Position2D" parent="CameraLimits"]

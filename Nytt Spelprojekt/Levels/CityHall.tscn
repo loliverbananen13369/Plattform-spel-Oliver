@@ -907,7 +907,7 @@ text = "The Blacksmith's House"
 position = Vector2( 666, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 28 )
-frame = 1
+frame = 3
 playing = true
 
 [node name="ElderLabel" type="Label" parent="Elder"]
@@ -948,6 +948,8 @@ text = "Katalina's House"
 [connection signal="body_exited" from="Portal" to="." method="_on_Portal_body_exited"]
 [connection signal="body_entered" from="Portal2" to="." method="_on_Portal2_body_entered"]
 [connection signal="body_exited" from="Portal2" to="." method="_on_Portal2_body_exited"]
+[connection signal="body_entered" from="Well" to="." method="_on_Well_body_entered"]
+[connection signal="body_exited" from="Well" to="." method="_on_Well_body_exited"]
 [connection signal="body_entered" from="Elder/Area2D" to="." method="_on_Elder_body_entered"]
 [connection signal="body_exited" from="Elder/Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="AssHouseDoor" to="." method="_on_AssHouseDoor_body_entered"]

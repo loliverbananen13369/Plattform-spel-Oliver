@@ -42,22 +42,17 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
 	#PlayerStats.next_scene = "res://Scenes/BlackSmithsHouse.tscn"
-	next_scene = "res://Scenes/BlackSmithsHouse.tscn"
+	next_scene = "res://Levels/BlackSmithsHouse.tscn"
 func _on_Area2D_body_exited(body):
 	anim.stop(true)
 	$Bshouse.visible = false
 
-func _use_dialogue():
-	var dialogue = get_node("Well/WellDialogue")
-	if dialogue:
-		dialogue._start()
-
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
 		if can_accept:
-			if PlayerStats.next_scene == "res://Scenes/BlackSmithsHouse.tscn":
+			if PlayerStats.next_scene == "res://Levels/BlackSmithsHouse.tscn":
 				PlayerStats.visited_bs_house = true
-			if PlayerStats.next_scene == "res://Scenes/AssHouse.tscn":
+			if PlayerStats.next_scene == "res://Levels/AssHouse.tscn":
 				PlayerStats.visited_katalina_house = true
 			if entered_portal2:
 				pass
@@ -76,17 +71,20 @@ func _on_Portal_body_entered(body):
 
 
 func _on_Portal_body_exited(body):
+	can_accept = false
 	anim.stop(true)
 	$PortalLabel.visible = false
 
 
 func _on_Well_body_entered(body: Node) -> void:
+	$Well.can_start = true
 	can_accept = false
 	entered_well = true
 	can_start_d = true
 
 
 func _on_Well_body_exited(body: Node) -> void:
+	$Well.can_start = false
 	entered_well = false
 	can_start_d = false
 
@@ -97,7 +95,7 @@ func _on_Elder_body_entered(body: Node) -> void:
 
 func _on_AssHouseDoor_body_entered(body: Node) -> void:
 	#PlayerStats.next_scene == "res://Scenes/AssHouse.tscn"
-	next_scene = "res://Scenes/AssHouse.tscn"
+	next_scene = "res://Levels/AssHouse.tscn"
 	can_accept = true
 	can_start_d = false
 	anim.play("AssHouse")
@@ -112,7 +110,7 @@ func _on_AssHouseDoor_body_exited(body: Node) -> void:
 func _on_Portal2_body_entered(body: Node) -> void:
 	can_accept = true
 	can_start_d = false
-	PlayerStats.next_scene = "res://Scenes/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
+	PlayerStats.next_scene = "res://Levels/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
 	next_scene = PlayerStats.next_scene
 	#next_scene = "res://Scenes/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
 

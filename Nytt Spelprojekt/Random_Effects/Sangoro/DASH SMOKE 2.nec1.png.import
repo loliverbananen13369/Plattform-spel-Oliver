@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Smear 01 Horizontal 3.png-eb434e9aaf14d6dc7b3b48b84cf4cae7.stex"
+path="res://.import/DASH SMOKE 2.nec1.png-6fd23c1b1d5af4e20b4726547406a7ef.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Horizontal 3.png"
-dest_files=[ "res://.import/Smear 01 Horizontal 3.png-eb434e9aaf14d6dc7b3b48b84cf4cae7.stex" ]
+source_file="res://Random_Effects/Sangoro/DASH SMOKE 2.nec1.png"
+dest_files=[ "res://.import/DASH SMOKE 2.nec1.png-6fd23c1b1d5af4e20b4726547406a7ef.stex" ]
 
 [params]
 

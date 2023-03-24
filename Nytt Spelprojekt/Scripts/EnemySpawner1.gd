@@ -32,7 +32,7 @@ func _spawn_warrior(area: int) -> void:
 	var parent = get_parent()
 	var diameter = parent.diameter
 	add_child(warrior)
-	warrior.global_position = parent.global_position + Vector2(rand_range((-diameter/2), (diameter/2)), 0)
+	warrior.global_position = parent.get_child(0).get_child(0).global_position + Vector2(rand_range((-diameter/2), (diameter/2)), 0)
 	warrior.add_to_group(str(area))
 	emit_signal("Spawned", warrior)
 

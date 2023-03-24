@@ -343,9 +343,11 @@ tracks/2/keys = {
 modulate = Color( 0.0705882, 0, 0.0509804, 1 )
 frames = SubResource( 5 )
 animation = "New Anim 2"
+frame = 2
 script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.733333
 anims/Hejsan = SubResource( 59 )
 anims/Hejsan2 = SubResource( 67 )
 anims/ImpactDustKick = SubResource( 36 )

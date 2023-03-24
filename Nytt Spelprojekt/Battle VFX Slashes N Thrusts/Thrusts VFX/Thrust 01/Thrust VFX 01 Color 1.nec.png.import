@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Smear 01 Horizontal 3.png-eb434e9aaf14d6dc7b3b48b84cf4cae7.stex"
+path="res://.import/Thrust VFX 01 Color 1.nec.png-c2f0aa21eb065dbb2f22259e252f4883.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Horizontal 3.png"
-dest_files=[ "res://.import/Smear 01 Horizontal 3.png-eb434e9aaf14d6dc7b3b48b84cf4cae7.stex" ]
+source_file="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 01/Thrust VFX 01 Color 1.nec.png"
+dest_files=[ "res://.import/Thrust VFX 01 Color 1.nec.png-c2f0aa21eb065dbb2f22259e252f4883.stex" ]
 
 [params]
 

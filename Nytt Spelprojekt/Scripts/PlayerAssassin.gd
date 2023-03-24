@@ -777,6 +777,7 @@ func _crouch_state(delta) -> void:
 		if crouchtime >= 0.07:
 			_add_crouch_ghost()
 			crouchtime = 0
+
 func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")

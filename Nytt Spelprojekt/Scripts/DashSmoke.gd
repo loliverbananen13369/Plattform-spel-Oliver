@@ -8,32 +8,24 @@ func _ready() -> void:
 		#modulate.r = 2.75
 		#modulate.g = 1
 		#modulate.b = 1.85
-		modulate.r = 0.5
-		modulate.g = 0.5
-		modulate.b = 1.37
-
+		modulate.r = 1.9
+		modulate.g = 0.0
+		modulate.b = 2
 		$AnimationPlayer.play("ImpactDustKick")
-	if animation == "ImpactDustKickMage":
-		scale.x = 2
-		scale.y = 2
-		modulate.r = 2.73
-		modulate.g = 2.28
-		modulate.b = 1.32
-		$AnimationPlayer.play("ImpactDustKickMage")
-	if animation == "New Anim ":
+	if animation == "New Anim sd":
 		scale.x = 2
 		scale.y = 4
 		modulate.r = 0.5
 		modulate.g = 0.5
 		modulate.b = 1.37
 		$AnimationPlayer.play("New Anim 1")
-	if animation == "New Anim 1":
+	if animation == "New Anim":
 		scale.x = 3
 		scale.y = 4
-		#modulate.r = 2.73
-		#modulate.g = 2.28
-		#modulate.b = 1.32
-		$AnimationPlayer.play("Hejsan2")
+		modulate.r = 1.9
+		modulate.g = 0
+		modulate.b = 2
+		$AnimationPlayer.play("Hejsan")
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	queue_free()

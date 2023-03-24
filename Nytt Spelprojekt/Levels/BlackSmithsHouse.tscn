@@ -639,7 +639,7 @@ position = Vector2( -116, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 15 )
 animation = "Bored2"
-frame = 2
+frame = 8
 playing = true
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite"]

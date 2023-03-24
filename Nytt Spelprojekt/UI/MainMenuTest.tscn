@@ -20,22 +20,22 @@ margin_bottom = -200.0
 
 [node name="StartButton" type="Button" parent="MainMenu"]
 margin_right = 125.0
-margin_bottom = 20.0
+margin_bottom = 27.0
 focus_neighbour_top = NodePath("../QuitButton")
 custom_fonts/font = ExtResource( 3 )
 text = "Start"
 
 [node name="OptionsButton" type="Button" parent="MainMenu"]
-margin_top = 24.0
+margin_top = 31.0
 margin_right = 125.0
-margin_bottom = 44.0
+margin_bottom = 58.0
 focus_neighbour_bottom = NodePath("../QuitButton")
 text = "options"
 
 [node name="QuitButton" type="Button" parent="MainMenu"]
-margin_top = 48.0
+margin_top = 62.0
 margin_right = 125.0
-margin_bottom = 68.0
+margin_bottom = 89.0
 focus_neighbour_top = NodePath("../OptionsButton")
 focus_neighbour_bottom = NodePath("../StartButton")
 text = "Quit"

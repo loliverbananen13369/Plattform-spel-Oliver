@@ -30,7 +30,7 @@ func _input(event):
 			_use_dialogue()
 
 		if can_exit:
-			PlayerStats.next_scene = "res://Scenes/CityHall.tscn"
+			PlayerStats.next_scene = "res://Levels/CityHall.tscn"
 			Transition.load_scene(PlayerStats.next_scene)
 			#get_tree().change_scene(PlayerStats.next_scene)
 

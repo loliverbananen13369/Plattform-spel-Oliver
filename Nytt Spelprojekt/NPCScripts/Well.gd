@@ -5,7 +5,8 @@ extends Area2D
 # var a = 2
 # var b = "text"
 var parent = get_parent()
-onready var player = PlayerStats.player
+var player = PlayerStats.player
+var can_start = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -13,10 +14,14 @@ func _ready():
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
-		if overlaps_body(player):
-			if parent.can_start_d:
-				parent._use_dialogue()
-				parent.can_start_d = false 
-			else:
-				$WellDialogue._stop_dialogue()
-				parent.can_start_d = true
+		if can_start:
+			_use_dialogue()
+			can_start = false 
+		else:
+			$WellDialogue._stop_dialogue()
+			can_start = true
+
+func _use_dialogue():
+	var dialogue = get_node("WellDialogue")
+	if dialogue:
+		dialogue._start()

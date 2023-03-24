@@ -36,8 +36,8 @@ var assassin_clone_targets = 1
 var visited_bs_house = false
 var visited_katalina_house = false
 var visited_practice_tool = false
-var next_scene = "res://Scenes/CityHall.tscn"
-var prev_scene = "res://Scenes/CityHall.tscn"
+var next_scene = "res://Levels/CityHall.tscn"
+var prev_scene = "res://Levels/CityHall.tscn"
 
 var ground_color 
 
