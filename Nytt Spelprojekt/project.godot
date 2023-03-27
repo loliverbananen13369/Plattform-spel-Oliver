@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Nytt Spelprojekt"
-run/main_scene="res://UI/ChooseClassScene.tscn"
+run/main_scene="res://Scenes/Intro.tscn"
 boot_splash/use_filter=false
 config/icon="res://icon.png"
 
@@ -43,6 +43,7 @@ PlayerStats="*res://Data/PlayerStats.gd"
 GlobalSignals="*res://Scripts/GlobalSignals.gd"
 BackgroundMusic="*res://Sounds/SoundPlayer.tscn"
 Transition="*res://Scenes/Transition.tscn"
+WorldEnv="*res://Scenes/WorldEnvironment.tscn"
 
 [display]
 

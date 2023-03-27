@@ -108,6 +108,7 @@ var testpos = Vector2.ZERO
 var testpos2 = Vector2.ZERO
 var test_var_enemy 
 
+var player_name
 
 #Player stats
 var hp = 100

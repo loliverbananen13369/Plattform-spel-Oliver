@@ -36,7 +36,7 @@ var assassin_clone_targets = 1
 var visited_bs_house = false
 var visited_katalina_house = false
 var visited_practice_tool = false
-var next_scene = "res://Levels/CityHall.tscn"
+var next_scene = "res://UI/ChooseClassScene.tscn"#"res://Levels/CityHall.tscn"
 var prev_scene = "res://Levels/CityHall.tscn"
 
 

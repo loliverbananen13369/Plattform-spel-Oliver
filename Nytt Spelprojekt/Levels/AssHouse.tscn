@@ -543,7 +543,7 @@ tile_data = PoolIntArray( -524310, 11, 0, -524305, 15, 0, -524294, 14, 0, -58981
 position = Vector2( -39, -39 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 7 )
-frame = 1
+frame = 2
 playing = true
 flip_h = true
 

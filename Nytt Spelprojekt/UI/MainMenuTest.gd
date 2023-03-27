@@ -18,10 +18,10 @@ func _ready():
 
 
 func _on_StartButton_pressed():
-	Transition.load_scene(PlayerStats.next_scene)
 	#get_tree().change_scene("res://Scenes/CityHall.tscn")
 	soundplayer.pitch_scale = 0.7
 	soundplayer.play()
+	Transition.load_scene(PlayerStats.next_scene)
 
 
 func _on_OptionsButton_pressed():

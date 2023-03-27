@@ -907,7 +907,7 @@ text = "The Blacksmith's House"
 position = Vector2( 666, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 28 )
-frame = 3
+frame = 1
 playing = true
 
 [node name="ElderLabel" type="Label" parent="Elder"]
