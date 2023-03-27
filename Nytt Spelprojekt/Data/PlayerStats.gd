@@ -39,7 +39,14 @@ var visited_practice_tool = false
 var next_scene = "res://Levels/CityHall.tscn"
 var prev_scene = "res://Levels/CityHall.tscn"
 
-var ground_color 
+
+var winter_skin = preload("res://EnemySkins/SkeletonWarriorWinter.tres")
+var green_skin = preload("res://EnemySkins/SkeletonWarriorGreen.tres")
+var winter_hit = preload("res://EnemySkins/EnemyHitWinter.tres")
+var green_hit = preload("res://EnemySkins/EnemyHitGreen.tres")
+var ground_color
+var enemy_skin = winter_skin#"res://EnemySkins/SkeletonWarriorGreen.tres"
+var enemy_hit = winter_hit
 
 func _ready() -> void:
 	load_data()

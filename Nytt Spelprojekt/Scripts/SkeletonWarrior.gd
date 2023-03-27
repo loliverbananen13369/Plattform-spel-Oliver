@@ -53,6 +53,8 @@ signal pos(position)
 
 const INDICATOR_DAMAGE = preload("res://UI/DamageIndicator.tscn")
 
+
+
 #onready var PlayerSword = preload("res://Scenes/NormalAttackArea.tscn")
 var prutt = 0 #+delta
 var hej = rand_range(6-prutt, 8-prutt)
@@ -63,11 +65,14 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
+	
+	#animatedsprite.frames.
 	player = PlayerStats.player#get_parent().get_parent().get_child(1).get_child(0)
 	$PlayerDetector.monitoring = false
 	velocity.x = 0
 	velocity.y = 0
-	$HurtBox/CollisionShape2D.disabled = true
+	$HurtBox.monitoring = false
+	#$HurtBox/CollisionShape2D.disabled = true
 	$PlayerDetector.monitoring = false
 	state = SPAWN
 	$AnimationPlayer.play("Spawn")
@@ -126,6 +131,7 @@ func _flip_sprite(right: bool):
 		$AttackArea/CollisionShape2D2.position.x = 10
 		$WallRayCast/CollisionShape2D.position.x = 5
 		$RayCast2D.position.x = 15
+		$Sprite.position.x = -3
 	else:
 		animatedsprite.flip_h = true
 		$CollisionShape2D.position.x = 4
@@ -134,6 +140,7 @@ func _flip_sprite(right: bool):
 		$AttackArea/CollisionShape2D2.position.x = -10
 		$WallRayCast/CollisionShape2D.position.x = -5
 		$RayCast2D.position.x = -15
+		$Sprite.position.x = 3
 func _get_direction_to_player():
 	if player.global_position.x <= global_position.x:
 		direction_x_to_player = -1
@@ -146,7 +153,7 @@ func _check_if_hit_wall() -> void:
 	pass
 
 func flash():
-	animatedsprite.material.set_shader_param("flash_modifier", 0.8)
+	animatedsprite.material.set_shader_param("flash_modifier", 0.0) # 0.8
 	$FlashTimer.start(0.2)
 	
 func _turn_around():
@@ -253,6 +260,7 @@ func _dead_state(_delta) -> void:
 	velocity.y = 0
 	$IdleTimer.stop()
 	$RunTimer.stop()
+	
 	$HurtBox/CollisionShape2D.disabled = true
 	#$CollisionShape2D.disabled = true
 	#_on_AnimatedSprite_animation_finished()

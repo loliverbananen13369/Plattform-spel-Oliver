@@ -101,7 +101,7 @@ func _check_if_enemy_in_range_for_attack():
 				group_size += 1
 				return true
 	else:
-		if $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy) and is_instance_valid(must_follow_this_enemy):
+		if is_instance_valid(must_follow_this_enemy) and $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy):
 			group_size += 1
 			return true
 	if group_size == 0:

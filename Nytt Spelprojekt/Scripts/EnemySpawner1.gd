@@ -4,6 +4,7 @@ extends Node
 var warrior_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 onready var timer = $Timer
 var list_of_lists = []
+var type
 
 signal Spawned(body)
 
@@ -26,11 +27,18 @@ func _check_enemies(area: int):
 	
 #Gör en kod för alla spawn points istället
 	
+func _get_enemy_skin():
+	type = PlayerStats.enemy_skin
+	return type
 
 func _spawn_warrior(area: int) -> void:
 	var warrior = warrior_scene.instance()
 	var parent = get_parent()
 	var diameter = parent.diameter
+	var frames = _get_enemy_skin()#_get_enemy_skin())
+	var hframes = PlayerStats.enemy_hit
+	warrior.get_node("AnimatedSprite").set_sprite_frames(frames)
+	warrior.get_node("Sprite").set_sprite_frames(hframes)
 	add_child(warrior)
 	warrior.global_position = parent.get_child(0).get_child(0).global_position + Vector2(rand_range((-diameter/2), (diameter/2)), 0)
 	warrior.add_to_group(str(area))
