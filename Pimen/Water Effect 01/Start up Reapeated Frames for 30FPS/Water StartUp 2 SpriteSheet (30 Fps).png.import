@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/Water StartUp 2 SpriteSheet (30 Fps).png-1c0363cd1188cb5d5afb07fc8931fefb.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Pimen/Water Effect 01/Start up Reapeated Frames for 30FPS/Water StartUp 2 SpriteSheet (30 Fps).png"
+dest_files=[ "res://.import/Water StartUp 2 SpriteSheet (30 Fps).png-1c0363cd1188cb5d5afb07fc8931fefb.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/male-voice-and-sounds-trying-to-explain-himself-unsure-embarrassed-25230.mp3-98f60bc58ecb7a4b0140ce09f8aee37f.mp3str"
+
+[deps]
+
+source_file="res://CityHall/NPC/male-voice-and-sounds-trying-to-explain-himself-unsure-embarrassed-25230.mp3"
+dest_files=[ "res://.import/male-voice-and-sounds-trying-to-explain-himself-unsure-embarrassed-25230.mp3-98f60bc58ecb7a4b0140ce09f8aee37f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

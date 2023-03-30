@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/02-LANDR-02 - Own Blood (F) 200MS-Balanced-Medium.wav-4cb18a435547325437c74d5eda9a6f25.sample"
+
+[deps]
+
+source_file="res://The Haunt - Balanced - Medium - wav/02-LANDR-02 - Own Blood (F) 200MS-Balanced-Medium.wav"
+dest_files=[ "res://.import/02-LANDR-02 - Own Blood (F) 200MS-Balanced-Medium.wav-4cb18a435547325437c74d5eda9a6f25.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

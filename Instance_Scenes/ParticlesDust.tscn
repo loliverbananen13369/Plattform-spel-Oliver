@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/ParticlesDust.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=1]
+max_value = 1.5
+_data = [ Vector2( 0.0231214, 1.49659 ), 0.0, -0.720834, 0, 0, Vector2( 1, 0.0590909 ), -4.97526, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 80.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 11.0
+initial_velocity_random = 0.93
+angular_velocity = -80.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 8.16
+scale = 1.5
+scale_curve = SubResource( 2 )
+
+[node name="ParticlesDust" type="Particles2D"]
+modulate = Color( 0.835294, 0.235294, 0.415686, 1 )
+emitting = false
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+randomness = 1.0
+visibility_rect = Rect2( -1, -1, 30, 30 )
+process_material = SubResource( 3 )
+script = ExtResource( 1 )

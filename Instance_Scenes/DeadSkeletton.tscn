@@ -1,0 +1,429 @@
+[gd_scene load_steps=65 format=2]
+
+[ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=1]
+[ext_resource path="res://Fantasy Skeleton Enemies/Fantasy Skeleton Enemies/Skeleton Warrior.new1.png" type="Texture" id=2]
+[ext_resource path="res://InstanceScripts/Necromancer.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/flash.shader" type="Shader" id=4]
+[ext_resource path="res://Random_Effects/Sangoro/EXPLOSION.png" type="Texture" id=5]
+
+[sub_resource type="ShaderMaterial" id=283]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/flash_color = Color( 0, 0, 0, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="AtlasTexture" id=246]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=247]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=248]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=249]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=250]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=251]
+atlas = ExtResource( 2 )
+region = Rect2( 240, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=252]
+atlas = ExtResource( 2 )
+region = Rect2( 288, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=253]
+atlas = ExtResource( 2 )
+region = Rect2( 336, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=254]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=255]
+atlas = ExtResource( 2 )
+region = Rect2( 432, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=256]
+atlas = ExtResource( 2 )
+region = Rect2( 480, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=257]
+atlas = ExtResource( 2 )
+region = Rect2( 528, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=258]
+atlas = ExtResource( 2 )
+region = Rect2( 576, 48, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=289]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=290]
+atlas = ExtResource( 5 )
+region = Rect2( 109, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=291]
+atlas = ExtResource( 5 )
+region = Rect2( 218, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=292]
+atlas = ExtResource( 5 )
+region = Rect2( 327, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=293]
+atlas = ExtResource( 5 )
+region = Rect2( 436, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=294]
+atlas = ExtResource( 5 )
+region = Rect2( 545, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=295]
+atlas = ExtResource( 5 )
+region = Rect2( 654, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=296]
+atlas = ExtResource( 5 )
+region = Rect2( 763, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=297]
+atlas = ExtResource( 5 )
+region = Rect2( 872, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=298]
+atlas = ExtResource( 5 )
+region = Rect2( 981, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=299]
+atlas = ExtResource( 5 )
+region = Rect2( 1090, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=300]
+atlas = ExtResource( 5 )
+region = Rect2( 1199, 0, 109, 38 )
+
+[sub_resource type="AtlasTexture" id=272]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=273]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=274]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=275]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=276]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=277]
+atlas = ExtResource( 2 )
+region = Rect2( 240, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=278]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 144, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=279]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 144, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=280]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 144, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=281]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 144, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=282]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 144, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=201]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=202]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=203]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=204]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=205]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=206]
+atlas = ExtResource( 2 )
+region = Rect2( 240, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=207]
+atlas = ExtResource( 2 )
+region = Rect2( 288, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=208]
+atlas = ExtResource( 2 )
+region = Rect2( 336, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=240]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=241]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=242]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=243]
+atlas = ExtResource( 2 )
+region = Rect2( 144, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=244]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 96, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=245]
+atlas = ExtResource( 2 )
+region = Rect2( 240, 96, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=284]
+resource_local_to_scene = true
+animations = [ {
+"frames": [ SubResource( 246 ), SubResource( 247 ), SubResource( 248 ), SubResource( 249 ), SubResource( 250 ), SubResource( 251 ), SubResource( 252 ), SubResource( 253 ), SubResource( 254 ), SubResource( 255 ), SubResource( 256 ), SubResource( 257 ), SubResource( 258 ) ],
+"loop": false,
+"name": "Attack",
+"speed": 40.0
+}, {
+"frames": [ SubResource( 289 ), SubResource( 290 ), SubResource( 291 ), SubResource( 292 ), SubResource( 293 ), SubResource( 294 ), SubResource( 295 ), SubResource( 296 ), SubResource( 297 ), SubResource( 298 ), SubResource( 299 ), SubResource( 300 ) ],
+"loop": false,
+"name": "Dead",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 272 ), SubResource( 273 ), SubResource( 274 ), SubResource( 275 ), SubResource( 276 ), SubResource( 277 ) ],
+"loop": true,
+"name": "Hunt",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 278 ), SubResource( 279 ), SubResource( 280 ), SubResource( 281 ), SubResource( 282 ) ],
+"loop": false,
+"name": "Hurt",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 201 ), SubResource( 202 ), SubResource( 203 ), SubResource( 204 ), SubResource( 205 ), SubResource( 206 ), SubResource( 207 ), SubResource( 208 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 240 ), SubResource( 241 ), SubResource( 242 ), SubResource( 243 ), SubResource( 244 ), SubResource( 245 ) ],
+"loop": true,
+"name": "Run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "Test",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=285]
+height = 12.0
+
+[sub_resource type="CircleShape2D" id=286]
+radius = 157.204
+
+[sub_resource type="RectangleShape2D" id=287]
+extents = Vector2( 9.25, 16.25 )
+
+[sub_resource type="Animation" id=288]
+resource_name = "Attack"
+length = 0.65
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Attack" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackArea/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+}
+
+[sub_resource type="Animation" id=301]
+resource_name = "Dead"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Dead" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=302]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("EnemyDetector/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="RectangleShape2D" id=303]
+extents = Vector2( 62, 32.5 )
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+collision_layer = 1024
+collision_mask = 16
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0.972549, 0, 0, 1 )
+material = SubResource( 283 )
+frames = SubResource( 284 )
+animation = "Dead"
+frame = 11
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 5, 3.5 )
+shape = SubResource( 285 )
+
+[node name="EnemyDetector" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+shape = SubResource( 286 )
+
+[node name="LifeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetector"]
+modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
+position = Vector2( -10, 4 )
+shape = SubResource( 287 )
+disabled = true
+
+[node name="AttackArea" type="Area2D" parent="." groups=["DeadSword"]]
+visible = false
+collision_layer = 1024
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+modulate = Color( 0.172549, 0.262745, 0.984314, 1 )
+position = Vector2( -10, 4 )
+shape = SubResource( 287 )
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Attack = SubResource( 288 )
+anims/Dead = SubResource( 301 )
+anims/RESET = SubResource( 302 )
+
+[node name="ExplosionArea" type="Area2D" parent="." groups=["DeadExplosion"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
+position = Vector2( 0, -5 )
+shape = SubResource( 303 )
+disabled = true
+
+[connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
+[connection signal="body_exited" from="EnemyDetector" to="." method="_on_EnemyDetector_body_exited"]
+[connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]
+[connection signal="body_entered" from="AttackDetector" to="." method="_on_AttackDetector_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

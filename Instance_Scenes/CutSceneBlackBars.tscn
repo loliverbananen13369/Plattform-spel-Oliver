@@ -1,0 +1,17 @@
+[gd_scene format=2]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -512.0
+margin_top = -600.0
+margin_right = 512.0
+margin_bottom = -200.0
+color = Color( 0.0352941, 0.0392157, 0.0784314, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = -512.0
+margin_top = 200.0
+margin_right = 512.0
+margin_bottom = 600.0
+color = Color( 0.0352941, 0.0392157, 0.0784314, 1 )

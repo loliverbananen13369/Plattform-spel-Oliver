@@ -1,0 +1,169 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Skill-Tree/Skill_Tree_Node.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Skill-Tree/Outline_Shader.tres" type="Material" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Icons/attack.png" type="Texture" id=4]
+[ext_resource path="res://Acid VFX 01 - 02/Acid VFX 2/Separated Frames/Acid VFX 02Repeatable4.hejhej.png" type="Texture" id=5]
+[ext_resource path="res://Random_Effects/lock.png" type="Texture" id=7]
+
+[node name="Control" type="Control"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BasicAttack4" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 897.0
+margin_top = 64.0
+margin_right = 937.0
+margin_bottom = 104.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../BasicAttack3") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 4 )
+on_unlocked_texture = ExtResource( 4 )
+
+[node name="BasicAttack3" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 878.0
+margin_top = 235.0
+margin_right = 918.0
+margin_bottom = 275.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../BasicAttack2") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 4 )
+on_unlocked_texture = ExtResource( 4 )
+
+[node name="BasicAttack2" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 763.0
+margin_top = 432.0
+margin_right = 803.0
+margin_bottom = 472.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../BasicAttack1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 4 )
+on_unlocked_texture = ExtResource( 4 )
+
+[node name="DashAttack3" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 296.0
+margin_top = 98.0
+margin_right = 336.0
+margin_bottom = 138.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../DashAttack2") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="DashAttack2" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 367.0
+margin_top = 236.0
+margin_right = 407.0
+margin_bottom = 276.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../DashAttack1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="Combo2" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 693.0
+margin_top = 212.0
+margin_right = 733.0
+margin_bottom = 252.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../Combo1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="Combo3" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 575.0
+margin_top = 103.0
+margin_right = 615.0
+margin_bottom = 143.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../Combo1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="Clone3" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 52.0
+margin_top = 117.0
+margin_right = 92.0
+margin_bottom = 157.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../Clone2") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="Clone2" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 140.0
+margin_top = 228.0
+margin_right = 180.0
+margin_bottom = 268.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../Clone1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="Clone1" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 171.0
+margin_top = 400.0
+margin_right = 211.0
+margin_bottom = 440.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../BasicAttack1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="Combo1" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 579.0
+margin_top = 306.0
+margin_right = 619.0
+margin_bottom = 346.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../DashAttack1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="DashAttack1" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 448.0
+margin_top = 393.0
+margin_right = 488.0
+margin_bottom = 433.0
+texture_normal = ExtResource( 7 )
+previous_nodes_paths = [ NodePath("../BasicAttack1") ]
+texture = ExtResource( 7 )
+on_learned_texture = ExtResource( 5 )
+on_unlocked_texture = ExtResource( 3 )
+
+[node name="BasicAttack1" parent="CanvasLayer" instance=ExtResource( 1 )]
+material = ExtResource( 2 )
+margin_left = 436.0
+margin_top = 524.0
+margin_right = 476.0
+margin_bottom = 564.0
+disabled = false
+texture_normal = ExtResource( 4 )
+texture = ExtResource( 4 )
+on_learned_texture = ExtResource( 4 )
+on_unlocked_texture = ExtResource( 4 )
+unlocked = true

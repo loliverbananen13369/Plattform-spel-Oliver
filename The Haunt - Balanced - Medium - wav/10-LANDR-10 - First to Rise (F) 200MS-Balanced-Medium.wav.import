@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/10-LANDR-10 - First to Rise (F) 200MS-Balanced-Medium.wav-d925c41d89bb6ccb3ce66aeeb7dfe87d.sample"
+
+[deps]
+
+source_file="res://The Haunt - Balanced - Medium - wav/10-LANDR-10 - First to Rise (F) 200MS-Balanced-Medium.wav"
+dest_files=[ "res://.import/10-LANDR-10 - First to Rise (F) 200MS-Balanced-Medium.wav-d925c41d89bb6ccb3ce66aeeb7dfe87d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

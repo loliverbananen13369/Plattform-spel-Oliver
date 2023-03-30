@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/sunrise-114326.mp3-3c38355be0ea40e5088cbe6e4addfa83.mp3str"
+
+[deps]
+
+source_file="res://Intro/sunrise-114326.mp3"
+dest_files=[ "res://.import/sunrise-114326.mp3-3c38355be0ea40e5088cbe6e4addfa83.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

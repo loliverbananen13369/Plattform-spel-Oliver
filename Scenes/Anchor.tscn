@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Anchor.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Cam.gd" type="Script" id=2]
+
+[node name="Anchor" type="Position2D"]
+position = Vector2( 53, -139 )
+script = ExtResource( 1 )
+
+[node name="Cam" type="Camera2D" parent="."]
+position = Vector2( 60, -14 )
+current = true
+zoom = Vector2( 0.4, 0.4 )
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+script = ExtResource( 2 )

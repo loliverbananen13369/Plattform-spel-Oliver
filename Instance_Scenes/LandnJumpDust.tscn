@@ -1,0 +1,73 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Scripts/LandnJumpDust.gd" type="Script" id=1]
+[ext_resource path="res://Random_Effects/Sangoro/BIG IMPACT SMOKE.this.png" type="Texture" id=8]
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 8 )
+region = Rect2( 176, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 8 )
+region = Rect2( 352, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 8 )
+region = Rect2( 528, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 8 )
+region = Rect2( 704, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 8 )
+region = Rect2( 880, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 8 )
+region = Rect2( 1056, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=61]
+atlas = ExtResource( 8 )
+region = Rect2( 1232, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 8 )
+region = Rect2( 1408, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 8 )
+region = Rect2( 1584, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 8 )
+region = Rect2( 1760, 0, 176, 61 )
+
+[sub_resource type="AtlasTexture" id=65]
+atlas = ExtResource( 8 )
+region = Rect2( 1936, 0, 176, 61 )
+
+[sub_resource type="SpriteFrames" id=2]
+resource_local_to_scene = true
+animations = [ {
+"frames": [ SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ) ],
+"loop": false,
+"name": "LandSmoke",
+"speed": 20.0
+} ]
+
+[node name="LandnJumpDust" type="AnimatedSprite"]
+modulate = Color( 0.909804, 0.756863, 0.439216, 1 )
+position = Vector2( 10, -20 )
+scale = Vector2( 1, 0.6 )
+frames = SubResource( 2 )
+animation = "LandSmoke"
+frame = 11
+playing = true
+script = ExtResource( 1 )
+
+[connection signal="animation_finished" from="." to="." method="_on_LandnJumpDust_animation_finished"]

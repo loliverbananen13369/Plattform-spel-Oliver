@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/transition-base-121422.mp3-7a3a39cdcb998262c2bb120ed3d80445.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ImportedSounds/transition-base-121422.mp3"
+dest_files=[ "res://.import/transition-base-121422.mp3-7a3a39cdcb998262c2bb120ed3d80445.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

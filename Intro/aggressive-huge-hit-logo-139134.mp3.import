@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/aggressive-huge-hit-logo-139134.mp3-2b1e18db718a3d492e096cdfa9157772.mp3str"
+
+[deps]
+
+source_file="res://Intro/aggressive-huge-hit-logo-139134.mp3"
+dest_files=[ "res://.import/aggressive-huge-hit-logo-139134.mp3-2b1e18db718a3d492e096cdfa9157772.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
