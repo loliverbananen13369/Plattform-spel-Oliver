@@ -229,7 +229,9 @@ func _run_state(delta) -> void:
 
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state()
+		if abs(velocity.x) >= 20:
+			_enter_dash_state()
+			return
 	
 	if Input.is_action_just_pressed("Jump"):
 		if can_jump:
@@ -278,11 +280,11 @@ func _stop_state(delta):
 		return
 	
 	_apply_basic_movement(delta)
-	if abs(velocity.x) >= 50:
-		crouchtime += delta
-		if crouchtime >= 0.07:
-			_add_crouch_ghost()
-			crouchtime = 0
+	crouchtime += delta
+	if crouchtime >= 0.01:
+		_add_stop_ghost()
+		crouchtime = 0
+	
 	if not is_on_floor():
 		_enter_air_state(false)
 		return
@@ -335,7 +337,10 @@ func _enter_stop_state() -> void:
 
 func _enter_dash_state() -> void:
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
+	if direction == Vector2.DOWN:
+		return
 	if direction == Vector2.ZERO:
+		print("hejdå")
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	state = DASH
 	playersprite.play("Dash")
@@ -351,18 +356,18 @@ func _enter_attack_state(nr: int) -> void:
 func _add_walk_dust(amount: int) -> void:
 	var dust = dust_scene.instance()
 	dust.amount = amount
-	dust.global_position = playersprite.global_position + Vector2(0,23)
+	dust.global_position = playersprite.global_position + Vector2(0,22)
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
 
 func _add_land_dust()-> void:
 	var dust = land_scene.instance()
-	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
+	dust.global_position = playersprite.global_position + Vector2(0, 21) # 15
 	get_tree().get_root().add_child(dust)
 
 func _add_jump_dust():
 	var dust = jump_scene.instance()#jl_scene.instance()
-	dust.global_position = playersprite.global_position + Vector2(0, 15)
+	dust.global_position = playersprite.global_position + Vector2(0, 14)
 	#dust.play("JumpSmokeSideAssassin")
 	get_tree().get_root().add_child(dust)# Called every frame. 'delta' is the elapsed time since the previous frame.
 
@@ -373,7 +378,13 @@ func _add_crouch_ghost() -> void:
 	else:
 		dir = -1
 	var smoke = crouch_smoke_scene.instance()
-	smoke.global_position = global_position + Vector2(22*dir, 25)
+	smoke.global_position = global_position + Vector2(22*dir, 24)
+	smoke.flip_h = playersprite.flip_h
+	get_tree().get_root().add_child(smoke)
+
+func _add_stop_ghost() -> void:
+	var smoke = crouch_smoke_scene.instance()
+	smoke.global_position = global_position + Vector2(-25*direction.x, 24)
 	smoke.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(smoke)
 

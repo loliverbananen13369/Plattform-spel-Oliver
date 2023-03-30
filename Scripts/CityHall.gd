@@ -22,7 +22,7 @@ onready var anim = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	PlayerStats.ground_color = "cf573c"
+	PlayerStats.ground_color = "752438"
 	if PlayerStats.first_time:
 		cutscene_finished = false
 		var player_intro = intro_player_scene.instance()
@@ -36,6 +36,7 @@ func _ready():
 		yield(get_tree().create_timer(15), "timeout")
 		PlayerStats.first_time = false
 		emit_signal("cutscene")
+		
 	set_process_unhandled_input(true)
 	$Bshouse.rect_position.x = -87#(-87, -110)
 	$Bshouse.visible = false
@@ -145,3 +146,4 @@ func _on_Portal2_body_exited(body: Node) -> void:
 
 func _on_CityHall_cutscene() -> void:
 	cutscene_finished = true
+	Transition.load_scene("res://Scenes/Tutorial.tscn")

@@ -26,12 +26,10 @@ func _ready():
 	$CanvasLayer2.visible = true
 	#$AudioStreamPlayer.stream = NEW_AUDIO
 	yield(get_tree().create_timer(0.05), "timeout")
-	print($ColorRect.visible)
-	print($CanvasLayer2.visible)
 	animp.play("NameAnim")
 	yield(animp, "animation_finished")
 	yield(get_tree().create_timer(1), "timeout")
-	Transition.load_scene("res://UI/StartMenu.tscn")
+	Transition.load_scene("res://UI/StartMenu.tscn")#("res://UI/StartMenu.tscn")
 	
 	#pass
 func _fade_tween(value: Array) -> void:

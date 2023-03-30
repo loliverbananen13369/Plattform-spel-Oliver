@@ -1,9 +1,11 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Tileset Add on.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Tutorial.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://Instance_Scenes/PracticeDummy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Ancient Rock Animations 36x51.winter.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/PortalNext.gd" type="Script" id=6]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -415,6 +417,73 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 11/shapes = [  ]
 11/z_index = 0
 
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 5 )
+region = Rect2( 36, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=47]
+atlas = ExtResource( 5 )
+region = Rect2( 72, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = ExtResource( 5 )
+region = Rect2( 108, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=49]
+atlas = ExtResource( 5 )
+region = Rect2( 144, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=50]
+atlas = ExtResource( 5 )
+region = Rect2( 180, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 5 )
+region = Rect2( 216, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 5 )
+region = Rect2( 252, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 5 )
+region = Rect2( 288, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 5 )
+region = Rect2( 324, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 5 )
+region = Rect2( 360, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 5 )
+region = Rect2( 396, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 5 )
+region = Rect2( 432, 102, 36, 51 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 5 )
+region = Rect2( 468, 102, 36, 51 )
+
+[sub_resource type="SpriteFrames" id=43]
+animations = [ {
+"frames": [ SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=44]
+extents = Vector2( 18.5, 26.625 )
+
 [sub_resource type="TileSet" id=11]
 0/name = "Tileset Add on.png 0"
 0/texture = ExtResource( 1 )
@@ -611,7 +680,21 @@ tile_data = PoolIntArray( -1834838, 1, 0, -1834837, 1, 2, -1769302, 1, 65536, -1
 tile_set = SubResource( 21 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( -720760, 5, 0, -720757, 5, 0, -720755, 5, 0, -655219, 5, 0, -589688, 5, 0, -524237, 6, 0, -393181, 8, 0, -393180, 8, 1, -393179, 8, 3, -393178, 8, 2, -393177, 8, 3, -393176, 8, 2, -393175, 8, 1, -393174, 8, 1, -393173, 8, 2, -393172, 8, 1, -393171, 8, 2, -393170, 8, 1, -393169, 8, 3, -393168, 8, 2, -393167, 8, 1, -393166, 8, 1, -393165, 8, 1, -393164, 8, 3, -393163, 8, 3, -393162, 8, 4, -393088, 5, 0, -393085, 5, 0, -393073, 8, 3, -393072, 0, 65538, -327644, 5, 0, -327628, 5, 0, -327549, 5, 0, -327539, 8, 3, -327538, 0, 65538, -327537, 0, 131072, -327536, 0, 131074, -327535, 5, 0, -262005, 8, 3, -262004, 0, 65538, -262003, 2, 0, -262002, 0, 131074, -196471, 8, 3, -196470, 0, 65538, -196469, 0, 131072, -196468, 0, 131074, -196463, 5, 0, -130937, 8, 1, -130936, 1, 0, -130935, 2, 0, -130934, 0, 131074, -65403, 9, 0, -65402, 1, 0, -65401, 0, 131072, -65400, 0, 131074, -65392, 1, 65537, -65391, 1, 131074, -65390, 8, 1, -65366, 0, 65538, 132, 0, 131072, 133, 0, 131073, 134, 0, 131074, 145, 0, 131072, 146, 2, 2, 169, 2, 0, 170, 0, 131074, 65657, 11, 0, 65658, 11, 0, 65659, 11, 0, 65660, 11, 0, 65661, 11, 0, 65662, 11, 1, 131198, 11, 65537, 196734, 11, 196613, 196737, 0, 0, 196738, 0, 0, 262270, 11, 196613 )
+tile_data = PoolIntArray( -720760, 5, 0, -720757, 5, 0, -720755, 5, 0, -655219, 5, 0, -589688, 5, 0, -524237, 6, 0, -393181, 8, 0, -393180, 8, 1, -393179, 8, 3, -393178, 8, 2, -393177, 8, 3, -393176, 8, 2, -393175, 8, 1, -393174, 8, 1, -393173, 8, 2, -393172, 8, 1, -393171, 8, 2, -393170, 8, 1, -393169, 8, 3, -393168, 8, 2, -393167, 8, 1, -393166, 8, 1, -393165, 8, 1, -393164, 8, 3, -393163, 8, 3, -393162, 8, 4, -393088, 5, 0, -393085, 5, 0, -393073, 8, 3, -393072, 0, 65538, -327644, 5, 0, -327628, 5, 0, -327549, 5, 0, -327539, 8, 3, -327538, 0, 65538, -327537, 0, 131072, -327536, 0, 131074, -327535, 5, 0, -262005, 8, 3, -262004, 0, 65538, -262003, 2, 0, -262002, 0, 131074, -196471, 8, 3, -196470, 0, 65538, -196469, 0, 131072, -196468, 0, 131074, -196463, 5, 0, -130937, 8, 1, -130936, 1, 0, -130935, 2, 0, -130934, 0, 131074, -65403, 9, 0, -65402, 1, 0, -65401, 0, 131072, -65400, 0, 131074, -65392, 1, 65537, -65391, 1, 131074, -65390, 8, 1, -65366, 0, 65538, 65520, 11, 4, 132, 0, 131072, 133, 0, 131073, 134, 0, 131074, 145, 0, 131072, 146, 2, 2, 169, 2, 0, 170, 0, 131074, 131056, 11, 65539, 65657, 11, 0, 65658, 11, 0, 65659, 11, 0, 65660, 11, 0, 65661, 11, 0, 65662, 11, 1, 196592, 11, 4, 131198, 11, 65537, 262128, 11, 65539, 196734, 11, 196613, 196737, 0, 0, 196738, 0, 0, 262270, 11, 196613 )
+
+[node name="PortalNext" type="AnimatedSprite" parent="."]
+position = Vector2( -249, -48 )
+scale = Vector2( 2, 2 )
+frames = SubResource( 43 )
+frame = 9
+playing = true
+script = ExtResource( 6 )
+
+[node name="Area2D" type="Area2D" parent="PortalNext"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PortalNext/Area2D"]
+shape = SubResource( 44 )
 
 [node name="OneWay" type="TileMap" parent="."]
 tile_set = SubResource( 11 )
@@ -702,6 +785,8 @@ anims/DashArea = SubResource( 20 )
 anims/JumpArea = SubResource( 18 )
 anims/WalkArea = SubResource( 14 )
 
+[connection signal="body_entered" from="PortalNext/Area2D" to="PortalNext" method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="PortalNext/Area2D" to="PortalNext" method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="WalkArea" to="." method="_on_WalkArea_body_entered"]
 [connection signal="body_exited" from="WalkArea" to="." method="_on_WalkArea_body_exited"]
 [connection signal="body_entered" from="JumpArea" to="." method="_on_JumpArea_body_entered"]

@@ -1,6 +1,7 @@
 extends Node2D
 
 var player_scene = PlayerStats.player_instance
+
 var player
 var sprite
 var area
@@ -18,12 +19,13 @@ onready var animp = $AnimationPlayer
 var test = 0
 
 func _ready() -> void:
-	PlayerStats.ground_color = "cf573c"
+	PlayerStats.next_scene = "res://UI/ChooseClassScene.tscn"
+	PlayerStats.ground_color = "788830"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
-	player.global_position = global_position + Vector2(1500, -20)#Vector2(0, -20)
+	player.global_position = global_position + Vector2(0, -20)#Vector2(0, -20)
 	target.get_child(0).limit_right = 2720
-	target.get_child(0).limit_left = -200
+	target.get_child(0).limit_left = -280
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -200
 	get_child(0).add_child(player)

@@ -1138,7 +1138,6 @@ tile_data = PoolIntArray( 262196, 10, 0, 327720, 5, 0, 458755, 30, 0, 458756, 31
 
 [node name="PortalNext" parent="." index="3" instance=ExtResource( 7 )]
 position = Vector2( 1000, 416 )
-frame = 4
 
 [node name="MainTileMap" parent="." index="4"]
 tile_set = SubResource( 1 )

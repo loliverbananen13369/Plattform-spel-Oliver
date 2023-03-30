@@ -1048,7 +1048,7 @@ shape = SubResource( 46 )
 
 [node name="PortalNext2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1607, -530 )
-frame = 8
+frame = 10
 
 [node name="CollisionShape2D" parent="PortalNext2/Area2D" index="0"]
 visible = false
