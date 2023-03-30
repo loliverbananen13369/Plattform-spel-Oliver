@@ -27,6 +27,7 @@ var jump_pressed := false
 var jump_buffer = 0.15
 var attack_buffer = 0.3
 var last_step = 0
+var attack_pressed
 
 const JUMP_SOUNDS = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
 const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/AttackSounds/001_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/002_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/003_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/004_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/005_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/006_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/007_swing.wav")]
@@ -65,6 +66,31 @@ func _physics_process(delta: float) -> void:
 			_attack_state_ground(delta)
 		JUMP_ATTACK:
 			_jump_attack_state(delta)
+	
+func _attack_function():
+	
+	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
+		if can_attack:
+			_enter_attack_state(1)
+		else:
+			attack_pressed = 1
+			_remember_attack()
+	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
+		if can_attack:
+			_enter_attack_state(2)
+		else:
+			attack_pressed = 2
+			_remember_attack()
+	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
+		if can_attack:
+			_enter_attack_state(3)
+		else:
+			attack_pressed = 3
+			_remember_attack()
+
+func _remember_attack() -> void:
+	yield(get_tree().create_timer(attack_buffer), "timeout")
+	attack_pressed = 0
 
 func _flip_sprite(right: bool) -> void:
 	if right:
@@ -137,12 +163,15 @@ func _idle_state(delta) -> void:
 	
 	_apply_basic_movement(delta)
 	
+	_attack_function()
+	
 	if not is_on_floor():
 		_enter_air_state(false)
 		return
 	if velocity.x != 0:
 		_enter_run_state()
 		return
+
 func _crouch_state(delta) -> void:
 	direction.x = _get_input_x_crouch_direction()
 	velocity = velocity.move_toward(Vector2.ZERO, 0.5*ACCELERATION*delta)
@@ -312,6 +341,12 @@ func _enter_dash_state() -> void:
 	playersprite.play("Dash")
 	can_dash = false
 	dashtimer.start(0.25)
+
+func _enter_attack_state(nr: int) -> void:
+	state = ATTACK_GROUND
+	playersprite.play("Attack" + str(nr))
+	yield(playersprite, "animation_finished")
+	_enter_idle_state()
 
 func _add_walk_dust(amount: int) -> void:
 	var dust = dust_scene.instance()

@@ -10,6 +10,8 @@ var anchor_scene = preload("res://Scenes/Anchor.tscn")
 var next_scene
 var walk_sprite_values = [-146, -136]
 
+signal entered_attack()
+
 
 onready var animp = $AnimationPlayer
 
@@ -19,15 +21,19 @@ func _ready() -> void:
 	PlayerStats.ground_color = "cf573c"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
-	player.global_position = global_position + Vector2(0, -20)
-	target.get_child(0).limit_right = 2000
+	player.global_position = global_position + Vector2(1500, -20)#Vector2(0, -20)
+	target.get_child(0).limit_right = 2720
 	target.get_child(0).limit_left = -200
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -200
 	get_child(0).add_child(player)
 	get_child(0).add_child(target)
 	PlayerStats.player = player
-		
+#	yield(get_tree().create_timer(2), "timeout")
+	#$AttackArea.monitoring = true
+
+
+	
 	
 func _on_WalkArea_body_entered(body: Node) -> void:
 	$WalkArea/Sprite.visible = true
@@ -66,4 +72,17 @@ func _on_DashArea_body_entered(body: Node) -> void:
 
 func _on_DashArea_body_exited(body: Node) -> void:
 	$DashArea/Sprite.visible = false
+	animp.stop(true)
+
+
+func _on_AttackArea_body_entered(body):
+	if body.is_in_group("Player"):
+		$AttackArea/Sprite.visible = true
+		animp.play("AttackArea")
+
+		
+
+
+func _on_AttackArea_body_exited(body):
+	$AttackArea/Sprite.visible = false
 	animp.stop(true)

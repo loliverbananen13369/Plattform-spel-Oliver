@@ -9,7 +9,7 @@ var entered_katalina = false
 var can_start_d = false
 var player_scene = PlayerStats.player_instance
 var player
-var cutscene_finished = false
+var cutscene_finished = true
 
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
 var intro_player_scene = preload("res://Scenes/CutScenePlayer.tscn")
@@ -24,7 +24,7 @@ onready var anim = $AnimationPlayer
 func _ready():
 	PlayerStats.ground_color = "cf573c"
 	if PlayerStats.first_time:
-		cutscene_finished
+		cutscene_finished = false
 		var player_intro = intro_player_scene.instance()
 		var bar = blackbar.instance()
 		#add_child(bar)
@@ -69,7 +69,10 @@ func _on_Area2D_body_exited(body):
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
+		print("accept")
 		if can_accept and cutscene_finished:
+			print("can" + str(can_accept))
+			print("cut" + str(cutscene_finished))
 			if PlayerStats.next_scene == "res://Levels/BlackSmithsHouse.tscn":
 				PlayerStats.visited_bs_house = true
 			if PlayerStats.next_scene == "res://Levels/AssHouse.tscn":
