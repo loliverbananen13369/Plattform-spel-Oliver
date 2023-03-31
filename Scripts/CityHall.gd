@@ -146,4 +146,4 @@ func _on_Portal2_body_exited(body: Node) -> void:
 
 func _on_CityHall_cutscene() -> void:
 	cutscene_finished = true
-	Transition.load_scene("res://Scenes/Tutorial.tscn")
+	Transition.load_scene("res://Levels/Tutorial.tscn")
