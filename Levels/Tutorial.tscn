@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Scripts/Tutorial.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Icons/Individual Icons/keyboard_92.png" type="Texture" id=9]
 [ext_resource path="res://Icons/Individual Icons/keyboard_71.png" type="Texture" id=10]
 [ext_resource path="res://Icons/Individual Icons/keyboard_70.png" type="Texture" id=11]
+[ext_resource path="res://TestFolder/First Arrow.png" type="Texture" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -695,7 +696,7 @@ tile_data = PoolIntArray( -720760, 5, 0, -720757, 5, 0, -720755, 5, 0, -655219, 
 position = Vector2( -249, -48 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 43 )
-frame = 5
+frame = 9
 playing = true
 script = ExtResource( 4 )
 
@@ -748,23 +749,21 @@ margin_bottom = 35.0
 text = "Press "
 
 [node name="Sprite" type="TextureRect" parent="WalkArea/Sprite"]
-margin_left = 50.0
-margin_top = 10.0
-margin_right = 82.0
-margin_bottom = 42.0
+margin_left = 56.0
+margin_right = 88.0
+margin_bottom = 49.0
 texture = ExtResource( 6 )
 
 [node name="Sprite2" type="TextureRect" parent="WalkArea/Sprite"]
-margin_left = 88.0
-margin_top = 10.0
-margin_right = 120.0
-margin_bottom = 42.0
+margin_left = 92.0
+margin_right = 124.0
+margin_bottom = 49.0
 texture = ExtResource( 8 )
 
 [node name="Label2" type="Label" parent="WalkArea/Sprite"]
-margin_left = 126.0
+margin_left = 128.0
 margin_top = 14.0
-margin_right = 189.0
+margin_right = 191.0
 margin_bottom = 35.0
 text = "to walk"
 
@@ -895,6 +894,11 @@ anims/CrouchArea = SubResource( 17 )
 anims/DashArea = SubResource( 20 )
 anims/JumpArea = SubResource( 18 )
 anims/WalkArea = SubResource( 14 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 134, -133 )
+scale = Vector2( 0.90625, 0.875 )
+texture = ExtResource( 12 )
 
 [connection signal="body_entered" from="PortalNext/Area2D" to="PortalNext" method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="PortalNext/Area2D" to="PortalNext" method="_on_Area2D_body_exited"]
