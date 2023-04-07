@@ -44,6 +44,7 @@ var crouchtime := 0.0
 onready var playersprite = $PlayerSprite
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
+onready var attackhitboxtimer = $AttackHitBoxTimer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	playersprite.play("Idle")
@@ -95,8 +96,10 @@ func _remember_attack() -> void:
 func _flip_sprite(right: bool) -> void:
 	if right:
 		playersprite.flip_h = false
+		$Area2D/CollisionShape2D.position.x = 16
 	else:
 		playersprite.flip_h = true
+		$Area2D/CollisionShape2D.position.x = -16
 
 func _get_input_x_update_direction() -> float:
 	var input_x = Input.get_axis("move_left", "move_right")
@@ -350,7 +353,9 @@ func _enter_dash_state() -> void:
 func _enter_attack_state(nr: int) -> void:
 	state = ATTACK_GROUND
 	playersprite.play("Attack" + str(nr))
+	attackhitboxtimer.start(0.10)
 	yield(playersprite, "animation_finished")
+	$Area2D/CollisionShape2D.disabled = true
 	_enter_idle_state()
 
 func _add_walk_dust(amount: int) -> void:
@@ -402,3 +407,7 @@ func _on_DashTimer_timeout() -> void:
 
 func _on_DropDetect_body_exited(body) -> void:
 	set_collision_mask_bit(11, true)
+
+
+func _on_AttackHitBoxTimer_timeout() -> void:
+	$Area2D/CollisionShape2D.disabled = false

@@ -6,6 +6,8 @@ var player
 var sprite
 var area
 
+var croucharea = false
+
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
 
 var next_scene
@@ -28,14 +30,27 @@ func _ready() -> void:
 	target.get_child(0).limit_left = -280
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -200
-	get_child(0).add_child(player)
-	get_child(0).add_child(target)
+	get_child(1).add_child(player)
+	get_child(1).add_child(target)
 	PlayerStats.player = player
+	print(player.global_position)
 #	yield(get_tree().create_timer(2), "timeout")
 	#$AttackArea.monitoring = true
 
 
-	
+func _input(event: InputEvent) -> void:
+	if croucharea:
+		if Input.is_action_just_pressed("Crouch"):
+			print("down")
+			$CrouchArea/Sprite.visible = false
+			animp.stop(true)
+			$CrouchShiftArea/Sprite.visible = true
+			animp.play("CrouchShiftArea")
+		if Input.is_action_just_released("Crouch"):
+			$CrouchShiftArea/Sprite.visible = false
+			animp.stop(true)
+			$CrouchArea/Sprite.visible = true
+			animp.play("CrouchArea")
 	
 func _on_WalkArea_body_entered(body: Node) -> void:
 	$WalkArea/Sprite.visible = true
@@ -58,13 +73,16 @@ func _on_JumpArea_body_exited(body: Node) -> void:
 
 
 func _on_CrouchArea_body_entered(body: Node) -> void:
-	print("Crouch")
 	$CrouchArea/Sprite.visible = true
 	animp.play("CrouchArea")
+	croucharea = true
+
 
 
 func _on_CrouchArea_body_exited(body: Node) -> void:
+	croucharea = false
 	$CrouchArea/Sprite.visible = false
+	$CrouchShiftArea/Sprite.visible = false
 	animp.stop(true)
 
 
@@ -88,3 +106,5 @@ func _on_AttackArea_body_entered(body):
 func _on_AttackArea_body_exited(body):
 	$AttackArea/Sprite.visible = false
 	animp.stop(true)
+
+

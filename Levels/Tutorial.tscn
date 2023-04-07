@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://Scripts/Tutorial.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -578,6 +578,7 @@ extents = Vector2( 131, 97.5 )
 extents = Vector2( 202, 103 )
 
 [sub_resource type="RectangleShape2D" id=59]
+extents = Vector2( 130.5, 98 )
 
 [sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 224, 140.5 )
@@ -614,6 +615,24 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 650, -186 ), Vector2( 650, -196 ) ]
+}
+
+[sub_resource type="Animation" id=60]
+resource_name = "CrouchShiftArea"
+length = 3.0
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("CrouchShiftArea/Sprite:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 650, -195 ), Vector2( 650, -185 ) ]
 }
 
 [sub_resource type="Animation" id=20]
@@ -672,11 +691,11 @@ tracks/0/keys = {
 [node name="Tutorial" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Node2D" type="Node2D" parent="."]
-
 [node name="PracticeDummy" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2550, -39 )
 collision/safe_margin = 0.01
+
+[node name="Node2D" type="Node2D" parent="."]
 
 [node name="Main" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -696,7 +715,7 @@ tile_data = PoolIntArray( -720760, 5, 0, -720757, 5, 0, -720755, 5, 0, -655219, 
 position = Vector2( -249, -48 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 43 )
-frame = 9
+frame = 13
 playing = true
 script = ExtResource( 4 )
 
@@ -807,9 +826,9 @@ shape = SubResource( 15 )
 
 [node name="Sprite" type="HBoxContainer" parent="CrouchArea"]
 margin_left = 650.0
-margin_top = -195.299
+margin_top = -186.0
 margin_right = 813.0
-margin_bottom = -163.299
+margin_bottom = -154.0
 
 [node name="Label" type="Label" parent="CrouchArea/Sprite"]
 margin_top = 5.0
@@ -867,11 +886,35 @@ shape = SubResource( 19 )
 
 [node name="CrouchShiftArea" type="Area2D" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="CrouchShiftArea"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="Sprite" type="HBoxContainer" parent="CrouchShiftArea"]
+margin_left = 650.0
+margin_top = -191.0
+margin_right = 847.0
+margin_bottom = -146.0
+
+[node name="Label" type="Label" parent="CrouchShiftArea/Sprite"]
+margin_top = 5.0
+margin_right = 44.0
+margin_bottom = 50.0
+text = "Press
+"
+
+[node name="TextureRect" type="TextureRect" parent="CrouchShiftArea/Sprite"]
+margin_left = 48.0
+margin_right = 80.0
+margin_bottom = 32.0
+texture = ExtResource( 9 )
+
+[node name="Label2" type="Label" parent="CrouchShiftArea/Sprite"]
+margin_left = 84.0
+margin_top = 5.0
+margin_right = 197.0
+margin_bottom = 26.0
+text = "To jump down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CrouchShiftArea"]
+visible = false
+position = Vector2( 720.5, -176 )
 shape = SubResource( 59 )
 
 [node name="AttackArea" type="Area2D" parent="."]
@@ -891,6 +934,7 @@ shape = SubResource( 24 )
 autoplay = "WalkArea"
 anims/AttackArea = SubResource( 25 )
 anims/CrouchArea = SubResource( 17 )
+anims/CrouchShiftArea = SubResource( 60 )
 anims/DashArea = SubResource( 20 )
 anims/JumpArea = SubResource( 18 )
 anims/WalkArea = SubResource( 14 )
