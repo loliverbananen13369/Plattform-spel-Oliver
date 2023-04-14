@@ -5,7 +5,7 @@ onready var mage = preload("res://Scenes/Player.tscn")
 onready var soundplayer = $AudioStreamPlayer
 
 func _ready():
-	BackgroundMusic.play_sound("MainMenuMusic")
+	pass
 
 func _on_AssassinButton_pressed():
 	PlayerStats.player = assassin.instance()

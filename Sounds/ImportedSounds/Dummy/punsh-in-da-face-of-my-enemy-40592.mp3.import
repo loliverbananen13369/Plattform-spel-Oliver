@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/punsh-in-da-face-of-my-enemy-40592.mp3-322e66b29152113a9fa414174eb47e81.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ImportedSounds/Dummy/punsh-in-da-face-of-my-enemy-40592.mp3"
+dest_files=[ "res://.import/punsh-in-da-face-of-my-enemy-40592.mp3-322e66b29152113a9fa414174eb47e81.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

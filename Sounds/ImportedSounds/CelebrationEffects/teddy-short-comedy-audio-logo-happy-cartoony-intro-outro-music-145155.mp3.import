@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/teddy-short-comedy-audio-logo-happy-cartoony-intro-outro-music-145155.mp3-8a34bc8972d727d809bfcc69cdc30d39.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ImportedSounds/CelebrationEffects/teddy-short-comedy-audio-logo-happy-cartoony-intro-outro-music-145155.mp3"
+dest_files=[ "res://.import/teddy-short-comedy-audio-logo-happy-cartoony-intro-outro-music-145155.mp3-8a34bc8972d727d809bfcc69cdc30d39.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/WorldEnvironment1.gd" type="Script" id=1]
 
@@ -24,10 +24,47 @@ glow_hdr_luminance_cap = 256.0
 glow_hdr_scale = 1.43
 glow_bicubic_upscale = true
 
+[sub_resource type="Animation" id=477]
+resource_name = "NewSkill"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:environment:tonemap_exposure")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.9, 0.2, 0.9 ]
+}
+
+[sub_resource type="Animation" id=478]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:environment:tonemap_exposure")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.9 ]
+}
+
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource( 476 )
 script = ExtResource( 1 )
 
 [node name="TestTimer" type="Timer" parent="."]
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/NewSkill = SubResource( 477 )
+anims/RESET = SubResource( 478 )
 
 [connection signal="timeout" from="TestTimer" to="." method="_on_TestTimer_timeout"]

@@ -4,7 +4,7 @@ extends Node
 const SAVE_PLAYER_STATS_FILE = "res://Data/PlayerStats.gd"
 var game_data = {}
 
-var player_instance = preload("res://Scenes/PlayerIntroBody.tscn")#preload("res://Scenes/PlayerAssassin.tscn")
+var player_instance = preload("res://Scenes/PlayerAssassin.tscn")
 var player
 var ability1_learned = false
 var ability2_learned = false
@@ -17,7 +17,10 @@ signal PlayerHurt()
 signal EnemyHurt()
 signal EnemyDead(test_enemy)
 signal GolemStatus(active)
+signal TutorialFinished()
 
+
+var master_vol_value = 0
 
 var enemy_who_hurt
 var enemy_who_hurt_list = []
@@ -32,6 +35,8 @@ var assassin_smearsprite_q = "Smear7H"
 var assassin_smearsprite_w = "Smear7V"
 var assassin_smearsprite_e = "Smear3H"
 var assassin_clone_targets = 1
+var assassin_combo_list = []
+
 
 var visited_bs_house = false
 var visited_katalina_house = false
@@ -40,10 +45,16 @@ var next_scene = "res://Levels/CityHall.tscn"#"res://UI/ChooseClassScene.tscn"#"
 var prev_scene = "res://Levels/CityHall.tscn"
 
 
+var footsteps_sound = preload("res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav")
+
+
+
+var enemy_hpbar_color 
 var winter_skin = preload("res://EnemySkins/SkeletonWarriorWinter.tres")
 var green_skin = preload("res://EnemySkins/SkeletonWarriorGreen.tres")
 var winter_hit = preload("res://EnemySkins/EnemyHitWinter.tres")
 var green_hit = preload("res://EnemySkins/EnemyHitGreen.tres")
+
 var ground_color
 var enemy_skin = winter_skin#"res://EnemySkins/SkeletonWarriorGreen.tres"
 var enemy_hit = winter_hit

@@ -1089,7 +1089,11 @@ extents = Vector2( 535.5, 10 )
 extents = Vector2( 7.75, 276.25 )
 
 [node name="BuildingBlock1" instance=ExtResource( 3 )]
+next_scene = "res://Levels/WinterLevel3.tscn"
 previous_scene = "res://Levels/WinterLevel1.tscn"
+ground_color = "a4dddb"
+footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav"
+enemy_hpbar_color = "a4dddb"
 
 [node name="Position2D" parent="EnemySpawnPoints" index="0" instance=ExtResource( 6 )]
 position = Vector2( 254, 452 )
@@ -1138,7 +1142,7 @@ tile_data = PoolIntArray( 262196, 10, 0, 327720, 5, 0, 458755, 30, 0, 458756, 31
 
 [node name="PortalNext" parent="." index="3" instance=ExtResource( 7 )]
 position = Vector2( 1000, 416 )
-frame = 3
+frame = 0
 
 [node name="MainTileMap" parent="." index="4"]
 tile_set = SubResource( 1 )

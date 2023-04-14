@@ -99,7 +99,7 @@ func set_unlocked(_unlocked):
 	disabled = !unlocked
 	set_active(unlocked)
 	emit_signal("on_unlocked")
-	texture_normal = on_learned_texture
+	texture_normal = on_unlocked_texture
 	modulate = inactive_tint
 	#print("Skill_Node %s unlocked" % name)	
 
@@ -154,6 +154,7 @@ func get_tooltip_text():
 	return tooltip_text
 
 func _on_TextureButton_pressed():
+	PlayerStats.skilltree_points = 20
 	if not unlocked:
 		return
 	if learned:

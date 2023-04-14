@@ -3,20 +3,23 @@ extends WorldEnvironment
 
 
 var tween_values  = [0.9, 0.3]
-var tween = Tween.new()
+onready var tween = $Tween
+onready var animp = $AnimationPlayer
+
 var hejsan 
 
 func _ready() -> void:
 	environment.glow_enabled = true
 	environment.tonemap_exposure = 0.9
 
-func _enter_tree():
-	tween.name = "Tween"
-	add_child(tween)    
 
-func start_tween():
-	$Tween.interpolate_property(environment, "tonemap_exposure", tween_values[0], tween_values[1], hejsan)
-	$Tween.start()
+
+func start_tween(value: Array, time: float):
+	tween.interpolate_property(environment, "tonemap_exposure", value[0], value[1], time)
+	tween.start()
+
+func new_skill_animation() -> void:
+	animp.play("NewSkill")
 
 func _on_Player_test(length) -> void:
 	hejsan = length
@@ -28,7 +31,7 @@ func _on_Player_test(length) -> void:
 		tween_values = [0.9, 0.3]
 	else:
 		tween_values = [2, 0.9]
-	start_tween()
+	start_tween(tween_values, hejsan)
 	$TestTimer.start(hejsan)
 
 	

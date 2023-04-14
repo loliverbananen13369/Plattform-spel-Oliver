@@ -19,7 +19,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = SubResource( 5 )
-shader_param/flash_color = Color( 3, 3, 1.5, 1 )
+shader_param/flash_color = Color( 4, 2, 1, 1 )
 shader_param/flash_modifier = 0.8
 
 [sub_resource type="SpriteFrames" id=1]
@@ -56,7 +56,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.560784 ), Color( 1, 0.568627, 0.568627, 0 ) ]
+"values": [ Color( 1, 1, 1, 0.560784 ), Color( 0.996078, 0.537255, 0, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Particles2D:emitting")

@@ -8,6 +8,7 @@ var can_talk_rock = false
 var d_active = false
 export (String) var next_scene 
 export (String) var previous_scene
+export (String) var footstep_sound
 
 onready var mission_d = $NPCRock/MissionDialogue
 onready var normal_d = $NPCRock/Dialogue
@@ -16,7 +17,9 @@ onready var normal_d = $NPCRock/Dialogue
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	BackgroundMusic.play_sound("GameMusic")
 	PlayerStats.ground_color = "a4dddb"
+	PlayerStats.enemy_hpbar_color = "a4dddb"
 	player = player_scene.instance()
 	#player = PlayerStats.player
 	var target = anchor_scene.instance()

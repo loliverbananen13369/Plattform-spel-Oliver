@@ -5,11 +5,18 @@ var player
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
 export (String) var next_scene 
 export (String) var previous_scene
+export (String) var ground_color
+export (String) var footsteps_sound
+export (String) var enemy_hpbar_color 
 
 func _ready() -> void:
-	
+	PlayerStats.ground_color = ground_color
+	PlayerStats.footsteps_sound = footsteps_sound
+	PlayerStats.next_scene = next_scene
+	PlayerStats.prev_scene = previous_scene
+	PlayerStats.enemy_hpbar_color = enemy_hpbar_color
 	player = player_scene.instance()
-	BackgroundMusic.play_sound("GameMusic")
+	
 	var target = anchor_scene.instance()
 #	if PlayerStats.is_assassin == true:
 	#	player = assassin_scene.instance()
@@ -24,6 +31,7 @@ func _ready() -> void:
 	player.global_position = $PlayerNode/Position2D.global_position
 	get_child(0).add_child(target)
 	PlayerStats.player = player
+	
 	#var hej2 = get_child(1)
 
 func _on_Dialogue_active(active) -> void:

@@ -1,6 +1,6 @@
 extends Node2D
 
-var player_scene = PlayerStats.player_instance
+var player_scene = preload("res://Scenes/PlayerIntroBody.tscn")
 
 var player
 var sprite
@@ -9,20 +9,26 @@ var area
 var croucharea = false
 
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
+var portal_scene = preload("res://Scenes/PortalNext.tscn")
 
 var next_scene
 var walk_sprite_values = [-146, -136]
+
+var attack_pressed = []
 
 signal entered_attack()
 
 
 onready var animp = $AnimationPlayer
 
+
 var test = 0
 
 func _ready() -> void:
+	BackgroundMusic.play_sound("MainMenuMusic")
 	PlayerStats.next_scene = "res://UI/ChooseClassScene.tscn"
 	PlayerStats.ground_color = "788830"
+	PlayerStats.enemy_hpbar_color = "788830"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(0, -20)#Vector2(0, -20)
@@ -33,7 +39,7 @@ func _ready() -> void:
 	get_child(1).add_child(player)
 	get_child(1).add_child(target)
 	PlayerStats.player = player
-	print(player.global_position)
+	PlayerStats.connect("TutorialFinished", self, "on_TutorialFinished")
 #	yield(get_tree().create_timer(2), "timeout")
 	#$AttackArea.monitoring = true
 
@@ -107,4 +113,8 @@ func _on_AttackArea_body_exited(body):
 	$AttackArea/Sprite.visible = false
 	animp.stop(true)
 
+func on_TutorialFinished():
+	var portal = portal_scene.instance()
+	portal.global_position = Vector2(2500, -30)
+	add_child(portal)
 

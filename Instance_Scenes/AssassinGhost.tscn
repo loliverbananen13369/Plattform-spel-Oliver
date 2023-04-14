@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=2]
+[gd_scene load_steps=119 format=2]
 
 [ext_resource path="res://Scripts/AssassinGhost.gd" type="Script" id=1]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Jump Foward/Going Up/Jump Foward Going Up.mage.png" type="Texture" id=2]
@@ -15,8 +15,8 @@
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Spin Attack/Battlemage Spin Attack wo Effects.mage.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.new.ass.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage (Separeted Frames)/Dash/Battlemage Dash1.mage.png" type="Texture" id=15]
+[ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Crouch/Battlemage Crouch.newass.png" type="Texture" id=16]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Hurt 1 n 2/Hurt 1.ass1.png" type="Texture" id=18]
-[ext_resource path="res://dash_particle.2.png" type="Texture" id=47]
 
 [sub_resource type="Shader" id=721]
 code = "shader_type canvas_item;
@@ -134,6 +134,42 @@ region = Rect2( 0, 336, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=1128]
 atlas = ExtResource( 10 )
+region = Rect2( 0, 384, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1194]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 0, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1195]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 48, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1196]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 96, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1197]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 144, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1198]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 192, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1199]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 240, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1200]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 288, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1201]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 336, 56, 48 )
+
+[sub_resource type="AtlasTexture" id=1202]
+atlas = ExtResource( 16 )
 region = Rect2( 0, 384, 56, 48 )
 
 [sub_resource type="AtlasTexture" id=1188]
@@ -280,6 +316,10 @@ region = Rect2( 708, 0, 118, 29 )
 atlas = ExtResource( 3 )
 region = Rect2( 826, 0, 118, 29 )
 
+[sub_resource type="StreamTexture" id=1193]
+resource_local_to_scene = true
+load_path = "res://.import/dash_particle.2.png-17eeda4d4eeed45c12d23d0a5d48b840.stex"
+
 [sub_resource type="AtlasTexture" id=1162]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 56, 48 )
@@ -402,6 +442,11 @@ animations = [ {
 "name": "Attack3",
 "speed": 30.0
 }, {
+"frames": [ SubResource( 1194 ), SubResource( 1195 ), SubResource( 1196 ), SubResource( 1197 ), SubResource( 1198 ), SubResource( 1199 ), SubResource( 1200 ), SubResource( 1201 ), SubResource( 1202 ) ],
+"loop": false,
+"name": "Crouch",
+"speed": 10.0
+}, {
 "frames": [ SubResource( 1188 ) ],
 "loop": false,
 "name": "Dash",
@@ -442,7 +487,7 @@ animations = [ {
 "name": "JumpN",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 896 ), SubResource( 897 ), SubResource( 898 ), SubResource( 899 ), SubResource( 900 ), SubResource( 901 ), SubResource( 902 ), SubResource( 903 ), ExtResource( 47 ) ],
+"frames": [ SubResource( 896 ), SubResource( 897 ), SubResource( 898 ), SubResource( 899 ), SubResource( 900 ), SubResource( 901 ), SubResource( 902 ), SubResource( 903 ), SubResource( 1193 ) ],
 "loop": false,
 "name": "New Anim",
 "speed": 5.0

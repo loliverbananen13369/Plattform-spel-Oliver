@@ -13,6 +13,7 @@ onready var audiop = $AnimatedSprite/AudioStreamPlayer2D
 func _ready():
 	PlayerStats.visited_bs_house = true
 	PlayerStats.ground_color = "3a2122"
+	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Gravel - Run.wav"
 	player = player_scene.instance()
 	#player = PlayerStats.player
 	var target = anchor_scene.instance()

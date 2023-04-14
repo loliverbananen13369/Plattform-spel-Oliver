@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://InstanceScripts/Shockwave.gd" type="Script" id=1]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -90,6 +92,7 @@ tracks/1/keys = {
 }
 
 [node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource( 1 )
 
 [node name="Sprite" type="ColorRect" parent="."]
 material = SubResource( 2 )

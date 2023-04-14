@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/my-little-garden-of-eden-112845.mp3-400913362c8243c177170a21566f5410.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ImportedSounds/Background/my-little-garden-of-eden-112845.mp3"
+dest_files=[ "res://.import/my-little-garden-of-eden-112845.mp3-400913362c8243c177170a21566f5410.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

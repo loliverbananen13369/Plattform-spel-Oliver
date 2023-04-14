@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3-2cd2d18dd015065a119082136c3b2752.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ImportedSounds/Background/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3"
+dest_files=[ "res://.import/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3-2cd2d18dd015065a119082136c3b2752.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -41,7 +41,7 @@ func _on_MasterSlider_value_changed(value):
 	else:
 		AudioServer.set_bus_mute(0, false)
 		AudioServer.set_bus_volume_db(0, value)
-
+	PlayerStats.master_vol_value = value
 func _on_VoicePitch_value_changed(value):
 	BackgroundMusic.voice_pitch_scale = value
 	#AudioServer.set_bus(AudioServer.get_bus_index("Voice"), value)

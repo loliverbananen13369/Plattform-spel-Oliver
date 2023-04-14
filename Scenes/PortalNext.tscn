@@ -73,6 +73,7 @@ extents = Vector2( 18.5, 26.625 )
 [node name="PortalNext" type="AnimatedSprite"]
 scale = Vector2( 2, 2 )
 frames = SubResource( 43 )
+frame = 13
 playing = true
 script = ExtResource( 2 )
 

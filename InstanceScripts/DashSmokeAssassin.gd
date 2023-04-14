@@ -11,9 +11,9 @@ func _ready() -> void:
 		#modulate.r = 0.5
 		#modulate.g = 0.5
 	#	modulate.b = 1.37
-		modulate.r = 2.73
-		modulate.g = 2.28
-		modulate.b = 1.32
+		modulate.r = 3
+		modulate.g = 1.5
+		modulate.b = 1
 		$AnimationPlayer.play("ImpactDustKick")
 
 	if animation == "New Anim ":
@@ -23,13 +23,14 @@ func _ready() -> void:
 		#modulate.g = 0.5
 		#modulate.b = 1.37
 		$AnimationPlayer.play("New Anim 1")
-	if animation == "New Anim 1":
+	if animation == "New Anim":
 		scale.x = 3
 		scale.y = 4
-		modulate.r = 2.73
-		modulate.g = 2.28
-		modulate.b = 1.32
-		$AnimationPlayer.play("Hejsan2")
+		modulate.r = 3
+		modulate.g = 1.5
+		modulate.b = 1
+		#2.73, 2.28, 1.32
+		$AnimationPlayer.play("Hejsan")
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	queue_free()

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/raining-village-video-game-theme-141777.mp3-e541caccf1ac5b39827a2397430386c7.mp3str"
+
+[deps]
+
+source_file="res://Sounds/ImportedSounds/Background/raining-village-video-game-theme-141777.mp3"
+dest_files=[ "res://.import/raining-village-video-game-theme-141777.mp3-e541caccf1ac5b39827a2397430386c7.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

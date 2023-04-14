@@ -23,6 +23,7 @@ onready var anim = $AnimationPlayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	PlayerStats.ground_color = "752438"
+	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
 	if PlayerStats.first_time:
 		cutscene_finished = false
 		var player_intro = intro_player_scene.instance()
@@ -53,8 +54,8 @@ func _ready():
 	target.get_child(0).limit_left = -2208
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -220
-	get_child(2).add_child(player)
-	get_child(2).add_child(target)
+	get_node("PlayerNode").add_child(player)
+	get_node("PlayerNode").add_child(target)
 	#get_child(1).add_child(target)
 	PlayerStats.player = player
 	PlayerStats.visited_bs_house = false
@@ -64,7 +65,11 @@ func _ready():
 func _on_Area2D_body_entered(body):
 	#PlayerStats.next_scene = "res://Scenes/BlackSmithsHouse.tscn"
 	next_scene = "res://Levels/BlackSmithsHouse.tscn"
+	can_accept = true
+	can_start_d = false
+	anim.play("BSHouse")
 func _on_Area2D_body_exited(body):
+	can_accept = false
 	anim.stop(true)
 	$Bshouse.visible = false
 
@@ -74,10 +79,6 @@ func _input(event):
 		if can_accept and cutscene_finished:
 			print("can" + str(can_accept))
 			print("cut" + str(cutscene_finished))
-			if PlayerStats.next_scene == "res://Levels/BlackSmithsHouse.tscn":
-				PlayerStats.visited_bs_house = true
-			if PlayerStats.next_scene == "res://Levels/AssHouse.tscn":
-				PlayerStats.visited_katalina_house = true
 			if entered_portal2:
 				pass
 			Transition.load_scene(next_scene)#PlayerStats.next_scene)

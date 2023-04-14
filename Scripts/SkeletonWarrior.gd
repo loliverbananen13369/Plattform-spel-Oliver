@@ -7,8 +7,13 @@ const ACCELERATION = 1000
 const GRAVITY = 1000
 const JUMP_STRENGHT = -410
 
+const HURT_SOUNDS = [preload("res://Sounds/ImportedSounds/Enemy/EnemyHurt/enemy_hurt_1.wav"), preload("res://Sounds/ImportedSounds/Enemy/EnemyHurt/enemy_hurt_2.wav")]
+const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/Enemy/EnemyAttack/enemy_attack_3.wav"), preload("res://Sounds/ImportedSounds/Enemy/EnemyAttack/enemy_attack_4.wav")]
+const DEATH_SOUND = preload("res://Sounds/ImportedSounds/Enemy/EnemyDead/enemy_death_1.wav")
 
 export var direction_x = 1
+
+var can_hurt_sound := true
 
 var direction_x_to_player 
 var velocity := Vector2()
@@ -38,6 +43,8 @@ var can_hunt = true
 onready var animatedsprite = $AnimatedSprite
 onready var idletimer = $IdleTimer
 onready var runtimer = $RunTimer
+onready var hpbar = $HPBar/ProgressBar
+
 var player 
 var golem
 
@@ -65,7 +72,7 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	
+	hpbar.modulate = PlayerStats.enemy_hpbar_color
 	#animatedsprite.frames.
 	player = PlayerStats.player#get_parent().get_parent().get_child(1).get_child(0)
 	$PlayerDetector.monitoring = false
@@ -76,6 +83,7 @@ func _ready():
 	$PlayerDetector.monitoring = false
 	state = SPAWN
 	$AnimationPlayer.play("Spawn")
+	print(hpbar.modulate)
 	
 
 	
@@ -152,6 +160,15 @@ func _get_direction_to_player():
 func _check_if_hit_wall() -> void:
 	pass
 
+func _get_random_sound(type: String) -> void:
+	rng.randomize()
+	if type == "Hurt":
+		var number = rng.randi_range(0, HURT_SOUNDS.size()-1)
+		$HurtSound.stream = HURT_SOUNDS[number]
+	if type == "Attack":
+		var number = rng.randi_range(0, ATTACK_SOUNDS.size()-1)
+		$AttackSound.stream = ATTACK_SOUNDS[number]
+
 func flash():
 	animatedsprite.material.set_shader_param("flash_modifier", 0.0) # 0.8
 	$FlashTimer.start(0.2)
@@ -182,6 +199,9 @@ func take_damage(amount: int) -> void:
 	knock_back(player.position)
 	#velocity.y = GRAVITY
 	hp = hp - amount
+	hpbar.value = hp
+	$HPBar/AnimationPlayer.stop(true)
+	$HPBar/AnimationPlayer.play("default")
 	#$AnimationPlayer.play("Hurt1")
 	_die_b()
 
@@ -194,6 +214,9 @@ func _die_b():
 		state = DEAD
 		if can_die:
 			$AnimationPlayer.play("Dead")
+			$HurtSound.stop()
+			$HurtSound.stream = DEATH_SOUND
+			$HurtSound.play()
 #Enter state
 
 func frameFreeze(timescale, duration):
@@ -304,6 +327,8 @@ func _enter_attack_state() -> void:
 		side = "left"
 	state = ATTACK
 	$AnimationPlayer.play("Hit")
+	_get_random_sound("Attack")
+	$AttackSound.play()
 	emit_signal("side_of_player", side)
 	velocity.x = 0
 	can_attack = false
@@ -332,7 +357,9 @@ func _enter_hurt_state(number: int) -> void:
 	if number == 3:
 		$AnimationPlayer.play("Hurt1")
 		_enter_air_state(1)
-
+	if can_hurt_sound:
+		_get_random_sound("Hurt")
+		$HurtSound.play()
 		
 	flash()
 
@@ -442,11 +469,12 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			_enter_idle_state()
 	if anim_name == "Dead":
 		_spawn_xp()
+		remove_from_group("Enemy")
 		PlayerStats.emit_signal("EnemyDead", self)
-		var groups = get_groups()
-		print(groups)
-		if groups.size() > 1:
-			remove_from_group(groups[1])
+	#	var groups = get_groups()
+	#	print("groups" + str(groups))
+	#	if groups.size() > 1:
+	#		remove_from_group(groups)
 		queue_free()
 		
 
@@ -516,3 +544,7 @@ func _on_RayCast2D_body_exited(body):
 
 func _on_WallRayCast_body_entered(body):
 	_turn_around()
+
+
+func _on_HurtSound_finished():
+	can_hurt_sound = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=346 format=2]
+[gd_scene load_steps=347 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Idle/Battlemage Idle.nec.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -27,6 +27,7 @@
 [ext_resource path="res://Acid VFX 03 - 15/Acid VFX 5/Acid VFX 05(56x32).mage1.png" type="Texture" id=25]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack wo effect.nec.png" type="Texture" id=26]
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Crouch/Battlemage Crouch.nec.png" type="Texture" id=27]
+[ext_resource path="res://icon.png" type="Texture" id=28]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=39]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 03/Thrust VFX 03 Color 1.png" type="Texture" id=40]
 [ext_resource path="res://UI/SkillTree-InGame.tscn" type="PackedScene" id=41]
@@ -2757,6 +2758,27 @@ shape = SubResource( 791 )
 
 [node name="SkillTreeInGame" parent="." instance=ExtResource( 41 )]
 visible = false
+
+[node name="Thingy" parent="SkillTreeInGame/Control/CanvasLayer" index="0"]
+texture_normal = ExtResource( 28 )
+
+[node name="Arrow" parent="SkillTreeInGame/Control/CanvasLayer" index="1"]
+texture_normal = ExtResource( 28 )
+
+[node name="Ray" parent="SkillTreeInGame/Control/CanvasLayer" index="2"]
+texture_normal = ExtResource( 28 )
+
+[node name="Time" parent="SkillTreeInGame/Control/CanvasLayer" index="3"]
+texture_normal = ExtResource( 28 )
+
+[node name="Lock" parent="SkillTreeInGame/Control/CanvasLayer" index="4"]
+texture_normal = ExtResource( 28 )
+
+[node name="Acid 5" parent="SkillTreeInGame/Control/CanvasLayer" index="5"]
+texture_normal = ExtResource( 28 )
+
+[node name="Acid 2" parent="SkillTreeInGame/Control/CanvasLayer" index="6"]
+texture_normal = ExtResource( 28 )
 
 [node name="DashParticles" type="Particles2D" parent="."]
 position = Vector2( 0, -15 )

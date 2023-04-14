@@ -13,6 +13,7 @@ onready var audiop = $Area2D/AudioStreamPlayer2D
 func _ready():
 	PlayerStats.visited_katalina_house = true
 	PlayerStats.ground_color = "3a2122"
+	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Gravel - Run.wav"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(-365, -40)

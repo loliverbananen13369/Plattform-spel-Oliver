@@ -10,3 +10,7 @@ func load_scene(scene):
 	get_tree().change_scene(scene)
 	#animationplayer.play_backwards("fade_in")
 	animationplayer.play("fade_out")
+	yield(animationplayer, "animation_finished")
+	
+func _paus():
+	get_tree().paused = !get_tree().paused

@@ -43,8 +43,8 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=156]
 resource_local_to_scene = true
 shader = SubResource( 155 )
-shader_param/line_color = Color( 2, 0, 2, 1 )
-shader_param/line_thickness = 0.5
+shader_param/line_color = Color( 20.23, 0, 2, 1 )
+shader_param/line_thickness = 0.0
 
 [sub_resource type="AtlasTexture" id=87]
 atlas = ExtResource( 10 )
@@ -568,7 +568,7 @@ animations = [ {
 "speed": 30.0
 }, {
 "frames": [ SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ) ],
-"loop": false,
+"loop": true,
 "name": "New Anim",
 "speed": 30.0
 }, {
@@ -619,24 +619,26 @@ scale_random = 0.5
 scale_curve = SubResource( 153 )
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
-modulate = Color( 0.0823529, 0.113725, 0.156863, 1 )
+modulate = Color( 4.55, 3, 1, 1 )
 material = SubResource( 156 )
 rotation = 1.5708
 scale = Vector2( 2, 2 )
 frames = SubResource( 22 )
-animation = "AssTest2"
-frame = 20
+animation = "New Anim"
+frame = 9
 playing = true
 flip_v = true
 script = ExtResource( 13 )
 
 [node name="Area2D" type="Area2D" parent="." groups=["AirExplosion"]]
+visible = false
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 23 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
+visible = false
 emitting = false
 amount = 5
 one_shot = true

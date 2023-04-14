@@ -13,6 +13,8 @@ var direction_x = "RIGHT"
 var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 
+var attack_list_emitted = false
+
 var state = IDLE
 
 var hit_the_ground = false
@@ -28,6 +30,7 @@ var jump_buffer = 0.15
 var attack_buffer = 0.3
 var last_step = 0
 var attack_pressed
+var intro_attack_pressed = []
 
 const JUMP_SOUNDS = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
 const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/AttackSounds/001_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/002_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/003_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/004_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/005_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/006_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/007_swing.wav")]
@@ -48,6 +51,7 @@ onready var attackhitboxtimer = $AttackHitBoxTimer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	playersprite.play("Idle")
+	
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -73,6 +77,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
 			_enter_attack_state(1)
+			
 		else:
 			attack_pressed = 1
 			_remember_attack()
@@ -88,6 +93,8 @@ func _attack_function():
 		else:
 			attack_pressed = 3
 			_remember_attack()
+	
+
 
 func _remember_attack() -> void:
 	yield(get_tree().create_timer(attack_buffer), "timeout")
@@ -343,7 +350,6 @@ func _enter_dash_state() -> void:
 	if direction == Vector2.DOWN:
 		return
 	if direction == Vector2.ZERO:
-		print("hejdå")
 		direction.x = 1 if direction_x == "RIGHT" else -1
 	state = DASH
 	playersprite.play("Dash")
@@ -356,7 +362,13 @@ func _enter_attack_state(nr: int) -> void:
 	attackhitboxtimer.start(0.10)
 	yield(playersprite, "animation_finished")
 	$Area2D/CollisionShape2D.disabled = true
+	if not intro_attack_pressed.has(nr):
+		intro_attack_pressed.append(nr)
+	if intro_attack_pressed.has(1) and intro_attack_pressed.has(2) and intro_attack_pressed.has(3) and not attack_list_emitted:
+		PlayerStats.emit_signal("TutorialFinished")
+		attack_list_emitted = true
 	_enter_idle_state()
+	
 
 func _add_walk_dust(amount: int) -> void:
 	var dust = dust_scene.instance()
