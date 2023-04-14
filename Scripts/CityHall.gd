@@ -22,23 +22,14 @@ onready var anim = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Quests.connect("quest_available", self, "on_quest_available")
+	Quests.emit_signal("quest_available", "Hubby")
 	PlayerStats.ground_color = "752438"
 	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
 	if PlayerStats.first_time:
-		cutscene_finished = false
-		var player_intro = intro_player_scene.instance()
-		var bar = blackbar.instance()
-		#add_child(bar)
-		add_child(player_intro)
-		player_intro.global_position = Vector2(950, -20)
-		player_intro.get_node("AnimationPlayer")
-		yield(get_tree().create_timer(6), "timeout")
-		$Elder.flip_h = true
-		yield(get_tree().create_timer(15), "timeout")
-		PlayerStats.first_time = false
-		emit_signal("cutscene")
-		
+		_load_cutscene(1)
 	set_process_unhandled_input(true)
+
 	$Bshouse.rect_position.x = -87#(-87, -110)
 	$Bshouse.visible = false
 	$PortalLabel.rect_position.x = 1032
@@ -61,6 +52,20 @@ func _ready():
 	PlayerStats.visited_bs_house = false
 	PlayerStats.visited_katalina_house = false
 
+func _load_cutscene(time: int):
+	if time == 1:
+		cutscene_finished = false
+		var player_intro = intro_player_scene.instance()
+		var bar = blackbar.instance()
+		#add_child(bar)
+		add_child(player_intro)
+		player_intro.global_position = Vector2(950, -20)
+		player_intro.get_node("AnimationPlayer")
+		yield(get_tree().create_timer(6), "timeout")
+		$Elder.flip_h = true
+		yield(get_tree().create_timer(15), "timeout")
+		PlayerStats.first_time = false
+		emit_signal("cutscene")
 
 func _on_Area2D_body_entered(body):
 	#PlayerStats.next_scene = "res://Scenes/BlackSmithsHouse.tscn"
@@ -75,10 +80,7 @@ func _on_Area2D_body_exited(body):
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
-		print("accept")
 		if can_accept and cutscene_finished:
-			print("can" + str(can_accept))
-			print("cut" + str(cutscene_finished))
 			if entered_portal2:
 				pass
 			Transition.load_scene(next_scene)#PlayerStats.next_scene)
@@ -87,11 +89,12 @@ func _input(event):
 
 
 func _on_Portal_body_entered(body):
-	can_accept = true
-	can_start_d = false
-	#PlayerStats.next_scene = "res://NewTestWorld.tscn"
-	next_scene = "res://NewTestWorld.tscn"
-	anim.play("Portal")
+	if body.is_in_group("Player"):
+		can_accept = true
+		can_start_d = false
+		#PlayerStats.next_scene = "res://NewTestWorld.tscn"
+		next_scene = "res://NewTestWorld.tscn"
+		anim.play("Portal")
 
 
 func _on_Portal_body_exited(body):
@@ -101,11 +104,12 @@ func _on_Portal_body_exited(body):
 
 
 func _on_Well_body_entered(body: Node) -> void:
-	$Well.can_start = true
-	can_accept = false
-	entered_well = true
-	can_start_d = true
-	PlayerStats.can_s_d = true
+	if body.is_in_group("Player"):
+		$Well.can_start = true
+		can_accept = false
+		entered_well = true
+		can_start_d = true
+		PlayerStats.can_s_d = true
 
 
 func _on_Well_body_exited(body: Node) -> void:
@@ -120,10 +124,11 @@ func _on_Elder_body_entered(body: Node) -> void:
 
 func _on_AssHouseDoor_body_entered(body: Node) -> void:
 	#PlayerStats.next_scene == "res://Scenes/AssHouse.tscn"
-	next_scene = "res://Levels/AssHouse.tscn"
-	can_accept = true
-	can_start_d = false
-	anim.play("AssHouse")
+	if body.is_in_group("Player"):
+		next_scene = "res://Levels/AssHouse.tscn"
+		can_accept = true
+		can_start_d = false
+		anim.play("AssHouse")
 
 
 func _on_AssHouseDoor_body_exited(body: Node) -> void:
@@ -133,11 +138,12 @@ func _on_AssHouseDoor_body_exited(body: Node) -> void:
 
 
 func _on_Portal2_body_entered(body: Node) -> void:
-	can_accept = true
-	can_start_d = false
-	PlayerStats.next_scene = "res://Levels/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
-	next_scene = PlayerStats.next_scene
-	#next_scene = "res://Scenes/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
+	if body.is_in_group("Player"):
+		can_accept = true
+		can_start_d = false
+		PlayerStats.next_scene = "res://Levels/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
+		next_scene = PlayerStats.next_scene
+		#next_scene = "res://Scenes/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
 
 func _on_Portal2_body_exited(body: Node) -> void:
 	can_accept = false
@@ -148,3 +154,6 @@ func _on_Portal2_body_exited(body: Node) -> void:
 func _on_CityHall_cutscene() -> void:
 	cutscene_finished = true
 	Transition.load_scene("res://Levels/Tutorial.tscn")
+
+func on_quest_available(person) -> void:
+	Quests.first_quest = true

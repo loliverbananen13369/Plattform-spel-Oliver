@@ -45,6 +45,7 @@ BackgroundMusic="*res://Sounds/SoundPlayer.tscn"
 Transition="*res://Scenes/Transition.tscn"
 WorldEnv="*res://Scenes/WorldEnvironment.tscn"
 Pause="*res://UI/Pause.tscn"
+Quests="*res://Data/QuestSystem.tscn"
 
 [display]
 

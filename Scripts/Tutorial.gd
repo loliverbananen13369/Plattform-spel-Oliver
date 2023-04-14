@@ -26,7 +26,7 @@ var test = 0
 
 func _ready() -> void:
 	BackgroundMusic.play_sound("MainMenuMusic")
-	PlayerStats.next_scene = "res://UI/ChooseClassScene.tscn"
+	PlayerStats.next_scene = "res://Levels/CityHall.tscn"#"res://UI/ChooseClassScene.tscn"
 	PlayerStats.ground_color = "788830"
 	PlayerStats.enemy_hpbar_color = "788830"
 	player = player_scene.instance()
@@ -47,7 +47,6 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if croucharea:
 		if Input.is_action_just_pressed("Crouch"):
-			print("down")
 			$CrouchArea/Sprite.visible = false
 			animp.stop(true)
 			$CrouchShiftArea/Sprite.visible = true
@@ -68,7 +67,6 @@ func _on_WalkArea_body_exited(body: Node) -> void:
 
 
 func _on_JumpArea_body_entered(body: Node) -> void:
-	print("Jump")
 	$JumpArea/Sprite.visible = true
 	animp.play("JumpArea")
 
@@ -117,4 +115,5 @@ func on_TutorialFinished():
 	var portal = portal_scene.instance()
 	portal.global_position = Vector2(2500, -30)
 	add_child(portal)
+	Quests.emit_signal("quest_available", "Hubby")
 

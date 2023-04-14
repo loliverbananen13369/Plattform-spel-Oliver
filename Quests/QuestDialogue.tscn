@@ -1,9 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Dialogues/dialogue_box.png" type="Texture" id=1]
-[ext_resource path="res://Dialogues/Dialouge_test.gd" type="Script" id=3]
+[ext_resource path="res://Quests/QuestDialogue.gd" type="Script" id=1]
+[ext_resource path="res://Dialogues/dialogue_box.png" type="Texture" id=2]
 
-[sub_resource type="Animation" id=44]
+[sub_resource type="Animation" id=1]
 resource_name = "Ny Anim"
 length = 0.5
 tracks/0/type = "value"
@@ -19,9 +19,9 @@ tracks/0/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[node name="Dialogue" type="CanvasLayer"]
-script = ExtResource( 3 )
-d_file = "res://Dialogues/json/first_test_chat.json"
+[node name="QuestDialogue" type="CanvasLayer"]
+script = ExtResource( 1 )
+d_file = "res://Dialogues/json/FirstDiaKatalina.json"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 anchor_right = 0.039
@@ -30,7 +30,7 @@ margin_left = 116.0
 margin_top = 436.0
 margin_right = 867.064
 margin_bottom = 520.8
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 patch_margin_left = 6
 patch_margin_top = 6
 patch_margin_right = 4
@@ -58,6 +58,6 @@ wait_time = 0.4
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/Ny Anim" = SubResource( 44 )
+"anims/Ny Anim" = SubResource( 1 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

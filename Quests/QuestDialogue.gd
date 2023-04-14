@@ -5,10 +5,12 @@ export(String, FILE, "*.json") var d_file
 var dialogue = []
 var current_dialogue_id = 0
 var d_active = false
+var first_time_done = true
 
 onready var animp = $AnimationPlayer
 
 signal active(active)
+signal dialogue_done(nr)
 
 func _ready():
 	$NinePatchRect.visible = false
@@ -19,7 +21,6 @@ func _start():
 	d_active = true
 	$NinePatchRect.visible = true
 	dialogue = _load_dialogue()
-	print(dialogue)
 	_set_player_inactive()
 	current_dialogue_id = -1
 	_next_script()
@@ -49,6 +50,8 @@ func _next_script():
 		$NinePatchRect.visible = false
 		_set_player_active()
 		emit_signal("active", false)
+		emit_signal("dialogue_done", 1)
+		first_time_done = false
 		return
 	$NinePatchRect/Chat.percent_visible = 0
 	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
