@@ -21,7 +21,7 @@ tracks/0/keys = {
 
 [node name="QuestDialogue" type="CanvasLayer"]
 script = ExtResource( 1 )
-d_file = "res://Dialogues/json/FirstDiaKatalina.json"
+d_file = "res://Quests/json/ChooseClassQuest.json"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 anchor_right = 0.039

@@ -12,6 +12,10 @@ onready var animp = $AnimationPlayer
 signal active(active)
 signal dialogue_done(nr)
 
+#Quest Signaler
+signal choose_class()
+signal talk_to_bs()
+
 func _ready():
 	$NinePatchRect.visible = false
 
@@ -54,6 +58,9 @@ func _next_script():
 		first_time_done = false
 		return
 	$NinePatchRect/Chat.percent_visible = 0
+	if dialogue[current_dialogue_id]["name"] == "Signal":
+		emit_signal(dialogue[current_dialogue_id]["text"])
+		return
 	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
 	$NinePatchRect/Chat.text = dialogue[current_dialogue_id]["text"]
 	animp.play("Ny Anim")

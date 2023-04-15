@@ -14,7 +14,7 @@ func _on_AssassinButton_pressed():
 	soundplayer.pitch_scale = 0.7
 	soundplayer.play()
 	Transition.load_scene("res://Levels/CityHall.tscn")
-
+	Quests.emit_signal("quest_completed", 1)
 	#get_tree().change_scene("res://Levels/CityHall.tscn")#("res://UI/MainMenuTest.tscn")
 	
 
@@ -26,4 +26,5 @@ func _on_MageButton_pressed() -> void:
 	soundplayer.pitch_scale = 0.7
 	soundplayer.play()
 	Transition.load_scene("res://Levels/CityHall.tscn")
+	Quests.emit_signal("quest_completed", 1)
 	#get_tree().change_scene("res://Levels/CityHall.tscn")#get_tree().change_scene("res://UI/MainMenuTest.tscn")

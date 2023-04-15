@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Data/Pause.gd" type="Script" id=1]
+[ext_resource path="res://Globals/Pause.gd" type="Script" id=1]
 [ext_resource path="res://UI/PauseMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Intro/banana-gaming-high-resolution-color-logo.png" type="Texture" id=3]
 

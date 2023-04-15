@@ -12,5 +12,5 @@ func _ready() -> void:
 
 func on_quest_available():
 	if Quests.first_quest:
-		label = "Go to the Town's Hubby"
+		label.text = "Go to the Town's Hubby"
 

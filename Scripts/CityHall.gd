@@ -26,8 +26,8 @@ func _ready():
 	Quests.emit_signal("quest_available", "Hubby")
 	PlayerStats.ground_color = "752438"
 	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
-	if PlayerStats.first_time:
-		_load_cutscene(1)
+	#if PlayerStats.first_time:
+	#	_load_cutscene(1)
 	set_process_unhandled_input(true)
 
 	$Bshouse.rect_position.x = -87#(-87, -110)
@@ -156,4 +156,4 @@ func _on_CityHall_cutscene() -> void:
 	Transition.load_scene("res://Levels/Tutorial.tscn")
 
 func on_quest_available(person) -> void:
-	Quests.first_quest = true
+	Quests.quest_id = 1

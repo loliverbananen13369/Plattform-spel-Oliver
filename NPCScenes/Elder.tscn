@@ -47,6 +47,7 @@ extents = Vector2( 22.5, 14.125 )
 position = Vector2( 666, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 28 )
+frame = 1
 playing = true
 script = ExtResource( 2 )
 
@@ -67,7 +68,6 @@ position = Vector2( 2.5, 1.125 )
 shape = SubResource( 29 )
 
 [node name="QuestDialogue" parent="." instance=ExtResource( 3 )]
-d_file = "res://Dialogues/json/FirstCutScene.json"
 
 [node name="Dialogue" parent="." instance=ExtResource( 4 )]
 
@@ -80,4 +80,5 @@ texture = ExtResource( 5 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
+[connection signal="choose_class" from="QuestDialogue" to="." method="_on_QuestDialogue_choose_class"]
 [connection signal="dialogue_done" from="QuestDialogue" to="." method="_on_QuestDialogue_dialogue_done"]

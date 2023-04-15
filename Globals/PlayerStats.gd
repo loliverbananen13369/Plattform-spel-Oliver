@@ -63,8 +63,9 @@ var first_time = true
 var can_s_d = false
 
 func _ready() -> void:
-	load_data()
-
+	pass
+	#load_data()
+"""
 func save_data():
 	var file = File.new()
 	file.open(SAVE_PLAYER_STATS_FILE, File.WRITE)
@@ -88,4 +89,4 @@ func load_data():
 	file.open(SAVE_PLAYER_STATS_FILE, File.READ)
 	#game_data = file.get_var()
 	file.close()
-
+"""

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Quests/QuestNodes/Katalina.gd" type="Script" id=1]
+
+[node name="Katalina" type="Node"]
+script = ExtResource( 1 )
