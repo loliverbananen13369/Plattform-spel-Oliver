@@ -156,4 +156,4 @@ func _on_CityHall_cutscene() -> void:
 	Transition.load_scene("res://Levels/Tutorial.tscn")
 
 func on_quest_available(person) -> void:
-	Quests.quest_id = 1
+	pass

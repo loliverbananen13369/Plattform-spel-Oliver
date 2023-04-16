@@ -11,8 +11,10 @@ var ability2_learned = false
 var golem_active = false
 var is_assassin = false
 var is_mage = false
-var player_lvl = 1
+var current_lvl = 1
 var current_xp = 0
+var xp_needed = 40
+
 signal PlayerHurt()
 signal EnemyHurt()
 signal EnemyDead(test_enemy)

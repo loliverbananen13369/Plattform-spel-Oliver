@@ -1,5 +1,7 @@
 extends Node
 
+
+#Hubyb
 var index := 0
 var list := []
 var types_of_info := ["type", "goal", "reward", "location"]
@@ -11,17 +13,22 @@ var reward
 var location
 
 onready var kill_quest_scene = preload("res://Quests/QuestNodes/KillQuest.tscn")
+onready var talk_quest_scene = preload("res://Quests/QuestNodes/TalkQuest.tscn")
 
-
+export (String) var who
 export(String, FILE, "*.json") var i_file
 
-
+signal talk_finished()
+signal talk_quest_started(npc)
 
 func _ready():
 	list = _load_index_list()
 	_get_all_info()
-	get_parent().connect("quest_available", self, "_on_quest_available")
-	_kill_quest()
+	Quests.connect("quest_accepted", self, "_on_quest_accepted")
+	Quests.connect("Hubby_accepted", self, "_on_hubby_accepted")
+	#Quests.connect("quest_available", self, "_on_quest_available")
+	Quests.connect("Hubby_available", self, "_on_hubby_available")
+	connect("talk_finished", self, "_on_talk_finished")
 	
 func _load_index_list():
 	var file = File.new()
@@ -31,9 +38,14 @@ func _load_index_list():
 
 func _get_info(info: String):
 	var information
-	information = list[1][info] #index
+	_check_list()
+	information = list[index][info] 
 	return information
 
+func _check_list():
+	if index >= len(list):
+		list.invert()
+		index = 0
 
 func _get_all_info():
 	for i in range(len(list_of_types)):
@@ -50,10 +62,36 @@ func _kill_quest():
 	child.connect("quest_completed", self, "_on_quest_completed")
 	add_child(child)
 
+func _talk_quest():
+	var child = talk_quest_scene.instance()
+	child.goal = _get_info("goal")
+	child.reward = _get_info("reward")
+	child.location = _get_info("location")
+	child.connect("quest_completed", self, "_on_quest_completed")
+	emit_signal("talk_quest_started", child.goal)
+	add_child(child)
 
-func _on_quest_available(npc):
-	if npc == "Hubby":
-		pass
+func _on_hubby_available():
+	pass
 
 func _on_quest_completed():
-	print("completed")
+	index += 1
+	Quests.emit_signal("quest_completed")
+
+func _on_talk_finished():
+	pass
+
+func _on_quest_accepted(npc):
+	if who == npc:
+		if _get_info("type") == "talk":
+			_talk_quest()
+		if _get_info("type") == "kills":
+			_kill_quest()
+	
+"""
+func _on_hubby_accepted():
+	if _get_info("type") == "talk":
+		_talk_quest()
+	if _get_info("type") == "kills":
+		_kill_quest()
+"""

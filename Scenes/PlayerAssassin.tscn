@@ -2815,7 +2815,7 @@ animation = "OnGround"
 position = Vector2( 10, -30 )
 scale = Vector2( 3, 3 )
 animation = "Thrust2"
-frame = 5
+frame = 4
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
@@ -2944,7 +2944,6 @@ shape = SubResource( 791 )
 one_shot = true
 
 [node name="HUD" parent="." instance=ExtResource( 20 )]
-visible = false
 
 [node name="SkillTreeInGameAssassin" parent="." instance=ExtResource( 23 )]
 

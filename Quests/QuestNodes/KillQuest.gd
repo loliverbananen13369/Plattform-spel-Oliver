@@ -11,19 +11,18 @@ var completed := false
 signal quest_completed()
 
 onready var glabel = $FirstLayer/GoalLabel
-onready var rlabel = $FirstLayer/RewardLabel
 onready var kclabel = $OnKillLayer/KillCountLabel
+onready var rlabel = $RewardLayer/RewardLabel
 onready var animp = $AnimationPlayer
 
 var killcount := 0
 
 func _ready():
+	print("new kill quest")
 	PlayerStats.connect("EnemyDead", self, "_on_enemy_dead")
-	#var list_instance := [goal, reward, location, skeleton_type]
-	#print(list_instance)
 	rlabel.visible = false
 	glabel.text = ("kill  " + str(goal) + "  " + str(skeleton_type) + "  " + "skeletons")
-	rlabel.text = ("reward:  " + str(reward))
+	
 
 func _on_enemy_dead(_dead):
 	if not completed:
@@ -33,10 +32,24 @@ func _on_enemy_dead(_dead):
 	animp.play("Kill")
 	
 func _check_killcount():
-	if killcount >= goal:
-		killcount = goal
+	if killcount >= int(goal):
+		killcount = int(goal)
 		completed = true
-		emit_signal("quest_completed")
+		_quest_completed()
+
+func _give_reward():
+	PlayerStats.player.current_xp += int(reward)
+	rlabel.visible = true
+	rlabel.text = ("reward:  +" + str(reward))
+	animp.stop(false)
+	animp.play("Reward")
+	yield(animp, "animation_finished")
+	queue_free()
+
+func _quest_completed():
+	_give_reward()
+	emit_signal("quest_completed")
+
 		
 	
 

@@ -1,0 +1,79 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://CityHall/NPC/censored-cursing-103129.mp3" type="AudioStream" id=1]
+[ext_resource path="res://CityHall/NPC/metal_bladekeeper.new.png" type="Texture" id=2]
+[ext_resource path="res://SRAFreePixelFontPack/PixelSmall.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Dialogues/Dialouge.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Quests/QuestDialogue.tscn" type="PackedScene" id=5]
+[ext_resource path="res://NPCScripts/Katalina.gd" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=26]
+font_data = ExtResource( 3 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 43.5, 20 )
+
+[node name="AnimatedSprite" type="AnimatedSprite"]
+position = Vector2( -39, -39 )
+scale = Vector2( 1.5, 1.5 )
+frames = SubResource( 7 )
+playing = true
+flip_h = true
+script = ExtResource( 6 )
+person = "Katalina"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 2.66667, 2 )
+scale = Vector2( 0.666667, 0.666667 )
+stream = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 0.458824, 0.141176, 0.219608, 1 )
+margin_left = -17.3333
+margin_top = -34.0
+margin_right = 19.6667
+margin_bottom = -20.0
+custom_fonts/font = SubResource( 26 )
+text = "Katalina"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 26, 26 )
+scale = Vector2( 0.666667, 0.666667 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2( -33.5, -35 )
+shape = SubResource( 8 )
+
+[node name="Dialogue" parent="." instance=ExtResource( 4 )]
+d_file = "res://Dialogues/json/FirstDiaKatalina.json"
+
+[node name="QuestDialogue" parent="." instance=ExtResource( 5 )]
+person = "Katalina"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

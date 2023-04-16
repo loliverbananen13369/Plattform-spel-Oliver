@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Quests/QuestNodes/KillQuest.gd" type="Script" id=1]
 
@@ -12,10 +12,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1.9 ),
+"times": PoolRealArray( 0, 1.1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("OnKillLayer/KillCountLabel:visible")
@@ -24,10 +24,50 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.9 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("OnKillLayer:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Reward"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("RewardLayer:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("RewardLayer/RewardLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=1]
@@ -92,18 +132,34 @@ align = 1
 valign = 1
 percent_visible = 0.0
 
-[node name="RewardLabel" type="Label" parent="FirstLayer"]
-margin_right = 40.0
-margin_bottom = 21.0
-
 [node name="OnKillLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="KillCountLabel" type="Label" parent="OnKillLayer"]
-modulate = Color( 1, 1, 1, 0 )
-margin_right = 40.0
-margin_bottom = 21.0
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -181.5
+margin_right = 181.5
+margin_bottom = 153.0
+text = "Kills:"
+align = 1
+valign = 1
+
+[node name="RewardLayer" type="CanvasLayer" parent="."]
+
+[node name="RewardLabel" type="Label" parent="RewardLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -197.0
+margin_right = 197.0
+margin_bottom = 81.0
+text = "Reward"
+align = 1
+valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Start"
 anims/Kill = SubResource( 2 )
+anims/Reward = SubResource( 3 )
 anims/Start = SubResource( 1 )

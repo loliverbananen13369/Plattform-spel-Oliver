@@ -4,3 +4,5 @@
 
 [node name="Katalina" type="Node"]
 script = ExtResource( 1 )
+who = "Katalina"
+i_file = "res://Quests/json/KatalinaLIList.json"

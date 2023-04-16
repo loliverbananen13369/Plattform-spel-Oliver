@@ -15,7 +15,7 @@ func _ready():
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"): 
 		if entered:#if $Area2D.overlaps_body(player):
-			Transition.load_scene(PlayerStats.next_scene)
+			Transition.load_scene(PlayerStats.prev_scene)
 
 
 

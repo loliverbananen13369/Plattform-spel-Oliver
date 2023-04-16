@@ -11,18 +11,17 @@ onready var energybarunder = $EnergyBarUnder
 onready var tween = $Tween
 
 
-var level = 1
 var max_xp = 40
 var _current_xp = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hpbar.value = 100
 	hpbarunder.value = 100
-	xpbar.value = 0
-	xpbarunder.value = 0
-	xpbar.max_value = max_xp
-	xpbarunder.max_value = max_xp
-	leveltext.text = "Level: " + str(level)
+	xpbar.value = PlayerStats.current_xp
+	xpbarunder.value = xpbar.value
+	xpbar.max_value = PlayerStats.xp_needed
+	xpbarunder.max_value = xpbar.max_value
+	leveltext.text = "Level: " + str(PlayerStats.current_lvl)
 	energybar.value = 50
 	energybarunder.value = 50
 
@@ -40,21 +39,20 @@ func _on_Player_HPChanged(hp):
 
 func _on_Player_XPChanged(current_xp):
 	#if xpbar.value < current_xp:
-	xpbar.value = current_xp
+	xpbar.value = PlayerStats.current_xp
 	tween.stop_all()
-	tween.interpolate_property(xpbarunder, "value", xpbarunder.value, current_xp, 0.5,Tween.TRANS_LINEAR)
+	tween.interpolate_property(xpbarunder, "value", xpbarunder.value, PlayerStats.current_xp, 0.5,Tween.TRANS_LINEAR)
 	tween.start()
 
 
 func _on_Player_LvlUp(current_lvl, xp_needed):
-	level += 1
-	leveltext.text = "Level: " + str(current_lvl)
+	leveltext.text = "Level: " + str(PlayerStats.current_lvl)
 	max_xp = xp_needed
 	xpbar.value = 0
 	xpbarunder.value = 0
 	xpbar.max_value = max_xp
 	xpbarunder.max_value = max_xp
-
+	
 func _on_Player_EnergyChanged(energy):
 	energybar.value = energy
 	tween.stop_all()

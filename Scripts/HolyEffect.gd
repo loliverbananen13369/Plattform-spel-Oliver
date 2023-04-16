@@ -36,7 +36,6 @@ func _ready() -> void:
 		spellsprite.modulate.r = 3
 		spellsprite.modulate.b = 3
 		spellsprite.modulate.g = 3
-		print("hejsan")
 		#vector = Vector2(10,0)
 	if spellsprite.animation == "dark2":
 		spellsprite.scale.x = 1

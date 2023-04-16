@@ -28,22 +28,34 @@ func _next_quest() -> void:
 
 """
 var npc
+
 var list = []
 
-var global_quest_id := 0
+var global_quest_id := 1
 var quest_available := true
 var quest_active := false
+var talk_quest_active := false
 
 
 
-signal quest_available(npc)
-signal quest_accepted()
+signal quest_available(person)
+signal quest_accepted(person)
 signal quest_completed()
-signal quest_delivered(npc)
+signal xp_changed()
+signal quest_delivered(person)
+signal Hubby_available()
+signal Hubby_accepted()
+signal Katalina_available()
+signal Katalina_accepted()
 
 export(String, FILE, "*.json") var npc_file
 
+onready var Hubby = $Hubby
+onready var Katalina = $Katalina
+
 func _ready():
+	connect("quest_available", self, "_on_quest_available")
+	connect("quest_completed", self, "_on_quest_completed")
 	list = _load_npc_list()
 	_get_next()
 	
@@ -64,18 +76,22 @@ func _get_next():
 	global_quest_id += 1
 	if global_quest_id >= len(list):
 		list.invert()
-		global_quest_id = 1
+		global_quest_id = 0
 	_get_npc()
 	_send_quest_available()
-	
+
 func _send_quest_available():
 	emit_signal("quest_available", npc)
 
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		_get_next()
 
+func _on_quest_available(npc):
+	pass
+	#emit_signal(str(npc) + "_available")
 
+func _on_quest_completed():
+	emit_signal("xp_changed")
+	quest_active = false
+	_get_next()
 
 """
 func _load_dialogue():

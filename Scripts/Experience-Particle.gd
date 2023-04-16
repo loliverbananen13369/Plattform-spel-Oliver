@@ -32,8 +32,10 @@ func _ready():
 	
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.RIGHT.rotated(rotation).normalized()
-	if target:
+	if is_instance_valid(target):
 		direction = global_position.direction_to((target.global_position + Vector2(0, 0)))
+	else:
+		queue_free()
 
 	var desired_velocity := direction * max_speed
 	var change = (desired_velocity - current_velocity) * drag_factor

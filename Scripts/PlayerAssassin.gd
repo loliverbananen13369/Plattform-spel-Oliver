@@ -128,6 +128,7 @@ var previous_state = IDLE
 func _ready() -> void:
 	playersprite.play("Idle")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
+	Quests.connect("xp_changed", self, "_on_xp_changed")
 	playersprite.visible = true
 	$AnimationPlayer.playback_speed = 1
 	$SkillTreeInGameAssassin/Control/CanvasLayer.visible = false 
@@ -640,7 +641,10 @@ func player_stats():
 
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
-		current_lvl += 1
+		PlayerStats.current_xp = PlayerStats.current_xp - PlayerStats.xp_needed
+		PlayerStats.xp_needed = PlayerStats.xp_needed + pow(1.5, (PlayerStats.current_lvl*2))
+		PlayerStats.skilltree_points += 1
+		PlayerStats.current_lvl += 1
 		has_leveled_up = true
 		_add_buff("lvl_up")
 		return true
@@ -1123,17 +1127,19 @@ func _on_HurtBox_area_entered(area):
 		if area.is_in_group("EnemySword"):
 			take_damage(amount)
 
-	
+
+func _change_xp() -> void:
+	emit_signal("XPChanged", PlayerStats.current_xp)
+
+func _on_xp_changed() -> void:
+	_change_xp()
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		current_xp += 40
-		if _level_up(current_xp, xp_needed):
-			current_xp = 0
-			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
-			PlayerStats.skilltree_points += 1
-			emit_signal("LvlUp", current_lvl, xp_needed)
-		emit_signal("XPChanged", current_xp)
+		PlayerStats.current_xp += 40
+		if _level_up(PlayerStats.current_xp, PlayerStats.xp_needed):
+			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
+		_change_xp()
 	if area.is_in_group("EnergyParticle"):
 		energy += 5
 		if energy > 50:
@@ -1143,7 +1149,6 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
-		
 		hit_count += 1
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
 			PlayerStats.enemies_hit_by_player.append(area.get_parent())

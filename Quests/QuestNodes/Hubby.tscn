@@ -4,4 +4,5 @@
 
 [node name="Hubby" type="Node"]
 script = ExtResource( 1 )
+who = "Hubby"
 i_file = "res://Quests/json/FirstHubbyList.json"

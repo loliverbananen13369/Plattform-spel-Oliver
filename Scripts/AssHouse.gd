@@ -7,7 +7,7 @@ var anchor_scene = preload("res://Scenes/Anchor.tscn")
 var in_range_for_talk
 var can_exit = false
 var can_enter_new = false
-onready var audiop = $Area2D/AudioStreamPlayer2D
+onready var audiop = $Katalina/AudioStreamPlayer2D
 
 
 func _ready():
@@ -58,34 +58,28 @@ func _on_Dialogue_active(active) -> void:
 		AudioServer.set_bus_volume_db(0, value)
 		audiop.playing = false
 
-func _on_Area2D_body_entered(body):
-	in_range_for_talk = true
-	can_exit = false
-	can_enter_new = false
-
-
-func _on_Area2D_body_exited(body):
-	in_range_for_talk = false
-
-
 func _on_Door_body_entered(body):
-	can_exit = true
-	in_range_for_talk = false
-	can_enter_new = false
+	if body.is_in_group("Player"):
+		can_exit = true
+		in_range_for_talk = false
+		can_enter_new = false
 
 
 func _on_Door_body_exited(body):
-	can_exit = false
+	if body.is_in_group("Player"):
+		can_exit = false
 
 func _on_Door2_body_entered(body: Node) -> void:
-	can_enter_new = true
-	can_exit = false
-	in_range_for_talk = false
-	$Door2/Label.visible = true
-	$AnimationPlayer.play("default")
+	if body.is_in_group("Player"):
+		can_enter_new = true
+		can_exit = false
+		in_range_for_talk = false
+		$Door2/Label.visible = true
+		$AnimationPlayer.play("default")
 
 
 func _on_Door2_body_exited(body: Node) -> void:
-	can_enter_new = false
-	$AnimationPlayer.stop(true)
-	$Door2/Label.visible = false
+	if body.is_in_group("Player"):
+		can_enter_new = false
+		$AnimationPlayer.stop(true)
+		$Door2/Label.visible = false

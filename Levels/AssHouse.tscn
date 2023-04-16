@@ -1,13 +1,11 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Inside) Tileset.png" type="Texture" id=1]
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Outside And Inside) Tileset.new.png" type="Texture" id=2]
-[ext_resource path="res://CityHall/NPC/metal_bladekeeper.new.png" type="Texture" id=3]
+[ext_resource path="res://NPCScenes/Katalina.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/AssHouse.gd" type="Script" id=4]
-[ext_resource path="res://CityHall/NPC/censored-cursing-103129.mp3" type="AudioStream" id=5]
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Outside And Inside) Tileset.png" type="Texture" id=6]
 [ext_resource path="res://Dialogues/Dialouge.tscn" type="PackedScene" id=7]
-[ext_resource path="res://SRAFreePixelFontPack/PixelSmall.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=10]
@@ -451,36 +449,6 @@ resource_local_to_scene = true
 19/shapes = [  ]
 19/z_index = 0
 
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
-region = Rect2( 64, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
-region = Rect2( 96, 0, 32, 32 )
-
-[sub_resource type="SpriteFrames" id=7]
-animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="DynamicFont" id=26]
-font_data = ExtResource( 8 )
-
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 43.5, 20 )
-
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 16.5, 22.5 )
 
@@ -537,33 +505,7 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( -524310, 11, 0, -524305, 15, 0, -524294, 14, 0, -589813, 14, 0, -458775, 10, 0, -458774, 10, 0, -393212, 4, 0, -327678, 6, 0, -327674, 5, 0, -196632, 12, 0, -196627, 0, 0, -65555, 9, 0, -131055, 14, 0, 65555, 1, 0, 262167, 14, 0, 458777, 2, 0, 655389, 14, 0, 851999, 3, 0, 1179693, 12, 0 )
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Area2D"]
-position = Vector2( -39, -39 )
-scale = Vector2( 1.5, 1.5 )
-frames = SubResource( 7 )
-frame = 2
-playing = true
-flip_h = true
-
-[node name="Label" type="Label" parent="Area2D/AnimatedSprite"]
-modulate = Color( 0.458824, 0.141176, 0.219608, 1 )
-margin_left = -17.3333
-margin_top = -34.0
-margin_right = 19.6667
-margin_bottom = -20.0
-custom_fonts/font = SubResource( 26 )
-text = "Katalina"
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Area2D"]
-position = Vector2( -35, -36 )
-stream = ExtResource( 5 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
-position = Vector2( -33.5, -35 )
-shape = SubResource( 8 )
+[node name="Katalina" parent="." instance=ExtResource( 3 )]
 
 [node name="Door" type="Area2D" parent="."]
 visible = false
@@ -595,8 +537,6 @@ shape = SubResource( 24 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/default = SubResource( 25 )
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="Door" to="." method="_on_Door_body_entered"]
 [connection signal="body_exited" from="Door" to="." method="_on_Door_body_exited"]
 [connection signal="body_entered" from="Door2" to="." method="_on_Door2_body_entered"]
