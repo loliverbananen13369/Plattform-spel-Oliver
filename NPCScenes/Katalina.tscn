@@ -41,6 +41,7 @@ extents = Vector2( 43.5, 20 )
 position = Vector2( -39, -39 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 7 )
+frame = 3
 playing = true
 flip_h = true
 script = ExtResource( 6 )
@@ -73,6 +74,7 @@ shape = SubResource( 8 )
 d_file = "res://Dialogues/json/FirstDiaKatalina.json"
 
 [node name="QuestDialogue" parent="." instance=ExtResource( 5 )]
+d_file = "res://Dialogues/json/FirstDiaKatalina.json"
 person = "Katalina"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

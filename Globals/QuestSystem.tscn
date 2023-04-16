@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Globals/QuestSystem.gd" type="Script" id=1]
-[ext_resource path="res://Quests/QuestNodes/Katalina.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Quests/QuestNodes/Hubby.tscn" type="PackedScene" id=3]
 
 [node name="QuestSystem" type="Node"]
@@ -9,5 +8,11 @@ script = ExtResource( 1 )
 npc_file = "res://Quests/json/QuestSystem.json"
 
 [node name="Hubby" parent="." instance=ExtResource( 3 )]
+who = "Hubby"
+i_file = "res://Quests/json/FirstHubbyList.json"
+dia_list = [ "res://Quests/json/ChooseClassQuest.json", "res://Quests/json/HubbyKillSkeletonsDia.json" ]
 
-[node name="Katalina" parent="." instance=ExtResource( 2 )]
+[node name="Katalina" parent="." instance=ExtResource( 3 )]
+who = "Katalina"
+i_file = "res://Quests/json/KatalinaLIList.json"
+dia_list = [ "res://Quests/json/HubbyKillSkeletonsDia.json", "res://Quests/json/HubbyKillSkeletonsDia.json" ]

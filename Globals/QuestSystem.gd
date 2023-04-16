@@ -27,16 +27,18 @@ func _next_quest() -> void:
 	
 
 """
-var npc
 
+
+var npc
 var list = []
 
-var global_quest_id := 1
+var global_quest_id := -1
 var quest_available := true
 var quest_active := false
 var talk_quest_active := false
 
-
+const ChooseClassQuest = "res://Quests/json/ChooseClassQuest.json"
+const HubbyKillSkeletonsDia = "res://Quests/json/HubbyKillSkeletonsDia.json"
 
 signal quest_available(person)
 signal quest_accepted(person)
@@ -57,7 +59,6 @@ func _ready():
 	connect("quest_available", self, "_on_quest_available")
 	connect("quest_completed", self, "_on_quest_completed")
 	list = _load_npc_list()
-	_get_next()
 	
 	
 	
@@ -69,7 +70,7 @@ func _load_npc_list():
 		return parse_json(file.get_as_text())
 
 func _get_npc():
-	npc = list[global_quest_id - 1]["NPC"]
+	npc = list[global_quest_id]["NPC"]
 	return npc
 
 func _get_next():
@@ -78,20 +79,21 @@ func _get_next():
 		list.invert()
 		global_quest_id = 0
 	_get_npc()
-	_send_quest_available()
 
-func _send_quest_available():
+func send_quest_available():
+	_get_next()
 	emit_signal("quest_available", npc)
+
 
 
 func _on_quest_available(npc):
 	pass
-	#emit_signal(str(npc) + "_available")
 
 func _on_quest_completed():
 	emit_signal("xp_changed")
 	quest_active = false
-	_get_next()
+	send_quest_available()
+
 
 """
 func _load_dialogue():

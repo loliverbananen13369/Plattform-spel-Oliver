@@ -23,7 +23,8 @@ onready var anim = $AnimationPlayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Quests.connect("quest_available", self, "on_quest_available")
-	Quests.emit_signal("quest_available", "Hubby")
+	#Quests.emit_signal("quest_available", "Hubby")
+	Quests.send_quest_available()
 	PlayerStats.ground_color = "752438"
 	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
 	#if PlayerStats.first_time:

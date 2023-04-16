@@ -1,0 +1,5 @@
+[
+	{"name": "The Great Saucer", "text": "Chicken and rice! I hate those bolognesy chicken marrows ( skeletons )"},
+	{"name": "The Great Saucer", "text": "Fuck it, ( excuse the language. It's 2:36 AM and I drank my last monster yesterday. Not sponsored btw )..."},
+	{"name": "The Great Saucer", "text": "... Kill those sauce-wasting flithy grains of rice!"},
+]

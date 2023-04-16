@@ -3,9 +3,10 @@ extends Control
 onready var assassin = preload("res://Scenes/PlayerAssassin.tscn")
 onready var mage = preload("res://Scenes/Player.tscn")
 onready var soundplayer = $AudioStreamPlayer
+onready var label = $CanvasLayer/Label
 
 func _ready():
-	pass
+	$CanvasLayer/AssassinButton.grab_focus()
 
 func _on_AssassinButton_pressed():
 	PlayerStats.player = assassin.instance()
@@ -28,3 +29,16 @@ func _on_MageButton_pressed() -> void:
 	Transition.load_scene("res://Levels/CityHall.tscn")
 	Quests.emit_signal("quest_completed", 1)
 	#get_tree().change_scene("res://Levels/CityHall.tscn")#get_tree().change_scene("res://UI/MainMenuTest.tscn")
+
+
+func _on_MageButton_focus_entered():
+	label.text = "A class with strong abilities, extraordinarie buffs and can even summon the dead"
+
+func _on_MageButton_focus_exited():
+	pass # Replace with function body.
+
+func _on_AssassinButton_focus_entered():
+	label.text = "A class with high mobility, crushing attacks and divine combos"
+
+func _on_AssassinButton_focus_exited():
+	pass # Replace with function body.

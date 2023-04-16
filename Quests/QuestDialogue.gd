@@ -21,9 +21,10 @@ signal talk_to_bs()
 
 func _ready():
 	Quests.get_node(str(person)).connect("talk_quest_started", self, "_on_talk_quest_started")
+	Quests.get_node(str(person)).connect("change_d_file", self, "_on_d_file_changed")
 	$NinePatchRect.visible = false
-	if Quests.get_child(0).has_node("TalkQuest"):
-		if person == Quests.get_child(0).get_node("TalkQuest").goal:
+	if Quests.get_node(str(person)).has_node("TalkQuest"):
+		if person == Quests.get_node(str(person)).get_node("TalkQuest").goal:
 			talk_quest_current = true
 
 func _start():
@@ -31,18 +32,21 @@ func _start():
 		return
 	d_active = true
 	$NinePatchRect.visible = true
-	dialogue = _load_dialogue()
+	dialogue = _load_dialogue(d_file)
 	_set_player_inactive()
 	current_dialogue_id = -1
 	_next_script()
 	emit_signal("active", true)
 	
 
-func _load_dialogue():
-	var file = File.new()
-	if file.file_exists(d_file):
-		file.open(d_file, file.READ)
-		return parse_json(file.get_as_text())
+func _load_dialogue(file):
+	var dia = File.new()
+	if dia.file_exists(file):
+		dia.open(file, dia.READ)
+		return parse_json(dia.get_as_text())
+
+func _new_d_file():
+	pass
 
 func _input(event):
 	if not d_active:
@@ -70,9 +74,9 @@ func _next_script():
 			Quests.quest_active = true
 		return
 	$NinePatchRect/Chat.percent_visible = 0
-	if dialogue[current_dialogue_id]["name"] == "Signal":
+	#if dialogue[current_dialogue_id]["name"] == "Signal":
 		#emit_signal(dialogue[current_dialogue_id]["text"])
-		return
+	#	return
 	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
 	$NinePatchRect/Chat.text = dialogue[current_dialogue_id]["text"]
 	animp.play("Ny Anim")
@@ -83,6 +87,14 @@ func _get_npc(person):
 	else:
 		talk_quest_current = false
 
+func _on_d_file_changed(npc, d_list):
+	print(npc)
+	print(d_list)
+	if person == npc:
+		dialogue = _load_dialogue(d_list)
+		print(dialogue)
+		
+	
 func _on_Timer_timeout():
 	d_active = false
 

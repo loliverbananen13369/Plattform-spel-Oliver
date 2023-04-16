@@ -19,7 +19,6 @@ func _start():
 	d_active = true
 	$NinePatchRect.visible = true
 	dialogue = _load_dialogue()
-	print(dialogue)
 	_set_player_inactive()
 	current_dialogue_id = -1
 	_next_script()

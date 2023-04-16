@@ -47,9 +47,9 @@ extents = Vector2( 22.5, 14.125 )
 position = Vector2( 666, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 28 )
-frame = 3
 playing = true
 script = ExtResource( 2 )
+person = "Hubby"
 
 [node name="ElderLabel" type="Label" parent="."]
 margin_left = -42.0

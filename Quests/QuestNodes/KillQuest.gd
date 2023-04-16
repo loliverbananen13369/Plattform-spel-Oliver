@@ -3,7 +3,7 @@ extends Node
 export (String) var skeleton_type
 export (String) var goal
 export (String) var reward
-export (String) var location
+export (String) var d_list
 
 var list := []
 var completed := false
@@ -18,7 +18,6 @@ onready var animp = $AnimationPlayer
 var killcount := 0
 
 func _ready():
-	print("new kill quest")
 	PlayerStats.connect("EnemyDead", self, "_on_enemy_dead")
 	rlabel.visible = false
 	glabel.text = ("kill  " + str(goal) + "  " + str(skeleton_type) + "  " + "skeletons")
