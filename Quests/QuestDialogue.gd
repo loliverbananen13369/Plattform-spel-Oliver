@@ -32,12 +32,11 @@ func _start():
 		return
 	d_active = true
 	$NinePatchRect.visible = true
-	dialogue = _load_dialogue(d_file)
 	_set_player_inactive()
 	current_dialogue_id = -1
 	_next_script()
 	emit_signal("active", true)
-	
+
 
 func _load_dialogue(file):
 	var dia = File.new()
@@ -45,9 +44,12 @@ func _load_dialogue(file):
 		dia.open(file, dia.READ)
 		return parse_json(dia.get_as_text())
 
-func _new_d_file():
-	pass
-
+func _new_d_file(d_list):
+	var index = Quests.dialogue_list.find("res://Quests/json/" + str(d_list) + ".json")
+	dialogue = _load_dialogue(Quests.dialogue_list[index])
+	#return index
+	#dialogue = _load_dialogue(d_list)
+	
 func _input(event):
 	if not d_active:
 		return
@@ -88,11 +90,10 @@ func _get_npc(person):
 		talk_quest_current = false
 
 func _on_d_file_changed(npc, d_list):
-	print(npc)
-	print(d_list)
 	if person == npc:
-		dialogue = _load_dialogue(d_list)
-		print(dialogue)
+		_new_d_file(d_list)
+		#print((Quests.dialogue_list.find("res://Quests/json/" + str(d_list) + ".json")))
+		#dialogue = _load_dialogue(Quests.dialogue_list.find(d_list))
 		
 	
 func _on_Timer_timeout():

@@ -10,15 +10,13 @@ var list_of_types := [type, goal, reward, d_list]
 var type
 var goal
 var reward
-var d_list
 
 onready var kill_quest_scene = preload("res://Quests/QuestNodes/KillQuest.tscn")
 onready var talk_quest_scene = preload("res://Quests/QuestNodes/TalkQuest.tscn")
 
 export (String) var who
 export (String, FILE, "*.json") var i_file 
-export (Array, String) var dia_list
-#export (Array, FILE, "*.json") var dia_list
+export (Array, String) var d_list
 
 
 signal talk_finished()
@@ -27,6 +25,7 @@ signal change_d_file(npc, file)
 
 func _ready():
 	list = _load_index_list()
+	print(list)
 	_get_all_info()
 	Quests.connect("quest_accepted", self, "_on_quest_accepted")
 	Quests.connect("quest_available", self, "_on_quest_available")
@@ -84,8 +83,10 @@ func _talk_quest():
 	child.goal = _get_info("goal")
 	child.reward = _get_info("reward")
 	child.d_list = _get_info("d_list")
+	print(child.d_list)
 	child.connect("quest_completed", self, "_on_quest_completed")
 	emit_signal("talk_quest_started", child.goal)
+	emit_signal("change_d_file", child.goal, child.d_list)
 	add_child(child)
 
 

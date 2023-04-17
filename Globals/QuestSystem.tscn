@@ -10,9 +10,7 @@ npc_file = "res://Quests/json/QuestSystem.json"
 [node name="Hubby" parent="." instance=ExtResource( 3 )]
 who = "Hubby"
 i_file = "res://Quests/json/FirstHubbyList.json"
-dia_list = [ "res://Quests/json/ChooseClassQuest.json", "res://Quests/json/HubbyKillSkeletonsDia.json" ]
 
 [node name="Katalina" parent="." instance=ExtResource( 3 )]
 who = "Katalina"
 i_file = "res://Quests/json/KatalinaLIList.json"
-dia_list = [ "res://Quests/json/HubbyKillSkeletonsDia.json", "res://Quests/json/HubbyKillSkeletonsDia.json" ]

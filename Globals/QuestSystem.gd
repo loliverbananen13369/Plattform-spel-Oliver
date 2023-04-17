@@ -37,8 +37,10 @@ var quest_available := true
 var quest_active := false
 var talk_quest_active := false
 
-const ChooseClassQuest = "res://Quests/json/ChooseClassQuest.json"
+const ChooseClassDia = "res://Quests/json/ChooseClassDia.json"
 const HubbyKillSkeletonsDia = "res://Quests/json/HubbyKillSkeletonsDia.json"
+
+var dialogue_list = [ChooseClassDia, HubbyKillSkeletonsDia]
 
 signal quest_available(person)
 signal quest_accepted(person)
@@ -83,6 +85,7 @@ func _get_next():
 func send_quest_available():
 	_get_next()
 	emit_signal("quest_available", npc)
+	print(npc)
 
 
 
