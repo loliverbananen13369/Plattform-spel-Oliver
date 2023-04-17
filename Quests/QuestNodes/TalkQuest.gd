@@ -8,8 +8,9 @@ var list := []
 var completed := false
 
 onready var glabel = $GoLayer/GoLabel
-onready var rlabel = $RewardLayer/RewardLabel
 onready var animp = $AnimationPlayer
+
+onready var reward_scene = preload("res://Instance_Scenes/Reward.tscn")
 
 signal quest_completed()
 signal quest_dialouge_finished(npc)
@@ -24,15 +25,12 @@ func _on_talked_finished():
 	_quest_completed()
 
 func _quest_completed():
-	_give_reward()
+	_add_reward()
 	emit_signal("quest_completed")
-
-func _give_reward():
-	PlayerStats.current_xp += int(reward)
-	PlayerStats.player.emit_signal("XPChanged", PlayerStats.current_xp)
-	rlabel.text = ("reward:  +" + str(reward))
-	animp.stop(false)
-	animp.play("Reward")
-	yield(animp, "animation_finished")
 	queue_free()
+
+func _add_reward():
+	var child = reward_scene.instance()
+	child.reward = reward
+	get_tree().get_root().add_child(child)
 

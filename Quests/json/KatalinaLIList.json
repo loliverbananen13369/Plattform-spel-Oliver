@@ -1,6 +1,6 @@
 [
 	{"type": "talk", "goal": "Katalina", "reward": "15xp", "d_list": "HubbyKillSkeletonsDia"},
 	{"type": "kills", "goal": "5", "reward": "10xp", "d_list": "HubbyKillSkeletonsDia", "s_type": "ice"},
-	{"type": "talk", "goal": "Hubby", "reward": "15xp", "d_list": "HubbyKillSkeletonsDia"},
+	{"type": "talk", "goal": "Katalina", "reward": "15xp", "d_list": "HubbyKillSkeletonsDia"},
 	{"type": "kills", "goal": "5", "reward": "10xp", "d_list": "HubbyKillSkeletonsDia", "s_type": "grass"},
 ]

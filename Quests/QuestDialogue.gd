@@ -8,6 +8,8 @@ var current_dialogue_id = 0
 var d_active = false
 var first_time_done = true
 
+var list 
+
 var talk_quest_current = false
 
 onready var animp = $AnimationPlayer
@@ -20,12 +22,15 @@ signal choose_class()
 signal talk_to_bs()
 
 func _ready():
+	
 	Quests.get_node(str(person)).connect("talk_quest_started", self, "_on_talk_quest_started")
 	Quests.get_node(str(person)).connect("change_d_file", self, "_on_d_file_changed")
+	Quests.get_node(str(person)).connect("person_checked", self, "_on_person_checked")
 	$NinePatchRect.visible = false
 	if Quests.get_node(str(person)).has_node("TalkQuest"):
 		if person == Quests.get_node(str(person)).get_node("TalkQuest").goal:
 			talk_quest_current = true
+	_check_person()
 
 func _start():
 	if d_active:
@@ -47,8 +52,6 @@ func _load_dialogue(file):
 func _new_d_file(d_list):
 	var index = Quests.dialogue_list.find("res://Quests/json/" + str(d_list) + ".json")
 	dialogue = _load_dialogue(Quests.dialogue_list[index])
-	#return index
-	#dialogue = _load_dialogue(d_list)
 	
 func _input(event):
 	if not d_active:
@@ -89,8 +92,16 @@ func _get_npc(person):
 	else:
 		talk_quest_current = false
 
+func _check_person() -> void:
+	Quests.get_node(str(person)).emit_signal("check_person", person, list)
+
+func _on_person_checked(correct, d_list):
+	if correct:
+		_new_d_file(d_list)
+
 func _on_d_file_changed(npc, d_list):
 	if person == npc:
+		list = d_list
 		_new_d_file(d_list)
 		#print((Quests.dialogue_list.find("res://Quests/json/" + str(d_list) + ".json")))
 		#dialogue = _load_dialogue(Quests.dialogue_list.find(d_list))

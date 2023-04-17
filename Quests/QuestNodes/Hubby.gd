@@ -22,14 +22,16 @@ export (Array, String) var d_list
 signal talk_finished()
 signal talk_quest_started(npc)
 signal change_d_file(npc, file)
+signal check_person(person)
+signal person_checked(correct, file)
 
 func _ready():
 	list = _load_index_list()
-	print(list)
 	_get_all_info()
 	Quests.connect("quest_accepted", self, "_on_quest_accepted")
 	Quests.connect("quest_available", self, "_on_quest_available")
 	connect("talk_finished", self, "_on_talk_finished")
+	connect("check_person", self, "_on_check_person")
 """
 func load_json_file(path):
 	var file = File.new()
@@ -83,13 +85,17 @@ func _talk_quest():
 	child.goal = _get_info("goal")
 	child.reward = _get_info("reward")
 	child.d_list = _get_info("d_list")
-	print(child.d_list)
 	child.connect("quest_completed", self, "_on_quest_completed")
 	emit_signal("talk_quest_started", child.goal)
 	emit_signal("change_d_file", child.goal, child.d_list)
 	add_child(child)
 
-
+func _on_check_person(person, child):
+	if person == _get_info("goal"):
+		emit_signal("person_checked", true, _get_info("d_list"))
+	else:
+		emit_signal("person_checked", false, _get_info("d_list"))
+	
 func _on_quest_completed():
 	index += 1
 	Quests.emit_signal("quest_completed")

@@ -85,7 +85,6 @@ func _get_next():
 func send_quest_available():
 	_get_next()
 	emit_signal("quest_available", npc)
-	print(npc)
 
 
 

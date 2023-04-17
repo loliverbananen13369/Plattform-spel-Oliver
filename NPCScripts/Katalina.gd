@@ -13,6 +13,11 @@ func _ready():
 	if Quests.npc == person:
 		quest_available = true
 
+func _get_dialogue_file(npc):
+	if npc == person:
+		quest_d.d_file = "res://Quests/json/ChooseClassQuest.json"
+	
+
 func _input(event: InputEvent) -> void:
 	if can_interact:
 		if event.is_action_pressed("ui_accept"):
