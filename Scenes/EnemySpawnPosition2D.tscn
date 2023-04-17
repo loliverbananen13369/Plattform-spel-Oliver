@@ -16,6 +16,7 @@ shape = SubResource( 1 )
 
 [node name="EnemySpawner1" parent="." instance=ExtResource( 2 )]
 
+[connection signal="can_spawn" from="." to="EnemySpawner1" method="_on_Position2D_can_spawn"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="Spawned" from="EnemySpawner1" to="." method="_on_EnemySpawner1_Spawned"]

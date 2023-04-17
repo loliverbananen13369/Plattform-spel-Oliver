@@ -1,4 +1,4 @@
-[gd_scene load_steps=337 format=2]
+[gd_scene load_steps=335 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/Battlemage Fantasy Character/Battlemage Complete (Sprite Sheet)/Crouch/Battlemage Crouch.newass.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
@@ -26,8 +26,6 @@
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/30_Jump_03.wav" type="AudioStream" id=24]
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/007_jump.wav" type="AudioStream" id=25]
 [ext_resource path="res://Sounds/ImportedSounds/AttackSounds/001_swing.wav" type="AudioStream" id=26]
-[ext_resource path="res://icon.png" type="Texture" id=27]
-[ext_resource path="res://Icons/attack.png" type="Texture" id=28]
 [ext_resource path="res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav" type="AudioStream" id=29]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=39]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 03/Thrust VFX 03 Color 1.png" type="Texture" id=40]
@@ -503,7 +501,7 @@ height = 18.0
 [sub_resource type="ShaderMaterial" id=636]
 resource_local_to_scene = true
 shader = ExtResource( 61 )
-shader_param/flash_color = Color( 2.75, 1, 1.85, 1 )
+shader_param/flash_color = Color( 3.5, 2, 1, 1 )
 shader_param/flash_modifier = 0.0
 
 [sub_resource type="AtlasTexture" id=1104]
@@ -2815,8 +2813,7 @@ animation = "OnGround"
 position = Vector2( 10, -30 )
 scale = Vector2( 3, 3 )
 animation = "Thrust2"
-frame = 6
-playing = true
+frame = 7
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
 visible = false
@@ -2824,7 +2821,6 @@ position = Vector2( 2, 11 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
-visible = false
 material = SubResource( 636 )
 frames = SubResource( 51 )
 animation = "Attack1"
@@ -2940,48 +2936,9 @@ collision_mask = 0
 position = Vector2( 0, 7 )
 shape = SubResource( 791 )
 
-[node name="EnemyHitTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="HUD" parent="." instance=ExtResource( 20 )]
 
 [node name="SkillTreeInGameAssassin" parent="." instance=ExtResource( 23 )]
-
-[node name="BasicAttack4" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="0"]
-texture_normal = ExtResource( 28 )
-
-[node name="BasicAttack3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="1"]
-texture_normal = ExtResource( 28 )
-
-[node name="BasicAttack2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="2"]
-texture_normal = ExtResource( 28 )
-
-[node name="DashAttack3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="3"]
-texture_normal = ExtResource( 27 )
-
-[node name="DashAttack2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="4"]
-texture_normal = ExtResource( 27 )
-
-[node name="Combo2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="5"]
-texture_normal = ExtResource( 27 )
-
-[node name="Combo3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="6"]
-texture_normal = ExtResource( 27 )
-
-[node name="Clone3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="7"]
-texture_normal = ExtResource( 27 )
-
-[node name="Clone2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="8"]
-texture_normal = ExtResource( 27 )
-
-[node name="Clone1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="9"]
-texture_normal = ExtResource( 27 )
-
-[node name="Combo1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="10"]
-texture_normal = ExtResource( 27 )
-
-[node name="DashAttack1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="11"]
-texture_normal = ExtResource( 27 )
 
 [node name="DashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 24 )
@@ -3019,10 +2976,10 @@ collision_mask = 2048
 position = Vector2( 0, 25 )
 shape = SubResource( 1203 )
 
-[node name="DashGhostTimer" type="Timer" parent="."]
-
 [node name="FootStepTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="DashGhostTimer" type="Timer" parent="."]
 
 [connection signal="EnergyChanged" from="." to="HUD" method="_on_Player_EnergyChanged"]
 [connection signal="HPChanged" from="." to="HUD" method="_on_Player_HPChanged"]
@@ -3038,10 +2995,9 @@ one_shot = true
 [connection signal="timeout" from="ComboTimer" to="." method="_on_ComboTimer_timeout"]
 [connection signal="area_entered" from="CollectParticlesArea" to="." method="_on_CollectParticlesArea_area_entered"]
 [connection signal="finished" from="AttackSound" to="." method="_on_AttackSound_finished"]
-[connection signal="finished" from="FootStepSound" to="." method="_on_FootStepSound_finished"]
 [connection signal="body_exited" from="DropDetect" to="." method="_on_DropDetect_body_exited"]
-[connection signal="timeout" from="DashGhostTimer" to="." method="_on_DashGhostTimer_timeout"]
 [connection signal="timeout" from="FootStepTimer" to="." method="_on_FootStepTimer_timeout"]
+[connection signal="timeout" from="DashGhostTimer" to="." method="_on_DashGhostTimer_timeout"]
 
 [editable path="SkillTreeInGameAssassin"]
 [editable path="SkillTreeInGameAssassin/Control"]

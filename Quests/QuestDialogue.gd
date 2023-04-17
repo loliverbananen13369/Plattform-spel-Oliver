@@ -22,7 +22,6 @@ signal choose_class()
 signal talk_to_bs()
 
 func _ready():
-	
 	Quests.get_node(str(person)).connect("talk_quest_started", self, "_on_talk_quest_started")
 	Quests.get_node(str(person)).connect("change_d_file", self, "_on_d_file_changed")
 	Quests.get_node(str(person)).connect("person_checked", self, "_on_person_checked")
@@ -79,9 +78,9 @@ func _next_script():
 			Quests.quest_active = true
 		return
 	$NinePatchRect/Chat.percent_visible = 0
-	#if dialogue[current_dialogue_id]["name"] == "Signal":
-		#emit_signal(dialogue[current_dialogue_id]["text"])
-	#	return
+	if dialogue[current_dialogue_id]["name"] == "Signal":
+		PlayerStats.emit_signal("ChooseClass")
+		return
 	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
 	$NinePatchRect/Chat.text = dialogue[current_dialogue_id]["text"]
 	animp.play("Ny Anim")

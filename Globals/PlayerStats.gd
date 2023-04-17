@@ -14,13 +14,15 @@ var is_mage = false
 var current_lvl = 1
 var current_xp = 0
 var xp_needed = 40
+var hp = 100
 
 signal PlayerHurt()
 signal EnemyHurt()
 signal EnemyDead(test_enemy)
 signal GolemStatus(active)
 signal TutorialFinished()
-
+signal ChooseClass()
+signal BasicAttackChanged(q, w, e, damage)
 
 var master_vol_value = 0
 
@@ -36,6 +38,11 @@ var assassin_combo1_learned = "hej"
 var assassin_smearsprite_q = "Smear7H"
 var assassin_smearsprite_w = "Smear7V"
 var assassin_smearsprite_e = "Smear3H"
+var assassin_basic_dmg = 5
+var assassin_combo1_dmg = 10
+var assassin_combo2_dmg = 10
+var assassin_combo3_dmg = 10
+var assassin_dash_attack_damage = 10
 var assassin_clone_targets = 1
 var assassin_combo_list = []
 

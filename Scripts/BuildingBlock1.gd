@@ -7,14 +7,13 @@ export (String) var next_scene
 export (String) var previous_scene
 export (String) var ground_color
 export (String) var footsteps_sound
-export (String) var enemy_hpbar_color 
+
 
 func _ready() -> void:
 	PlayerStats.ground_color = ground_color
 	PlayerStats.footsteps_sound = footsteps_sound
 	PlayerStats.next_scene = next_scene
 	PlayerStats.prev_scene = previous_scene
-	PlayerStats.enemy_hpbar_color = enemy_hpbar_color
 	player = player_scene.instance()
 	
 	var target = anchor_scene.instance()

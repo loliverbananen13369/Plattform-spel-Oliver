@@ -12,7 +12,6 @@ onready var tween = $Tween
 
 
 var max_xp = 40
-var _current_xp = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hpbar.value = 100
@@ -37,7 +36,7 @@ func _on_Player_HPChanged(hp):
 	if hpbar.value < 30:
 		$AnimationPlayer.play("LowHP")
 
-func _on_Player_XPChanged(current_xp):
+func _on_Player_XPChanged(_current_xp):
 	#if xpbar.value < current_xp:
 	xpbar.value = PlayerStats.current_xp
 	tween.stop_all()
@@ -45,7 +44,7 @@ func _on_Player_XPChanged(current_xp):
 	tween.start()
 
 
-func _on_Player_LvlUp(current_lvl, xp_needed):
+func _on_Player_LvlUp(_current_lvl, xp_needed):
 	leveltext.text = "Level: " + str(PlayerStats.current_lvl)
 	max_xp = xp_needed
 	xpbar.value = 0

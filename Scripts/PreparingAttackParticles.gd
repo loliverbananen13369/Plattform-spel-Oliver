@@ -6,7 +6,7 @@ const LAUNCH_SPEED := 300
 
 var max_speed := 300
 
-onready var target = get_parent().get_child(3).get_child(1).get_child(0)
+onready var target = PlayerStats.player
 
 var current_velocity := Vector2.ZERO
 

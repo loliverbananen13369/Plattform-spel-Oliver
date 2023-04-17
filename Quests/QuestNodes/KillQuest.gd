@@ -18,17 +18,18 @@ onready var animp = $AnimationPlayer
 var killcount := 0
 
 func _ready():
-	PlayerStats.connect("EnemyDead", self, "_on_enemy_dead")
+	Quests.connect("EnemyDead", self, "_on_enemy_dead")
 	rlabel.visible = false
 	glabel.text = ("kill  " + str(goal) + "  " + str(skeleton_type) + "  " + "skeletons")
 	
 
-func _on_enemy_dead(_dead):
-	if not completed:
-		killcount += 1
-		kclabel.text = str(killcount) + " / " + str(goal)
-		_check_killcount()
-	animp.play("Kill")
+func _on_enemy_dead(type):
+	if skeleton_type == type:
+		if not completed:
+			killcount += 1
+			kclabel.text = str(killcount) + " / " + str(goal)
+			_check_killcount()
+		animp.play("Kill")
 	
 func _check_killcount():
 	if killcount >= int(goal):

@@ -60,7 +60,7 @@ func add_talent_row_node(node):
 			talent_row_nodes.append(node)
 			node.connect("on_learned",self, "on_talent_row_learned")
 
-func on_talent_row_learned(node):
+func on_talent_row_learned(_node):
 	current_row_selections_count += 1
 	if max_row_selections <= current_row_selections_count:
 		set_unlocked(false)
@@ -77,7 +77,7 @@ func initialize_previous_nodes_connection():
 	
 #	unlocked = previous_nodes.empty()
 		
-func on_learned(previous_node):
+func on_learned(_previous_node):
 	check_unlocked()
 
 func check_unlocked():
@@ -89,10 +89,10 @@ func check_unlocked():
 					return
 			return
 		PREVIOUS_NODES_TYPE.ALL:
-			var unlocked = true
+			var unlock = true
 			for previous_node in previous_nodes:
-				unlocked = unlocked && previous_node.learned
-			set_unlocked(unlocked)
+				unlock = unlock && previous_node.learned
+			set_unlocked(unlock)
 
 func set_unlocked(_unlocked):
 	unlocked = _unlocked

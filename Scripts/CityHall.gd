@@ -22,13 +22,9 @@ onready var anim = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Quests.connect("quest_available", self, "on_quest_available")
-	#Quests.emit_signal("quest_available", "Hubby")
-	Quests.send_quest_available()
-	PlayerStats.ground_color = "752438"
-	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
-	#if PlayerStats.first_time:
-	#	_load_cutscene(1)
+
+	if PlayerStats.first_time:
+		_load_cutscene(1)
 	set_process_unhandled_input(true)
 
 	$Bshouse.rect_position.x = -87#(-87, -110)
@@ -52,6 +48,16 @@ func _ready():
 	PlayerStats.player = player
 	PlayerStats.visited_bs_house = false
 	PlayerStats.visited_katalina_house = false
+	Quests.connect("ClassChosen2", self, "_on_class_chosen")
+	Quests.connect("TutorialFinished2", self, "_on_tutorial_finished")
+	
+	#Quests.connect("quest_available", self, "on_quest_available")
+	#Quests.emit_signal("quest_available", "Hubby")
+	#Quests.send_quest_available()
+	PlayerStats.ground_color = "752438"
+	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
+	PlayerStats.connect("ChooseClass", self, "_on_choose_class")
+	Quests.emit_signal("CityHallLoaded")
 
 func _load_cutscene(time: int):
 	if time == 1:
@@ -151,10 +157,15 @@ func _on_Portal2_body_exited(body: Node) -> void:
 	anim.stop(true)
 	$PortalLabel2.visible = false
 
-
 func _on_CityHall_cutscene() -> void:
 	cutscene_finished = true
 	Transition.load_scene("res://Levels/Tutorial.tscn")
 
-func on_quest_available(person) -> void:
-	pass
+func _on_tutorial_finished():
+	Quests.send_quest_available()
+
+func _on_class_chosen():
+	Quests.get_node("Hubby").get_node("TalkQuest").emit_signal("talk_finished")
+
+func _on_choose_class() -> void:
+	Transition.load_scene("res://UI/ChooseClassScene.tscn")

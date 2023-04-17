@@ -115,5 +115,5 @@ func on_TutorialFinished():
 	var portal = portal_scene.instance()
 	portal.global_position = Vector2(2500, -30)
 	add_child(portal)
-	Quests.emit_signal("quest_available", "Hubby")
+	Quests.emit_signal("TutorialFinished")
 

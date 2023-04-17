@@ -30,7 +30,6 @@ func _ready():
 	target.get_child(0).limit_top = -640
 	get_child(0).add_child(player)
 	get_child(0).add_child(target)
-	
 	PlayerStats.player = player
 	PlayerStats.next_scene = next_scene
 func _input(event) -> void:

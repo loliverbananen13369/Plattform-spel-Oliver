@@ -51,6 +51,18 @@ signal Hubby_available()
 signal Hubby_accepted()
 signal Katalina_available()
 signal Katalina_accepted()
+signal EnemyDead(type)
+
+
+signal ClassChosen()
+signal ClassChosen2()
+signal CityHallLoaded()
+var class_chosen = false
+
+signal TutorialFinished()
+signal TutorialFinished2()
+var tutorial_finished = false
+
 
 export(String, FILE, "*.json") var npc_file
 
@@ -58,6 +70,9 @@ onready var Hubby = $Hubby
 onready var Katalina = $Katalina
 
 func _ready():
+	connect("TutorialFinished", self, "_on_tutorial_finished")
+	connect("ClassChosen", self, "_on_class_chosen")
+	connect("CityHallLoaded", self, "_on_cityhall_loaded")
 	connect("quest_available", self, "_on_quest_available")
 	connect("quest_completed", self, "_on_quest_completed")
 	list = _load_npc_list()
@@ -96,6 +111,21 @@ func _on_quest_completed():
 	quest_active = false
 	send_quest_available()
 
+func _on_cityhall_loaded():
+	if tutorial_finished:
+		emit_signal("TutorialFinished2")
+		tutorial_finished = false
+		return
+	if class_chosen:
+		emit_signal("ClassChosen2")
+		class_chosen = false
+		
+func _on_tutorial_finished():
+	tutorial_finished = true
+
+func _on_class_chosen():
+	class_chosen = true
+	#emit_signal()
 
 """
 func _load_dialogue():

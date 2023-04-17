@@ -29,8 +29,9 @@ var dead = false
 
 var player_in_radius = false
 
-var hp_max = 100
+export (int) var hp_max = 100
 var hp = hp_max
+export (String) var type
 
 var can_attack = true
 
@@ -53,7 +54,6 @@ var xp_scene = preload("res://Instance_Scenes/Experience-Particle.tscn")
 
 var motion_previous = Vector2()
 
-signal dead
 signal hurt
 signal side_of_player(which_side)
 signal pos(position)
@@ -72,18 +72,17 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	hpbar.modulate = PlayerStats.enemy_hpbar_color
+	#hpbar.modulate = PlayerStats.enemy_hpbar_color
 	#animatedsprite.frames.
 	player = PlayerStats.player#get_parent().get_parent().get_child(1).get_child(0)
 	$PlayerDetector.monitoring = false
+	$AttackDetector.monitoring = false
 	velocity.x = 0
 	velocity.y = 0
 	$HurtBox.monitoring = false
 	#$HurtBox/CollisionShape2D.disabled = true
-	$PlayerDetector.monitoring = false
 	state = SPAWN
 	$AnimationPlayer.play("Spawn")
-	print(hpbar.modulate)
 	
 
 	
@@ -149,6 +148,7 @@ func _flip_sprite(right: bool):
 		$WallRayCast/CollisionShape2D.position.x = -5
 		$RayCast2D.position.x = -15
 		$Sprite.position.x = 3
+		
 func _get_direction_to_player():
 	if player.global_position.x <= global_position.x:
 		direction_x_to_player = -1
@@ -160,12 +160,12 @@ func _get_direction_to_player():
 func _check_if_hit_wall() -> void:
 	pass
 
-func _get_random_sound(type: String) -> void:
+func _get_random_sound(what: String) -> void:
 	rng.randomize()
-	if type == "Hurt":
+	if what == "Hurt":
 		var number = rng.randi_range(0, HURT_SOUNDS.size()-1)
 		$HurtSound.stream = HURT_SOUNDS[number]
-	if type == "Attack":
+	if what == "Attack":
 		var number = rng.randi_range(0, ATTACK_SOUNDS.size()-1)
 		$AttackSound.stream = ATTACK_SOUNDS[number]
 
@@ -233,7 +233,6 @@ func _enter_tree():
 func start_tween():
 	$Tween.interpolate_property($AnimatedSprite, "offset:x", tween_values[0], tween_values[1], 0.1)
 	$Tween.start()
-	prutt - $ShakeTimer.time_left
 	$ShakeTimer.start(3)
 
 func on_tween_completed(_object, _key):
@@ -245,8 +244,7 @@ func _on_ShakeTimer_timeout() -> void:
 	$Tween.kill()
 
 #STATES
-func _idle_state(delta) -> void:
-	pass
+func _idle_state(_delta) -> void:
 	#_die_b()
 	if not is_on_floor():
 		_enter_air_state(0)
@@ -380,61 +378,46 @@ func _on_FlashTimer_timeout():
 func _on_HurtBox_area_entered(area):
 	var holy_active = player.get("holy_buff_active")
 	var dark_active = player.get("dark_buff_active")
-	var crit = false
+	var crit
+	var damage
 	if holy_active or dark_active:
 		crit = true
 	else:
 		crit = false
 	if area.is_in_group("PlayerSword"):
-		var damage = player.get("damage_a1")
+		damage = player.get("damage_a1")
 		damage_amount = damage
 		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
 	if area.is_in_group("DeadSword"):
-		var damage = player.get("damage_a1")
-		damage_amount = damage
-		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("DeadExplosion"):
-		var damage = player.get("damage_a1")
-		damage_amount = damage
-		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("GolemAttack"):
-		var damage = player.get("damage_a1")
-		damage_amount = damage
-		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("GolemBurst"):
-		var damage = player.get("damage_a1")
-		damage_amount = damage
-		_enter_hurt_state(3)
-		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("DashAttack"):
-		var damage = player.get("damage_combo_ewqe1")
-		damage_amount = damage
-		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("Ability2"):
-		var damage = player.get("damage_ability2")
-		damage_amount = damage
-		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
-	elif area.is_in_group("Ability1"):
-		var damage = player.get("damage_ability1")
-		damage_amount = damage
-		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
-	if area.is_in_group("SwordCut"):
-		var damage = player.get("damage_combo_qweq")
-		damage_amount = damage
+		damage = player.get("basic_attack_damage")
 		_enter_hurt_state(2)
-		_spawn_damage_indicator(damage_amount, crit)
+	if area.is_in_group("DeadExplosion"):
+		damage = player.get("damage_a1")
+		_enter_hurt_state(1)
+	if area.is_in_group("GolemAttack"):
+		damage = player.get("damage_a1")
+		_enter_hurt_state(2)
+	if area.is_in_group("GolemBurst"):
+		damage = player.get("damage_a1")
+		_enter_hurt_state(3)
+	if area.is_in_group("DashAttack"):
+		damage = player.get("damage_combo_ewqe1")
+		_enter_hurt_state(1)
+	if area.is_in_group("Ability2"):
+		damage = player.get("damage_ability2")
+		_enter_hurt_state(1)
+	elif area.is_in_group("Ability1"):
+		damage = player.get("damage_ability1")
+		_enter_hurt_state(1)
+	if area.is_in_group("SwordCut"):
+		damage = player.get("damage_combo_qweq")
+		_enter_hurt_state(2)
 	if area.is_in_group("AirExplosion"):
-		damage_amount = 10
+		damage = 10
 		emit_signal("pos", global_position)
 		_enter_hurt_state(1)
-		_spawn_damage_indicator(damage_amount, crit)
+	damage_amount = damage
+	_spawn_damage_indicator(damage_amount, crit)
 	
 	_die_b()
 
@@ -463,6 +446,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Spawn":
 		_bug_fixer()
 		$PlayerDetector.monitoring = true
+		$AttackDetector.monitoring = true
 		if player_in_radius and can_hunt:
 			_enter_hunt_state()
 		else:
@@ -471,6 +455,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		_spawn_xp()
 		remove_from_group("Enemy")
 		PlayerStats.emit_signal("EnemyDead", self)
+		Quests.emit_signal("EnemyDead", type)
 	#	var groups = get_groups()
 	#	print("groups" + str(groups))
 	#	if groups.size() > 1:
@@ -479,7 +464,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		
 
 func _on_PlayerDetector_body_entered(body):
-	print(can_hunt)
 	if state != HURT:
 		if body.is_in_group("Player") and can_hunt:
 			player_in_radius = true
@@ -497,8 +481,9 @@ func on_GolemStatus():
 
 
 func _on_AttackDetector_body_entered(body):
-	if state != HURT:
-		_enter_attack_state()
+	if body.is_in_group("Player"):
+		if state != HURT:
+			_enter_attack_state()
 
 func _on_AttackDetector_body_exited(body):
 	if body.is_in_group("Player") and not can_attack and can_hunt:
@@ -512,7 +497,7 @@ func _on_AnimationPlayer_animation_changed(old_name: String) -> void:
 	if old_name == "Hurt1":
 		$Sprite.visible = false
 
-func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):	
+func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):
 	if EFFECT:
 		var effect = EFFECT.instance()
 		get_tree().current_scene.add_child(effect)
@@ -539,10 +524,10 @@ func _spawn_xp() -> void:
 	get_tree().get_root().add_child(xp)
 
 
-func _on_RayCast2D_body_exited(body):
+func _on_RayCast2D_body_exited(_body):
 	_turn_around()
 
-func _on_WallRayCast_body_entered(body):
+func _on_WallRayCast_body_entered(_body):
 	_turn_around()
 
 

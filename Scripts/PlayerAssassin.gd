@@ -83,14 +83,31 @@ var attacktime := 0.0
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
-onready var coyotetimer = $CoyoteTimer
-onready var dashtimer = $DashTimer
 onready var attackparticles = $AttackParticles
 onready var tween = $Tween
-onready var player_stats_save_file = PlayerStats.game_data
+onready var dashparticles = $DashParticles2
+onready var area_ground_attack = $NormalAttackArea/AttackGround
+onready var area_jump_attack = $NormalAttackArea/AttackJump
+onready var area_air_attack = $NormalAttackArea/AirAttack
+onready var area_spin_attack = $SwordCutArea/SpinAttack
+onready var combosprites = $ComboSprites
+onready var dashsound = $DashSound
+onready var jumpsound = $JumpSound
+onready var attacksound = $AttackSound
+onready var stepsound = $FootStepSound
+onready var skilltree = $SkillTreeInGameAssassin/Control/CanvasLayer
+onready var thrusts = $Thrusts
+onready var hurtbox = $HurtBox/CollisionShape2D
+onready var coyotetimer = $CoyoteTimer
+onready var dashtimer = $DashTimer
+onready var footsteptimer = $FootStepTimer
+onready var flashtimer = $FlashTimer
+onready var combotimer = $ComboTimer
+onready var justdashedtimer = $JustDashedTimer
+onready var dashghosttimer = $DashGhostTimer
 
 
-export var damage_a1 := 5
+var basic_attack_dmg = PlayerStats.assassin_basic_dmg
 export var damage_combo_qweq := 15
 export var damage_combo_ewqe1 := 10
 export var damage_combo_ewqe2 := 50
@@ -130,8 +147,8 @@ func _ready() -> void:
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	Quests.connect("xp_changed", self, "_on_xp_changed")
 	playersprite.visible = true
-	$AnimationPlayer.playback_speed = 1
-	$SkillTreeInGameAssassin/Control/CanvasLayer.visible = false 
+	animationplayer.playback_speed = 1
+	skilltree.visible = false 
 	footstep_sounds = PlayerStats.footsteps_sound
 	#Främst Debug
 
@@ -178,12 +195,12 @@ func set_active(active):
 	#Om jag vill avaktivera spelaren
 
 func check_sprites():
-	$NormalAttackArea/AirAttack.disabled = true
-	$NormalAttackArea/AttackGround.disabled = true
-	$NormalAttackArea/AttackJump.disabled = true
-	$SwordCutArea/SpinAttack.disabled = true
-	$Thrusts.visible = false
-	$ComboSprites.visible = false
+	area_air_attack.disabled = true
+	area_ground_attack.disabled = true
+	area_jump_attack.disabled = true
+	area_spin_attack.disabled = true
+	thrusts.visible = false
+	combosprites.visible = false
 	animatedsmears.visible = false
 	can_attack = true
 	_set_player_mod(player_default_array)
@@ -193,13 +210,13 @@ func _get_random_sound(type: String) -> void:
 	rng.randomize()
 	if type == "Jump":
 		var number = rng.randi_range(0, JUMP_SOUNDS.size()-1)
-		$JumpSound.stream = JUMP_SOUNDS[number]
+		jumpsound.stream = JUMP_SOUNDS[number]
 	#	jump_sound_timer.start(1.0)
 	if type == "Attack":
 		var number = rng.randi_range(0, ATTACK_SOUNDS.size()-1)
-		$AttackSound.stream = ATTACK_SOUNDS[number]
-	$JumpSound.pitch_scale = BackgroundMusic.voice_pitch_scale
-	$AttackSound.pitch_scale = BackgroundMusic.voice_pitch_scale
+		attacksound.stream = ATTACK_SOUNDS[number]
+	jumpsound.pitch_scale = BackgroundMusic.voice_pitch_scale
+	attacksound.pitch_scale = BackgroundMusic.voice_pitch_scale
 	
 	
 	#Slumpar vilket ljud jag får 
@@ -309,24 +326,22 @@ func _attack_function():
 	
 func _flip_sprite(right: bool) -> void:
 	#Funktion som ger rätt värden beronede på vilket håll spelaren är riktad mot
+	var variable
 	if right:
+		variable = 1
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
-		$ComboSprites.flip_h = false
-		animatedsmears.position.x = 20
-		attackparticles.position.x = 20
-		$NormalAttackArea/AttackGround.position.x = 36
-		$NormalAttackArea/AttackJump.position.x = 20
-		$SwordCutArea/SpinAttack.position.x = 34
+		combosprites.flip_h = false
 	else:
+		variable = -1
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
-		$ComboSprites.flip_h = true
-		animatedsmears.position.x = -20
-		attackparticles.position.x = -20
-		$NormalAttackArea/AttackGround.position.x = -36
-		$NormalAttackArea/AttackJump.position.x = -20
-		$SwordCutArea/SpinAttack.position.x = -34
+		combosprites.flip_h = true
+	animatedsmears.position.x = 20*variable
+	attackparticles.position.x = 20 * variable
+	area_ground_attack.position.x = 36 * variable
+	area_jump_attack.position.x = 20 * variable
+	area_spin_attack.position.x = 34 * variable
 
 
 #Instansierar andra scener till Player
@@ -385,7 +400,7 @@ func _add_first_air_explosion() -> void:
 	var all_enemy = get_tree().get_nodes_in_group("Enemy") #En lista på alla fiender som är med i spelet
 	state = COMBO #Egentligen bara så att den inte applicerar någon egen movement, eller tar emot inputs
 	playersprite.visible = false 
-	$HurtBox/CollisionShape2D.disabled = true #För svag om spelaren kan ta dmg
+	hurtbox.disabled = true #För svag om spelaren kan ta dmg
 	var explosion = air_explosion_scene.instance()
 	var closest_enemy #Gör att resten av koden kan köras även om det inte finns en närmsta fiende
 	if all_enemy.size() > 0:
@@ -411,8 +426,8 @@ func _add_airexplosions() -> void:
 			closest_enemy = _get_closest_enemy(variable_enemy)
 			explosion.global_position = testpos
 			get_tree().get_root().add_child(explosion)
-			if is_instance_valid(closest_enemy):	
-				if testpos.distance_to(closest_enemy.global_position) < 100:
+			if is_instance_valid(closest_enemy):
+				if testpos.distance_to(closest_enemy.global_position) < 300:
 					tween.interpolate_property(explosion, "position", testpos, closest_enemy.global_position + Vector2(5, -15), 0.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)#tween.targeting_property(explosion, "global_position", closest_enemy, "global_position", closest_enemy.global_position, 1.0, Tween.TRANS_SINE , Tween.EASE_IN)
 					tween.start()
 					testpos = closest_enemy.global_position + Vector2(5, -15) 
@@ -425,11 +440,10 @@ func _add_airexplosions() -> void:
 	playersprite.visible = true
 	_enter_idle_state()
 	yield(get_tree().create_timer(1), "timeout")
-	$HurtBox/CollisionShape2D.disabled = false
+	hurtbox.disabled = false
 
 
 func _add_impact(dir):
-	var flip 
 	var impact = impact_scene.instance()
 	impact.global_position = global_position + Vector2(dir*100, 15)
 	impact.flip_h = playersprite.flip_h
@@ -467,10 +481,10 @@ func _add_dash_smoke(name: String):
 	
 
 func _spawn_energy(enemy):
-	var energy = energy_scene.instance()
-	energy.global_position = enemy.global_position
+	var child = energy_scene.instance()
+	child.global_position = enemy.global_position
 	hit_count = 0
-	get_tree().get_root().call_deferred("add_child", energy)
+	get_tree().get_root().call_deferred("add_child", child)
 	#call_deferred("add_child", energy)
 	
 
@@ -480,7 +494,7 @@ func _add_shockwave():
 	#_add_speedlines()
 	
 
-func _add_clone(enemy, anim: String):
+func _add_clone(enemy):
 	var all_enemy = PlayerStats.enemies_hit_by_player
 	rng.randomize()
 	if all_enemy.size() > 0:
@@ -531,12 +545,11 @@ func take_damage(amount: int) -> void:
 	flash()
 	frameFreeze(0.1, 0.5)
 	playersprite.play("Hit")
-	#$ImmuneTimer.start(2)
 	can_take_damage = false
 	hp -= amount
 	emit_signal("HPChanged", hp)
 	yield(get_tree().create_timer(0.3), "timeout")
-	$FlashTimer.start(2)
+	flashtimer.start(2)
 	_alpha_tween()
 	_enter_air_state(false)
 
@@ -552,7 +565,7 @@ func frameFreeze(timescale, duration):
 	Engine.time_scale = 1
 
 func flash():
-	playersprite.material.set_shader_param("flash_modifier", 0.6) 
+	playersprite.material.set_shader_param("flash_modifier", 0.7) 
 	yield(get_tree().create_timer(0.2), "timeout")
 	playersprite.material.set_shader_param("flash_modifier", 0.0)
 	
@@ -598,9 +611,6 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 					global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
 					direction_x = "RIGHT"
 					_flip_sprite(true)
-	
-		
-	
 
 func _get_smearsprite(button: String):
 	if button == "q":
@@ -611,7 +621,6 @@ func _get_smearsprite(button: String):
 		animatedsmears.animation = PlayerStats.assassin_smearsprite_e
 
 func check_combo() -> void:
-	#var full_test_combo_list_later_in_PlayerStats = [[1,3,2,1], [3, 1, 2, 3], [2, 1, 3, 2]]
 	var full_list = PlayerStats.assassin_combo_list
 	var re_combo_list = []
 	var check_combo_list = []
@@ -635,7 +644,7 @@ func _get_random_attack():
 	return attack
 
 func player_stats():
-	damage_a1 = 5
+	basic_attack_dmg
 	damage_combo_ewqe1 = 10
 	damage_combo_qweq = 15
 
@@ -652,34 +661,20 @@ func _level_up(current_xp, xp_needed):
 		return false
 
 
-
-func _add_preparing_attack_particles(amount) -> void:
-	for n in range (amount):
-		rng.randomize()
-		var nrx = rng.randi_range(-100, 100)
-		var nry = rng.randi_range(-100, 100)
-		var particles = prepare_attack_particles_scene.instance()
-		particles.global_position = playersprite.global_position + Vector2(nrx, nry)
-		get_tree().get_root().add_child(particles)
-
 func _input(event):
 	if event.is_action_pressed("SkillTree"):
-		$SkillTreeInGameAssassin/Control/CanvasLayer.visible = true
+		skilltree.visible = true
 
-	if Input.is_action_just_released("SkillTree"):
-		$SkillTreeInGameAssassin/Control/CanvasLayer.visible = false
+	if event.is_action_released("SkillTree"):
+		skilltree.visible = false
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
-	
-	
-	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 	#	_add_walk_dust(15)
 		_add_jump_dust()
 		_enter_air_state(true)
-		_get_random_sound("Jump")
-		$JumpSound.play()
+
 		return
 	if Input.is_action_just_pressed("Crouch"):
 		_enter_crouch_state()
@@ -696,7 +691,6 @@ func _idle_state(delta) -> void:
 
 func _crouch_state(delta) -> void:
 	
-	#direction.x = _get_input_x_update_direction()
 	direction.x = _get_input_x_crouch_direction()
 	velocity = velocity.move_toward(Vector2.ZERO, 0.5*ACCELERATION*delta)
 	velocity.y += GRAVITY*delta
@@ -707,7 +701,7 @@ func _crouch_state(delta) -> void:
 			velocity.y = JUMP_STRENGHT * 0.1
 			playersprite.play("JumpN")
 			set_collision_mask_bit(11, false)
-			state = AIR
+			_enter_air_state(false)
 	
 	if Input.is_action_just_released("Crouch"):
 		_enter_run_state()
@@ -732,8 +726,6 @@ func _run_state(delta) -> void:
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_jump_dust()
 		_enter_air_state(true)
-		_get_random_sound("Jump")
-		$JumpSound.play()
 		return
 
 	
@@ -755,9 +747,9 @@ func _run_state(delta) -> void:
 		return
 	
 	if can_footstep_sound:
-		$FootStepSound.play()
+		stepsound.play()
 		can_footstep_sound = false
-		$FootStepTimer.start(0.4)
+		footsteptimer.start(0.4)
 	
 	_apply_basic_movement(delta)
 	
@@ -835,9 +827,6 @@ func _stop_state(delta):
 
 	if Input.is_action_just_pressed("Jump") and can_jump:
 		_enter_air_state(true)
-		if can_jump_sound:
-			_get_random_sound("Jump")
-			$JumpSound.play()
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
@@ -879,15 +868,15 @@ func _prepare_attack_air_state(delta) -> void:
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
 func _attack_state_air(delta) -> void:
-	$HurtBox/CollisionShape2D.disabled = true
+	hurtbox.disabled = true
 	if direction_x != "RIGHT":
 		animatedsmears.rotation_degrees = -45
-		$NormalAttackArea/AirAttack.rotation_degrees = -45
+		area_air_attack.rotation_degrees = -45
 	else: 
 		animatedsmears.rotation_degrees = 45
-		$NormalAttackArea/AirAttack.rotation_degrees = 45
+		area_air_attack.rotation_degrees = 45
 	animationplayer.play("Thrust2")
-	$NormalAttackArea/AirAttack.disabled = false
+	area_air_attack.disabled = false
 	if direction_x == "RIGHT":
 		velocity.x = MAX_SPEED*10
 	elif direction_x != "RIGHT":
@@ -932,14 +921,14 @@ func _enter_idle_state() -> void:
 func _enter_dash_state(attack: bool, ground: bool) -> void:
 	check_sprites()
 	_add_shockwave()
-	$DashParticles2.emitting = true
+	dashparticles.emitting = true
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 	if state == IDLE and direction == Vector2.DOWN:
 		return
 	elif direction == Vector2.ZERO:
 		direction.x = 1 if direction_x == "RIGHT" else -1
 
-	$DashSound.play()
+	dashsound.play()
 	if ground:
 		_add_dash_smoke("DASH_GROUND")
 		state = DASH_GROUND
@@ -975,6 +964,8 @@ func _enter_air_state(jump: bool) -> void:
 			playersprite.play("JumpN")
 		else:
 			playersprite.play("JumpF")
+		_get_random_sound("Jump")
+		jumpsound.play()
 	coyotetimer.start()
 	state = AIR
 
@@ -991,7 +982,7 @@ func _enter_stop_state() -> void:
 
 func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
-	$ComboTimer.start(1)
+	combotimer.start(1)
 	player_stats()
 	is_attacking = true
 	animatedsmears.position.y = 5
@@ -1000,7 +991,7 @@ func _enter_attack1_state(attack: int) -> void:
 	can_attack = false
 	if can_attack_sound:
 		_get_random_sound("Attack")
-		$AttackSound.play()
+		attacksound.play()
 		can_attack_sound = false
 	combo_list.append(previous_attack) 
 	if combo_list.size() >= 4:
@@ -1023,7 +1014,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		animatedsmears.position.y = 0
 		state = JUMP_ATTACK
 		animationplayer.play("JumpAttack")
-		$NormalAttackArea/AttackJump.disabled = false
+		area_jump_attack.disabled = false
 	else:
 		animationplayer.play("PrepareAirAttack")
 		frameFreeze(0.3, 0.4)
@@ -1045,7 +1036,7 @@ func _enter_combo_state(number : int) -> void:
 		energy -= 10
 		if Input.is_action_pressed("Dash") and energy >= 10:
 			for i in range(PlayerStats.assassin_clone_targets):
-				_add_clone(enemy, "Attack1") # spinattack
+				_add_clone(enemy) 
 				energy -= 10
 		emit_signal("EnergyChanged", energy)
 	if number == 2:
@@ -1056,12 +1047,12 @@ func _enter_combo_state(number : int) -> void:
 		for i in range(0, list.size() -1):
 			if list.size()-1 >= i:
 				var attack = _get_random_attack()
-				animationplayer.playback_speed = 4.0
+				animationplayer.playback_speed = 3.0
 				animationplayer.play(attack)
 				frameFreeze(0.2*i, 0.2)
 				_dash_to_enemy(list[i], true)
 				if Input.is_action_pressed("Dash") and energy >= 10:
-					_add_clone(list[i], attack)
+					_add_clone(list[i])
 					clone_added = true
 				yield(get_tree().create_timer(0.06675), "timeout")
 		animationplayer.playback_speed = 1.0
@@ -1077,7 +1068,7 @@ func _enter_combo_state(number : int) -> void:
 		if Input.is_action_pressed("Dash")  and energy >= 10:
 			energy -= 10
 			for i in range(PlayerStats.assassin_clone_targets):
-				_add_clone(enemy, "Attack1")
+				_add_clone(enemy)
 		emit_signal("EnergyChanged", energy)
 		
 	combo_list.clear()
@@ -1092,14 +1083,14 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		else:
 			_enter_idle_state()
 	if anim_name == "JumpAttack":
-		$NormalAttackArea/AttackJump.disabled = true
+		area_jump_attack.disabled = true
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "PrepareAirAttack":
 		state = ATTACK_AIR
 	if anim_name == "Thrust2":
-		$HurtBox/CollisionShape2D.disabled = false
-		$NormalAttackArea/AirAttack.disabled = true
+		hurtbox.disabled = false
+		area_air_attack.disabled = true
 		animatedsmears.rotation_degrees = 0
 		if is_on_floor():
 			velocity.x = 0
@@ -1115,10 +1106,8 @@ func _on_AnimationPlayer_animation_started(anim_name):
 		state = PREPARE_ATTACK_AIR
 #	
 
-
-
 func _on_HurtBox_area_entered(area):
-	var amount = 5
+	var amount = 10
 	if area.get_parent().global_position.x > global_position.x:
 		enemy_side_of_you = "right"
 	else:
@@ -1136,15 +1125,19 @@ func _on_xp_changed() -> void:
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		PlayerStats.current_xp += 40
+		PlayerStats.current_xp += 5
 		if _level_up(PlayerStats.current_xp, PlayerStats.xp_needed):
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
 		_change_xp()
 	if area.is_in_group("EnergyParticle"):
 		energy += 5
+		PlayerStats.hp += 1
 		if energy > 50:
 			energy = 50
+		if hp > 100:
+			hp = 100
 		emit_signal("EnergyChanged", energy)
+		emit_signal("HPChanged", hp)
 
 
 func _on_NormalAttackArea_area_entered(area):
@@ -1152,7 +1145,6 @@ func _on_NormalAttackArea_area_entered(area):
 		hit_count += 1
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
 			PlayerStats.enemies_hit_by_player.append(area.get_parent())
-		$EnemyHitTimer.start(10)
 		if hit_count >= 2:
 			_spawn_energy(area.get_parent())
 	if area.is_in_group("Dummy"):
@@ -1186,40 +1178,31 @@ func _on_DashTimer_timeout():
 	velocity = direction * MAX_SPEED
 	direction.y = 0
 	#dashline.visible = false
-	$DashParticles2.emitting = false
+	dashparticles.emitting = false
 	ghosttime = 0.0
 	can_dash = true
 	if can_add_ass_ghost:
-		$JustDashedTimer.start(1)
-		$DashGhostTimer.start(0.1)
+		justdashedtimer.start(1)
+		dashghosttimer.start(0.1)
 	yield(get_tree().create_timer(0.1), "timeout")
 	_set_player_mod(player_default_array)
 
-
-
 func _on_JustDashedTimer_timeout() -> void:
 	can_add_ass_ghost = false
-	$DashGhostTimer.stop()
+	dashghosttimer.stop()
 	
 func on_EnemyDead(body) -> void:
 	if PlayerStats.enemies_hit_by_player.has(body):
 		PlayerStats.enemies_hit_by_player.erase(body)
 
-
 func _on_DropDetect_body_exited(body):
 	set_collision_mask_bit(11, true)
-
-func _on_DashGhostTimer_timeout():
-	pass
-	#_add_assassin_ghost(1)
-
 
 func _on_AttackSound_finished():
 	can_attack_sound = true
 
-func _on_FootStepSound_finished():
-	pass
-
-
 func _on_FootStepTimer_timeout():
 	can_footstep_sound = true
+
+func _on_DashGhostTimer_timeout():
+	_add_assassin_ghost(false)

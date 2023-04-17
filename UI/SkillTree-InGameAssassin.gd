@@ -4,7 +4,7 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-onready var player_stats_save_file = PlayerStats.game_data
+
 onready var celeb_audio = $AudioStreamPlayer
 onready var celeb_audio_timer = $Timer
 
@@ -38,54 +38,53 @@ func _spawn_text(skill: String):
 	get_tree().current_scene.add_child(text)
 	_new_skill()
 
-func _on_TextureButton_pressed() -> void:
-	get_tree().change_scene("res://UI/MainMenuTest.tscn")
-
-func _on_BasicAttack1_on_learned(node):
+func _on_BasicAttack1_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear6H"
 	PlayerStats.assassin_smearsprite_w = "Smear6V"
 	PlayerStats.assassin_smearsprite_e = "Smear6H"
+	PlayerStats.assassin_basic_dmg = 8
+	PlayerStats.emit_signal("BasicAttackChanged", "Smear6H", "Smear6V", "Smear6H", 8)
 	_spawn_text("BasicAttack evolved!")
 
 
-func _on_BasicAttack2_on_learned(node):
+func _on_BasicAttack2_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear10H"
 	PlayerStats.assassin_smearsprite_w = "Smear10V"
 	PlayerStats.assassin_smearsprite_e = "Smear10H"
 	_spawn_text("BasicAttack evolved!")
 
-func _on_BasicAttack3_on_learned(node):
+func _on_BasicAttack3_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear12H"
 	PlayerStats.assassin_smearsprite_w = "Smear8V"
 	PlayerStats.assassin_smearsprite_e = "Smear12H"
 	_spawn_text("BasicAttack evolved!")
 
-func _on_BasicAttack4_on_learned(node):
+func _on_BasicAttack4_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear9H"
 	PlayerStats.assassin_smearsprite_w = "Smear9V"
 	PlayerStats.assassin_smearsprite_e = "Smear9H"
 	_spawn_text("BasicAttack evolved!")
 
-func _on_Clone1_on_learned(node):
+func _on_Clone1_on_learned(_node):
 	PlayerStats.assassin_clone_targets = 1
 	
-func _on_Clone2_on_learned(node):
+func _on_Clone2_on_learned(_node):
 	PlayerStats.assassin_clone_targets = int(PlayerStats.enemies_hit_by_player.size()/2)
 
-func _on_Clone3_on_learned(node):
+func _on_Clone3_on_learned(_node):
 	PlayerStats.assassin_clone_targets = PlayerStats.enemies_hit_by_player.size()
 
 
-func _on_Combo1_on_learned(node):
+func _on_Combo1_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([1,3,2,1])
 	_spawn_text("Combo1 learned!")
 
-func _on_Combo2_on_learned(node):
+func _on_Combo2_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([3, 1, 2, 3])
 	_spawn_text("Combo2 learned!")
 
 
-func _on_Combo3_on_learned(node):
+func _on_Combo3_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([2, 1, 3, 2])
 	_spawn_text("Combo2 learned!")
 

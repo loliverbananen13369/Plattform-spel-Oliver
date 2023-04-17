@@ -799,7 +799,6 @@ next_scene = "res://Levels/Cave1.tscn"
 previous_scene = "res://Levels/WinterLevel2.tscn"
 ground_color = "348daf"
 footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav"
-enemy_hpbar_color = "a4dddb"
 
 [node name="Position2D" parent="PlayerNode" index="0"]
 position = Vector2( 40, -40 )
