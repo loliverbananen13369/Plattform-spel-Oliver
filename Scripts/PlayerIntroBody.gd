@@ -52,6 +52,9 @@ onready var attackhitboxtimer = $AttackHitBoxTimer
 func _ready() -> void:
 	playersprite.play("Idle")
 	
+func set_active(active):
+	set_physics_process(active)
+	set_process_input(active)
 
 func _physics_process(delta: float) -> void:
 	match state:

@@ -43,7 +43,7 @@ func _on_BasicAttack1_on_learned(_node):
 	PlayerStats.assassin_smearsprite_w = "Smear6V"
 	PlayerStats.assassin_smearsprite_e = "Smear6H"
 	PlayerStats.assassin_basic_dmg = 8
-	PlayerStats.emit_signal("BasicAttackChanged", "Smear6H", "Smear6V", "Smear6H", 8)
+	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
 	_spawn_text("BasicAttack evolved!")
 
 
@@ -51,28 +51,37 @@ func _on_BasicAttack2_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear10H"
 	PlayerStats.assassin_smearsprite_w = "Smear10V"
 	PlayerStats.assassin_smearsprite_e = "Smear10H"
+	PlayerStats.assassin_basic_dmg = 12
+	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
 	_spawn_text("BasicAttack evolved!")
 
 func _on_BasicAttack3_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear12H"
 	PlayerStats.assassin_smearsprite_w = "Smear8V"
 	PlayerStats.assassin_smearsprite_e = "Smear12H"
+	PlayerStats.assassin_basic_dmg = 15
+	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
 	_spawn_text("BasicAttack evolved!")
 
 func _on_BasicAttack4_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear9H"
 	PlayerStats.assassin_smearsprite_w = "Smear9V"
 	PlayerStats.assassin_smearsprite_e = "Smear9H"
+	PlayerStats.assassin_basic_dmg = 20
+	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
 	_spawn_text("BasicAttack evolved!")
 
 func _on_Clone1_on_learned(_node):
 	PlayerStats.assassin_clone_targets = 1
+	_spawn_text("Press Shift while comboing to spawn 1 clone")
 	
 func _on_Clone2_on_learned(_node):
 	PlayerStats.assassin_clone_targets = int(PlayerStats.enemies_hit_by_player.size()/2)
+	_spawn_text("Clone amount increased slightly")
 
 func _on_Clone3_on_learned(_node):
 	PlayerStats.assassin_clone_targets = PlayerStats.enemies_hit_by_player.size()
+	_spawn_text("Clone amount increased significantly")
 
 
 func _on_Combo1_on_learned(_node):
@@ -91,3 +100,12 @@ func _on_Combo3_on_learned(_node):
 func on_celeb_audio_timer_finished():
 	celeb_audio.stop()
 
+func _on_DashAttack1_on_learned(node) -> void:
+	PlayerStats.assassin_can_dash_attack = true
+	_spawn_text("Press Q to dashattack")
+
+func _on_DashAttack2_on_learned(node) -> void:
+	_spawn_text("Dashattack slightly stronger")
+
+func _on_DashAttack3_on_learned(node) -> void:
+	_spawn_text("Dashattack signicantly stronger")

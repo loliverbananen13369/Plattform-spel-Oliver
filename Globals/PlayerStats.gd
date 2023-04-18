@@ -22,7 +22,7 @@ signal EnemyDead(test_enemy)
 signal GolemStatus(active)
 signal TutorialFinished()
 signal ChooseClass()
-signal BasicAttackChanged(q, w, e, damage)
+signal AttackDamageChanged(type)
 
 var master_vol_value = 0
 
@@ -33,6 +33,7 @@ var enemies_for_golem = []
 
 var skilltree_points = 0
 
+var assassin_can_dash_attack = false
 var assassin_combo_ewqe = "comboewqe1"
 var assassin_combo1_learned = "hej"
 var assassin_smearsprite_q = "Smear7H"

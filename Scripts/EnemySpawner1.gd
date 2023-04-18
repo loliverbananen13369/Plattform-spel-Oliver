@@ -65,7 +65,6 @@ func _spawn_warrior(area: int) -> void:
 
 func _on_Timer_timeout() -> void:
 	if _can_spawn_warrior():
-		print("timeout")
 		_spawn_warrior(1)
 		timer.wait_time = 2 + rand_range(-1, 1)
 

@@ -22,6 +22,7 @@ func _input(event: InputEvent) -> void:
 	if can_interact:
 		if event.is_action_pressed("ui_accept"):
 			_check_dialogue()
+			print(event)
 			
 
 func _check_dialogue() -> void:

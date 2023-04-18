@@ -29,7 +29,6 @@ func _on_Area2D_body_entered(body):
 	
 
 func on_EnemyDead(body):
-	print("dead")
 	if list_of_enemies.has(body):
 		list_of_enemies.erase(body)
 		amount -= 1

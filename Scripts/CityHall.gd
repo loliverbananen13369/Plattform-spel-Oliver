@@ -25,6 +25,7 @@ func _ready():
 
 	if PlayerStats.first_time:
 		_load_cutscene(1)
+		yield(get_tree().create_timer(21.0), "timeout")
 	set_process_unhandled_input(true)
 
 	$Bshouse.rect_position.x = -87#(-87, -110)
@@ -43,6 +44,7 @@ func _ready():
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -220
 	get_node("PlayerNode").add_child(player)
+	print("child added")
 	get_node("PlayerNode").add_child(target)
 	#get_child(1).add_child(target)
 	PlayerStats.player = player
@@ -61,6 +63,7 @@ func _ready():
 
 func _load_cutscene(time: int):
 	if time == 1:
+		print(time)
 		cutscene_finished = false
 		var player_intro = intro_player_scene.instance()
 		var bar = blackbar.instance()

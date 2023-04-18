@@ -72,9 +72,7 @@ var tween = Tween.new()
 var damage_amount = 0
 
 func _ready(): 
-	#hpbar.modulate = PlayerStats.enemy_hpbar_color
-	#animatedsprite.frames.
-	player = PlayerStats.player#get_parent().get_parent().get_child(1).get_child(0)
+	player = PlayerStats.player
 	$PlayerDetector.monitoring = false
 	$AttackDetector.monitoring = false
 	velocity.x = 0
@@ -337,11 +335,11 @@ func _enter_hunt_state() -> void:
 	state = HUNTING
 	animatedsprite.play("Hunt")
 
-func _enter_hurt_state(number: int) -> void:
+func _enter_hurt_state(amount: int, number: int) -> void:
 	_get_direction_to_player()
 	rng.randomize()
 	var random_number = rng.randi_range(1,2)
-	take_damage(damage_amount)
+	take_damage(amount)
 	state = HURT
 	$AnimationPlayer.stop()
 	if random_number == 1:
@@ -379,45 +377,53 @@ func _on_HurtBox_area_entered(area):
 	var holy_active = player.get("holy_buff_active")
 	var dark_active = player.get("dark_buff_active")
 	var crit
-	var damage
+	var damage = 0
+	var can_spawn_ind = false
 	if holy_active or dark_active:
 		crit = true
 	else:
 		crit = false
 	if area.is_in_group("PlayerSword"):
-		damage = player.get("damage_a1")
-		damage_amount = damage
-		_enter_hurt_state(1)
+		damage = player.basic_attack_dmg#get("basic_attack_dmg")
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 1)
 	if area.is_in_group("DeadSword"):
 		damage = player.get("basic_attack_damage")
-		_enter_hurt_state(2)
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 2)
 	if area.is_in_group("DeadExplosion"):
-		damage = player.get("damage_a1")
-		_enter_hurt_state(1)
+		damage = player.get("basic_attack_damage")
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 1)
 	if area.is_in_group("GolemAttack"):
-		damage = player.get("damage_a1")
-		_enter_hurt_state(2)
+		damage = player.get("basic_attack_damage")
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 2)
 	if area.is_in_group("GolemBurst"):
-		damage = player.get("damage_a1")
-		_enter_hurt_state(3)
+		damage = player.get("basic_attack_damage")
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 3)
 	if area.is_in_group("DashAttack"):
 		damage = player.get("damage_combo_ewqe1")
-		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 1)
 	if area.is_in_group("Ability2"):
 		damage = player.get("damage_ability2")
-		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 1)
 	elif area.is_in_group("Ability1"):
 		damage = player.get("damage_ability1")
-		_enter_hurt_state(1)
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 1)
 	if area.is_in_group("SwordCut"):
 		damage = player.get("damage_combo_qweq")
-		_enter_hurt_state(2)
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 2)
 	if area.is_in_group("AirExplosion"):
 		damage = 10
 		emit_signal("pos", global_position)
-		_enter_hurt_state(1)
-	damage_amount = damage
-	_spawn_damage_indicator(damage_amount, crit)
+		_spawn_damage_indicator(damage, crit)
+		_enter_hurt_state(damage, 1)
 	
 	_die_b()
 

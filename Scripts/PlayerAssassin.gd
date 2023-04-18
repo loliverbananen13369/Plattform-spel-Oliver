@@ -144,6 +144,7 @@ var previous_state = IDLE
 
 func _ready() -> void:
 	playersprite.play("Idle")
+	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	Quests.connect("xp_changed", self, "_on_xp_changed")
 	playersprite.visible = true
@@ -182,15 +183,11 @@ func _physics_process(delta: float) -> void:
 			_combo_state(delta)
 		HURT:
 			_hurt_state(delta)
-		INVISIBLE:
-			_invisible_state(delta)
 	#Vad som sker varje frame
 #Help functions
 
 func set_active(active):
-	print(active)
 	set_physics_process(active)
-	set_process(active)
 	set_process_input(active)
 	#Om jag vill avaktivera spelaren
 
@@ -620,6 +617,9 @@ func _get_smearsprite(button: String):
 	if button == "e":
 		animatedsmears.animation = PlayerStats.assassin_smearsprite_e
 
+func _get_crit():
+	pass
+
 func check_combo() -> void:
 	var full_list = PlayerStats.assassin_combo_list
 	var re_combo_list = []
@@ -642,11 +642,6 @@ func _get_random_attack():
 	var nr = rng.randi_range(1, 3)
 	attack = "Attack"+str(nr)
 	return attack
-
-func player_stats():
-	basic_attack_dmg
-	damage_combo_ewqe1 = 10
-	damage_combo_qweq = 15
 
 func _level_up(current_xp, xp_needed):
 	if current_xp >= xp_needed:
@@ -734,7 +729,7 @@ func _run_state(delta) -> void:
 		_enter_dash_state(false, true)
 		return
 		
-	if Input.is_action_just_pressed("EAttack1"):
+	if Input.is_action_just_pressed("EAttack1") and PlayerStats.assassin_can_dash_attack:
 		_enter_dash_attack_state(1)
 		return
 	
@@ -855,9 +850,6 @@ func _attack_state_ground(delta) -> void:
 	_attack_function()
 
 	
-	
-	
-	
 func _attack_state_dash(attack_nr : int, delta) -> void:
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	velocity = move_and_slide(velocity, Vector2.UP)
@@ -872,15 +864,13 @@ func _attack_state_air(delta) -> void:
 	if direction_x != "RIGHT":
 		animatedsmears.rotation_degrees = -45
 		area_air_attack.rotation_degrees = -45
+		velocity.x = -MAX_SPEED*10
 	else: 
 		animatedsmears.rotation_degrees = 45
 		area_air_attack.rotation_degrees = 45
+		velocity.x = MAX_SPEED*10
 	animationplayer.play("Thrust2")
 	area_air_attack.disabled = false
-	if direction_x == "RIGHT":
-		velocity.x = MAX_SPEED*10
-	elif direction_x != "RIGHT":
-		velocity.x = -MAX_SPEED*10
 	velocity.y = GRAVITY*2
 	
 	if is_on_floor():
@@ -906,10 +896,6 @@ func _combo_state(delta) -> void:
 func _hurt_state(delta) -> void:
 	#_air_movement(delta)
 	_apply_hurt_movement(delta)
-
-func _invisible_state(delta) -> void:
-	pass
-
 
 #Enter states
 func _enter_idle_state() -> void:
@@ -983,7 +969,6 @@ func _enter_stop_state() -> void:
 func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
 	combotimer.start(1)
-	player_stats()
 	is_attacking = true
 	animatedsmears.position.y = 5
 	animationplayer.play("Attack" + str(attack))
@@ -1031,48 +1016,56 @@ func _enter_combo_state(number : int) -> void:
 	test_var_enemy = enemy
 	state = COMBO
 	if number == 1: 
-		animationplayer.play("ComboSpinAttack")
-		combo_list.clear()
-		energy -= 10
-		if Input.is_action_pressed("Dash") and energy >= 10:
-			for i in range(PlayerStats.assassin_clone_targets):
-				_add_clone(enemy) 
-				energy -= 10
-		emit_signal("EnergyChanged", energy)
+		_combo1(enemy)
 	if number == 2:
-		can_take_damage = false
-		var list = PlayerStats.enemies_hit_by_player
-		var clone_added = false
-		energy -= 20
-		for i in range(0, list.size() -1):
-			if list.size()-1 >= i:
-				var attack = _get_random_attack()
-				animationplayer.playback_speed = 3.0
-				animationplayer.play(attack)
-				frameFreeze(0.2*i, 0.2)
-				_dash_to_enemy(list[i], true)
-				if Input.is_action_pressed("Dash") and energy >= 10:
-					_add_clone(list[i])
-					clone_added = true
-				yield(get_tree().create_timer(0.06675), "timeout")
-		animationplayer.playback_speed = 1.0
-		if clone_added:
-			energy -= 10
-		emit_signal("EnergyChanged", energy)
+		_combo2(enemy, enemy_list)
 	if number == 3:
-		_add_first_air_explosion()
-		energy -= 20
-		emit_signal("test", 0.8)
-		yield(get_tree().create_timer(0.2), "timeout")
-		_add_airexplosions()
-		if Input.is_action_pressed("Dash")  and energy >= 10:
-			energy -= 10
-			for i in range(PlayerStats.assassin_clone_targets):
-				_add_clone(enemy)
-		emit_signal("EnergyChanged", energy)
-		
+		_combo3(enemy, enemy_list)
 	combo_list.clear()
-		
+
+func _combo1(enemy):
+	animationplayer.play("ComboSpinAttack")
+	combo_list.clear()
+	energy -= 10
+	if Input.is_action_pressed("Dash") and energy >= 10:
+		for i in range(PlayerStats.assassin_clone_targets):
+			_add_clone(enemy) 
+		energy -= 10
+	emit_signal("EnergyChanged", energy)
+
+func _combo2(enemy, list):
+	can_take_damage = false
+	var clone_added = false
+	energy -= 20
+	for i in range(0, list.size() -1):
+		if list.size()-1 >= i:
+			var attack = _get_random_attack()
+			animationplayer.playback_speed = 3.0
+			animationplayer.play(attack)
+			frameFreeze(0.2*i, 0.2)
+			_dash_to_enemy(list[i], true)
+			if Input.is_action_pressed("Dash") and energy >= 10:
+				for n in range(PlayerStats.assassin_clone_targets):
+					_add_clone(enemy) 
+				clone_added = true
+			yield(get_tree().create_timer(0.06675), "timeout")
+	animationplayer.playback_speed = 1.0
+	if clone_added:
+		energy -= 10
+	emit_signal("EnergyChanged", energy)
+
+func _combo3(enemy, list):
+	_add_first_air_explosion()
+	energy -= 20
+	WorldEnv.emit_signal("Darken", "Combo3")
+	yield(get_tree().create_timer(0.2), "timeout")
+	_add_airexplosions()
+	if Input.is_action_pressed("Dash")  and energy >= 10:
+		energy -= 10
+		for i in range(PlayerStats.assassin_clone_targets):
+			_add_clone(enemy)
+	emit_signal("EnergyChanged", energy)
+
 #Signals
 
 func _on_AnimationPlayer_animation_finished(anim_name):
@@ -1087,6 +1080,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "PrepareAirAttack":
+		WorldEnv.emit_signal("Darken", "Prepare")
 		state = ATTACK_AIR
 	if anim_name == "Thrust2":
 		hurtbox.disabled = false
@@ -1120,6 +1114,11 @@ func _on_HurtBox_area_entered(area):
 func _change_xp() -> void:
 	emit_signal("XPChanged", PlayerStats.current_xp)
 
+func _on_attack_damage_changed(type):
+	if type == "basic_attack_damage":
+		print("correct type")
+		basic_attack_dmg = PlayerStats.assassin_basic_dmg
+
 func _on_xp_changed() -> void:
 	_change_xp()
 
@@ -1128,6 +1127,7 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 		PlayerStats.current_xp += 5
 		if _level_up(PlayerStats.current_xp, PlayerStats.xp_needed):
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
+			WorldEnv.emit_signal("Darken", "lvl_up")
 		_change_xp()
 	if area.is_in_group("EnergyParticle"):
 		energy += 5
