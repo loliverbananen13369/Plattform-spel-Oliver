@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, CROUCH, RUN, AIR, DASH_AIR, DASH_GROUND, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
+enum {IDLE, DEAD, CROUCH, RUN, AIR, DASH_AIR, DASH_GROUND, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 
 
 const MAX_SPEED = 250
@@ -105,12 +105,11 @@ onready var flashtimer = $FlashTimer
 onready var combotimer = $ComboTimer
 onready var justdashedtimer = $JustDashedTimer
 onready var dashghosttimer = $DashGhostTimer
+onready var hud = $HUD
 
 
 var basic_attack_dmg = PlayerStats.assassin_basic_dmg
-export var damage_combo_qweq := 15
-export var damage_combo_ewqe1 := 10
-export var damage_combo_ewqe2 := 50
+var spin_attack_dmg := 15
 export (Vector2) var tester := Vector2.ZERO
 
 
@@ -132,8 +131,8 @@ var test_var_enemy
 var player_name
 
 #Player stats
-var hp = 100
-var max_hp = 100
+var hp = PlayerStats.hp
+var life_steal = PlayerStats.life_steal
 var energy = 50
 var max_energy = 50
 var current_xp = 0
@@ -147,7 +146,10 @@ func _ready() -> void:
 	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	Quests.connect("xp_changed", self, "_on_xp_changed")
+	hud.visible = true
 	playersprite.visible = true
+	combosprites.visible = false
+	thrusts.visible = false
 	animationplayer.playback_speed = 1
 	skilltree.visible = false 
 	footstep_sounds = PlayerStats.footsteps_sound
@@ -157,6 +159,8 @@ func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
 			_idle_state(delta)
+		DEAD:
+			_dead_state(delta)
 		CROUCH:
 			_crouch_state(delta)
 		RUN:
@@ -208,7 +212,6 @@ func _get_random_sound(type: String) -> void:
 	if type == "Jump":
 		var number = rng.randi_range(0, JUMP_SOUNDS.size()-1)
 		jumpsound.stream = JUMP_SOUNDS[number]
-	#	jump_sound_timer.start(1.0)
 	if type == "Attack":
 		var number = rng.randi_range(0, ATTACK_SOUNDS.size()-1)
 		attacksound.stream = ATTACK_SOUNDS[number]
@@ -525,6 +528,17 @@ func _add_assassin_ghost(dash: bool):
 	get_tree().get_root().add_child(ghost)
 
 
+func _die(hp):
+	if hp <= 0:
+		state = DEAD
+		hurtbox.set_deferred("disabled", true)
+		set_physics_process(false)
+		playersprite.play("Death")
+		var instance = load("res://Instance_Scenes/DeadScreen.tscn")
+		var child = instance.instance()
+		add_child(child)
+		set_process_input(false)
+
 func take_damage(amount: int) -> void:
 	_enter_hurt_state()
 	if enemy_side_of_you == "right":
@@ -545,10 +559,10 @@ func take_damage(amount: int) -> void:
 	can_take_damage = false
 	hp -= amount
 	emit_signal("HPChanged", hp)
+	_die(hp)
 	yield(get_tree().create_timer(0.3), "timeout")
 	flashtimer.start(2)
 	_alpha_tween()
-	_enter_air_state(false)
 
 func _set_player_mod(array: Array):
 	playersprite.modulate.r = array[0]
@@ -634,7 +648,7 @@ func check_combo() -> void:
 		_enter_combo_state(index)
 	else:
 		_enter_idle_state()
-	
+
 
 func _get_random_attack():
 	var attack = "Attack"
@@ -643,8 +657,8 @@ func _get_random_attack():
 	attack = "Attack"+str(nr)
 	return attack
 
-func _level_up(current_xp, xp_needed):
-	if current_xp >= xp_needed:
+func _level_up():
+	if PlayerStats.current_xp >= PlayerStats.xp_needed:
 		PlayerStats.current_xp = PlayerStats.current_xp - PlayerStats.xp_needed
 		PlayerStats.xp_needed = PlayerStats.xp_needed + pow(1.5, (PlayerStats.current_lvl*2))
 		PlayerStats.skilltree_points += 1
@@ -662,6 +676,9 @@ func _input(event):
 
 	if event.is_action_released("SkillTree"):
 		skilltree.visible = false
+	
+	if event.is_action_pressed("ui_accept"):
+		PlayerStats.hp = hp
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
@@ -683,6 +700,9 @@ func _idle_state(delta) -> void:
 	if velocity.x != 0:
 		_enter_run_state()
 		return
+
+func _dead_state(_delta) -> void:
+	set_process_input(false)
 
 func _crouch_state(delta) -> void:
 	
@@ -873,10 +893,12 @@ func _attack_state_air(delta) -> void:
 	area_air_attack.disabled = false
 	velocity.y = GRAVITY*2
 	
+	
+	
 	if is_on_floor():
 		velocity.x = 0
 	
-	velocity = move_and_slide(velocity, Vector2.UP)	
+	velocity = move_and_slide(velocity, Vector2.UP)
 	
 func _jump_attack_state(delta) -> void:
 	_air_movement(delta)
@@ -945,7 +967,6 @@ func _enter_air_state(jump: bool) -> void:
 	check_sprites()
 	if jump:
 		velocity.y = JUMP_STRENGHT
-	#else:
 		if velocity.x == 0:
 			playersprite.play("JumpN")
 		else:
@@ -1002,6 +1023,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		area_jump_attack.disabled = false
 	else:
 		animationplayer.play("PrepareAirAttack")
+		dashparticles.emitting = true
 		frameFreeze(0.3, 0.4)
 
 func _enter_hurt_state() -> void:
@@ -1089,6 +1111,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		if is_on_floor():
 			velocity.x = 0
 			animationplayer.play("OnGroundAfterAttack")
+			dashparticles.emitting = false
 			_enter_idle_state()
 			can_jump = false
 			return
@@ -1116,7 +1139,7 @@ func _change_xp() -> void:
 
 func _on_attack_damage_changed(type):
 	if type == "basic_attack_damage":
-		print("correct type")
+		life_steal = PlayerStats.life_steal
 		basic_attack_dmg = PlayerStats.assassin_basic_dmg
 
 func _on_xp_changed() -> void:
@@ -1125,13 +1148,14 @@ func _on_xp_changed() -> void:
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
 		PlayerStats.current_xp += 5
-		if _level_up(PlayerStats.current_xp, PlayerStats.xp_needed):
+		if _level_up():
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
 			WorldEnv.emit_signal("Darken", "lvl_up")
+			PlayerStats.skilltree_points += 1
 		_change_xp()
 	if area.is_in_group("EnergyParticle"):
 		energy += 5
-		PlayerStats.hp += 1
+		hp += life_steal
 		if energy > 50:
 			energy = 50
 		if hp > 100:

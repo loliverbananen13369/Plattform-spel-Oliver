@@ -119,6 +119,7 @@ anims/Dash = SubResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 material = SubResource( 739 )
 position = Vector2( -1, 7 )
+emitting = false
 amount = 20
 one_shot = true
 explosiveness = 0.41

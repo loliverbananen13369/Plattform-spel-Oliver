@@ -12,6 +12,7 @@ onready var tween = $Tween
 
 
 var max_xp = 40
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hpbar.value = 100
@@ -26,13 +27,13 @@ func _ready():
 
 
 func _on_Player_HPChanged(hp):
-	if hpbar.value > hp:
+	#if hpbar.value > hp:
 		#minskning
-		hpbar.value = hp
-		tween.stop_all()
-		tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)
-		tween.start()
-		$AnimationPlayer.play("TakeDamage")
+	hpbar.value = hp
+	#tween.stop_all()
+	tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)
+	tween.start()
+	$AnimationPlayer.play("TakeDamage")
 	if hpbar.value < 30:
 		$AnimationPlayer.play("LowHP")
 

@@ -272,14 +272,14 @@ tracks/2/keys = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
-modulate = Color( 0.388235, 0, 0, 1 )
+modulate = Color( 0.466667, 0.466667, 0.466667, 1 )
+self_modulate = Color( 0.827451, 0, 1, 1 )
 frames = SubResource( 5 )
-animation = "New Anim"
+animation = "ImpactDustKick"
 frame = 2
 script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 0.733333
 anims/Hejsan = SubResource( 59 )
 anims/Hejsan2 = SubResource( 67 )
 anims/ImpactDustKick = SubResource( 36 )

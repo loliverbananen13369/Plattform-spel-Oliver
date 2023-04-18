@@ -177,18 +177,19 @@ func _teleport_to_player() -> void:
 
 func _add_ksanteq() -> void:
 	var enemy = follow_this_enemy
-	var hejsan = abs(enemy.global_position.x - global_position.x)
-	var q_pos = global_position + Vector2(0, 11)
-	_get_direction_to_enemy(enemy)
-	var dir = direction_x_to_enemy
-	var amount = int(hejsan/24)
-	for i in range(amount):
-		var q = ksanteq_scene.instance()
-		get_parent().add_child(q)
-		q.global_position.y = q_pos.y
-		q.global_position.x = q_pos.x + (i*24*dir)
-		#get_parent().call_deferred("add_child", q)
-		yield(get_tree().create_timer(0.35), "timeout")
+	if is_instance_valid(enemy):
+		var hejsan = abs(enemy.global_position.x - global_position.x)
+		var q_pos = global_position + Vector2(0, 11)
+		_get_direction_to_enemy(enemy)
+		var dir = direction_x_to_enemy
+		var amount = int(hejsan/24)
+		for i in range(amount):
+			var q = ksanteq_scene.instance()
+			get_parent().add_child(q)
+			q.global_position.y = q_pos.y
+			q.global_position.x = q_pos.x + (i*24*dir)
+			#get_parent().call_deferred("add_child", q)
+			yield(get_tree().create_timer(0.35), "timeout")
 	_add_ksanteqimpact(enemy)
 
 func _add_ksanteqimpact(enemy) -> void:
@@ -402,7 +403,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "Attack1" or "Attack2":
 		attack1_finished = true
 		if $MustEnemyInRangeForAttack2.monitoring:
-			if $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy):
+			if is_instance_valid(must_follow_this_enemy) and $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy):
 				_enter_attack_state()
 			else:
 				if wants_to_follow_enemy:

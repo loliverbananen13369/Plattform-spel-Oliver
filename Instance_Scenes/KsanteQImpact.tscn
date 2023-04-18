@@ -187,7 +187,7 @@ region = Rect2( 256, 192, 64, 64 )
 [sub_resource type="SpriteFrames" id=41]
 animations = [ {
 "frames": [ SubResource( 130 ), SubResource( 131 ), SubResource( 132 ), SubResource( 133 ), SubResource( 134 ), SubResource( 135 ), SubResource( 136 ), SubResource( 137 ), SubResource( 138 ), SubResource( 139 ), SubResource( 140 ), SubResource( 141 ), SubResource( 142 ), SubResource( 143 ), SubResource( 144 ), SubResource( 145 ), SubResource( 146 ), SubResource( 147 ), SubResource( 148 ), SubResource( 149 ), SubResource( 150 ), SubResource( 151 ), SubResource( 152 ), SubResource( 153 ), SubResource( 154 ) ],
-"loop": false,
+"loop": true,
 "name": "Burst",
 "speed": 30.0
 }, {
@@ -310,9 +310,10 @@ extents = Vector2( 26.5, 21 )
 extents = Vector2( 25, 23.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
+modulate = Color( 0.5, 0.5, 0.5, 1 )
 frames = SubResource( 41 )
 animation = "Burst"
-frame = 24
+frame = 2
 playing = true
 script = ExtResource( 3 )
 
@@ -322,6 +323,7 @@ anims/Burst = SubResource( 94 )
 anims/Impale = SubResource( 93 )
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 
 [node name="Burst" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( -15.5, -3 )

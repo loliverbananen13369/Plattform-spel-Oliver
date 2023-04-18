@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 const MAX_SPEED = 200
-const ACCELERATION = 1000
+const ACCELERATION = 500
 const GRAVITY = 1300
 const JUMP_STRENGHT = -480
 
@@ -14,17 +14,26 @@ var direction_x_to_enemy = 1
 enum {IDLE, RUN, AIR, ATTACK, DEAD, SPAWN}
 var state = IDLE
 
-var life_time = 5
+var life_time := 5
+var dead := false
 
 onready var lt = $LifeTimer
 onready var animsprite = $AnimatedSprite
 onready var animplayer = $AnimationPlayer
+onready var explosionsprite = $ExplosionSprite
+
+
 
 var enemy
 
 
 func _ready():
+	explosionsprite.visible = false
+	animsprite.modulate = "d4d4d4"
 	lt.start(life_time)
+	animsprite.scale.x = 1
+	animsprite.scale.y = 1
+	animsprite.play("Idle")
 
 func _physics_process(delta):
 	match state:
@@ -68,7 +77,8 @@ func _enter_idle_state() -> void:
 	animsprite.play("Idle")
 	
 func _enter_run_state() -> void:
-	var all_enemy = get_parent().get_child(4).get_node("Node").get_tree().get_nodes_in_group("Enemy")
+	#var all_enemy = get_tree().get_nodes_in_group("Enemy")
+	var all_enemy = get_parent().get_tree().get_nodes_in_group("Enemy")
 	state = RUN
 	animsprite.play("Run")
 	if _check_if_enemy_in_attack():
@@ -81,25 +91,31 @@ func _enter_attack_state() -> void:
 	animplayer.play("Attack")
 
 func _enter_dead_state() -> void:
-	velocity.x = 0
 	state = DEAD
+	set_physics_process(false)
+	velocity.x = 0
 	$AttackDetector/CollisionShape2D.disabled = true
 	$AttackArea/CollisionShape2D.disabled = true
 	$EnemyDetector/CollisionShape2D.disabled = true
 	$ExplosionArea/CollisionShape2D.disabled = false
-	animsprite.animation = "Dead"
-	animsprite.frame = 0
-	animplayer.play("Dead")
+	animsprite.visible = false
+	animplayer.stop(false)
+	explosionsprite.frame = 0
+	explosionsprite.visible = true
+	explosionsprite.play("Explosion")
+	yield(explosionsprite, "animation_finished")
+	queue_free()
+	
 
 func _flip_sprite(right:bool) -> void:
 	if right:
 		animsprite.flip_h = false
-		$AttackArea/CollisionShape2D.position.x = 10
-		$AttackDetector/CollisionShape2D.position.x = 10
+		$AttackArea/CollisionShape2D.position.x = 4
+		$AttackDetector/CollisionShape2D.position.x = 4
 	else:
 		animsprite.flip_h = true
-		$AttackArea/CollisionShape2D.position.x = -10
-		$AttackDetector/CollisionShape2D.position.x = -10
+		$AttackArea/CollisionShape2D.position.x = -4
+		$AttackDetector/CollisionShape2D.position.x = -4
 
 func _get_closest_enemy(enemy_group):
 	if len(enemy_group) > 0:
@@ -125,7 +141,9 @@ func _get_direction_to_enemy(enemy):
 		direction_x_to_enemy = 0
 
 func _check_enemy_irad():
-	var all_enemy = get_parent().get_child(4).get_node("Node").get_tree().get_nodes_in_group("Enemy")
+	if dead:
+		return false
+	var all_enemy = get_parent().get_tree().get_nodes_in_group("Enemy")
 	for body in $EnemyDetector.get_overlapping_bodies():
 		if all_enemy.has(body):
 			return true
@@ -133,37 +151,41 @@ func _check_enemy_irad():
 	return false
 
 func _check_if_enemy_in_attack():
-	var all_enemy = get_parent().get_child(4).get_node("Node").get_tree().get_nodes_in_group("Enemy")
+	if dead:
+		return false
+	var all_enemy = get_parent().get_tree().get_nodes_in_group("Enemy")
 	for body in $AttackDetector.get_overlapping_bodies():
 		if all_enemy.has(body):
 			return true
-	
 	return false
 
 func _on_LifeTimer_timeout():
 	_enter_dead_state()
+	dead = true
 	
-
 func _on_EnemyDetector_body_entered(body):
-	if state != ATTACK or RUN:
-		_enter_run_state()
+	if body.is_in_group("Enemy"):
+		if state != ATTACK or RUN or DEAD:
+			_enter_run_state()
 
 func _on_EnemyDetector_body_exited(body):
-	if not _check_enemy_irad():
-		_enter_idle_state()
+	if body.is_in_group("Enemy"):
+		if not _check_enemy_irad():
+			_enter_idle_state()
 
 func _on_AttackDetector_body_entered(body):
-	var all_enemy = get_parent().get_child(4).get_node("Node").get_tree().get_nodes_in_group("Enemy")
-	if state != ATTACK and all_enemy.has(body):
+	var all_enemy = get_parent().get_tree().get_nodes_in_group("Enemy")
+	if state != ATTACK and body.is_in_group("Enemy"):
 		_enter_attack_state()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":
 		if _check_if_enemy_in_attack():
 			_enter_attack_state()
-		elif _check_enemy_irad():
+			return
+		if _check_enemy_irad():
 			_enter_run_state()
+			return
 		else:
 			_enter_idle_state()
-	if anim_name == "Dead":
-		queue_free()
+

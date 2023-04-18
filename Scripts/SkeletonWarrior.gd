@@ -388,19 +388,19 @@ func _on_HurtBox_area_entered(area):
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 1)
 	if area.is_in_group("DeadSword"):
-		damage = player.get("basic_attack_damage")
+		damage = player.basic_attack_dmg
 		_spawn_damage_indicator(damage, crit)
-		_enter_hurt_state(damage, 2)
+		_enter_hurt_state(damage, 1)
 	if area.is_in_group("DeadExplosion"):
-		damage = player.get("basic_attack_damage")
+		damage = player.basic_attack_dmg
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 1)
 	if area.is_in_group("GolemAttack"):
-		damage = player.get("basic_attack_damage")
+		damage = player.basic_attack_dmg
 		_spawn_damage_indicator(damage, crit)
-		_enter_hurt_state(damage, 2)
+		_enter_hurt_state(damage, 1)
 	if area.is_in_group("GolemBurst"):
-		damage = player.get("basic_attack_damage")
+		damage = player.basic_attack_dmg
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 3)
 	if area.is_in_group("DashAttack"):
@@ -416,7 +416,7 @@ func _on_HurtBox_area_entered(area):
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 1)
 	if area.is_in_group("SwordCut"):
-		damage = player.get("damage_combo_qweq")
+		damage = player.spin_attack_dmg
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 2)
 	if area.is_in_group("AirExplosion"):

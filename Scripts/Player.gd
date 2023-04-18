@@ -3,11 +3,11 @@ extends KinematicBody2D
 
 #Se till att använda den där tiktok rösten som narrator
 #Det här är för att se om github fungerar
-enum {IDLE, CROUCH, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, INVISIBLE, ABILITY}
-
+enum {IDLE, CROUCH, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, ABILITY, DEAD}
+#4c0046
+#0.3
 #0
-#2
-#0.54
+#0.27
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -31,7 +31,6 @@ var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
 var jump_pressed := false
-var can_follow_enemy := false
 var attack_pressed = 0
 var previous_attack = 0
 
@@ -41,14 +40,16 @@ var jump_buffer = 0.15
 var attack_buffer = 0.3
 var hit_amount = 0
 
-signal test(length)
+
 signal HPChanged(hp)
 signal XPChanged(current_xp)
 signal LvlUp(current_lvl, xp_needed)
 
+const JUMP_SOUNDS = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
+const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/AttackSounds/001_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/002_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/003_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/004_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/005_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/006_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/007_swing.wav")]
+var footstep_sounds 
 
-var ghost_scene = preload("res://Scenes/GhostDashMage.tscn")
-var jl_scene = preload("res://Instance_Scenes/LandnJumpDust.tscn")
+var ghost_scene = preload("res://Instance_Scenes/GhostDashMage.tscn")
 var land_scene = preload("res://Instance_Scenes/LandDust.tscn")
 var jump_scene = preload("res://Instance_Scenes/JumpDust.tscn")
 var dust_scene = preload("res://Instance_Scenes/ParticlesDust.tscn")
@@ -65,28 +66,52 @@ var crouch_smoke_scene = preload("res://Instance_Scenes/CrouchSmoke.tscn")
 
 var ghosttime := 0.0
 var crouchtime := 0.0
+var attacktime := 0.0
 
+var player_glow_array = [4.55, 4.2, 3.5, 1]
+var player_default_array = [1, 1, 1, 1]
 
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
+onready var holybufftimer = $HolyBuffTimer
+onready var flashtimer = $FlashTimer
 onready var dashparticles = $DashParticles
 onready var attackparticles = $AttackParticles
 onready var tween = $Tween
-onready var player_stats_save_file = PlayerStats.game_data
+onready var skilltree = $SkillTreeInGame/Control/CanvasLayer
+onready var hurtbox = $HurtBox/CollisionShape2D
+onready var area_ground_attack = $NormalAttackArea/AttackGround
+onready var area_jump_attack = $NormalAttackArea/AttackJump
+onready var area_air_attack = $NormalAttackArea/AirAttack
+onready var area_spin_attack = $SwordCutArea/SpinAttack
+onready var dashsound = $DashSound
+onready var jumpsound = $JumpSound
+onready var attacksound = $AttackSound
+onready var stepsound = $FootStepSound
+onready var thrusts = $Thrusts
+onready var abilitysprites = $AbilitySprites
+onready var lifesteal_pos1 = $LifeStealPos1
+onready var lifesteal_pos2 = $LifeStealPos2
+onready var acid2area = $Acid2Area
+onready var acid2shape = $Acid2Area/Acid2
+onready var acid5area = $Acid5Area
+onready var acid5shape = $Acid5Area/Acid5
+onready var cut = $CutSprite
 
-
-export var damage_a1 := 5
+var basic_attack_dmg = PlayerStats.mage_basic_dmg
+var spin_attack_dmg := 15
 export var damage_ability1 := 10
-export var damage_ability2 := 50
+export var damage_ability2 := 25
 export var holy_buff_active := false
 export var dark_buff_active := false
 export var test_active := false
 export (Vector2) var tester := Vector2.ZERO
 
-
+var can_attack_sound = true
+var can_footstep_sound = true
 
 
 var dash_to_enemy_distance = 50
@@ -100,10 +125,12 @@ var has_leveled_up = false
 var testpos = Vector2.ZERO
 var testpos2 = Vector2.ZERO
 
-
+var smearsprite_q = "Smear1H"
+var smearsprite_w = "Smear1V"
+var smearsprite_e = "Smear3H"
 
 #Player stats
-var hp = 100
+var hp = PlayerStats.hp
 var max_hp = 100
 var hp_regeneration = 1
 var mana = 100
@@ -116,9 +143,13 @@ var ability_anim
 
 
 func _ready() -> void:
+	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed") #Onödigt?
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
-	$AnimationPlayer.playback_speed = 1
-	$SkillTreeInGame/Control/CanvasLayer.visible = false
+	Quests.connect("xp_changed", self, "_on_xp_changed")
+	playersprite.visible = true
+	animationplayer.playback_speed = 1
+	skilltree.visible = false 
+	footstep_sounds = PlayerStats.footsteps_sound
 	
 
 func _physics_process(delta: float) -> void:
@@ -147,16 +178,17 @@ func _physics_process(delta: float) -> void:
 			_jump_attack_state(delta)
 		HURT:
 			_hurt_state(delta)
-		INVISIBLE:
-			_invisible_state(delta)
 		ABILITY:
 			_ability_state(delta)
+		DEAD:
+			_dead_state(delta)
 
 #Help functions
 func set_active(active):
 	set_physics_process(active)
 	set_process(active)
 	set_process_input(active)
+
 func _apply_basic_movement(delta) -> void:
 	if direction.x != 0:
 		velocity = velocity.move_toward(direction*MAX_SPEED, ACCELERATION*delta)
@@ -180,10 +212,6 @@ func _get_input_x_update_direction() -> float:
 	elif input_x < 0:
 		direction_x = "LEFT"
 		_flip_sprite(false)
-	playersprite.flip_h = direction_x != "RIGHT"
-	animatedsmears.flip_h = direction_x != "RIGHT"
-	
-	#$Thrusts.flip_h  = direction_x != "RIGHT"
 	
 	return input_x
 
@@ -233,16 +261,10 @@ func _get_direction_to_enemy():
 func _get_furthest_away_enemy():
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	var furthest_away_enemy = all_enemy[0]
-	if direction_x == "RIGHT":
-		for i in range(1, len(all_enemy)):
-			if all_enemy[i].global_position.x > furthest_away_enemy.global_position.x :
-			#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
-				furthest_away_enemy = all_enemy[i]
-	else:
-		for i in range(1, len(all_enemy)):
-			if all_enemy[i].global_position.x < furthest_away_enemy.global_position.x :
-			#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
-				furthest_away_enemy = all_enemy[i]
+	for i in range(1, len(all_enemy)):
+		if abs(all_enemy[i].global_position.x) > abs(furthest_away_enemy.global_position.x):
+		#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
+			furthest_away_enemy = all_enemy[i]
 
 	return furthest_away_enemy
 
@@ -268,26 +290,77 @@ func _attack_function():
 		else:
 			attack_pressed = 3
 			_remember_attack()
-			
+
+func _set_player_mod(array: Array):
+	playersprite.modulate.r = array[0]
+	playersprite.modulate.g = array[1]
+	playersprite.modulate.b = array[2]
+	playersprite.modulate.a = array[3]
+
+func _get_random_sound(type: String) -> void:
+	rng.randomize()
+	if type == "Jump":
+		var number = rng.randi_range(0, JUMP_SOUNDS.size()-1)
+		jumpsound.stream = JUMP_SOUNDS[number]
+	#	jump_sound_timer.start(1.0)
+	if type == "Attack":
+		var number = rng.randi_range(0, ATTACK_SOUNDS.size()-1)
+		attacksound.stream = ATTACK_SOUNDS[number]
+	jumpsound.pitch_scale = BackgroundMusic.voice_pitch_scale
+	attacksound.pitch_scale = BackgroundMusic.voice_pitch_scale
+
+func _check_sprites() -> void:
+	area_air_attack.set_deferred("disabled", true)
+	area_ground_attack.set_deferred("disabled", true)
+	area_jump_attack.set_deferred("disabled", true)
+	area_spin_attack.set_deferred("disabled", true)
+	acid2shape.set_deferred("disabled", true)
+	acid5shape.set_deferred("disabled", true)
+	thrusts.visible = false
+	abilitysprites.visible = false
+	animatedsmears.visible = false
+	can_attack = true
+	_set_player_mod(player_default_array)
+
+func _input(event):
+	if event.is_action_pressed("SkillTree"):
+		skilltree.visible = true
+		
+	if event.is_action_released("SkillTree"):
+		skilltree.visible = false
+	
+	if event.is_action_pressed("HolyBuff1") and not holy_buff_active:
+		_add_buff("holy")
+		_add_holy_particles(10)
+		holybufftimer.start(5)
+		holy_buff_active = true
+		can_take_damage = false
+
+	if event.is_action_pressed("DarkBuff") and not dark_buff_active:
+		_add_buff("dark2")
+		dark_buff_active = true
+		yield(get_tree().create_timer(7.2), "timeout")
+		dark_buff_active = false
+	
+	if event.is_action_pressed("Fx000"):
+		test_active = true
+		yield(get_tree().create_timer(10), "timeout")
+		test_active = false
+
 func _flip_sprite(right: bool) -> void:
-	dashparticles.position.x = 0
-	dashparticles.position.y = 0
+	var variable
 	if right:
+		variable = 1
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
-		$AbilitySprites.flip_h = false
-		animatedsmears.position.x = 20
-		attackparticles.position.x = 20
-		$NormalAttackArea/AttackGround.position.x = 36
-		$SwordCutArea/SpinAttack.position.x = 34
 	else:
+		variable = -1
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
-		$AbilitySprites.flip_h = true
-		animatedsmears.position.x = -20
-		attackparticles.position.x = -20
-		$NormalAttackArea/AttackGround.position.x = -36
-		$SwordCutArea/SpinAttack.position.x = -34
+	animatedsmears.position.x = 20 * variable
+	attackparticles.position.x = 20 * variable
+	area_ground_attack.position.x = 36 * variable
+	area_spin_attack.position.x = 34 * variable
 
 func _add_pet():
 	if PlayerStats.golem_active == false:
@@ -350,31 +423,17 @@ func _add_walk_dust(amount: int) -> void:
 	get_tree().get_root().add_child(dust)
 
 func _add_land_dust()-> void:
-	var dust = land_scene.instance()#jl_scene.instance()
+	var dust = land_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
-	#dust.play("LandSmoke")
 	get_tree().get_root().add_child(dust)
 
 func _add_jump_dust() -> void:
-	var dust = jump_scene.instance()#jl_scene.instance()
-	#dust_scene.instance()
-	#dust.amount = number
-	#dust.global_position = playersprite.global_position + Vector2(0,23)
-	#dust.emitting = true
+	var dust = jump_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 15)
-	#dust.play("JumpSmokeSide")
 	get_tree().get_root().add_child(dust)
 
 func _add_holy_particles(amount: int) -> void:
 	for i in range(amount):
-		rng.randomize()
-		var random_number = rng.randi_range(1, 2)
-		if random_number == 1:
-			$Position2D2.position.x = 20
-			$Position2D3.position.x = -20
-		else:
-			$Position2D2.position.x = -20
-			$Position2D3.position.x = 20
 		var particles = holy_particles_scene.instance()
 		particles.global_position = global_position
 		particles.emitting = true
@@ -392,7 +451,7 @@ func _add_buff(buff_name: String) -> void:
 		playersprite.modulate.r = 2
 		playersprite.modulate.g = 2
 		playersprite.modulate.b = 2
-		emit_signal("test", 0.3)
+		WorldEnv.emit_signal("Darken", "holy_mage")
 	if buff_name == "dark2":
 		effect1.animation = "dark2"
 	if buff_name == "lifesteal_particles":
@@ -414,7 +473,7 @@ func _add_buff(buff_name: String) -> void:
 """
 
 func take_damage(amount: int, direction: int) -> void:
-	state = HURT
+	_enter_hurt_state()
 	if enemy_side_of_you == "right":
 		direction_x = "RIGHT"
 		velocity.x = -400
@@ -426,14 +485,33 @@ func take_damage(amount: int, direction: int) -> void:
 	flash()
 	frameFreeze(0.1, 0.5)
 	playersprite.play("Hit")
-	#$ImmuneTimer.start(2)
 	can_take_damage = false
 	hp -= amount
 	emit_signal("HPChanged", hp)
+	_die(hp)
 	yield(get_tree().create_timer(0.3), "timeout")
-	$FlashTimer.start(2)
+	flashtimer.start(2)
 	_alpha_tween()
 	_enter_idle_state()
+
+func _get_smearsprite(button: String):
+	if button == "q":
+		animatedsmears.animation = smearsprite_q
+	if button == "w":
+		animatedsmears.animation = smearsprite_w
+	if button == "e":
+		animatedsmears.animation = smearsprite_e
+
+func _die(hp):
+	if hp <= 0:
+		state = DEAD
+		hurtbox.set_deferred("disabled", true)
+		set_physics_process(false)
+		playersprite.play("Death")
+		var instance = load("res://Instance_Scenes/DeadScreen.tscn")
+		var child = instance.instance()
+		add_child(child)
+		set_process_input(false)
 
 func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
@@ -441,7 +519,7 @@ func frameFreeze(timescale, duration):
 	Engine.time_scale = 1
 
 func flash():
-	playersprite.material.set_shader_param("flash_modifier", 0.6)
+	playersprite.material.set_shader_param("flash_modifier", 0.8)
 	yield(get_tree().create_timer(0.2), "timeout")
 	playersprite.material.set_shader_param("flash_modifier", 0.0)
 	
@@ -455,21 +533,6 @@ func _alpha_tween() -> void:
 		tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.25)
 		tween.start()
 		alpha_tween_values.invert()
-		
-func _modulate_tween()-> void:
-	var modulate_tween_values = [1, 10]
-	for i in range(4):
-		tween.interpolate_property(playersprite, "modulate:r", modulate_tween_values[0], modulate_tween_values[1], 0.25)
-		tween.start()
-		yield(get_tree().create_timer(0.25), "timeout")
-		modulate_tween_values.invert()
-		tween.interpolate_property(playersprite, "modulate:r", modulate_tween_values[0], modulate_tween_values[1], 0.25)
-		tween.start()
-		modulate_tween_values.invert()
-
-func _player_immune():
-	playersprite.modulate.a8 = lerp(playersprite.modulate.a8, 255, 60)
-	yield(get_tree().create_timer(0.2), "timeout")
 
 func _remember_jump() -> void:
 	yield(get_tree().create_timer(jump_buffer), "timeout")
@@ -479,29 +542,28 @@ func _remember_attack() -> void:
 	yield(get_tree().create_timer(attack_buffer), "timeout")
 	attack_pressed = 0
 	
-
-
-func player_stats_lvl(current_lvl):
-	if current_lvl == 2:
-		pass
-
 func player_stats():
 	if holy_buff_active:
-		damage_a1 = 10
+		basic_attack_dmg = 10
 		damage_ability1 = 20
 		damage_ability2 = 100
-	elif dark_buff_active:
-		damage_a1 = 7
+		return
+	if dark_buff_active:
+		basic_attack_dmg = 7
 		damage_ability1 = 15
 		damage_ability2 = 37
+		return
 	else:
-		damage_a1 = 5
+		basic_attack_dmg = 5
 		damage_ability1 = 10
 		damage_ability2 = 50
 
-func _level_up(current_xp, xp_needed):
-	if current_xp >= xp_needed:
-		current_lvl += 1
+func _level_up():
+	if PlayerStats.current_xp >= PlayerStats.xp_needed:
+		PlayerStats.current_xp = PlayerStats.current_xp - PlayerStats.xp_needed
+		PlayerStats.xp_needed = PlayerStats.xp_needed + pow(1.5, (PlayerStats.current_lvl*2))
+		PlayerStats.skilltree_points += 1
+		PlayerStats.current_lvl += 1
 		has_leveled_up = true
 		_add_buff("lvl_up")
 		return true
@@ -509,24 +571,24 @@ func _level_up(current_xp, xp_needed):
 		return false
 
 func _set_sprite_position(anim_name):
-	$AbilitySprites.flip_h = playersprite.flip_h
+	abilitysprites.flip_h = playersprite.flip_h
 	var dir
 	if direction_x == "RIGHT":
 		dir = 1
 	else:
 		dir = -1
+	if anim_name == "Thrust":
+		cut.position = Vector2(-38*dir, -45)
+		cut.rotation_degrees = 45*dir
 	if anim_name == "Ability1":
-		$AbilitySprites.position.y = 9
-		$Acid2Area/Acid2.position.x = 52*dir
-		$AbilitySprites.position.x = 51*dir
+		abilitysprites.position = Vector2(51*dir, 9)
+		acid2shape.position.x = 52*dir
 	if anim_name == "Ability2":
-		$Acid5Area/Acid5.position.x = 82*dir
-		$AbilitySprites.position.y = 0
-		$AbilitySprites.position.x = 80*dir
+		abilitysprites.position = Vector2(80*dir, 0)
+		acid5area.position.x = 82*dir
 	if anim_name == "OnGroundAfterAttack":
-		$Thrusts.position.x = 0
-		$Thrusts.position.y = 1
-
+		thrusts.position.x = 0
+		thrusts.position.y = 1
 func _add_preparing_attack_particles(amount) -> void:
 	for n in range (amount):
 		rng.randomize()
@@ -540,12 +602,6 @@ func _add_preparing_attack_particles(amount) -> void:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	
-	if Input.is_action_pressed("SkillTree"):
-		$SkillTreeInGame/Control/CanvasLayer.visible = true
-		
-	if Input.is_action_just_released("SkillTree"):
-		$SkillTreeInGame/Control/CanvasLayer.visible = false
-	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_walk_dust(15)
 		_enter_air_state(true)
@@ -554,29 +610,8 @@ func _idle_state(delta) -> void:
 	if Input.is_action_just_pressed("add_pet"):
 		_add_pet()
 	
-	if Input.is_action_just_pressed("HolyBuff1") and not holy_buff_active:
-		_add_buff("holy")
-		_add_holy_particles(10)
-		$HolyBuffTimer.start(5)
-		holy_buff_active = true
-		can_take_damage = false
 
-	
-	if Input.is_action_just_pressed("DarkBuff") and not dark_buff_active:
-		_add_buff("dark2")
-		dark_buff_active = true
-		yield(get_tree().create_timer(7.2), "timeout")
-		dark_buff_active = false
-	
-	if Input.is_action_just_pressed("Fx000"):
-		test_active = true
-		yield(get_tree().create_timer(10), "timeout")
-		test_active = false
-		#_add_buff("life_steal")
-		#yield(get_tree().create_timer(2), "timeout")
-		#playersprite.modulate.r8 = 255
-		#playersprite.modulate.g8 = 255
-		#playersprite.modulate.b8 = 255
+
 
 	if Input.is_action_just_pressed("Ability1") and PlayerStats.ability1_learned:
 		_enter_ability_state(1)
@@ -594,6 +629,7 @@ func _idle_state(delta) -> void:
 	if not is_on_floor():
 		_enter_air_state(false)
 		return
+
 	if velocity.x != 0:
 		_enter_run_state()
 		return
@@ -611,7 +647,7 @@ func _crouch_state(delta) -> void:
 			velocity.y = JUMP_STRENGHT * 0.1
 			playersprite.play("JumpN")
 			set_collision_mask_bit(11, false)
-			state = AIR
+			_enter_air_state(false)
 	
 	if Input.is_action_just_released("Crouch"):
 		_enter_run_state()
@@ -642,7 +678,7 @@ func _run_state(delta) -> void:
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_add_dash_smoke("ImpactDustKick")
-		_enter_dash_state(false)
+		_enter_dash_state()
 		return
 		
 	if Input.is_action_just_pressed("EAttack1"):
@@ -674,7 +710,7 @@ func _run_state(delta) -> void:
 func _air_state(delta) -> void:
 	if Input.is_action_just_pressed("Dash") and can_dash:
 		_add_dash_smoke("Air")
-		_enter_dash_state(false)
+		_enter_dash_state()
 		return
 	
 	if Input.is_action_pressed("EAttack1"):
@@ -729,7 +765,7 @@ func _stop_state(delta):
 		return
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		_enter_dash_state(false)
+		_enter_dash_state()
 		return
 		
 	if (input_x == 1 and velocity.x > 0) or (input_x == -1 and velocity.x < 0):
@@ -758,25 +794,23 @@ func _prepare_attack_air_state(delta) -> void:
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
 func _attack_state_air(delta) -> void:
-	$HurtBox/CollisionShape2D.disabled = true
+	hurtbox.disabled = true
 	if direction_x != "RIGHT":
 		animatedsmears.rotation_degrees = -45
-		$NormalAttackArea/AirAttack.rotation_degrees = -45
+		area_air_attack.rotation_degrees = -45
+		velocity.x = -MAX_SPEED*10
 	else: 
 		animatedsmears.rotation_degrees = 45
-		$NormalAttackArea/AirAttack.rotation_degrees = 45
-	animationplayer.play("Thrust2")
-	$NormalAttackArea/AirAttack.disabled = false
-	if direction_x == "RIGHT":
+		area_air_attack.rotation_degrees = 45
 		velocity.x = MAX_SPEED*10
-	elif direction_x != "RIGHT":
-		velocity.x = -MAX_SPEED*10
+	animationplayer.play("Thrust2")
+	area_air_attack.disabled = false
 	velocity.y = GRAVITY*2
 	
 	if is_on_floor():
 		velocity.x = 0
 	
-	velocity = move_and_slide(velocity, Vector2.UP)	
+	velocity = move_and_slide(velocity, Vector2.UP)
 	
 func _jump_attack_state(delta) -> void:
 	_air_movement(delta)
@@ -787,22 +821,21 @@ func _jump_attack_state(delta) -> void:
 func _hurt_state(delta) -> void:	
 	_air_movement(delta)		
 
-func _invisible_state(delta) -> void:
-	pass
-	#global_position = testpos2
-	#playersprite.visible = false
-	#$HurtBox/CollisionShape2D.disabled = true
-
 func _ability_state(delta) -> void:
+	pass
+
+func _dead_state(_delta) -> void:
 	pass
 
 #Enter states
 func _enter_idle_state() -> void:
+	_check_sprites()
 	state = IDLE
 	playersprite.play("Idle")
 	can_jump = true
 
 func _enter_crouch_state() -> void:
+	_check_sprites()
 	state = CROUCH
 	if velocity.x >= 1 or velocity.x <= -1:
 		if direction_x == "RIGHT":
@@ -811,68 +844,66 @@ func _enter_crouch_state() -> void:
 			_flip_sprite(true)
 	playersprite.play("Crouch")
 
-func _enter_dash_state(attack: bool) -> void:
+func _enter_dash_state() -> void:
+	_check_sprites()
 	_add_shockwave()
-	if attack == false:
-		direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
-		if state == IDLE and direction == Vector2.DOWN:
-			return
-		elif direction == Vector2.ZERO:
-			direction.x = 1 if direction_x == "RIGHT" else -1
-		playersprite.modulate.r = 2
-		playersprite.modulate.g = 1
-		playersprite.modulate.b = 1
-		playersprite.play("Dash")
-		state = DASH
-		dashparticles.emitting = true
-		#dashline.visible = true
-		can_dash = false
-		dashtimer.start(0.25)
-	else:
-		pass
+	dashsound.play()
+
+	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
+	if state == IDLE and direction == Vector2.DOWN:
+		return
+	elif direction == Vector2.ZERO:
+		direction.x = 1 if direction_x == "RIGHT" else -1
+	_set_player_mod(player_glow_array)
+	playersprite.play("Dash")
+	state = DASH
+	dashparticles.emitting = true
+	can_dash = false
+	dashtimer.start(0.25)
 
 func _enter_air_state(jump: bool) -> void:
+	_check_sprites()
 	if jump:
 		velocity.y = JUMP_STRENGHT
-	#else:
 		if velocity.x == 0:
 			playersprite.play("JumpN")
 		else:
 			playersprite.play("JumpF")
+		jumpsound.play()
 	coyotetimer.start()
 	state = AIR
 
 func _enter_run_state() -> void:
+	_check_sprites()
 	can_jump = true
 	state = RUN
 	playersprite.play("Run")
 
 func _enter_stop_state() -> void:
+	_check_sprites()
 	can_jump = true
 	state = STOP
 	playersprite.play("Stop")
+
+func _enter_hurt_state() -> void:
+	_check_sprites()
+	state = HURT
+	yield(get_tree().create_timer(0.5),"timeout")
+	_enter_air_state(false)
 
 func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
 	player_stats()
 	is_attacking = true
 	animatedsmears.position.y = 5
-	if attack == 1:
-		animationplayer.play("Attack1")
-		can_attack = false
-		previous_attack = 1
-		#$NormalAttackArea/AttackGround.disabled = false
-	if attack == 2:
-		animationplayer.play("Attack2")
-		can_attack = false
-		previous_attack = 2
-	if attack == 3:
-		animationplayer.play("Attack3")
-		can_attack = false
-		previous_attack = 3
-	if attack == 4:
-		animationplayer.play("SpinAttack")
-		can_attack = false
+	animationplayer.play("Attack" + str(attack))
+	if can_attack_sound:
+		_get_random_sound("Attack")
+		attacksound.play()
+		can_attack_sound = false
+	can_attack = false
+	previous_attack = attack
+
 
 func _enter_dash_attack_state(attack: int) -> void:
 	state = ATTACK_DASH
@@ -890,57 +921,35 @@ func _enter_ability_state(number: int) -> void:
 func _enter_attack_air_state(Jump: bool) -> void:	
 	if Jump:
 		if direction_x != "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = -20
+			area_jump_attack.position.x = -20
 		elif direction_x == "RIGHT":
-			$NormalAttackArea/AttackJump.position.x = 20
+			area_jump_attack.position.x = 20
 		state = JUMP_ATTACK
 		animationplayer.play("JumpAttack")
-		$NormalAttackArea/AttackJump.disabled = false
-
+		area_jump_attack.disabled = false
 	else:
 		animationplayer.play("PrepareAirAttack")
-		frameFreeze(0.3, 0.4)
+		WorldEnv.emit_signal("Darken", "PrepareNecroMancer")
+		#frameFreeze(0.2, 0.5)
 
-		
 #Signals
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "Attack1":
+	if anim_name == "Attack1" or "Attack2" or "Attack3" or "SpinAttack" or "Ability1" or "Ability2":
 		can_attack = true
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
 		else:
 			_enter_idle_state()
-	if anim_name == "Attack2":
-		can_attack = true
-		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-			_enter_run_state()
-		else:
-			_enter_idle_state()
-	if anim_name == "Attack3":
-		can_attack = true
-		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-			_enter_run_state()
-		else:
-			_enter_idle_state()
-	if anim_name == "SpinAttack":
-		can_attack = true
-		_enter_idle_state()
-	if anim_name == "Ability1":
-		_enter_idle_state()
-		can_attack = true
-	if anim_name == "Ability2":
-		_enter_idle_state()
-		can_attack = true
 	if anim_name == "JumpAttack":
-		$NormalAttackArea/AttackJump.disabled = true
+		area_jump_attack.disabled = true
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "PrepareAirAttack":
 		state = ATTACK_AIR
 	if anim_name == "Thrust2":
-		$HurtBox/CollisionShape2D.disabled = false
-		$NormalAttackArea/AirAttack.disabled = true
+		hurtbox.disabled = false
+		area_air_attack.disabled = true
 		animatedsmears.rotation_degrees = 0
 		if is_on_floor():
 			velocity.x = 0
@@ -960,9 +969,9 @@ func _on_timer_timeout() -> void:
 	pass
 
 func _on_HurtBox_area_entered(area):
-	var amount = 5
+	var amount = 10
 	if dark_buff_active:
-		amount = 10
+		amount = 15
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
 			take_damage(amount, direction.x)
@@ -977,12 +986,17 @@ func _on_HurtBox_area_entered(area):
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
 		current_xp += 40
-		if _level_up(current_xp, xp_needed):
-			current_xp = 0
-			xp_needed = xp_needed + pow(1.5, (current_lvl*2))
-			PlayerStats.skilltree_points += 1
-			emit_signal("LvlUp", current_lvl, xp_needed)
+		if _level_up():
+			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
+			WorldEnv.emit_signal("Darken", "lvl_up")
+		_change_xp()
 		emit_signal("XPChanged", current_xp)
+
+func _change_xp() -> void:
+	emit_signal("XPChanged", PlayerStats.current_xp)
+
+func _on_xp_changed() -> void:
+	_change_xp()
 
 func on_EnemyDead(body):
 	_add_dead_skeletton(body)
@@ -993,28 +1007,36 @@ func _on_KinematicBody2D_hurt() -> void:
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
-		#PlayerStats.enemies_hit_by_player = []
 		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
 			PlayerStats.enemies_for_golem.append(area.get_parent())
 		PlayerStats.emit_signal("EnemyHurt")
-		if not can_follow_enemy:
-			can_follow_enemy = true
-			$NewTimer.start(1)
 		if test_active:
 			_add_buff("lifesteal_particles")
-		
+
+func _on_Acid2Area_area_entered(area):
+	if area.is_in_group("EnemyHitbox"):
+		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
+			PlayerStats.enemies_for_golem.append(area.get_parent())
+		PlayerStats.emit_signal("EnemyHurt")
+		if test_active:
+			_add_buff("lifesteal_particles")
+
+func _on_Acid5Area_area_entered(area):
+	if area.is_in_group("EnemyHitbox"):
+		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
+			PlayerStats.enemies_for_golem.append(area.get_parent())
+		PlayerStats.emit_signal("EnemyHurt")
+		if test_active:
+			_add_buff("lifesteal_particles")
+
+
 func _on_KinematicBody2D_side_of_player(which_side):
 	enemy_side_of_you = which_side
 
 #Timers
-func _on_ImmuneTimer_timeout():
-	pass
-	#can_take_damage = true
-	#_enter_idle_state()
 
 func _on_FlashTimer_timeout():
 	if not holy_buff_active:
-		print("if not holy buff activee")
 		can_take_damage = true
 	tween.stop(playersprite)
 
@@ -1024,9 +1046,7 @@ func _on_CoyoteTimer_timeout():
 
 func _on_DashTimer_timeout():
 	if not holy_buff_active:
-		playersprite.modulate.r = 1
-		playersprite.modulate.g = 1
-		playersprite.modulate.b = 1
+		_set_player_mod(player_default_array)
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
 	direction.y = 0
@@ -1035,29 +1055,39 @@ func _on_DashTimer_timeout():
 	ghosttime = 0.0
 	can_dash = true
 
-func _on_NewTimer_timeout():
-	can_follow_enemy = false
+
 
 func _on_KinematicBody2D_pos(position) -> void:
 	pass # Replace with function body.
 
 
 func _on_HolyBuffTimer_timeout():
-	playersprite.modulate.r = 1
-	playersprite.modulate.g = 1
-	playersprite.modulate.b = 1
+	_set_player_mod(player_default_array)
 	can_take_damage = true
 	holy_buff_active = false
 
 
 func _on_Acid_2_on_learned(node):
-	$Acid2Area.add_to_group("Ability1")
+	acid2area.add_to_group("Ability1")
 	PlayerStats.ability1_learned = true
 
 func _on_Acid_5_on_learned(node):
-	$Acid5Area.add_to_group("Ability2")
+	acid5area.add_to_group("Ability2")
 	PlayerStats.ability2_learned = true
 
 
 func _on_DropDetect_body_exited(body):
 	set_collision_mask_bit(11, true)
+
+
+func _on_AttackSound_finished():
+	can_attack_sound = true
+
+
+func _on_FootStepTimer_timeout():
+	can_footstep_sound = true
+
+
+
+
+

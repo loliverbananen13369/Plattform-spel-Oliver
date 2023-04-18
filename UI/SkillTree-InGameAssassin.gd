@@ -43,25 +43,28 @@ func _on_BasicAttack1_on_learned(_node):
 	PlayerStats.assassin_smearsprite_w = "Smear6V"
 	PlayerStats.assassin_smearsprite_e = "Smear6H"
 	PlayerStats.assassin_basic_dmg = 8
+	PlayerStats.life_steal = 1
 	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
-	_spawn_text("BasicAttack evolved!")
+	_spawn_text("BasicAttack evolved! +1 life steal")
 
 
 func _on_BasicAttack2_on_learned(_node):
-	PlayerStats.assassin_smearsprite_q = "Smear10H"
-	PlayerStats.assassin_smearsprite_w = "Smear10V"
-	PlayerStats.assassin_smearsprite_e = "Smear10H"
+	PlayerStats.assassin_smearsprite_q = "Smear8H"
+	PlayerStats.assassin_smearsprite_w = "Smear8V"
+	PlayerStats.assassin_smearsprite_e = "Smear8H"
 	PlayerStats.assassin_basic_dmg = 12
 	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
 	_spawn_text("BasicAttack evolved!")
 
 func _on_BasicAttack3_on_learned(_node):
-	PlayerStats.assassin_smearsprite_q = "Smear12H"
-	PlayerStats.assassin_smearsprite_w = "Smear8V"
-	PlayerStats.assassin_smearsprite_e = "Smear12H"
+
+	PlayerStats.assassin_smearsprite_q = "Smear10H"
+	PlayerStats.assassin_smearsprite_w = "Smear10V"
+	PlayerStats.assassin_smearsprite_e = "Smear10H"
 	PlayerStats.assassin_basic_dmg = 15
+	PlayerStats.life_steal = 5
 	PlayerStats.emit_signal("AttackDamageChanged", "basic_attack_damage")
-	_spawn_text("BasicAttack evolved!")
+	_spawn_text("BasicAttack evolved! + 4 life steal" )
 
 func _on_BasicAttack4_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear9H"

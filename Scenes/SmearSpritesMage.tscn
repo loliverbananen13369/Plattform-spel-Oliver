@@ -8,7 +8,7 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 10/Smear 10 Vertical 1.png" type="Texture" id=6]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 02/Smear 02 Horizontal 1.png" type="Texture" id=7]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 02/Smear 02 Vertical 1.png" type="Texture" id=8]
-[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Horizontal 3.png" type="Texture" id=9]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Horizontal 1.nec.png" type="Texture" id=9]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 01/Smear 01 Vertical 01.nec.png" type="Texture" id=10]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 04/Smear 4 Horizontal 1.png" type="Texture" id=11]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 06/Smear 06 Horizontal 1.png" type="Texture" id=12]
@@ -20,7 +20,7 @@
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 04/Smear 4 Verical 1.png" type="Texture" id=18]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 09/Smear 09 Vertical 1.png" type="Texture" id=19]
 [ext_resource path="res://Battle VFX Slashes N Thrusts/Smear VFX/Smear VFX 05/Smear 05 Vertical 1.png" type="Texture" id=20]
-[ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.new.png" type="Texture" id=21]
+[ext_resource path="res://Battle VFX Slashes N Thrusts/Thrusts VFX/Thrust 02/Thrust VFX 02 Color 1.necro.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/Animations wo Effects (Sprite Sheet)/Jump Attack/Jump Attack effect.png" type="Texture" id=22]
 
 [sub_resource type="AtlasTexture" id=532]
@@ -111,23 +111,23 @@ region = Rect2( 192, 0, 48, 48 )
 atlas = ExtResource( 6 )
 region = Rect2( 240, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=572]
+[sub_resource type="AtlasTexture" id=583]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=573]
+[sub_resource type="AtlasTexture" id=584]
 atlas = ExtResource( 9 )
 region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=574]
+[sub_resource type="AtlasTexture" id=585]
 atlas = ExtResource( 9 )
 region = Rect2( 96, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=575]
+[sub_resource type="AtlasTexture" id=586]
 atlas = ExtResource( 9 )
 region = Rect2( 144, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=576]
+[sub_resource type="AtlasTexture" id=587]
 atlas = ExtResource( 9 )
 region = Rect2( 192, 0, 48, 48 )
 
@@ -507,35 +507,35 @@ region = Rect2( 192, 0, 48, 48 )
 atlas = ExtResource( 19 )
 region = Rect2( 240, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=537]
+[sub_resource type="AtlasTexture" id=588]
 atlas = ExtResource( 21 )
 region = Rect2( 0, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=538]
+[sub_resource type="AtlasTexture" id=589]
 atlas = ExtResource( 21 )
 region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=539]
+[sub_resource type="AtlasTexture" id=590]
 atlas = ExtResource( 21 )
 region = Rect2( 96, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=540]
+[sub_resource type="AtlasTexture" id=591]
 atlas = ExtResource( 21 )
 region = Rect2( 144, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=541]
+[sub_resource type="AtlasTexture" id=592]
 atlas = ExtResource( 21 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=542]
+[sub_resource type="AtlasTexture" id=593]
 atlas = ExtResource( 21 )
 region = Rect2( 240, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=543]
+[sub_resource type="AtlasTexture" id=594]
 atlas = ExtResource( 21 )
 region = Rect2( 288, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=544]
+[sub_resource type="AtlasTexture" id=595]
 atlas = ExtResource( 21 )
 region = Rect2( 336, 0, 48, 48 )
 
@@ -566,7 +566,7 @@ animations = [ {
 "name": "Smear10V",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 572 ), SubResource( 573 ), SubResource( 574 ), SubResource( 575 ), SubResource( 576 ) ],
+"frames": [ SubResource( 583 ), SubResource( 584 ), SubResource( 585 ), SubResource( 586 ), SubResource( 587 ) ],
 "loop": true,
 "name": "Smear1H",
 "speed": 10.0
@@ -592,9 +592,9 @@ animations = [ {
 "speed": 10.0
 }, {
 "frames": [ SubResource( 217 ), SubResource( 218 ), SubResource( 219 ), SubResource( 220 ), SubResource( 221 ) ],
-"loop": true,
+"loop": false,
 "name": "Smear3V",
-"speed": 10.0
+"speed": 20.0
 }, {
 "frames": [ SubResource( 222 ), SubResource( 223 ), SubResource( 224 ), SubResource( 225 ), SubResource( 226 ) ],
 "loop": true,
@@ -656,10 +656,10 @@ animations = [ {
 "name": "Smear9V",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 537 ), SubResource( 538 ), SubResource( 539 ), SubResource( 540 ), SubResource( 541 ), SubResource( 542 ), SubResource( 543 ), SubResource( 544 ) ],
-"loop": true,
+"frames": [ SubResource( 588 ), SubResource( 589 ), SubResource( 590 ), SubResource( 591 ), SubResource( 592 ), SubResource( 593 ), SubResource( 594 ), SubResource( 595 ) ],
+"loop": false,
 "name": "Thrust2",
-"speed": 20.0
+"speed": 25.0
 } ]
 
 [node name="SmearSprites" type="AnimatedSprite"]

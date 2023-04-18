@@ -18,7 +18,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
 shader = SubResource( 5 )
-shader_param/flash_color = Color( 3, 3, 1.5, 1 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
 shader_param/flash_modifier = 0.8
 
 [sub_resource type="SpriteFrames" id=1]
@@ -47,15 +47,15 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.568627, 0.568627, 0 ) ]
+"values": [ Color( 0.298039, 0, 0.27451, 1 ), Color( 0.298039, 0, 0.27451, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:material")
@@ -71,6 +71,7 @@ tracks/2/keys = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
+modulate = Color( 0.298039, 0, 0.27451, 1 )
 show_behind_parent = true
 material = SubResource( 4 )
 position = Vector2( 10, -20 )

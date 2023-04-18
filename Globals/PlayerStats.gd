@@ -4,7 +4,7 @@ extends Node
 const SAVE_PLAYER_STATS_FILE = "res://Data/PlayerStats.gd"
 var game_data = {}
 
-var player_instance = preload("res://Scenes/PlayerAssassin.tscn")
+var player_instance = preload("res://Scenes/Player.tscn")#("res://Scenes/PlayerAssassin.tscn") ## ("res://Scenes/PlayerAssassin.tscn") #
 var player
 var ability1_learned = false
 var ability2_learned = false
@@ -15,6 +15,7 @@ var current_lvl = 1
 var current_xp = 0
 var xp_needed = 40
 var hp = 100
+var life_steal = 0
 
 signal PlayerHurt()
 signal EnemyHurt()
@@ -46,6 +47,8 @@ var assassin_combo3_dmg = 10
 var assassin_dash_attack_damage = 10
 var assassin_clone_targets = 1
 var assassin_combo_list = []
+
+var mage_basic_dmg = 5
 
 
 var visited_bs_house = false

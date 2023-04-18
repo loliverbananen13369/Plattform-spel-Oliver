@@ -71,13 +71,15 @@ animations = [ {
 extents = Vector2( 18.5, 26.625 )
 
 [node name="PortalNext" type="AnimatedSprite"]
+modulate = Color( 1, 4, 3.85938, 1 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 43 )
-frame = 12
+frame = 9
 playing = true
 script = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

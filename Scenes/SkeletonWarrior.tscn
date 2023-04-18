@@ -298,7 +298,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "Test3" ]
+"values": [ "Test4" ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("AnimatedSprite2:frame")
@@ -742,7 +742,8 @@ script = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 50 )
 frames = ExtResource( 3 )
-animation = "Dead"
+animation = "Hurt"
+frame = 4
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -830,7 +831,7 @@ modulate = Color( 2, 1.5, 1.5, 1 )
 position = Vector2( 0, 5 )
 scale = Vector2( 3, 1 )
 frames = SubResource( 160 )
-animation = "Test2"
+animation = "Test4"
 frame = 5
 playing = true
 

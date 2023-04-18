@@ -31,13 +31,20 @@ func _on_darken(type: String) -> void:
 	var length = 0.5
 	if type == "Prepare":
 		tween_values = [10, 0.9]
-		start_tween(tween_values, length)
 	if type == "Combo3":
 		tween_values = [2.0, 0.9]
-		start_tween(tween_values, length)
 	if type == "lvl_up":
 		tween_values = [2.0, 0.9]
+	if type == "holy_mage":
+		tween_values = [4.0, 0.9]
+	if type == "PrepareNecroMancer":
+		length = 0.45
+		tween_values = [0.9, 0.05]
 		start_tween(tween_values, length)
+		yield(get_tree().create_timer(0.5), "timeout")
+		frameFreeze(0.3, 0.6)
+		return
+	start_tween(tween_values, length)
 
 
 	

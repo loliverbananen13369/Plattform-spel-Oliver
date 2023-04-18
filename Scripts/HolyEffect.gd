@@ -43,26 +43,20 @@ func _ready() -> void:
 		spellsprite.modulate.r = 1
 		spellsprite.modulate.b = 1
 		spellsprite.modulate.g = 1
-		vector = Vector2(10, -18)
+		#vector = Vector2(10, -18)
 		yield(get_tree().create_timer(7.2), "timeout")
 		queue_free()
 	if spellsprite.animation == "lifesteal_particles":
 		spellsprite.scale.x = 0.7
 		spellsprite.scale.y = 0.7
 		rng.randomize()
-		var random_number = rng.randi_range(1, 2)
-		rng.randomize()
 		var random_number_x = rng.randi_range(-5, 5)
 		rng.randomize()
 		var random_number_y = rng.randi_range(-5, 5)
-		if random_number == 1:
-			vector = Vector2(20, 0) + Vector2(random_number_x, random_number_y)
-		else:
-			vector = Vector2(0, 0) + Vector2(random_number_x, random_number_y)
+		vector = Vector2(random_number_x, random_number_y)
 	if spellsprite.animation == "life_steal":
 		spellsprite.scale.x = 2
 		spellsprite.scale.y = 2
-		vector = Vector2(10, -18)
 		
 
 		#tween.name = "Tween"

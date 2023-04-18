@@ -390,7 +390,6 @@ animations = [ {
 script = ExtResource( 2 )
 
 [node name="Spellsprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -13 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 17 )
 animation = "holy_mage_test1"

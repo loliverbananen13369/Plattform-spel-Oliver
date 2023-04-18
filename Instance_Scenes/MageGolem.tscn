@@ -148,36 +148,36 @@ region = Rect2( 504, 112, 56, 56 )
 atlas = ExtResource( 3 )
 region = Rect2( 560, 112, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=112]
+atlas = ExtResource( 3 )
 region = Rect2( 0, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=113]
+atlas = ExtResource( 3 )
 region = Rect2( 56, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=114]
+atlas = ExtResource( 3 )
 region = Rect2( 112, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=115]
+atlas = ExtResource( 3 )
 region = Rect2( 168, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=116]
+atlas = ExtResource( 3 )
 region = Rect2( 224, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=117]
+atlas = ExtResource( 3 )
 region = Rect2( 280, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=118]
+atlas = ExtResource( 3 )
 region = Rect2( 336, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=119]
+atlas = ExtResource( 3 )
 region = Rect2( 392, 280, 56, 56 )
 
 [sub_resource type="AtlasTexture" id=32]
@@ -292,7 +292,7 @@ animations = [ {
 "name": "Attack1",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"frames": [ SubResource( 112 ), SubResource( 113 ), SubResource( 114 ), SubResource( 115 ), SubResource( 116 ), SubResource( 117 ), SubResource( 118 ), SubResource( 119 ) ],
 "loop": false,
 "name": "Attack2",
 "speed": 5.0
@@ -408,10 +408,22 @@ tracks/2/keys = {
 "method": "_add_ksanteq"
 } ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimatedSprite:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.8, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1.6, 0, 2, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["MageGolem"]]
 collision_layer = 256
-collision_mask = 16
+collision_mask = 2064
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -426,6 +438,7 @@ frame = 7
 playing = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
 modulate = Color( 0.0117647, 0.333333, 0.32549, 1 )
@@ -439,6 +452,7 @@ visible = false
 shape = SubResource( 60 )
 
 [node name="EnemyDetector" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
