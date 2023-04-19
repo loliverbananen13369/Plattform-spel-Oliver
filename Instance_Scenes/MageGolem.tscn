@@ -1,8 +1,7 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://Scripts/MageGolem.gd" type="Script" id=1]
-[ext_resource path="res://Earth Spell 03/Extra - Earth Elemental/Earth Elemental (56x56).png" type="Texture" id=2]
-[ext_resource path="res://Earth Spell 03/Extra - Earth Elemental/Earth Elemental (56x56).test1.png" type="Texture" id=3]
+[ext_resource path="res://Battlemage Fantasy Character/NecromancerSprites/Golem/Earth Elemental (56x56).test1.png" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape2D" id=58]
 radius = 12.0
@@ -180,60 +179,60 @@ region = Rect2( 336, 280, 56, 56 )
 atlas = ExtResource( 3 )
 region = Rect2( 392, 280, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=120]
+atlas = ExtResource( 3 )
 region = Rect2( 0, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=121]
+atlas = ExtResource( 3 )
 region = Rect2( 56, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=122]
+atlas = ExtResource( 3 )
 region = Rect2( 112, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=123]
+atlas = ExtResource( 3 )
 region = Rect2( 168, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=124]
+atlas = ExtResource( 3 )
 region = Rect2( 224, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=125]
+atlas = ExtResource( 3 )
 region = Rect2( 280, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=126]
+atlas = ExtResource( 3 )
 region = Rect2( 336, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=39]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=127]
+atlas = ExtResource( 3 )
 region = Rect2( 392, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=40]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=128]
+atlas = ExtResource( 3 )
 region = Rect2( 448, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=41]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=129]
+atlas = ExtResource( 3 )
 region = Rect2( 504, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=42]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=130]
+atlas = ExtResource( 3 )
 region = Rect2( 560, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=43]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=131]
+atlas = ExtResource( 3 )
 region = Rect2( 616, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=44]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=132]
+atlas = ExtResource( 3 )
 region = Rect2( 672, 224, 56, 56 )
 
-[sub_resource type="AtlasTexture" id=45]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=133]
+atlas = ExtResource( 3 )
 region = Rect2( 728, 224, 56, 56 )
 
 [sub_resource type="AtlasTexture" id=64]
@@ -297,7 +296,7 @@ animations = [ {
 "name": "Attack2",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ) ],
+"frames": [ SubResource( 120 ), SubResource( 121 ), SubResource( 122 ), SubResource( 123 ), SubResource( 124 ), SubResource( 125 ), SubResource( 126 ), SubResource( 127 ), SubResource( 128 ), SubResource( 129 ), SubResource( 130 ), SubResource( 131 ), SubResource( 132 ), SubResource( 133 ) ],
 "loop": true,
 "name": "Death",
 "speed": 5.0

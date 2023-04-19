@@ -41,6 +41,7 @@ var assassin_smearsprite_q = "Smear7H"
 var assassin_smearsprite_w = "Smear7V"
 var assassin_smearsprite_e = "Smear3H"
 var assassin_basic_dmg = 5
+var assassin_dash_attack_dmg = 10
 var assassin_combo1_dmg = 10
 var assassin_combo2_dmg = 10
 var assassin_combo3_dmg = 10
@@ -63,10 +64,10 @@ var footsteps_sound = preload("res://Sounds/ImportedSounds/Footsteps/Free Footst
 
 
 var enemy_hpbar_color 
-var winter_skin = preload("res://EnemySkins/SkeletonWarriorWinter.tres")
-var green_skin = preload("res://EnemySkins/SkeletonWarriorGreen.tres")
-var winter_hit = preload("res://EnemySkins/EnemyHitWinter.tres")
-var green_hit = preload("res://EnemySkins/EnemyHitGreen.tres")
+var winter_skin = preload("res://Enemy/EnemySkins/SkeletonWarriorWinter.tres")
+var green_skin = preload("res://Enemy/EnemySkins/SkeletonWarriorGreen.tres")
+var winter_hit = preload("res://Enemy/EnemySkins/EnemyHitWinter.tres")
+var green_hit = preload("res://Enemy/EnemySkins/EnemyHitGreen.tres")
 
 var ground_color
 var enemy_skin = winter_skin#"res://EnemySkins/SkeletonWarriorGreen.tres"

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Transition.gd" type="Script" id=1]
-[ext_resource path="res://SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Font/SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Sounds/ImportedSounds/fast-whoosh-118248.mp3" type="AudioStream" id=3]
 
 [sub_resource type="DynamicFont" id=3]

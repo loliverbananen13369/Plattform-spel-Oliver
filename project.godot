@@ -40,7 +40,6 @@ config/icon="res://icon.png"
 [autoload]
 
 PlayerStats="*res://Globals/PlayerStats.gd"
-GlobalSignals="*res://Scripts/GlobalSignals.gd"
 BackgroundMusic="*res://Sounds/SoundPlayer.tscn"
 Transition="*res://Scenes/Transition.tscn"
 WorldEnv="*res://Scenes/WorldEnvironment.tscn"
@@ -53,7 +52,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/codeandweb.texturepacker/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [global]
 

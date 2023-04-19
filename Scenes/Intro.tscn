@@ -5,7 +5,7 @@
 [ext_resource path="res://Intro/aggressive-huge-hit-logo-139134.mp3" type="AudioStream" id=3]
 [ext_resource path="res://Intro/sunrise-114326.mp3" type="AudioStream" id=4]
 [ext_resource path="res://Themes/MinimalUI/OpenSans-Regular.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://free-pixel-art-tiny-hero-sprites/Font/Planes_ValMore.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Font/Planes_ValMore.ttf" type="DynamicFontData" id=6]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;

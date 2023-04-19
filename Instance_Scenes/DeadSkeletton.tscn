@@ -1,6 +1,6 @@
 [gd_scene load_steps=65 format=2]
 
-[ext_resource path="res://Fantasy Skeleton Enemies/Fantasy Skeleton Enemies/Skeleton Warrior.necromancer.png" type="Texture" id=1]
+[ext_resource path="res://Battlemage Fantasy Character/NecromancerSprites/Skeletons/Skeleton Warrior.necromancer.png" type="Texture" id=1]
 [ext_resource path="res://InstanceScripts/Necromancer.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/flash.shader" type="Shader" id=4]
 [ext_resource path="res://Random_Effects/Sangoro/EXPLOSION.png" type="Texture" id=5]

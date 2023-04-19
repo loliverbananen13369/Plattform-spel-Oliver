@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/HUDAssassin.gd" type="Script" id=1]
-[ext_resource path="res://SRAFreePixelFontPack/PixelHigh.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Font/SRAFreePixelFontPack/PixelHigh.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.486275, 0.0941176, 0.235294, 1 )

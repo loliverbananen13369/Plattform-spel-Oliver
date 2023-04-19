@@ -4,9 +4,9 @@
 [ext_resource path="res://TestMap/parallax_mountain_pack/layers/parallax-mountain-montain-far.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BuildingBlock1.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TestMap/parallax-00.new.png" type="Texture" id=4]
-[ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Tileset Add on.winter.png" type="Texture" id=5]
+[ext_resource path="res://Imports/AncientCavesTileset/Tileset and SpriteSheets/Tileset Add on.winter.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/NextSceneArea.tscn" type="PackedScene" id=6]
-[ext_resource path="res://29- Sacred Temple Tileset/Blood Temple Tileset.blue.png" type="Texture" id=7]
+[ext_resource path="res://Imports/SacredTempleTileSet/Blood Temple Tileset.blue.png" type="Texture" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )

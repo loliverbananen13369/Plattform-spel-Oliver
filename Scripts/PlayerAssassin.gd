@@ -90,7 +90,6 @@ onready var area_ground_attack = $NormalAttackArea/AttackGround
 onready var area_jump_attack = $NormalAttackArea/AttackJump
 onready var area_air_attack = $NormalAttackArea/AirAttack
 onready var area_spin_attack = $SwordCutArea/SpinAttack
-onready var combosprites = $ComboSprites
 onready var dashsound = $DashSound
 onready var jumpsound = $JumpSound
 onready var attacksound = $AttackSound
@@ -109,6 +108,7 @@ onready var hud = $HUD
 
 
 var basic_attack_dmg = PlayerStats.assassin_basic_dmg
+var dash_attack_dmg = PlayerStats.assassin_dash_attack_damage
 var spin_attack_dmg := 15
 export (Vector2) var tester := Vector2.ZERO
 
@@ -148,7 +148,6 @@ func _ready() -> void:
 	Quests.connect("xp_changed", self, "_on_xp_changed")
 	hud.visible = true
 	playersprite.visible = true
-	combosprites.visible = false
 	thrusts.visible = false
 	animationplayer.playback_speed = 1
 	skilltree.visible = false 
@@ -201,7 +200,6 @@ func check_sprites():
 	area_jump_attack.disabled = true
 	area_spin_attack.disabled = true
 	thrusts.visible = false
-	combosprites.visible = false
 	animatedsmears.visible = false
 	can_attack = true
 	_set_player_mod(player_default_array)
@@ -331,12 +329,10 @@ func _flip_sprite(right: bool) -> void:
 		variable = 1
 		playersprite.flip_h = false
 		animatedsmears.flip_h = false
-		combosprites.flip_h = false
 	else:
 		variable = -1
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
-		combosprites.flip_h = true
 	animatedsmears.position.x = 20*variable
 	attackparticles.position.x = 20 * variable
 	area_ground_attack.position.x = 36 * variable

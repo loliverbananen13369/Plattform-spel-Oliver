@@ -404,7 +404,7 @@ func _on_HurtBox_area_entered(area):
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 3)
 	if area.is_in_group("DashAttack"):
-		damage = player.get("damage_combo_ewqe1")
+		damage = player.dash_attack_dmg
 		_spawn_damage_indicator(damage, crit)
 		_enter_hurt_state(damage, 1)
 	if area.is_in_group("Ability2"):

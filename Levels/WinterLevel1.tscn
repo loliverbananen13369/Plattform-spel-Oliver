@@ -1,17 +1,17 @@
 [gd_scene load_steps=50 format=2]
 
-[ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Tileset Add on.winter.png" type="Texture" id=1]
+[ext_resource path="res://Imports/AncientCavesTileset/Tileset and SpriteSheets/Tileset Add on.winter.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/WinterLevel1.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/PortalPrev.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Ancient Rock Animations 36x51.winter.png" type="Texture" id=4]
+[ext_resource path="res://Imports/AncientCavesTileset/Tileset and SpriteSheets/Ancient Rock Animations 36x51.winter.png" type="Texture" id=4]
 [ext_resource path="res://Dialogues/Dialouge.tscn" type="PackedScene" id=5]
 [ext_resource path="res://TestMap/parallax_mountain_pack/layers/parallax-mountain-montain-far.1.png" type="Texture" id=6]
 [ext_resource path="res://TestMap/parallax_mountain_pack/layers/parallax-mountain-mountains.1.png" type="Texture" id=7]
 [ext_resource path="res://TestMap/parallax-01.new.test.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/PortalNext.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/EnemySpawnPosition2D.tscn" type="PackedScene" id=10]
-[ext_resource path="res://EnemySkins/SkeletonWarriorWinter.tres" type="SpriteFrames" id=11]
-[ext_resource path="res://EnemySkins/EnemyHitWinter.tres" type="SpriteFrames" id=12]
+[ext_resource path="res://Enemy/EnemySkins/SkeletonWarriorWinter.tres" type="SpriteFrames" id=11]
+[ext_resource path="res://Enemy/EnemySkins/EnemyHitWinter.tres" type="SpriteFrames" id=12]
 
 [sub_resource type="TileSet" id=13]
 resource_local_to_scene = true
@@ -1035,7 +1035,7 @@ tile_data = PoolIntArray( -2424732, 13, 0, -2359198, 16, 0, -2359197, 17, 0, -23
 [node name="NPCRock" type="AnimatedSprite" parent="."]
 position = Vector2( 33, -329 )
 frames = SubResource( 24 )
-frame = 2
+frame = 7
 playing = true
 
 [node name="MissionDialogue" parent="NPCRock" instance=ExtResource( 5 )]
@@ -1052,7 +1052,6 @@ shape = SubResource( 46 )
 
 [node name="PortalNext2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1607, -530 )
-frame = 3
 
 [node name="CollisionShape2D" parent="PortalNext2/Area2D" index="0"]
 visible = false

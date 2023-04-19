@@ -103,12 +103,15 @@ func _on_Combo3_on_learned(_node):
 func on_celeb_audio_timer_finished():
 	celeb_audio.stop()
 
-func _on_DashAttack1_on_learned(node) -> void:
+func _on_DashAttack1_on_learned(_node) -> void:
 	PlayerStats.assassin_can_dash_attack = true
+	PlayerStats.assassin_dash_attack_damage = 9
 	_spawn_text("Press Q to dashattack")
 
-func _on_DashAttack2_on_learned(node) -> void:
+func _on_DashAttack2_on_learned(_node) -> void:
+	PlayerStats.assassin_dash_attack_damage = 14
 	_spawn_text("Dashattack slightly stronger")
 
-func _on_DashAttack3_on_learned(node) -> void:
+func _on_DashAttack3_on_learned(_node) -> void:
+	PlayerStats.assassin_dash_attack_damage = 25
 	_spawn_text("Dashattack signicantly stronger")

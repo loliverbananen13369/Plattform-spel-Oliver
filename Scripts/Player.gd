@@ -79,7 +79,6 @@ onready var dashtimer = $DashTimer
 onready var holybufftimer = $HolyBuffTimer
 onready var flashtimer = $FlashTimer
 onready var dashparticles = $DashParticles
-onready var attackparticles = $AttackParticles
 onready var tween = $Tween
 onready var skilltree = $SkillTreeInGame/Control/CanvasLayer
 onready var hurtbox = $HurtBox/CollisionShape2D
@@ -125,7 +124,7 @@ var has_leveled_up = false
 var testpos = Vector2.ZERO
 var testpos2 = Vector2.ZERO
 
-var smearsprite_q = "Smear1H"
+var smearsprite_q = "Smear2H"
 var smearsprite_w = "Smear1V"
 var smearsprite_e = "Smear3H"
 
@@ -358,7 +357,6 @@ func _flip_sprite(right: bool) -> void:
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
 	animatedsmears.position.x = 20 * variable
-	attackparticles.position.x = 20 * variable
 	area_ground_attack.position.x = 36 * variable
 	area_spin_attack.position.x = 34 * variable
 

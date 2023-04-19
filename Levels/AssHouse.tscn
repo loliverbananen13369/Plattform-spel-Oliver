@@ -6,7 +6,7 @@
 [ext_resource path="res://Scripts/AssHouse.gd" type="Script" id=4]
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Outside And Inside) Tileset.png" type="Texture" id=6]
 [ext_resource path="res://Dialogues/Dialouge.tscn" type="PackedScene" id=7]
-[ext_resource path="res://SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Font/SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=10]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )

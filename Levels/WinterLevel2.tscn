@@ -1,16 +1,16 @@
 [gd_scene load_steps=40 format=2]
 
-[ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Tileset Add on.winter.png" type="Texture" id=1]
+[ext_resource path="res://Imports/AncientCavesTileset/Tileset and SpriteSheets/Tileset Add on.winter.png" type="Texture" id=1]
 [ext_resource path="res://TestMap/parallax_mountain_pack/layers/parallax-mountain-montain-far.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BuildingBlock1.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TestMap/parallax_mountain_pack/layers/parallax-mountain-mountains.png" type="Texture" id=4]
 [ext_resource path="res://TestMap/parallax-00.new.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/EnemySpawnPosition2D.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/PortalNext.tscn" type="PackedScene" id=7]
-[ext_resource path="res://EnemySkins/SkeletonWarriorGreen.tres" type="SpriteFrames" id=8]
-[ext_resource path="res://EnemySkins/SkeletonWarriorWinter.tres" type="SpriteFrames" id=9]
-[ext_resource path="res://EnemySkins/EnemyHitWinter.tres" type="SpriteFrames" id=10]
-[ext_resource path="res://EnemySkins/EnemyHitGreen.tres" type="SpriteFrames" id=11]
+[ext_resource path="res://Enemy/EnemySkins/SkeletonWarriorGreen.tres" type="SpriteFrames" id=8]
+[ext_resource path="res://Enemy/EnemySkins/SkeletonWarriorWinter.tres" type="SpriteFrames" id=9]
+[ext_resource path="res://Enemy/EnemySkins/EnemyHitWinter.tres" type="SpriteFrames" id=10]
+[ext_resource path="res://Enemy/EnemySkins/EnemyHitGreen.tres" type="SpriteFrames" id=11]
 
 [sub_resource type="RectangleShape2D" id=15]
 resource_local_to_scene = true

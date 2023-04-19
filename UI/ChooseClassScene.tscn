@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://UI/ChooseClassScene.gd" type="Script" id=1]
-[ext_resource path="res://SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Font/SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Themes/MinimalUI/MinimalUI.tres" type="Theme" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://Themes/DarkTheme/Dark.theme" type="Theme" id=5]

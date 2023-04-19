@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Ancient Caves Tileset/Tileset and SpriteSheets/Ancient Rock Animations 36x51.png" type="Texture" id=1]
+[ext_resource path="res://Imports/AncientCavesTileset/Tileset and SpriteSheets/Ancient Rock Animations 36x51.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/PortalPrev.gd" type="Script" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
