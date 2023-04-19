@@ -22,10 +22,13 @@ onready var playerdetector = $PlayerDetector
 onready var playerneararea = $PlayerNearArea
 onready var enemydetector = $EnemyDetector
 onready var animationplayer = $AnimationPlayer
+onready var lt_timer = $LifeTimeTimer
+onready var soundp = $AudioStreamPlayer
 
 var ksanteq_scene = preload("res://Instance_Scenes/MageGolemKsanteQ.tscn")
 var ksanteqimpact_scene = preload("res://Instance_Scenes/KsanteQImpact.tscn")
 
+var alive := true
 var player
 var follow_this_enemy
 var must_follow_this_enemy
@@ -40,7 +43,9 @@ func _ready():
 	PlayerStats.connect("PlayerHurt", self, "on_PlayerHurt")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	PlayerStats.connect("EnemyHurt", self, "on_EnemyHurt")
-	player = PlayerStats.player#get_parent().get_child(3).get_child(1).get_child(0)
+	player = PlayerStats.player
+	lt_timer.start(PlayerStats.golem_life_time)
+	
 func _physics_process(delta: float) -> void:
 	match state:
 		IDLE:
@@ -300,16 +305,19 @@ func _enter_follow_enemy_state() -> void:
 		_enter_idle_state()
 
 
-		
+func _die():
+	animatedsprite.play("Death")
+	soundp.play()
+	
 
 func _on_PlayerNearArea_body_exited(body):
-	if state != ATTACK and state != FOLLOW_ENEMY:
+	if state != ATTACK and state != FOLLOW_ENEMY and alive:
 		if body.is_in_group("Player"):
 			yield(get_tree().create_timer(0.15), "timeout")
 			_enter_follow_player_state()
 
 func _on_PlayerNearArea_body_entered(body):
-	if state != ATTACK and state != FOLLOW_ENEMY:
+	if state != ATTACK and state != FOLLOW_ENEMY and alive:
 		if body.is_in_group("Player"):
 			yield(get_tree().create_timer(0.15), "timeout")
 			_enter_idle_state()
@@ -318,15 +326,15 @@ func _on_HitWallTimer_timeout():
 	_enter_air_state(true)
 
 func on_PlayerHurt():
-	#searching_for_enemy = false
-	animatedsprite.play("Angry")
-	yield(get_tree().create_timer(1),"timeout")
-	follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemy_who_hurt_list)
-	must_follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemy_who_hurt_list)
-	angry = true
-	_enter_follow_enemy_state()
-	$EnemyInRangeForAttack.set_deferred("monitoring", false)
-	$MustEnemyInRangeForAttack2.set_deferred("monitoring", true)
+	if alive:
+		animatedsprite.play("Angry")
+		yield(get_tree().create_timer(1),"timeout")
+		follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemy_who_hurt_list)
+		must_follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemy_who_hurt_list)
+		angry = true
+		_enter_follow_enemy_state()
+		$EnemyInRangeForAttack.set_deferred("monitoring", false)
+		$MustEnemyInRangeForAttack2.set_deferred("monitoring", true)
 
 func on_EnemyDead(body):
 	if is_instance_valid(must_follow_this_enemy):
@@ -346,7 +354,7 @@ func on_EnemyDead(body):
 
 	
 func on_EnemyHurt():
-	if state != ATTACK and state != FOLLOW_ENEMY:
+	if state != ATTACK and state != FOLLOW_ENEMY and alive:
 		if not is_instance_valid(follow_this_enemy):
 			if _check_if_enemy_in_radius():
 				follow_this_enemy = _get_closest_enemy(PlayerStats.enemies_for_golem)
@@ -359,14 +367,14 @@ func on_EnemyHurt():
 
 
 func _on_EnemyInRangeForAttack_body_entered(body):
-	if PlayerStats.enemies_for_golem.has(body) and state != ATTACK:
+	if PlayerStats.enemies_for_golem.has(body) and state != ATTACK and alive:
 		_enter_attack_state()
 
 
 
 	
 func _on_EnemyInRangeForAttack_body_exited(body):
-	if PlayerStats.enemies_for_golem.has(body):
+	if PlayerStats.enemies_for_golem.has(body) and alive:
 		if attack1_finished:
 			_enter_follow_enemy_state()
 		else:
@@ -374,25 +382,25 @@ func _on_EnemyInRangeForAttack_body_exited(body):
 
 
 func _on_MustEnemyInRangeForAttack2_body_entered(body):
-	if body == follow_this_enemy:
+	if body == follow_this_enemy and alive:
 		_enter_attack_state()
 
 func _on_MustEnemyInRangeForAttack2_body_exited(body):
-	if body == follow_this_enemy:
+	if body == follow_this_enemy and alive:
 		if attack1_finished:
 			_enter_follow_enemy_state()
 		else:
 			wants_to_follow_enemy = true
 
 func _on_EnemyDetector_body_entered(body):
-	if PlayerStats.enemies_for_golem.has(body):
+	if PlayerStats.enemies_for_golem.has(body) and alive:
 		_enter_follow_enemy_state()
 	
 	
 
 
 func _on_PlayerDetector_body_exited(body):
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") and alive:
 		_teleport_to_player()
 		PlayerStats.enemy_who_hurt_list.clear()
 		wants_to_follow_enemy = false
@@ -400,6 +408,10 @@ func _on_PlayerDetector_body_exited(body):
 	
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	if anim_name == "Die":
+		PlayerStats.golem_active = false
+		queue_free()
+	
 	if anim_name == "Attack1" or "Attack2":
 		attack1_finished = true
 		if $MustEnemyInRangeForAttack2.monitoring:
@@ -415,19 +427,14 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				_enter_follow_enemy_state()
 		else:
 			_enter_idle_state()
-	
-		
-
 
 func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
 	if anim_name == "Attack1":
 		attack1_finished = false
 
 
-
-
-
-
-
+func _on_LifeTimeTimer_timeout():
+	alive = false
+	_die()
 
 

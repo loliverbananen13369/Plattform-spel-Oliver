@@ -1,14 +1,13 @@
 extends Node
 
 
-const SAVE_PLAYER_STATS_FILE = "res://Data/PlayerStats.gd"
+
 var game_data = {}
 
-var player_instance = preload("res://Scenes/Player.tscn")#("res://Scenes/PlayerAssassin.tscn") ## ("res://Scenes/PlayerAssassin.tscn") #
+var player_instance = preload("res://Scenes/Player.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
 var player
-var ability1_learned = false
-var ability2_learned = false
-var golem_active = false
+
+
 var is_assassin = false
 var is_mage = false
 var current_lvl = 1
@@ -32,7 +31,7 @@ var enemy_who_hurt_list = []
 var enemies_hit_by_player = []
 var enemies_for_golem = []
 
-var skilltree_points = 0
+var skilltree_points = 20
 
 var assassin_can_dash_attack = false
 var assassin_combo_ewqe = "comboewqe1"
@@ -45,11 +44,24 @@ var assassin_dash_attack_dmg = 10
 var assassin_combo1_dmg = 10
 var assassin_combo2_dmg = 10
 var assassin_combo3_dmg = 10
-var assassin_dash_attack_damage = 10
 var assassin_clone_targets = 1
 var assassin_combo_list = []
 
+
 var mage_basic_dmg = 5
+var empowered_skeleton = false
+var dead_skeleton_dmg = 3
+var dead_skeleton_exp_dmg = 5
+var golem_dmg = 5
+var golem_life_time = 5.0
+var ability1_learned = false
+var ability2_learned = false
+var golem_active = false
+var can_add_ls = false
+var can_add_dark = false
+var can_add_holy = false
+var can_thrust = false
+var can_add_golem = false
 
 
 var visited_bs_house = false

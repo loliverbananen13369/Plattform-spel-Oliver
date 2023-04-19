@@ -36,20 +36,16 @@ func _on_darken(type: String) -> void:
 	if type == "lvl_up":
 		tween_values = [2.0, 0.9]
 	if type == "holy_mage":
-		tween_values = [4.0, 0.9]
+		tween_values = [0.5, 0.9]
+		length = 1.0
 	if type == "PrepareNecroMancer":
 		length = 0.45
-		tween_values = [0.9, 0.05]
+		tween_values = [0.9, 0.4]
 		start_tween(tween_values, length)
 		yield(get_tree().create_timer(0.5), "timeout")
 		frameFreeze(0.3, 0.6)
 		return
 	start_tween(tween_values, length)
-
-
-	
-func _on_TestTimer_timeout() -> void:
-	environment.tonemap_exposure = 0.9
 
 
 func _on_Tween_tween_all_completed() -> void:

@@ -1,10 +1,6 @@
 class_name Tester
 extends Node2D
-
-const LAUNCH_SPEED := 300
-
-
-var max_speed := 300
+var max_speed := 450
 
 onready var target = PlayerStats.player
 
@@ -12,8 +8,7 @@ var current_velocity := Vector2.ZERO
 
 onready var sprite := $Sprite
 
-onready var hitbox := $HitBox
-onready var player_detector := $PlayerDetector
+onready var hitbox := $HitBox/CollisionShape2D
 
 
 
@@ -26,8 +21,7 @@ func _physics_process(delta: float) -> void:
 	var direction := Vector2.ZERO.rotated(rotation).normalized()
 	
 	
-	if target:
-		direction = global_position.direction_to((target.global_position + Vector2(3, -5)))
+	direction = global_position.direction_to((target.global_position + Vector2(3, -5)))
 
 	var desired_velocity := direction * max_speed
 	var previous_velocity = current_velocity
@@ -35,12 +29,10 @@ func _physics_process(delta: float) -> void:
 	
 	current_velocity += change
 	sprite.scale.x += (current_velocity.x/300)
+	hitbox.scale.x += (current_velocity.x/300)
 	
 	position += current_velocity * delta
 	look_at(global_position + current_velocity)
-
-
-	
 
 
 func _on_HitBox_area_entered(area):

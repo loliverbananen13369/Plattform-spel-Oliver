@@ -3,4 +3,5 @@
 [node name="Node2D" type="Line2D"]
 show_behind_parent = true
 points = PoolVector2Array( 0, 0 )
-default_color = Color( 0.235294, 0.27451, 0.835294, 1 )
+width = 5.0
+default_color = Color( 1, 2.76563, 3, 1 )

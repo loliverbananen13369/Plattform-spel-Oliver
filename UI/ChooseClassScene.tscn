@@ -90,8 +90,6 @@ volume_db = -11.174
 pitch_scale = 0.5
 
 [connection signal="focus_entered" from="CanvasLayer/MageButton" to="." method="_on_MageButton_focus_entered"]
-[connection signal="focus_exited" from="CanvasLayer/MageButton" to="." method="_on_MageButton_focus_exited"]
 [connection signal="pressed" from="CanvasLayer/MageButton" to="." method="_on_MageButton_pressed"]
 [connection signal="focus_entered" from="CanvasLayer/AssassinButton" to="." method="_on_AssassinButton_focus_entered"]
-[connection signal="focus_exited" from="CanvasLayer/AssassinButton" to="." method="_on_AssassinButton_focus_exited"]
 [connection signal="pressed" from="CanvasLayer/AssassinButton" to="." method="_on_AssassinButton_pressed"]

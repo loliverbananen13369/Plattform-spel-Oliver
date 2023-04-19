@@ -22,7 +22,6 @@ func _input(event: InputEvent) -> void:
 	if can_interact:
 		if event.is_action_pressed("ui_accept"):
 			_check_dialogue()
-			print(event)
 			
 
 func _check_dialogue() -> void:
@@ -30,7 +29,7 @@ func _check_dialogue() -> void:
 		quest_d._start()
 	else:
 		normal_d._start()
-		#quest_d._start()
+
 
 func _on_QuestDialogue_dialogue_done(nr):
 	if nr == 1:#Quests.global_quest_id:

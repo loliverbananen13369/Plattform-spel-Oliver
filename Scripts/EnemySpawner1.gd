@@ -8,6 +8,7 @@ var list_of_lists = []
 export (SpriteFrames) var skin
 export (SpriteFrames) var hit
 export (int) var hp_max
+export (int) var damage_dealt
 export (String) var enemy_type
 export (Color) var enemy_hp_bar_color
 
@@ -19,6 +20,7 @@ func _ready() -> void:
 	skin = parent.skin
 	enemy_type = parent.enemy_type
 	hp_max = parent.hp_max
+	damage_dealt = parent.damage_dealt
 	enemy_hp_bar_color = parent.enemy_hp_bar_color
 	hit = parent.hit
 	timer.start(3)
@@ -52,9 +54,9 @@ func _spawn_warrior(area: int) -> void:
 	var diameter = parent.diameter
 	var frames = _get_enemy_skin()#_get_enemy_skin())
 	var hframes = _get_enemy_hit()
-	
 	warrior.type = enemy_type
 	warrior.hp_max = hp_max
+	warrior.damage_dealt = damage_dealt
 	warrior.get_node("AnimatedSprite").set_sprite_frames(frames)
 	warrior.get_node("Sprite").set_sprite_frames(hframes)
 	add_child(warrior)

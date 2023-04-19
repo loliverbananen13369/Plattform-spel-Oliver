@@ -1,4 +1,4 @@
-[gd_scene load_steps=274 format=2]
+[gd_scene load_steps=280 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Crouch/Battlemage Crouch.newass.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/JumpF/Jump Foward Going Up.mage.png" type="Texture" id=10]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Idle/Battlemage Idle.mage.png" type="Texture" id=11]
 [ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=12]
+[ext_resource path="res://Imports/Icons/Combo2.unlocked.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Attack1/Battlemage Attack 1 wo effect.mage.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Run/Battlemage Run.mage.png" type="Texture" id=15]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Hit/Hurt 1.ass1.png" type="Texture" id=16]
@@ -25,8 +26,13 @@
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/30_Jump_03.wav" type="AudioStream" id=24]
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/007_jump.wav" type="AudioStream" id=25]
 [ext_resource path="res://Sounds/ImportedSounds/AttackSounds/001_swing.wav" type="AudioStream" id=26]
+[ext_resource path="res://Imports/Icons/attack.png" type="Texture" id=27]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/Effects/Smears/Smear 03 Vertical 1.ass.png" type="Texture" id=28]
 [ext_resource path="res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav" type="AudioStream" id=29]
+[ext_resource path="res://Imports/Icons/Combo1Icon.unlocked.png" type="Texture" id=30]
+[ext_resource path="res://Imports/Icons/IconDashAttack.png" type="Texture" id=31]
+[ext_resource path="res://Imports/Icons/CloneIcon.png" type="Texture" id=32]
+[ext_resource path="res://Imports/Icons/Boomerang.png" type="Texture" id=33]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/Effects/Others/Thrust VFX 02 Color 1.new.png" type="Texture" id=39]
 [ext_resource path="res://Scripts/PlayerAssassin.gd" type="Script" id=46]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/Effects/Smears/Smear 07 Vertical 1.ass.png" type="Texture" id=47]
@@ -1516,6 +1522,18 @@ tracks/5/keys = {
 "update": 0,
 "values": [ Vector2( 2.5, 1.5 ) ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("NormalAttackArea/AirAttack:disabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=844]
 resource_name = "OnGroundAfterAttack"
@@ -1753,43 +1771,43 @@ resource_name = "Thrust2"
 length = 0.333333
 step = 0.0333333
 tracks/0/type = "value"
-tracks/0/path = NodePath("NormalAttackArea/AirAttack:scale")
+tracks/0/path = NodePath("SmearSprites:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.0333333, 0.0666667, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ Vector2( 4.5, 4 ), Vector2( 5.5, 4 ), Vector2( 5.5, 4 ), Vector2( 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("SmearSprites:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ "Thrust2" ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("SmearSprites:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("SmearSprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("SmearSprites:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 tracks/3/type = "value"
-tracks/3/path = NodePath("SmearSprites:visible")
+tracks/3/path = NodePath("SmearSprites:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1798,31 +1816,31 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ Vector2( 4, 4 ), Vector2( 4, 3.5 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("SmearSprites:scale")
+tracks/4/path = NodePath("PlayerSprite:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ Vector2( 4, 4 ), Vector2( 4, 3.5 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("PlayerSprite:modulate")
+tracks/5/path = NodePath("CutArea/AirAttack2:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.0333333, 0.0666667 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Vector2( 4.5, 5.5 ), Vector2( 5.5, 4 ) ]
 }
 
 [sub_resource type="Curve" id=513]
@@ -1910,15 +1928,14 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
 animation = "OnGround"
-frame = 8
+frame = 12
 playing = true
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
-visible = false
 modulate = Color( 3, 1.5, 1, 1 )
 position = Vector2( 10, -30 )
 frames = SubResource( 1266 )
-animation = "Smear3V"
+animation = "JumpAttack"
 frame = 4
 playing = true
 
@@ -1930,8 +1947,8 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 1267 )
 frames = SubResource( 51 )
-animation = "Attack1"
-frame = 7
+animation = "JumpAttack"
+frame = 1
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true
@@ -1974,22 +1991,22 @@ process_material = SubResource( 515 )
 texture = SubResource( 868 )
 
 [node name="NormalAttackArea" type="Area2D" parent="." groups=["PlayerSword"]]
-visible = false
 collision_layer = 2
 collision_mask = 2
 
 [node name="AttackGround" type="CollisionShape2D" parent="NormalAttackArea"]
+visible = false
 position = Vector2( 36, 5 )
 shape = SubResource( 829 )
 disabled = true
 
 [node name="AttackJump" type="CollisionShape2D" parent="NormalAttackArea"]
+visible = false
 position = Vector2( -20, -1 )
 shape = SubResource( 561 )
 disabled = true
 
 [node name="AirAttack" type="CollisionShape2D" parent="NormalAttackArea"]
-visible = false
 position = Vector2( -7, -5 )
 rotation = 0.785398
 shape = SubResource( 1268 )
@@ -2009,6 +2026,15 @@ one_shot = true
 [node name="SpinAttack" type="CollisionShape2D" parent="SwordCutArea"]
 position = Vector2( -34, 4 )
 shape = SubResource( 725 )
+disabled = true
+
+[node name="CutArea" type="Area2D" parent="." groups=["Cut"]]
+
+[node name="AirAttack2" type="CollisionShape2D" parent="CutArea"]
+visible = false
+position = Vector2( -7, -5 )
+rotation = 0.785398
+shape = SubResource( 1268 )
 disabled = true
 
 [node name="Position2D2" type="Position2D" parent="."]
@@ -2034,6 +2060,42 @@ shape = SubResource( 791 )
 visible = false
 
 [node name="SkillTreeInGameAssassin" parent="." instance=ExtResource( 23 )]
+
+[node name="BasicAttack4" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="1"]
+texture_normal = ExtResource( 27 )
+
+[node name="BasicAttack3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="2"]
+texture_normal = ExtResource( 27 )
+
+[node name="BasicAttack2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="3"]
+texture_normal = ExtResource( 27 )
+
+[node name="DashAttack3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="4"]
+texture_normal = ExtResource( 31 )
+
+[node name="DashAttack2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="5"]
+texture_normal = ExtResource( 31 )
+
+[node name="Combo2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="6"]
+texture_normal = ExtResource( 13 )
+
+[node name="Combo3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="7"]
+texture_normal = ExtResource( 33 )
+
+[node name="Clone3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="8"]
+texture_normal = ExtResource( 32 )
+
+[node name="Clone2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="9"]
+texture_normal = ExtResource( 32 )
+
+[node name="Clone1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="10"]
+texture_normal = ExtResource( 32 )
+
+[node name="Combo1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="11"]
+texture_normal = ExtResource( 30 )
+
+[node name="DashAttack1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="12"]
+texture_normal = ExtResource( 31 )
 
 [node name="DashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 24 )

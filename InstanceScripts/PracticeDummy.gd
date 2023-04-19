@@ -23,7 +23,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_air_movement(delta)
-	print(global_position.y)
 	if is_on_floor() or global_position.y >= -22:
 		_stop_physics()
 		return

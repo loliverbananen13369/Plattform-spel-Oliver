@@ -1,6 +1,7 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://Scripts/MageGolem.gd" type="Script" id=1]
+[ext_resource path="res://Sounds/ImportedSounds/JumpSounds/007_meow.wav" type="AudioStream" id=2]
 [ext_resource path="res://Battlemage Fantasy Character/NecromancerSprites/Golem/Earth Elemental (56x56).test1.png" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape2D" id=58]
@@ -297,9 +298,9 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 120 ), SubResource( 121 ), SubResource( 122 ), SubResource( 123 ), SubResource( 124 ), SubResource( 125 ), SubResource( 126 ), SubResource( 127 ), SubResource( 128 ), SubResource( 129 ), SubResource( 130 ), SubResource( 131 ), SubResource( 132 ), SubResource( 133 ) ],
-"loop": true,
+"loop": false,
 "name": "Death",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [ SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ) ],
 "loop": true,
@@ -420,6 +421,46 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1.6, 0, 2, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=134]
+resource_name = "Die"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Death" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Attack1Area/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+}
+
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["MageGolem"]]
 collision_layer = 256
 collision_mask = 2064
@@ -432,8 +473,8 @@ shape = SubResource( 58 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 57 )
-animation = "Attack2"
-frame = 7
+animation = "Death"
+frame = 13
 playing = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]
@@ -506,10 +547,19 @@ modulate = Color( 0.866667, 0.0627451, 0.364706, 1 )
 position = Vector2( 12, 0 )
 scale = Vector2( 2.5, 1 )
 shape = SubResource( 62 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack1 = SubResource( 63 )
 anims/Attack2 = SubResource( 110 )
+anims/Die = SubResource( 134 )
+
+[node name="LifeTimeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = -10.0
 
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
 [connection signal="body_entered" from="PlayerNearArea" to="." method="_on_PlayerNearArea_body_entered"]
@@ -522,3 +572,4 @@ anims/Attack2 = SubResource( 110 )
 [connection signal="body_exited" from="MustEnemyInRangeForAttack2" to="." method="_on_MustEnemyInRangeForAttack2_body_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
+[connection signal="timeout" from="LifeTimeTimer" to="." method="_on_LifeTimeTimer_timeout"]

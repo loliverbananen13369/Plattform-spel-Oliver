@@ -47,10 +47,6 @@ signal quest_accepted(person)
 signal quest_completed()
 signal xp_changed()
 signal quest_delivered(person)
-signal Hubby_available()
-signal Hubby_accepted()
-signal Katalina_available()
-signal Katalina_accepted()
 signal EnemyDead(type)
 
 

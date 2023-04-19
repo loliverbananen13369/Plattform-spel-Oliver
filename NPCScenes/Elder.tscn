@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://CityHall/NPC/elder.png" type="Texture" id=1]
 [ext_resource path="res://NPCScripts/Elder.gd" type="Script" id=2]
@@ -30,16 +30,6 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="DynamicFontData" id=16]
-resource_local_to_scene = true
-antialiased = false
-font_path = "res://SRAFreePixelFontPack/PixelMiddle.ttf"
-
-[sub_resource type="DynamicFont" id=17]
-resource_local_to_scene = true
-size = 23
-font_data = SubResource( 16 )
-
 [sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 22.5, 14.125 )
 
@@ -47,7 +37,7 @@ extents = Vector2( 22.5, 14.125 )
 position = Vector2( 666, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 28 )
-frame = 1
+frame = 3
 playing = true
 script = ExtResource( 2 )
 person = "Hubby"
@@ -58,7 +48,6 @@ margin_top = -38.0
 margin_right = 60.0
 margin_bottom = -17.0
 custom_colors/font_color = Color( 0.854902, 0.52549, 0.243137, 1 )
-custom_fonts/font = SubResource( 17 )
 text = "Town's hubby"
 
 [node name="Area2D" type="Area2D" parent="."]

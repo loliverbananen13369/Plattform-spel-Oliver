@@ -263,3 +263,7 @@ percent_visible = false
 anims/LowHP = SubResource( 14 )
 anims/RESET = SubResource( 15 )
 anims/TakeDamage = SubResource( 16 )
+
+[node name="Tween2" type="Tween" parent="."]
+
+[node name="Tween3" type="Tween" parent="."]

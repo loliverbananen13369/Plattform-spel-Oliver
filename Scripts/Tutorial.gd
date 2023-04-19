@@ -9,7 +9,7 @@ var area
 var croucharea = false
 
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
-var portal_scene = preload("res://Scenes/PortalNext.tscn")
+var portal_scene = preload("res://Instance_Scenes/PortalAuto.tscn")
 
 var next_scene
 var walk_sprite_values = [-146, -136]
@@ -58,46 +58,54 @@ func _input(event: InputEvent) -> void:
 			$CrouchArea/Sprite.visible = true
 			animp.play("CrouchArea")
 	
-func _on_WalkArea_body_entered(body: Node) -> void:
-	$WalkArea/Sprite.visible = true
-	animp.play("WalkArea")
+func _on_WalkArea_body_entered(body) -> void:
+	if body.is_in_group("Player"):
+		$WalkArea/Sprite.visible = true
+		animp.play("WalkArea")
 
-func _on_WalkArea_body_exited(body: Node) -> void:
-	$WalkArea/Sprite.visible = false
-	animp.stop(true)
-
-
-func _on_JumpArea_body_entered(body: Node) -> void:
-	$JumpArea/Sprite.visible = true
-	animp.play("JumpArea")
+func _on_WalkArea_body_exited(body) -> void:
+	if body.is_in_group("Player"):
+		$WalkArea/Sprite.visible = false
+		animp.stop(true)
 
 
-func _on_JumpArea_body_exited(body: Node) -> void:
-	$JumpArea/Sprite.visible = false
-	animp.stop(true)
+func _on_JumpArea_body_entered(body) -> void:
+	if body.is_in_group("Player"):
+		$JumpArea/Sprite.visible = true
+		animp.play("JumpArea")
 
 
-func _on_CrouchArea_body_entered(body: Node) -> void:
-	$CrouchArea/Sprite.visible = true
-	animp.play("CrouchArea")
-	croucharea = true
+func _on_JumpArea_body_exited(body) -> void:
+	if body.is_in_group("Player"):
+		$JumpArea/Sprite.visible = false
+		animp.stop(true)
+
+
+func _on_CrouchArea_body_entered(body) -> void:
+	if body.is_in_group("Player"):
+		$CrouchArea/Sprite.visible = true
+		animp.play("CrouchArea")
+		croucharea = true
 
 
 
-func _on_CrouchArea_body_exited(body: Node) -> void:
-	croucharea = false
-	$CrouchArea/Sprite.visible = false
-	$CrouchShiftArea/Sprite.visible = false
-	animp.stop(true)
+func _on_CrouchArea_body_exited(body) -> void:
+	if body.is_in_group("Player"):
+		croucharea = false
+		$CrouchArea/Sprite.visible = false
+		$CrouchShiftArea/Sprite.visible = false
+		animp.stop(true)
 
 
-func _on_DashArea_body_entered(body: Node) -> void:
-	$DashArea/Sprite.visible = true
-	animp.play("DashArea")
+func _on_DashArea_body_entered(body) -> void:
+	if body.is_in_group("Player"):
+		$DashArea/Sprite.visible = true
+		animp.play("DashArea")
 
-func _on_DashArea_body_exited(body: Node) -> void:
-	$DashArea/Sprite.visible = false
-	animp.stop(true)
+func _on_DashArea_body_exited(body) -> void:
+	if body.is_in_group("Player"):
+		$DashArea/Sprite.visible = false
+		animp.stop(true)
 
 
 func _on_AttackArea_body_entered(body):
@@ -109,12 +117,14 @@ func _on_AttackArea_body_entered(body):
 
 
 func _on_AttackArea_body_exited(body):
-	$AttackArea/Sprite.visible = false
-	animp.stop(true)
+	if body.is_in_group("Player"):
+		$AttackArea/Sprite.visible = false
+		animp.stop(true)
 
 func on_TutorialFinished():
 	var portal = portal_scene.instance()
-	portal.global_position = Vector2(2500, -30)
+	portal.next_scene = PlayerStats.next_scene
+	portal.global_position = Vector2(2404, -64)
 	add_child(portal)
 	Quests.emit_signal("TutorialFinished")
 

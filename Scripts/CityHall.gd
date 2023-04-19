@@ -2,8 +2,6 @@ extends Node2D
 
 var can_accept = false
 var entered_bs_house = false
-var entered_portal = false
-var entered_portal2 = false
 var entered_well = false
 var entered_katalina = false
 var can_start_d = false
@@ -25,13 +23,11 @@ func _ready():
 
 	if PlayerStats.first_time:
 		_load_cutscene(1)
-		yield(get_tree().create_timer(21.0), "timeout")
+		yield(get_tree().create_timer(40.5), "timeout")
 	set_process_unhandled_input(true)
 
 	$Bshouse.rect_position.x = -87#(-87, -110)
 	$Bshouse.visible = false
-	$PortalLabel.rect_position.x = 1032
-	$PortalLabel.visible = false
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(100, -20)
@@ -44,7 +40,6 @@ func _ready():
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -220
 	get_node("PlayerNode").add_child(player)
-	print("child added")
 	get_node("PlayerNode").add_child(target)
 	#get_child(1).add_child(target)
 	PlayerStats.player = player
@@ -52,10 +47,6 @@ func _ready():
 	PlayerStats.visited_katalina_house = false
 	Quests.connect("ClassChosen2", self, "_on_class_chosen")
 	Quests.connect("TutorialFinished2", self, "_on_tutorial_finished")
-	
-	#Quests.connect("quest_available", self, "on_quest_available")
-	#Quests.emit_signal("quest_available", "Hubby")
-	#Quests.send_quest_available()
 	PlayerStats.ground_color = "752438"
 	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
 	PlayerStats.connect("ChooseClass", self, "_on_choose_class")
@@ -63,7 +54,6 @@ func _ready():
 
 func _load_cutscene(time: int):
 	if time == 1:
-		print(time)
 		cutscene_finished = false
 		var player_intro = intro_player_scene.instance()
 		var bar = blackbar.instance()
@@ -73,16 +63,17 @@ func _load_cutscene(time: int):
 		player_intro.get_node("AnimationPlayer")
 		yield(get_tree().create_timer(6), "timeout")
 		$Elder.flip_h = true
-		yield(get_tree().create_timer(15), "timeout")
+		#yield(get_tree().create_timer(34), "timeout")
+		yield(get_tree().create_timer(1.0), "timeout")
 		PlayerStats.first_time = false
 		emit_signal("cutscene")
 
 func _on_Area2D_body_entered(body):
-	#PlayerStats.next_scene = "res://Scenes/BlackSmithsHouse.tscn"
-	next_scene = "res://Levels/BlackSmithsHouse.tscn"
-	can_accept = true
-	can_start_d = false
-	anim.play("BSHouse")
+	if body.is_in_group("Player"):
+		next_scene = "res://Levels/BlackSmithsHouse.tscn"
+		can_accept = true
+		can_start_d = false
+		anim.play("BSHouse")
 func _on_Area2D_body_exited(body):
 	can_accept = false
 	anim.stop(true)
@@ -91,27 +82,8 @@ func _on_Area2D_body_exited(body):
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
 		if can_accept and cutscene_finished:
-			if entered_portal2:
-				pass
 			Transition.load_scene(next_scene)#PlayerStats.next_scene)
 	
-			
-
-
-func _on_Portal_body_entered(body):
-	if body.is_in_group("Player"):
-		can_accept = true
-		can_start_d = false
-		#PlayerStats.next_scene = "res://NewTestWorld.tscn"
-		next_scene = "res://NewTestWorld.tscn"
-		anim.play("Portal")
-
-
-func _on_Portal_body_exited(body):
-	can_accept = false
-	anim.stop(true)
-	$PortalLabel.visible = false
-
 
 func _on_Well_body_entered(body: Node) -> void:
 	if body.is_in_group("Player"):
@@ -128,8 +100,6 @@ func _on_Well_body_exited(body: Node) -> void:
 	can_start_d = false
 	PlayerStats.can_s_d = false
 
-func _on_Elder_body_entered(body: Node) -> void:
-	pass # Replace with function body.
 
 
 func _on_AssHouseDoor_body_entered(body: Node) -> void:
@@ -147,18 +117,6 @@ func _on_AssHouseDoor_body_exited(body: Node) -> void:
 	$AssHouseDoor/AssHouseLabel.visible = false
 
 
-func _on_Portal2_body_entered(body: Node) -> void:
-	if body.is_in_group("Player"):
-		can_accept = true
-		can_start_d = false
-		PlayerStats.next_scene = "res://Levels/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
-		next_scene = PlayerStats.next_scene
-		#next_scene = "res://Scenes/WinterLevel1.tscn"#"res://Scenes/NewTestWorld.tscn"
-
-func _on_Portal2_body_exited(body: Node) -> void:
-	can_accept = false
-	anim.stop(true)
-	$PortalLabel2.visible = false
 
 func _on_CityHall_cutscene() -> void:
 	cutscene_finished = true
@@ -168,6 +126,7 @@ func _on_tutorial_finished():
 	Quests.send_quest_available()
 
 func _on_class_chosen():
+	print("hejj")
 	Quests.get_node("Hubby").get_node("TalkQuest").emit_signal("talk_finished")
 
 func _on_choose_class() -> void:

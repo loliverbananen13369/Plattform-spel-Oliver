@@ -54,6 +54,7 @@ signal LvlUp(current_lvl, xp_needed)
 
 const JUMP_SOUNDS = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
 const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/AttackSounds/001_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/002_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/003_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/004_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/005_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/006_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/007_swing.wav")]
+const DEATH_SOUND = preload("res://Sounds/ImportedSounds/JumpSounds/001_we-lost.wav")
 var footstep_sounds 
 
 
@@ -90,6 +91,7 @@ onready var area_ground_attack = $NormalAttackArea/AttackGround
 onready var area_jump_attack = $NormalAttackArea/AttackJump
 onready var area_air_attack = $NormalAttackArea/AirAttack
 onready var area_spin_attack = $SwordCutArea/SpinAttack
+onready var cut_area = $CutArea/AirAttack2
 onready var dashsound = $DashSound
 onready var jumpsound = $JumpSound
 onready var attacksound = $AttackSound
@@ -108,8 +110,9 @@ onready var hud = $HUD
 
 
 var basic_attack_dmg = PlayerStats.assassin_basic_dmg
-var dash_attack_dmg = PlayerStats.assassin_dash_attack_damage
+var dash_attack_dmg = PlayerStats.assassin_dash_attack_dmg
 var spin_attack_dmg := 15
+var cut_dmg := 15
 export (Vector2) var tester := Vector2.ZERO
 
 
@@ -138,6 +141,9 @@ var max_energy = 50
 var current_xp = 0
 var current_lvl = 1
 var previous_state = IDLE
+
+var dark_buff_active := false
+var holy_buff_active := false
 
 
 
@@ -195,6 +201,7 @@ func set_active(active):
 	#Om jag vill avaktivera spelaren
 
 func check_sprites():
+	cut_area.disabled = true
 	area_air_attack.disabled = true
 	area_ground_attack.disabled = true
 	area_jump_attack.disabled = true
@@ -388,7 +395,7 @@ func _add_buff(buff_name: String) -> void:
 	var effect1 = buff.get_child(0)
 	buff.global_position = playersprite.global_position 
 	if buff_name == "lvl_up":
-		effect1.animation = "holy_mage_test1"
+		effect1.animation = "lvl_up"
 	get_tree().get_root().add_child(buff)
 	
 
@@ -526,6 +533,11 @@ func _add_assassin_ghost(dash: bool):
 
 func _die(hp):
 	if hp <= 0:
+		dashsound.stop()
+		dashsound.stream = DEATH_SOUND
+		dashsound.pitch_scale = 1.0
+		dashsound.volume_db = 30
+		dashsound.play()
 		state = DEAD
 		hurtbox.set_deferred("disabled", true)
 		set_physics_process(false)
@@ -879,14 +891,14 @@ func _attack_state_air(delta) -> void:
 	hurtbox.disabled = true
 	if direction_x != "RIGHT":
 		animatedsmears.rotation_degrees = -45
-		area_air_attack.rotation_degrees = -45
+		cut_area.rotation_degrees = -45
 		velocity.x = -MAX_SPEED*10
 	else: 
 		animatedsmears.rotation_degrees = 45
-		area_air_attack.rotation_degrees = 45
+		cut_area.rotation_degrees = 45
 		velocity.x = MAX_SPEED*10
 	animationplayer.play("Thrust2")
-	area_air_attack.disabled = false
+	cut_area.disabled = false
 	velocity.y = GRAVITY*2
 	
 	
@@ -1102,7 +1114,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		state = ATTACK_AIR
 	if anim_name == "Thrust2":
 		hurtbox.disabled = false
-		area_air_attack.disabled = true
+		cut_area.disabled = true
 		animatedsmears.rotation_degrees = 0
 		if is_on_floor():
 			velocity.x = 0
@@ -1137,6 +1149,8 @@ func _on_attack_damage_changed(type):
 	if type == "basic_attack_damage":
 		life_steal = PlayerStats.life_steal
 		basic_attack_dmg = PlayerStats.assassin_basic_dmg
+	if type == "dash_attack_damage":
+		dash_attack_dmg = PlayerStats.assassin_dash_attack_dmg
 
 func _on_xp_changed() -> void:
 	_change_xp()

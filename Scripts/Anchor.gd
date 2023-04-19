@@ -8,7 +8,7 @@ func _ready() -> void:
 	pass
 
 
-func _process(delta):
+func _process(_delta):
 	var target = player.global_position
 	var target_pos_x
 	var target_pos_y

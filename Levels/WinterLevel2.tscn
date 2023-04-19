@@ -1104,7 +1104,8 @@ amount_allowed = 8
 diameter = 490
 skin = ExtResource( 8 )
 hit = ExtResource( 11 )
-hp_max = 50
+hp_max = 100
+damage_dealt = 8
 enemy_type = "grass"
 enemy_hp_bar_color = Color( 0.0235294, 0.458824, 0.215686, 1 )
 
@@ -1118,7 +1119,8 @@ amount_allowed = 8
 diameter = 570
 skin = ExtResource( 8 )
 hit = ExtResource( 11 )
-hp_max = 50
+hp_max = 100
+damage_dealt = 8
 enemy_type = "grass"
 enemy_hp_bar_color = Color( 0.0235294, 0.458824, 0.215686, 1 )
 
@@ -1135,7 +1137,8 @@ amount_allowed = 6
 diameter = 390
 skin = ExtResource( 9 )
 hit = ExtResource( 10 )
-hp_max = 20
+hp_max = 50
+damage_dealt = 4
 enemy_type = "ice"
 enemy_hp_bar_color = Color( 0.643137, 0.866667, 0.858824, 1 )
 
@@ -1149,7 +1152,8 @@ amount_allowed = 6
 diameter = 400
 skin = ExtResource( 8 )
 hit = ExtResource( 11 )
-hp_max = 50
+hp_max = 100
+damage_dealt = 8
 enemy_type = "ice"
 enemy_hp_bar_color = Color( 0.0235294, 0.458824, 0.215686, 1 )
 
@@ -1165,7 +1169,7 @@ tile_data = PoolIntArray( 262196, 10, 0, 327720, 5, 0, 458755, 30, 0, 458756, 31
 
 [node name="PortalNext" parent="." index="3" instance=ExtResource( 7 )]
 position = Vector2( 1000, 416 )
-frame = 2
+frame = 10
 
 [node name="MainTileMap" parent="." index="4"]
 tile_set = SubResource( 1 )

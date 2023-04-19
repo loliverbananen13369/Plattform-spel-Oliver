@@ -1,9 +1,6 @@
 extends Node2D
 
 #Assassin
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
 onready var celeb_audio = $AudioStreamPlayer
 onready var celeb_audio_timer = $Timer
@@ -15,9 +12,6 @@ var dark_tween_time := 4.0
 
 const TEXT = preload("res://Instance_Scenes/NewSkillAssassin.tscn")
 
-# Called when the node enters the scene tree for the first time.
-
-	
 func _ready():
 	celeb_audio_timer.connect("timeout", self, "on_celeb_audio_timer_finished")
 
@@ -33,10 +27,12 @@ func _spawn_text(skill: String):
 
 	text.get_node("CanvasLayer/Label").text = str(skill)
 	anim.play("default")
-	#text.global_position = Vector2(205, 120)
-	#text.global_position = global_position + Vector2(-direction_x*5, -30)
 	get_tree().current_scene.add_child(text)
 	_new_skill()
+
+func on_celeb_audio_timer_finished():
+	celeb_audio.stop()
+
 
 func _on_BasicAttack1_on_learned(_node):
 	PlayerStats.assassin_smearsprite_q = "Smear6H"
@@ -57,7 +53,6 @@ func _on_BasicAttack2_on_learned(_node):
 	_spawn_text("BasicAttack evolved!")
 
 func _on_BasicAttack3_on_learned(_node):
-
 	PlayerStats.assassin_smearsprite_q = "Smear10H"
 	PlayerStats.assassin_smearsprite_w = "Smear10V"
 	PlayerStats.assassin_smearsprite_e = "Smear10H"
@@ -98,20 +93,18 @@ func _on_Combo2_on_learned(_node):
 
 func _on_Combo3_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([2, 1, 3, 2])
-	_spawn_text("Combo2 learned!")
+	_spawn_text("Combo3 learned!")
 
-func on_celeb_audio_timer_finished():
-	celeb_audio.stop()
 
 func _on_DashAttack1_on_learned(_node) -> void:
 	PlayerStats.assassin_can_dash_attack = true
-	PlayerStats.assassin_dash_attack_damage = 9
+	PlayerStats.assassin_dash_attack_dmg = 9
 	_spawn_text("Press Q to dashattack")
 
 func _on_DashAttack2_on_learned(_node) -> void:
-	PlayerStats.assassin_dash_attack_damage = 14
+	PlayerStats.assassin_dash_attack_dmg = 14
 	_spawn_text("Dashattack slightly stronger")
 
 func _on_DashAttack3_on_learned(_node) -> void:
-	PlayerStats.assassin_dash_attack_damage = 25
+	PlayerStats.assassin_dash_attack_dmg = 30
 	_spawn_text("Dashattack signicantly stronger")

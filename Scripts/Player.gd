@@ -47,6 +47,7 @@ signal LvlUp(current_lvl, xp_needed)
 
 const JUMP_SOUNDS = [preload("res://Sounds/ImportedSounds/JumpSounds/004_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/003_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/001_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/007_jump.wav"), preload("res://Sounds/ImportedSounds/JumpSounds/002_jump.wav")]
 const ATTACK_SOUNDS = [preload("res://Sounds/ImportedSounds/AttackSounds/001_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/002_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/003_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/004_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/005_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/006_swing.wav"), preload("res://Sounds/ImportedSounds/AttackSounds/007_swing.wav")]
+const DEATH_SOUND = preload("res://Sounds/ImportedSounds/JumpSounds/001_we-lost.wav")
 var footstep_sounds 
 
 var ghost_scene = preload("res://Instance_Scenes/GhostDashMage.tscn")
@@ -56,7 +57,6 @@ var dust_scene = preload("res://Instance_Scenes/ParticlesDust.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
 var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
-var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
 var dash_smoke_scene = preload("res://Instance_Scenes/DashSmoke.tscn")
 var pet_scene = preload("res://Instance_Scenes/MageGolem.tscn")
@@ -68,8 +68,9 @@ var ghosttime := 0.0
 var crouchtime := 0.0
 var attacktime := 0.0
 
-var player_glow_array = [4.55, 4.2, 3.5, 1]
+var player_glow_array = [0.79, 0, 0.73, 1.0]
 var player_default_array = [1, 1, 1, 1]
+var player_holy_array = [0.8, 0.4, 0.8, 1.0]
 
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
@@ -77,6 +78,7 @@ onready var animationplayer = $AnimationPlayer
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var holybufftimer = $HolyBuffTimer
+onready var darkbufftimer = $DarkBuffTimer
 onready var flashtimer = $FlashTimer
 onready var dashparticles = $DashParticles
 onready var tween = $Tween
@@ -99,15 +101,30 @@ onready var acid2shape = $Acid2Area/Acid2
 onready var acid5area = $Acid5Area
 onready var acid5shape = $Acid5Area/Acid5
 onready var cut = $CutSprite
+onready var cutarea = $CutArea/CollisionShape2D
+onready var hud = $HUD
 
 var basic_attack_dmg = PlayerStats.mage_basic_dmg
-var spin_attack_dmg := 15
-export var damage_ability1 := 10
-export var damage_ability2 := 25
-export var holy_buff_active := false
-export var dark_buff_active := false
-export var test_active := false
-export (Vector2) var tester := Vector2.ZERO
+var dead_skeleton_dmg = PlayerStats.dead_skeleton_dmg
+var dead_skeleton_exp_dmg = PlayerStats.dead_skeleton_exp_dmg
+var golem_dmg = PlayerStats.golem_dmg
+var can_add_ls = PlayerStats.can_add_ls
+var can_add_dark = PlayerStats.can_add_dark
+var can_add_holy = PlayerStats.can_add_holy
+var can_thrust = PlayerStats.can_thrust
+var can_add_golem = PlayerStats.can_add_golem
+var golem_life_time = PlayerStats.golem_life_time
+var ability1_learned = PlayerStats.ability1_learned
+var ability2_learned = PlayerStats.ability2_learned
+var golem_active = PlayerStats.golem_active
+var spin_attack_dmg := 7
+var cut_dmg := 50
+var damage_ability1 := 10
+var damage_ability2 := 25
+var holy_buff_active := false
+var dark_buff_active := false
+var test_active := false
+var tester := Vector2.ZERO
 
 var can_attack_sound = true
 var can_footstep_sound = true
@@ -142,14 +159,17 @@ var ability_anim
 
 
 func _ready() -> void:
-	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed") #Onödigt?
+	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed") 
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	Quests.connect("xp_changed", self, "_on_xp_changed")
+	playersprite.play("Idle")
 	playersprite.visible = true
 	animationplayer.playback_speed = 1
 	skilltree.visible = false 
 	footstep_sounds = PlayerStats.footsteps_sound
-	
+	hud.visible = true
+	cut.visible = false
+
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -319,32 +339,27 @@ func _check_sprites() -> void:
 	abilitysprites.visible = false
 	animatedsmears.visible = false
 	can_attack = true
-	_set_player_mod(player_default_array)
+	if not holy_buff_active:
+		_set_player_mod(player_default_array)
 
 func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		PlayerStats.hp = hp
 	if event.is_action_pressed("SkillTree"):
 		skilltree.visible = true
 		
 	if event.is_action_released("SkillTree"):
 		skilltree.visible = false
 	
-	if event.is_action_pressed("HolyBuff1") and not holy_buff_active:
+	if event.is_action_pressed("HolyBuff1") and not holy_buff_active and can_add_holy:
 		_add_buff("holy")
-		_add_holy_particles(10)
-		holybufftimer.start(5)
-		holy_buff_active = true
-		can_take_damage = false
 
-	if event.is_action_pressed("DarkBuff") and not dark_buff_active:
+	if event.is_action_pressed("DarkBuff") and not dark_buff_active and can_add_dark:
 		_add_buff("dark2")
 		dark_buff_active = true
-		yield(get_tree().create_timer(7.2), "timeout")
-		dark_buff_active = false
+		darkbufftimer.start(7.2)
+		
 	
-	if event.is_action_pressed("Fx000"):
-		test_active = true
-		yield(get_tree().create_timer(10), "timeout")
-		test_active = false
 
 func _flip_sprite(right: bool) -> void:
 	var variable
@@ -365,6 +380,8 @@ func _add_pet():
 		var pet = pet_scene.instance()
 		pet.global_position = global_position + Vector2(20, -10)
 		get_tree().get_root().add_child(pet)
+		hp -= 10
+		emit_signal("HPChanged", hp)
 		#PlayerStats.emit_signal("GolemStatus")
 
 func _add_crouch_ghost() -> void:
@@ -430,13 +447,6 @@ func _add_jump_dust() -> void:
 	dust.global_position = playersprite.global_position + Vector2(0, 15)
 	get_tree().get_root().add_child(dust)
 
-func _add_holy_particles(amount: int) -> void:
-	for i in range(amount):
-		var particles = holy_particles_scene.instance()
-		particles.global_position = global_position
-		particles.emitting = true
-		get_tree().get_root().add_child(particles)
-		yield(get_tree().create_timer(0.5), "timeout")
 
 func _add_buff(buff_name: String) -> void:
 	var buff = buff_scene.instance()
@@ -445,21 +455,20 @@ func _add_buff(buff_name: String) -> void:
 	if buff_name == "lvl_up":
 		effect1.animation = "lvl_up"
 	if buff_name == "holy":
-		effect1.animation = "holy_mage_test1"
-		playersprite.modulate.r = 2
-		playersprite.modulate.g = 2
-		playersprite.modulate.b = 2
+		effect1.animation = "holy"
+		_set_player_mod(player_holy_array)
+		holybufftimer.start(5)
+		holy_buff_active = true
+		can_take_damage = false
 		WorldEnv.emit_signal("Darken", "holy_mage")
 	if buff_name == "dark2":
 		effect1.animation = "dark2"
 	if buff_name == "lifesteal_particles":
 		effect1.animation = "lifesteal_particles"
-	if buff_name == "life_steal":
-		effect1.animation = "life_steal"
-		playersprite.modulate.r8 = 255
-		playersprite.modulate.g8 = 130
-		playersprite.modulate.b8 = 116
+		_add_hp(3)
+		emit_signal("HPChanged", hp)
 	get_tree().get_root().add_child(buff)
+
 	
 """
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
@@ -469,6 +478,11 @@ func _add_buff(buff_name: String) -> void:
 			if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
 				closest_enemy = all_enemy[i]
 """
+
+func _add_hp(amount: int) -> void:
+	if hp < 100:
+		hp += amount
+		emit_signal("HPChanged", hp)
 
 func take_damage(amount: int, direction: int) -> void:
 	_enter_hurt_state()
@@ -502,6 +516,11 @@ func _get_smearsprite(button: String):
 
 func _die(hp):
 	if hp <= 0:
+		dashsound.stop()
+		dashsound.stream = DEATH_SOUND
+		dashsound.pitch_scale = 1.0
+		dashsound.volume_db = 30
+		dashsound.play()
 		state = DEAD
 		hurtbox.set_deferred("disabled", true)
 		set_physics_process(false)
@@ -542,9 +561,9 @@ func _remember_attack() -> void:
 	
 func player_stats():
 	if holy_buff_active:
-		basic_attack_dmg = 10
-		damage_ability1 = 20
-		damage_ability2 = 100
+		basic_attack_dmg *= 2
+		damage_ability1 *= 2
+		damage_ability2 *= 2
 		return
 	if dark_buff_active:
 		basic_attack_dmg = 7
@@ -554,7 +573,7 @@ func player_stats():
 	else:
 		basic_attack_dmg = 5
 		damage_ability1 = 10
-		damage_ability2 = 50
+		damage_ability2 = 25
 
 func _level_up():
 	if PlayerStats.current_xp >= PlayerStats.xp_needed:
@@ -577,7 +596,9 @@ func _set_sprite_position(anim_name):
 		dir = -1
 	if anim_name == "Thrust":
 		cut.position = Vector2(-38*dir, -45)
+		cutarea.position = Vector2(-53*dir, -65)
 		cut.rotation_degrees = 45*dir
+		cutarea.rotation_degrees = cut.rotation_degrees
 	if anim_name == "Ability1":
 		abilitysprites.position = Vector2(51*dir, 9)
 		acid2shape.position.x = 52*dir
@@ -590,8 +611,8 @@ func _set_sprite_position(anim_name):
 func _add_preparing_attack_particles(amount) -> void:
 	for n in range (amount):
 		rng.randomize()
-		var nrx = rng.randi_range(-100, 100)
-		var nry = rng.randi_range(-100, 100)
+		var nrx = rng.randi_range(-200, 200)
+		var nry = rng.randi_range(-200, 200)
 		var particles = prepare_attack_particles_scene.instance()
 		particles.global_position = playersprite.global_position + Vector2(nrx, nry)
 		get_tree().get_root().add_child(particles)
@@ -605,7 +626,7 @@ func _idle_state(delta) -> void:
 		_enter_air_state(true)
 		return
 	
-	if Input.is_action_just_pressed("add_pet"):
+	if Input.is_action_just_pressed("add_pet") and can_add_golem:
 		_add_pet()
 	
 
@@ -714,7 +735,7 @@ func _air_state(delta) -> void:
 	if Input.is_action_pressed("EAttack1"):
 		_enter_attack_air_state(true)
 		return
-	if Input.is_action_pressed("AttackE"):
+	if Input.is_action_pressed("AttackE") and can_thrust:
 		_enter_attack_air_state(false)
 		return
 
@@ -833,7 +854,6 @@ func _enter_idle_state() -> void:
 	can_jump = true
 
 func _enter_crouch_state() -> void:
-	_check_sprites()
 	state = CROUCH
 	if velocity.x >= 1 or velocity.x <= -1:
 		if direction_x == "RIGHT":
@@ -843,7 +863,6 @@ func _enter_crouch_state() -> void:
 	playersprite.play("Crouch")
 
 func _enter_dash_state() -> void:
-	_check_sprites()
 	_add_shockwave()
 	dashsound.play()
 
@@ -860,7 +879,6 @@ func _enter_dash_state() -> void:
 	dashtimer.start(0.25)
 
 func _enter_air_state(jump: bool) -> void:
-	_check_sprites()
 	if jump:
 		velocity.y = JUMP_STRENGHT
 		if velocity.x == 0:
@@ -878,20 +896,20 @@ func _enter_run_state() -> void:
 	playersprite.play("Run")
 
 func _enter_stop_state() -> void:
-	_check_sprites()
 	can_jump = true
 	state = STOP
 	playersprite.play("Stop")
 
 func _enter_hurt_state() -> void:
 	_check_sprites()
+	playersprite.visible = true
 	state = HURT
 	yield(get_tree().create_timer(0.5),"timeout")
 	_enter_air_state(false)
 
 func _enter_attack1_state(attack: int) -> void:
 	state = ATTACK_GROUND
-	player_stats()
+	playersprite.visible = true
 	is_attacking = true
 	animatedsmears.position.y = 5
 	animationplayer.play("Attack" + str(attack))
@@ -911,10 +929,14 @@ func _enter_dash_attack_state(attack: int) -> void:
 
 func _enter_ability_state(number: int) -> void:
 	state = ABILITY
+	playersprite.visible = true
 	if number == 1:
+		hp -= 5
 		animationplayer.play("Ability1")
 	if number == 2:
+		hp -= 10
 		animationplayer.play("Ability2")
+	emit_signal("HPChanged", hp)
 
 func _enter_attack_air_state(Jump: bool) -> void:	
 	if Jump:
@@ -928,9 +950,30 @@ func _enter_attack_air_state(Jump: bool) -> void:
 	else:
 		animationplayer.play("PrepareAirAttack")
 		WorldEnv.emit_signal("Darken", "PrepareNecroMancer")
+		_add_preparing_attack_particles(10)
 		#frameFreeze(0.2, 0.5)
 
 #Signals
+
+func _on_attack_damage_changed(type: String):
+	if type == "ability1_learned":
+		ability1_learned = true
+	if type == "ability2_learned":
+		ability2_learned = true
+	if type == "can_add_ls":
+		can_add_ls = true
+	if type == "dead_skeleton":
+		dead_skeleton_dmg = PlayerStats.dead_skeleton_dmg
+		dead_skeleton_exp_dmg = PlayerStats.dead_skeleton_exp_dmg
+	if type == "golem":
+		golem_dmg = PlayerStats.golem_dmg
+		golem_life_time = PlayerStats.golem_life_time
+	if type == "dark":
+		can_add_dark = true
+	if type == "holy":
+		can_add_holy = true
+	if type == "thrust":
+		can_thrust = true
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1" or "Attack2" or "Attack3" or "SpinAttack" or "Ability1" or "Ability2":
@@ -967,11 +1010,12 @@ func _on_timer_timeout() -> void:
 	pass
 
 func _on_HurtBox_area_entered(area):
-	var amount = 10
-	if dark_buff_active:
-		amount = 15
+	var amount
 	if can_take_damage:
 		if area.is_in_group("EnemySword"):
+			amount = area.get_parent().damage_dealt
+			if dark_buff_active:
+				amount *= 1.5
 			take_damage(amount, direction.x)
 			if not PlayerStats.enemies_for_golem.has(area.get_parent()): 
 				PlayerStats.enemies_for_golem.append(area.get_parent())
@@ -983,10 +1027,11 @@ func _on_HurtBox_area_entered(area):
 	
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		current_xp += 40
+		PlayerStats.current_xp += 40
 		if _level_up():
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
 			WorldEnv.emit_signal("Darken", "lvl_up")
+			PlayerStats.skilltree_points += 1
 		_change_xp()
 		emit_signal("XPChanged", current_xp)
 
@@ -1008,7 +1053,7 @@ func _on_NormalAttackArea_area_entered(area):
 		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
 			PlayerStats.enemies_for_golem.append(area.get_parent())
 		PlayerStats.emit_signal("EnemyHurt")
-		if test_active:
+		if can_add_ls:
 			_add_buff("lifesteal_particles")
 
 func _on_Acid2Area_area_entered(area):
@@ -1016,7 +1061,7 @@ func _on_Acid2Area_area_entered(area):
 		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
 			PlayerStats.enemies_for_golem.append(area.get_parent())
 		PlayerStats.emit_signal("EnemyHurt")
-		if test_active:
+		if can_add_ls:
 			_add_buff("lifesteal_particles")
 
 func _on_Acid5Area_area_entered(area):
@@ -1024,9 +1069,16 @@ func _on_Acid5Area_area_entered(area):
 		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
 			PlayerStats.enemies_for_golem.append(area.get_parent())
 		PlayerStats.emit_signal("EnemyHurt")
-		if test_active:
+		if can_add_ls:
 			_add_buff("lifesteal_particles")
 
+func _on_SwordCutArea_area_entered(area):
+	if area.is_in_group("EnemyHitbox"):
+		if not PlayerStats.enemies_for_golem.has(area.get_parent()):
+			PlayerStats.enemies_for_golem.append(area.get_parent())
+		PlayerStats.emit_signal("EnemyHurt")
+		if can_add_ls:
+			_add_buff("lifesteal_particles")
 
 func _on_KinematicBody2D_side_of_player(which_side):
 	enemy_side_of_you = which_side
@@ -1064,15 +1116,8 @@ func _on_HolyBuffTimer_timeout():
 	can_take_damage = true
 	holy_buff_active = false
 
-
-func _on_Acid_2_on_learned(node):
-	acid2area.add_to_group("Ability1")
-	PlayerStats.ability1_learned = true
-
-func _on_Acid_5_on_learned(node):
-	acid5area.add_to_group("Ability2")
-	PlayerStats.ability2_learned = true
-
+func _on_DarkBuffTimer_timeout():
+	dark_buff_active = false
 
 func _on_DropDetect_body_exited(body):
 	set_collision_mask_bit(11, true)
@@ -1084,6 +1129,11 @@ func _on_AttackSound_finished():
 
 func _on_FootStepTimer_timeout():
 	can_footstep_sound = true
+
+
+
+
+
 
 
 

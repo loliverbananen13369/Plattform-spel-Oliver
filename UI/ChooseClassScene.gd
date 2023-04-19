@@ -34,11 +34,7 @@ func _on_MageButton_pressed() -> void:
 func _on_MageButton_focus_entered():
 	label.text = "A class with strong abilities, extraordinarie buffs and can even summon the dead"
 
-func _on_MageButton_focus_exited():
-	pass # Replace with function body.
 
 func _on_AssassinButton_focus_entered():
 	label.text = "A class with high mobility, crushing attacks and divine combos"
 
-func _on_AssassinButton_focus_exited():
-	pass # Replace with function body.

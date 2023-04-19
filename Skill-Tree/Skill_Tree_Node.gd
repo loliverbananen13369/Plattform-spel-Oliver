@@ -154,7 +154,6 @@ func get_tooltip_text():
 	return tooltip_text
 
 func _on_TextureButton_pressed():
-	PlayerStats.skilltree_points = 20
 	if not unlocked:
 		return
 	if learned:
@@ -167,3 +166,4 @@ func _on_TextureButton_pressed():
 	texture_normal = on_learned_texture
 	modulate = active_tint
 	$LearnedColor.show()
+

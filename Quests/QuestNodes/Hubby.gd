@@ -32,21 +32,7 @@ func _ready():
 	Quests.connect("quest_available", self, "_on_quest_available")
 	connect("talk_finished", self, "_on_talk_finished")
 	connect("check_person", self, "_on_check_person")
-"""
-func load_json_file(path):
-	var file = File.new()
-	file.open(path, file.READ)
-	var text = file.get_as_text()
-	var result_json = JSON.parse(text)
-	if result_json.error != OK:
-		print("[load_json_file] Error loading JSON file '" + str(path) + "'.")
-		print("\tError: ", result_json.error)
-		print("\tError Line: ", result_json.error_line)
-		print("\tError String: ", result_json.error_string)
-		return null
-	var obj = result_json.result
-	return obj
-"""
+
 func _load_index_list():
 	var file = File.new()
 	if file.file_exists(i_file):

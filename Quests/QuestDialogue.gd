@@ -102,10 +102,7 @@ func _on_d_file_changed(npc, d_list):
 	if person == npc:
 		list = d_list
 		_new_d_file(d_list)
-		#print((Quests.dialogue_list.find("res://Quests/json/" + str(d_list) + ".json")))
-		#dialogue = _load_dialogue(Quests.dialogue_list.find(d_list))
-		
-	
+
 func _on_Timer_timeout():
 	d_active = false
 

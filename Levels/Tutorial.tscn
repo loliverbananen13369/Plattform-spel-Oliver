@@ -677,9 +677,9 @@ collision_layer = 0
 
 [node name="Sprite" type="HBoxContainer" parent="WalkArea"]
 margin_left = 25.0
-margin_top = -144.785
+margin_top = -146.0
 margin_right = 224.0
-margin_bottom = -94.7851
+margin_bottom = -96.0001
 
 [node name="Label" type="Label" parent="WalkArea/Sprite"]
 modulate = Color( 0.458824, 0.654902, 0.262745, 1 )
@@ -852,9 +852,9 @@ collision_layer = 0
 
 [node name="Sprite" type="HBoxContainer" parent="AttackArea"]
 margin_left = 2385.0
-margin_top = -187.416
+margin_top = -195.0
 margin_right = 2662.0
-margin_bottom = -147.416
+margin_bottom = -155.0
 
 [node name="Label" type="Label" parent="AttackArea/Sprite"]
 modulate = Color( 0.458824, 0.654902, 0.262745, 1 )
@@ -919,10 +919,6 @@ anims/CrouchShiftArea = SubResource( 60 )
 anims/DashArea = SubResource( 20 )
 anims/JumpArea = SubResource( 18 )
 anims/WalkArea = SubResource( 14 )
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 137, -133 )
-scale = Vector2( 0.59375, 0.632812 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )

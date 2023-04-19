@@ -17,9 +17,8 @@ signal quest_dialouge_finished(npc)
 signal talk_finished()
 
 func _ready():
-	var parent = get_parent()
-	connect("talk_finished", self, "_on_talked_finished")
 	glabel.text = "Go talk to  " + str(goal)
+	connect("talk_finished", self, "_on_talked_finished")
 
 func _on_talked_finished():
 	_quest_completed()

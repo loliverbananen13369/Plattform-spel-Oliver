@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Inside) Tileset.png" type="Texture" id=1]
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Outside And Inside) Tileset.new.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Scripts/AssHouse.gd" type="Script" id=4]
 [ext_resource path="res://CityHall/16x16 Fantasy Platformer Pack/16x16 Fantasy Platformer Pack/Tilesets/House (Outside And Inside) Tileset.png" type="Texture" id=6]
 [ext_resource path="res://Dialogues/Dialouge.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Font/SRAFreePixelFontPack/PixelMiddle.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=10]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -452,10 +451,6 @@ resource_local_to_scene = true
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 16.5, 22.5 )
 
-[sub_resource type="DynamicFont" id=23]
-resource_local_to_scene = true
-font_data = ExtResource( 9 )
-
 [sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 20, 24 )
 
@@ -506,6 +501,7 @@ format = 1
 tile_data = PoolIntArray( -524310, 11, 0, -524305, 15, 0, -524294, 14, 0, -589813, 14, 0, -458775, 10, 0, -458774, 10, 0, -393212, 4, 0, -327678, 6, 0, -327674, 5, 0, -196632, 12, 0, -196627, 0, 0, -65555, 9, 0, -131055, 14, 0, 65555, 1, 0, 262167, 14, 0, 458777, 2, 0, 655389, 14, 0, 851999, 3, 0, 1179693, 12, 0 )
 
 [node name="Katalina" parent="." instance=ExtResource( 3 )]
+frame = 1
 
 [node name="Door" type="Area2D" parent="."]
 visible = false
@@ -527,7 +523,6 @@ margin_left = 695.0
 margin_top = 260.0
 margin_right = 777.0
 margin_bottom = 274.0
-custom_fonts/font = SubResource( 23 )
 text = "Practice range"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="Door2"]

@@ -8,8 +8,10 @@ onready var xpbarunder = $XPBarUnder
 onready var leveltext = $XPBarUnder/LevelText
 onready var energybar = $EnergyBar
 onready var energybarunder = $EnergyBarUnder
-onready var tween = $Tween
-
+onready var hp_tween = $Tween
+onready var xp_tween = $Tween2
+onready var energy_tween = $Tween3
+onready var animp = $AnimationPlayer
 
 var max_xp = 40
 
@@ -27,22 +29,20 @@ func _ready():
 
 
 func _on_Player_HPChanged(hp):
-	#if hpbar.value > hp:
-		#minskning
 	hpbar.value = hp
-	#tween.stop_all()
-	tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)
-	tween.start()
-	$AnimationPlayer.play("TakeDamage")
+	hp_tween.stop_all()
+	hp_tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)
+	hp_tween.start()
+	animp.play("TakeDamage")
 	if hpbar.value < 30:
-		$AnimationPlayer.play("LowHP")
+		animp.play("LowHP")
 
 func _on_Player_XPChanged(_current_xp):
 	#if xpbar.value < current_xp:
 	xpbar.value = PlayerStats.current_xp
-	tween.stop_all()
-	tween.interpolate_property(xpbarunder, "value", xpbarunder.value, PlayerStats.current_xp, 0.5,Tween.TRANS_LINEAR)
-	tween.start()
+	xp_tween.stop_all()
+	xp_tween.interpolate_property(xpbarunder, "value", xpbarunder.value, PlayerStats.current_xp, 0.5,Tween.TRANS_LINEAR)
+	xp_tween.start()
 
 
 func _on_Player_LvlUp(_current_lvl, xp_needed):
@@ -55,7 +55,7 @@ func _on_Player_LvlUp(_current_lvl, xp_needed):
 	
 func _on_Player_EnergyChanged(energy):
 	energybar.value = energy
-	tween.stop_all()
-	tween.interpolate_property(energybarunder, "value", energybarunder.value, energy, 0.5,Tween.TRANS_LINEAR)
-	tween.start()
+	energy_tween.stop_all()
+	energy_tween.interpolate_property(energybarunder, "value", energybarunder.value, energy, 0.5,Tween.TRANS_LINEAR)
+	energy_tween.start()
 	

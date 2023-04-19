@@ -9,6 +9,7 @@ export (int) var diameter = 0
 export (SpriteFrames) var skin
 export (SpriteFrames) var hit
 export (int) var hp_max
+export (int) var damage_dealt
 export (String) var enemy_type
 export (Color) var enemy_hp_bar_color
 

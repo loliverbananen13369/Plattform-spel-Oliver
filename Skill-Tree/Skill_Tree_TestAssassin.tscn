@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Skill-Tree/Skill_Tree_Node.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Skill-Tree/Outline_Shader.tres" type="Material" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Imports/Icons/CloneIcon.png" type="Texture" id=3]
 [ext_resource path="res://Imports/Icons/attack.png" type="Texture" id=4]
-[ext_resource path="res://Imports/Icons/Acid VFX 02Repeatable4.hejhej.png" type="Texture" id=5]
 [ext_resource path="res://Imports/Icons/Combo1Icon.png" type="Texture" id=6]
 [ext_resource path="res://Random_Effects/lock.png" type="Texture" id=7]
 [ext_resource path="res://Imports/Icons/Combo1Icon.unlocked.png" type="Texture" id=8]
 [ext_resource path="res://Imports/Icons/Combo2.png" type="Texture" id=9]
 [ext_resource path="res://Imports/Icons/Combo2.unlocked.png" type="Texture" id=10]
+[ext_resource path="res://Imports/Icons/Boomerang.png" type="Texture" id=11]
+[ext_resource path="res://Imports/Icons/IconDashAttack.png" type="Texture" id=12]
 
 [node name="Control" type="Control"]
 
@@ -60,8 +61,8 @@ margin_bottom = 138.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../DashAttack2") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
-on_unlocked_texture = ExtResource( 3 )
+on_learned_texture = ExtResource( 12 )
+on_unlocked_texture = ExtResource( 12 )
 
 [node name="DashAttack2" parent="CanvasLayer" instance=ExtResource( 1 )]
 material = ExtResource( 2 )
@@ -72,8 +73,8 @@ margin_bottom = 276.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../DashAttack1") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
-on_unlocked_texture = ExtResource( 3 )
+on_learned_texture = ExtResource( 12 )
+on_unlocked_texture = ExtResource( 12 )
 
 [node name="Combo2" parent="CanvasLayer" instance=ExtResource( 1 )]
 material = ExtResource( 2 )
@@ -96,8 +97,8 @@ margin_bottom = 143.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Combo1") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
-on_unlocked_texture = ExtResource( 3 )
+on_learned_texture = ExtResource( 11 )
+on_unlocked_texture = ExtResource( 11 )
 
 [node name="Clone3" parent="CanvasLayer" instance=ExtResource( 1 )]
 material = ExtResource( 2 )
@@ -108,7 +109,7 @@ margin_bottom = 157.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Clone2") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
+on_learned_texture = ExtResource( 3 )
 on_unlocked_texture = ExtResource( 3 )
 
 [node name="Clone2" parent="CanvasLayer" instance=ExtResource( 1 )]
@@ -120,7 +121,7 @@ margin_bottom = 268.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Clone1") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
+on_learned_texture = ExtResource( 3 )
 on_unlocked_texture = ExtResource( 3 )
 
 [node name="Clone1" parent="CanvasLayer" instance=ExtResource( 1 )]
@@ -132,7 +133,7 @@ margin_bottom = 440.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack1") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
+on_learned_texture = ExtResource( 3 )
 on_unlocked_texture = ExtResource( 3 )
 
 [node name="Combo1" parent="CanvasLayer" instance=ExtResource( 1 )]
@@ -156,8 +157,8 @@ margin_bottom = 433.0
 texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack1") ]
 texture = ExtResource( 7 )
-on_learned_texture = ExtResource( 5 )
-on_unlocked_texture = ExtResource( 3 )
+on_learned_texture = ExtResource( 12 )
+on_unlocked_texture = ExtResource( 12 )
 
 [node name="BasicAttack1" parent="CanvasLayer" instance=ExtResource( 1 )]
 material = ExtResource( 2 )

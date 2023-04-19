@@ -59,13 +59,13 @@ func _on_Timer_timeout():
 
 func _set_player_active():
 	var player = PlayerStats.player
-	if player:
+	if is_instance_valid(player):
 		#player.set_active(true)
 		player.set_process_unhandled_input(true)
 		
 
 func _set_player_inactive():
 	var player = PlayerStats.player
-	if player:
+	if is_instance_valid(player):
 		#player.set_active(false)
 		player.set_process_unhandled_input(true)

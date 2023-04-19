@@ -635,7 +635,7 @@ position = Vector2( -116, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 15 )
 animation = "Work1"
-frame = 19
+frame = 28
 playing = true
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite"]

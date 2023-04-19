@@ -141,7 +141,7 @@ height = 18.0
 [sub_resource type="ShaderMaterial" id=636]
 resource_local_to_scene = true
 shader = ExtResource( 61 )
-shader_param/flash_color = Color( 0.478431, 0.211765, 0.482353, 1 )
+shader_param/flash_color = Color( 0.298039, 0, 0.27451, 1 )
 shader_param/flash_modifier = 0.0
 
 [sub_resource type="AtlasTexture" id=920]
@@ -1036,50 +1036,12 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 20 ],
-"method": "_add_preparing_attack_particles"
-} ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("AbilitySprites:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0.233333, 0.566667 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 3, 1.5, 1.5, 1 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/11/type = "method"
-tracks/11/path = NodePath(".")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
 "times": PoolRealArray( 0.233333 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "player_stats"
 } ]
-}
-tracks/12/type = "value"
-tracks/12/path = NodePath("PlayerSprite:modulate")
-tracks/12/interp = 2
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0, 0.165, 0.297, 0.33, 0.693 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 4, 2, 2, 1 ), Color( 4, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=158]
@@ -1365,8 +1327,6 @@ tracks/7/keys = {
 "values": [ Vector2( 3, 2 ) ]
 }
 
-[sub_resource type="Animation" id=1273]
-
 [sub_resource type="Animation" id=511]
 length = 0.5
 tracks/0/type = "value"
@@ -1501,10 +1461,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.46 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 10, -19 ), Vector2( 10, -10 ) ]
+"values": [ Vector2( 10, -19 ) ]
 }
 tracks/7/type = "method"
 tracks/7/path = NodePath(".")
@@ -1519,18 +1479,6 @@ tracks/7/keys = {
 "args": [ "OnGroundAfterAttack" ],
 "method": "_set_sprite_position"
 } ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("Thrusts:modulate")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 2.4, 0.2, 4.25, 1 ) ]
 }
 
 [sub_resource type="Animation" id=472]
@@ -1738,10 +1686,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.033, 0.066, 0.165, 0.2, 0.233333, 0.266667, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.033, 0.0666667, 0.133333, 0.166667, 0.2, 0.233333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 2, 1, 2, 3, 4, 5 ]
+"values": [ 0, 3, 1, 3, 4, 5 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("PlayerSprite:modulate")
@@ -1853,6 +1801,42 @@ tracks/10/keys = {
 "update": 1,
 "values": [ Vector2( 5, 2.5 ) ]
 }
+tracks/11/type = "value"
+tracks/11/path = NodePath("CutArea/CollisionShape2D:disabled")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0.2, 0.233333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("CutSprite:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0.0333333, 0.133333, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 0.423529, 0.027451, 0.54902, 1 ), Color( 2.1, 0.15, 2.75, 1 ), Color( 0.423529, 0.027451, 0.54902, 1 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("SmearSprites:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 0.333333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 2, 0.3, 2, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="RectangleShape2D" id=521]
 extents = Vector2( 22, 19 )
@@ -1872,11 +1856,15 @@ extents = Vector2( 81.875, 30.5 )
 [sub_resource type="RectangleShape2D" id=725]
 extents = Vector2( 24, 9.5 )
 
+[sub_resource type="RectangleShape2D" id=1290]
+extents = Vector2( 144.603, 35.3553 )
+
 [sub_resource type="CircleShape2D" id=791]
 radius = 25.0
 
 [sub_resource type="Gradient" id=1275]
-colors = PoolColorArray( 0.835294, 0.235294, 0.415686, 1, 0.27451, 0.054902, 0.168627, 1 )
+interpolation_mode = 2
+colors = PoolColorArray( 0.148884, 0.445313, 0.010437, 1, 0.0470588, 0.137255, 0, 0.705882 )
 
 [sub_resource type="GradientTexture" id=1010]
 gradient = SubResource( 1275 )
@@ -1913,42 +1901,40 @@ collision_mask = 2584
 script = ExtResource( 2 )
 
 [node name="Thrusts" type="AnimatedSprite" parent="."]
-modulate = Color( 0.00784314, 0.109804, 0.0196078, 1 )
+modulate = Color( 0.0352941, 0.239216, 0.00392157, 1 )
 position = Vector2( 10, -19 )
+scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
 animation = "OnGround"
+frame = 7
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
 visible = false
-modulate = Color( 0.298039, 0, 0.27451, 1 )
+modulate = Color( 0.792157, 0, 0.729412, 1 )
 position = Vector2( 0, 11 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
-visible = false
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "JumpAttack"
-frame = 1
+animation = "ComboEWQE"
+frame = 10
 playing = true
 offset = Vector2( 0, 1 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
-modulate = Color( 1, 1, 1, 1 )
+modulate = Color( 2, 0.3, 2, 1 )
 position = Vector2( 0, 0 )
 scale = Vector2( 5, 4 )
 animation = "Thrust2"
 frame = 7
-playing = true
 
 [node name="AbilitySprites" type="AnimatedSprite" parent="."]
-visible = false
+modulate = Color( 2, 0, 2.3, 1 )
 position = Vector2( 80, 9 )
 scale = Vector2( 1.5, 2 )
 frames = SubResource( 700 )
 animation = "Test8"
-frame = 5
-playing = true
 
 [node name="CutSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 0.423529, 0.027451, 0.54902, 1 )
@@ -1957,7 +1943,7 @@ rotation = 0.785398
 scale = Vector2( 5, 2.5 )
 frames = SubResource( 660 )
 animation = "Test1"
-frame = 5
+frame = 4
 
 [node name="HurtBox" type="Area2D" parent="." groups=["Player"]]
 visible = false
@@ -1973,7 +1959,6 @@ anims/Ability2 = SubResource( 745 )
 anims/Attack1 = SubResource( 158 )
 anims/Attack2 = SubResource( 190 )
 anims/Attack3 = SubResource( 191 )
-anims/Hurt1 = SubResource( 1273 )
 anims/JumpAttack = SubResource( 511 )
 anims/OnGroundAfterAttack = SubResource( 575 )
 anims/PrepareAirAttack = SubResource( 472 )
@@ -1994,6 +1979,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="AttackGround" type="CollisionShape2D" parent="NormalAttackArea"]
+modulate = Color( 0.298039, 0, 0.27451, 1 )
 position = Vector2( 36, 5 )
 shape = SubResource( 521 )
 disabled = true
@@ -2013,7 +1999,7 @@ disabled = true
 wait_time = 2.0
 one_shot = true
 
-[node name="Acid2Area" type="Area2D" parent="."]
+[node name="Acid2Area" type="Area2D" parent="." groups=["Ability1"]]
 visible = false
 collision_layer = 2
 collision_mask = 2
@@ -2024,7 +2010,8 @@ position = Vector2( 52, 9 )
 shape = SubResource( 707 )
 disabled = true
 
-[node name="Acid5Area" type="Area2D" parent="."]
+[node name="Acid5Area" type="Area2D" parent="." groups=["Ability2"]]
+visible = false
 position = Vector2( 82, 0 )
 
 [node name="Acid5" type="CollisionShape2D" parent="Acid5Area"]
@@ -2032,10 +2019,20 @@ shape = SubResource( 782 )
 disabled = true
 
 [node name="SwordCutArea" type="Area2D" parent="." groups=["SwordCut"]]
+visible = false
 
 [node name="SpinAttack" type="CollisionShape2D" parent="SwordCutArea"]
 position = Vector2( -24, -16 )
 shape = SubResource( 725 )
+disabled = true
+
+[node name="CutArea" type="Area2D" parent="." groups=["Cut"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CutArea"]
+position = Vector2( -55, -95 )
+rotation = 0.785398
+scale = Vector2( 1, 0.5 )
+shape = SubResource( 1290 )
 disabled = true
 
 [node name="LifeStealPos1" type="Position2D" parent="."]
@@ -2058,31 +2055,16 @@ shape = SubResource( 791 )
 [node name="SkillTreeInGame" parent="." instance=ExtResource( 41 )]
 visible = false
 
-[node name="Thingy" parent="SkillTreeInGame/Control/CanvasLayer" index="0"]
+[node name="Holy" parent="SkillTreeInGame/Control/CanvasLayer" index="2"]
 texture_normal = ExtResource( 28 )
 
-[node name="Arrow" parent="SkillTreeInGame/Control/CanvasLayer" index="1"]
-texture_normal = ExtResource( 28 )
-
-[node name="Ray" parent="SkillTreeInGame/Control/CanvasLayer" index="2"]
-texture_normal = ExtResource( 28 )
-
-[node name="Time" parent="SkillTreeInGame/Control/CanvasLayer" index="3"]
-texture_normal = ExtResource( 28 )
-
-[node name="Lock" parent="SkillTreeInGame/Control/CanvasLayer" index="4"]
-texture_normal = ExtResource( 28 )
-
-[node name="Acid 5" parent="SkillTreeInGame/Control/CanvasLayer" index="5"]
-texture_normal = ExtResource( 28 )
-
-[node name="Acid 2" parent="SkillTreeInGame/Control/CanvasLayer" index="6"]
+[node name="Dark" parent="SkillTreeInGame/Control/CanvasLayer" index="3"]
 texture_normal = ExtResource( 28 )
 
 [node name="DashParticles" type="Particles2D" parent="."]
-position = Vector2( 0, -15 )
+position = Vector2( 0, 11 )
 emitting = false
-amount = 60
+amount = 20
 one_shot = true
 local_coords = false
 process_material = SubResource( 515 )
@@ -2124,6 +2106,8 @@ volume_db = -40.0
 [node name="FootStepTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="DarkBuffTimer" type="Timer" parent="."]
+
 [connection signal="HPChanged" from="." to="HUD" method="_on_Player_HPChanged"]
 [connection signal="LvlUp" from="." to="HUD" method="_on_Player_LvlUp"]
 [connection signal="XPChanged" from="." to="HUD" method="_on_Player_XPChanged"]
@@ -2135,13 +2119,13 @@ one_shot = true
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
 [connection signal="area_entered" from="Acid2Area" to="." method="_on_Acid2Area_area_entered"]
 [connection signal="area_entered" from="Acid5Area" to="." method="_on_Acid5Area_area_entered"]
+[connection signal="area_entered" from="SwordCutArea" to="." method="_on_SwordCutArea_area_entered"]
 [connection signal="area_entered" from="CollectParticlesArea" to="." method="_on_CollectParticlesArea_area_entered"]
-[connection signal="on_learned" from="SkillTreeInGame/Control/CanvasLayer/Acid 5" to="." method="_on_Acid_5_on_learned"]
-[connection signal="on_learned" from="SkillTreeInGame/Control/CanvasLayer/Acid 2" to="." method="_on_Acid_2_on_learned"]
 [connection signal="timeout" from="HolyBuffTimer" to="." method="_on_HolyBuffTimer_timeout"]
 [connection signal="body_exited" from="DropDetect" to="." method="_on_DropDetect_body_exited"]
 [connection signal="finished" from="AttackSound" to="." method="_on_AttackSound_finished"]
 [connection signal="timeout" from="FootStepTimer" to="." method="_on_FootStepTimer_timeout"]
+[connection signal="timeout" from="DarkBuffTimer" to="." method="_on_DarkBuffTimer_timeout"]
 
 [editable path="SkillTreeInGame"]
 [editable path="SkillTreeInGame/Control"]

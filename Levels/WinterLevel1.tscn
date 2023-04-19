@@ -1035,7 +1035,7 @@ tile_data = PoolIntArray( -2424732, 13, 0, -2359198, 16, 0, -2359197, 17, 0, -23
 [node name="NPCRock" type="AnimatedSprite" parent="."]
 position = Vector2( 33, -329 )
 frames = SubResource( 24 )
-frame = 7
+frame = 1
 playing = true
 
 [node name="MissionDialogue" parent="NPCRock" instance=ExtResource( 5 )]
@@ -1052,6 +1052,7 @@ shape = SubResource( 46 )
 
 [node name="PortalNext2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1607, -530 )
+frame = 1
 
 [node name="CollisionShape2D" parent="PortalNext2/Area2D" index="0"]
 visible = false
@@ -1121,7 +1122,7 @@ shape = SubResource( 47 )
 one_way_collision = true
 
 [node name="ControlZone" type="StaticBody2D" parent="."]
-collision_layer = 0
+collision_layer = 16
 collision_mask = 261
 
 [node name="Left" type="CollisionShape2D" parent="ControlZone"]
@@ -1173,7 +1174,8 @@ amount_allowed = 10
 diameter = 1800
 skin = ExtResource( 11 )
 hit = ExtResource( 12 )
-hp_max = 20
+hp_max = 50
+damage_dealt = 4
 enemy_type = "ice"
 enemy_hp_bar_color = Color( 0.643137, 0.866667, 0.858824, 1 )
 
@@ -1190,7 +1192,8 @@ amount_allowed = 6
 diameter = 450
 skin = ExtResource( 11 )
 hit = ExtResource( 12 )
-hp_max = 20
+hp_max = 50
+damage_dealt = 4
 enemy_type = "ice"
 enemy_hp_bar_color = Color( 0.643137, 0.866667, 0.858824, 1 )
 
@@ -1207,7 +1210,8 @@ amount_allowed = 6
 diameter = 380
 skin = ExtResource( 11 )
 hit = ExtResource( 12 )
-hp_max = 20
+hp_max = 50
+damage_dealt = 4
 enemy_type = "ice"
 enemy_hp_bar_color = Color( 0.643137, 0.866667, 0.858824, 1 )
 
