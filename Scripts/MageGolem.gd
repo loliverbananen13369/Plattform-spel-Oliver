@@ -43,6 +43,7 @@ func _ready():
 	PlayerStats.connect("PlayerHurt", self, "on_PlayerHurt")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	PlayerStats.connect("EnemyHurt", self, "on_EnemyHurt")
+	Transition.connect("SceneChanged", self, "_on_scene_changed")
 	player = PlayerStats.player
 	lt_timer.start(PlayerStats.golem_life_time)
 	
@@ -437,4 +438,6 @@ func _on_LifeTimeTimer_timeout():
 	alive = false
 	_die()
 
-
+func _on_scene_changed():
+	PlayerStats.golem_active = false
+	queue_free()

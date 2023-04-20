@@ -376,7 +376,7 @@ func _flip_sprite(right: bool) -> void:
 	area_spin_attack.position.x = 34 * variable
 
 func _add_pet():
-	if PlayerStats.golem_active == false:
+	if not PlayerStats.golem_active:
 		var pet = pet_scene.instance()
 		pet.global_position = global_position + Vector2(20, -10)
 		get_tree().get_root().add_child(pet)
@@ -965,6 +965,8 @@ func _on_attack_damage_changed(type: String):
 	if type == "dead_skeleton":
 		dead_skeleton_dmg = PlayerStats.dead_skeleton_dmg
 		dead_skeleton_exp_dmg = PlayerStats.dead_skeleton_exp_dmg
+	if type == "can_add_golem":
+		can_add_golem = PlayerStats.can_add_golem
 	if type == "golem":
 		golem_dmg = PlayerStats.golem_dmg
 		golem_life_time = PlayerStats.golem_life_time

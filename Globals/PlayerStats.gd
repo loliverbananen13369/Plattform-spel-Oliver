@@ -6,6 +6,8 @@ var game_data = {}
 
 var player_instance = preload("res://Scenes/Player.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
 var player
+const NECRO_SKILLTREE = ("res://Skill-Tree/Skill_Tree_Test.tscn")
+const ASSASSIN_SKILLTREE = ("res://Skill-Tree/Skill_Tree_TestAssassin.tscn")
 
 
 var is_assassin = false
@@ -46,6 +48,8 @@ var assassin_combo2_dmg = 10
 var assassin_combo3_dmg = 10
 var assassin_clone_targets = 1
 var assassin_combo_list = []
+var assassin_current_basic_attack = 0
+
 
 
 var mage_basic_dmg = 5

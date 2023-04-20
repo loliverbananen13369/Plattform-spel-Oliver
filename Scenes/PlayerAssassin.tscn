@@ -1928,7 +1928,7 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
 animation = "OnGround"
-frame = 12
+frame = 22
 playing = true
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
@@ -1948,7 +1948,7 @@ shape = SubResource( 53 )
 material = SubResource( 1267 )
 frames = SubResource( 51 )
 animation = "JumpAttack"
-frame = 1
+frame = 4
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true
