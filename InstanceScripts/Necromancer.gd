@@ -28,6 +28,10 @@ var enemy
 
 
 func _ready():
+	if PlayerStats.empowered_skeleton:
+		modulate.r = 1
+		modulate.g = 4
+		modulate.b = 1
 	explosionsprite.visible = false
 	animsprite.modulate = "d4d4d4"
 	lt.start(life_time)

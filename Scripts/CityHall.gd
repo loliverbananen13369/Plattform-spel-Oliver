@@ -25,16 +25,20 @@ func _ready():
 		_load_cutscene(1)
 		yield(get_tree().create_timer(40.5), "timeout")
 	set_process_unhandled_input(true)
-
 	$Bshouse.rect_position.x = -87#(-87, -110)
 	$Bshouse.visible = false
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
-	player.global_position = global_position + Vector2(100, -20)
+	player.global_position = global_position + Vector2(900, -20)
+	if PlayerStats.visited_tutorial:
+		player.global_position = global_position + Vector2(100, -20)
+		PlayerStats.visited_tutorial = false
 	if PlayerStats.visited_bs_house == true:
 		player.global_position = global_position  + Vector2(0, -20)
+		PlayerStats.visited_bs_house = false
 	if PlayerStats.visited_katalina_house == true:
 		player.global_position = global_position + Vector2(-367, -24)
+		PlayerStats.visited_katalina_house = false
 	target.get_child(0).limit_right = 1100
 	target.get_child(0).limit_left = -2208
 	target.get_child(0).limit_bottom = 40
@@ -63,8 +67,7 @@ func _load_cutscene(time: int):
 		player_intro.get_node("AnimationPlayer")
 		yield(get_tree().create_timer(6), "timeout")
 		$Elder.flip_h = true
-		#yield(get_tree().create_timer(34), "timeout")
-		yield(get_tree().create_timer(1.0), "timeout")
+		yield(get_tree().create_timer(34), "timeout")
 		PlayerStats.first_time = false
 		emit_signal("cutscene")
 
@@ -126,7 +129,6 @@ func _on_tutorial_finished():
 	Quests.send_quest_available()
 
 func _on_class_chosen():
-	print("hejj")
 	Quests.get_node("Hubby").get_node("TalkQuest").emit_signal("talk_finished")
 
 func _on_choose_class() -> void:

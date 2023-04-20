@@ -96,7 +96,6 @@ onready var dashsound = $DashSound
 onready var jumpsound = $JumpSound
 onready var attacksound = $AttackSound
 onready var stepsound = $FootStepSound
-onready var skilltree = $SkillTreeInGameAssassin/Control/CanvasLayer
 onready var thrusts = $Thrusts
 onready var hurtbox = $HurtBox/CollisionShape2D
 onready var coyotetimer = $CoyoteTimer
@@ -154,9 +153,9 @@ func _ready() -> void:
 	Quests.connect("xp_changed", self, "_on_xp_changed")
 	hud.visible = true
 	playersprite.visible = true
+	animatedsmears.visible = false
 	thrusts.visible = false
 	animationplayer.playback_speed = 1
-	skilltree.visible = false 
 	footstep_sounds = PlayerStats.footsteps_sound
 	#Främst Debug
 
@@ -679,11 +678,6 @@ func _level_up():
 
 
 func _input(event):
-	if event.is_action_pressed("SkillTree"):
-		skilltree.visible = true
-
-	if event.is_action_released("SkillTree"):
-		skilltree.visible = false
 	
 	if event.is_action_pressed("ui_accept"):
 		PlayerStats.hp = hp
@@ -1129,16 +1123,17 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 func _on_AnimationPlayer_animation_started(anim_name):
 	if anim_name == "PrepareAirAttack":
 		state = PREPARE_ATTACK_AIR
-#	
+#
 
 func _on_HurtBox_area_entered(area):
-	var amount = 10
-	if area.get_parent().global_position.x > global_position.x:
-		enemy_side_of_you = "right"
-	else:
-		enemy_side_of_you = "left"
-	if can_take_damage:
-		if area.is_in_group("EnemySword"):
+	var amount
+	if area.is_in_group("EnemySword"):
+		amount = area.get_parent().damage_dealt
+		if area.get_parent().global_position.x > global_position.x:
+			enemy_side_of_you = "right"
+		else:
+			enemy_side_of_you = "left"
+		if can_take_damage:
 			take_damage(amount)
 
 

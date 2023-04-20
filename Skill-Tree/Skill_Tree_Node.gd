@@ -166,4 +166,3 @@ func _on_TextureButton_pressed():
 	texture_normal = on_learned_texture
 	modulate = active_tint
 	$LearnedColor.show()
-

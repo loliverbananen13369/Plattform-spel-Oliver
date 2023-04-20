@@ -41,6 +41,7 @@ func _ready() -> void:
 	PlayerStats.player = player
 	PlayerStats.player_instance = player_scene
 	PlayerStats.connect("TutorialFinished", self, "on_TutorialFinished")
+	PlayerStats.visited_tutorial = true
 #	yield(get_tree().create_timer(2), "timeout")
 	#$AttackArea.monitoring = true
 

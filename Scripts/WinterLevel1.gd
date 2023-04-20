@@ -14,7 +14,6 @@ onready var mission_d = $NPCRock/MissionDialogue
 onready var normal_d = $NPCRock/Dialogue
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	BackgroundMusic.play_sound("GameMusic")
@@ -32,6 +31,7 @@ func _ready():
 	get_child(0).add_child(target)
 	PlayerStats.player = player
 	PlayerStats.next_scene = next_scene
+
 func _input(event) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		if can_talk_rock:

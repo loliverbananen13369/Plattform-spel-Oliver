@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="AssassinPressD" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 3, 1.6, 0, 1 )
+margin_left = -4.0
+margin_top = 2.0
+margin_right = 1020.0
+margin_bottom = 312.0
+text = "Press D while in air for air attack"
+align = 1
+valign = 1

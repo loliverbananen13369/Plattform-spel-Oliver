@@ -215,10 +215,10 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = false
 tracks/10/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 8.4 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ false, false ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("TimerLayer/Label:modulate")
@@ -361,16 +361,13 @@ tracks/9/path = NodePath("SkipTimer")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
-tracks/9/enabled = true
+tracks/9/enabled = false
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "stop"
-}, {
-"args": [ 4 ],
-"method": "start"
 } ]
 }
 tracks/10/type = "value"
@@ -378,7 +375,7 @@ tracks/10/path = NodePath("TimerLayer/Label:visible")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
-tracks/10/enabled = true
+tracks/10/enabled = false
 tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),

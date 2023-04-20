@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Imports/SacredTempleTileSet/Blood Temple Tileset.sand1.png" type="Texture" id=1]
 [ext_resource path="res://Enemy/EnemySkins/SkeletonWarriorSand.tres" type="SpriteFrames" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Enemy/EnemySkins/EnemyHitSand.tres" type="SpriteFrames" id=5]
 [ext_resource path="res://Scenes/EnemySpawnPosition2D.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Imports/SacredTempleTileSet/Blood Temple Tileset.hej1.png" type="Texture" id=7]
+[ext_resource path="res://Instance_Scenes/FinalLevelKill.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -610,37 +611,43 @@ footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Sno
 position = Vector2( 39, -299 )
 
 [node name="ColorRect" type="ColorRect" parent="." index="1"]
-visible = false
 margin_left = -6.0
 margin_top = -418.0
 margin_right = 915.0
 margin_bottom = 38.0
-color = Color( 0.745098, 0.466667, 0.168627, 1 )
+color = Color( 0.0823529, 0.113725, 0.156863, 1 )
 
 [node name="Position2D" parent="EnemySpawnPoints" index="0" instance=ExtResource( 6 )]
-position = Vector2( 624, -189 )
-amount_allowed = 6
+position = Vector2( 624, -193 )
+amount_allowed = 12
 diameter = 64
 skin = ExtResource( 2 )
 hit = ExtResource( 5 )
-hp_max = 300
-damage_dealt = 20
+hp_max = 1000
+damage_dealt = 30
 enemy_type = "Sand"
 enemy_hp_bar_color = Color( 0.745098, 0.466667, 0.168627, 1 )
 
+[node name="Area2D" parent="EnemySpawnPoints/Position2D" index="0"]
+position = Vector2( 0, -6 )
+
 [node name="CollisionShape2D" parent="EnemySpawnPoints/Position2D/Area2D" index="0"]
+visible = false
 position = Vector2( 1, 2 )
 scale = Vector2( 0.25, 1 )
 shape = SubResource( 1 )
 
+[node name="EnemySpawner1" parent="EnemySpawnPoints/Position2D" index="1"]
+position = Vector2( 0, -6 )
+
 [node name="Position2D2" parent="EnemySpawnPoints" index="1" instance=ExtResource( 6 )]
 position = Vector2( 591, -50 )
-amount_allowed = 6
+amount_allowed = 12
 diameter = 64
 skin = ExtResource( 2 )
 hit = ExtResource( 5 )
-hp_max = 300
-damage_dealt = 20
+hp_max = 1000
+damage_dealt = 30
 enemy_type = "Sand"
 enemy_hp_bar_color = Color( 0.745098, 0.466667, 0.168627, 1 )
 
@@ -697,6 +704,8 @@ position = Vector2( 6, -4 )
 [node name="Previous" parent="." index="9" instance=ExtResource( 4 )]
 position = Vector2( 39, -468 )
 scale = Vector2( 1, 3 )
+
+[node name="FinalLevelKill" parent="." index="10" instance=ExtResource( 8 )]
 
 [editable path="EnemySpawnPoints/Position2D"]
 [editable path="EnemySpawnPoints/Position2D2"]

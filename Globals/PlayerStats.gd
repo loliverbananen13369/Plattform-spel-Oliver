@@ -4,13 +4,12 @@ extends Node
 
 var game_data = {}
 
-var player_instance = preload("res://Scenes/Player.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
+var player_instance = preload("res://Scenes/PlayerAssassin.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
 var player
-const NECRO_SKILLTREE = ("res://Skill-Tree/Skill_Tree_Test.tscn")
-const ASSASSIN_SKILLTREE = ("res://Skill-Tree/Skill_Tree_TestAssassin.tscn")
 
 
-var is_assassin = false
+
+var is_assassin = true
 var is_mage = false
 var current_lvl = 1
 var current_xp = 0
@@ -33,7 +32,7 @@ var enemy_who_hurt_list = []
 var enemies_hit_by_player = []
 var enemies_for_golem = []
 
-var skilltree_points = 20
+var skilltree_points = 0
 
 var assassin_can_dash_attack = false
 var assassin_combo_ewqe = "comboewqe1"
@@ -69,6 +68,7 @@ var can_add_golem = false
 
 
 var visited_bs_house = false
+var visited_tutorial = false
 var visited_katalina_house = false
 var visited_practice_tool = false
 var next_scene = "res://Levels/CityHall.tscn"#"res://UI/ChooseClassScene.tscn"#"res://Levels/CityHall.tscn"

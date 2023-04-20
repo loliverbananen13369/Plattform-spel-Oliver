@@ -473,8 +473,8 @@ shape = SubResource( 58 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 57 )
-animation = "Death"
-frame = 13
+animation = "Attack1"
+frame = 10
 playing = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]

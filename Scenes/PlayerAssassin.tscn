@@ -1,4 +1,4 @@
-[gd_scene load_steps=280 format=2]
+[gd_scene load_steps=273 format=2]
 
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Crouch/Battlemage Crouch.newass.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/SmearSpritesAssassin.tscn" type="PackedScene" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/JumpF/Jump Foward Going Up.mage.png" type="Texture" id=10]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Idle/Battlemage Idle.mage.png" type="Texture" id=11]
 [ext_resource path="res://Random_Effects/dash_particle.2.test.png" type="Texture" id=12]
-[ext_resource path="res://Imports/Icons/Combo2.unlocked.png" type="Texture" id=13]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Attack1/Battlemage Attack 1 wo effect.mage.png" type="Texture" id=14]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Run/Battlemage Run.mage.png" type="Texture" id=15]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Hit/Hurt 1.ass1.png" type="Texture" id=16]
@@ -22,17 +21,11 @@
 [ext_resource path="res://Scenes/HUDAssassin.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/Dash/Battlemage Dash1.mage.png" type="Texture" id=21]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/PlayerSprites/JumpAttack/Jump Attack wo effect.new.ass.png" type="Texture" id=22]
-[ext_resource path="res://UI/SkillTree-InGameAssassin.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/30_Jump_03.wav" type="AudioStream" id=24]
 [ext_resource path="res://Sounds/ImportedSounds/JumpSounds/007_jump.wav" type="AudioStream" id=25]
 [ext_resource path="res://Sounds/ImportedSounds/AttackSounds/001_swing.wav" type="AudioStream" id=26]
-[ext_resource path="res://Imports/Icons/attack.png" type="Texture" id=27]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/Effects/Smears/Smear 03 Vertical 1.ass.png" type="Texture" id=28]
 [ext_resource path="res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav" type="AudioStream" id=29]
-[ext_resource path="res://Imports/Icons/Combo1Icon.unlocked.png" type="Texture" id=30]
-[ext_resource path="res://Imports/Icons/IconDashAttack.png" type="Texture" id=31]
-[ext_resource path="res://Imports/Icons/CloneIcon.png" type="Texture" id=32]
-[ext_resource path="res://Imports/Icons/Boomerang.png" type="Texture" id=33]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/Effects/Others/Thrust VFX 02 Color 1.new.png" type="Texture" id=39]
 [ext_resource path="res://Scripts/PlayerAssassin.gd" type="Script" id=46]
 [ext_resource path="res://Battlemage Fantasy Character/DivineWarriorSprites/Effects/Smears/Smear 07 Vertical 1.ass.png" type="Texture" id=47]
@@ -1928,7 +1921,7 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
 animation = "OnGround"
-frame = 22
+frame = 13
 playing = true
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
@@ -2059,44 +2052,6 @@ shape = SubResource( 791 )
 [node name="HUD" parent="." instance=ExtResource( 20 )]
 visible = false
 
-[node name="SkillTreeInGameAssassin" parent="." instance=ExtResource( 23 )]
-
-[node name="BasicAttack4" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="1"]
-texture_normal = ExtResource( 27 )
-
-[node name="BasicAttack3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="2"]
-texture_normal = ExtResource( 27 )
-
-[node name="BasicAttack2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="3"]
-texture_normal = ExtResource( 27 )
-
-[node name="DashAttack3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="4"]
-texture_normal = ExtResource( 31 )
-
-[node name="DashAttack2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="5"]
-texture_normal = ExtResource( 31 )
-
-[node name="Combo2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="6"]
-texture_normal = ExtResource( 13 )
-
-[node name="Combo3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="7"]
-texture_normal = ExtResource( 33 )
-
-[node name="Clone3" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="8"]
-texture_normal = ExtResource( 32 )
-
-[node name="Clone2" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="9"]
-texture_normal = ExtResource( 32 )
-
-[node name="Clone1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="10"]
-texture_normal = ExtResource( 32 )
-
-[node name="Combo1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="11"]
-texture_normal = ExtResource( 30 )
-
-[node name="DashAttack1" parent="SkillTreeInGameAssassin/Control/CanvasLayer" index="12"]
-texture_normal = ExtResource( 31 )
-
 [node name="DashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 24 )
 volume_db = -11.347
@@ -2155,6 +2110,3 @@ one_shot = true
 [connection signal="body_exited" from="DropDetect" to="." method="_on_DropDetect_body_exited"]
 [connection signal="timeout" from="FootStepTimer" to="." method="_on_FootStepTimer_timeout"]
 [connection signal="timeout" from="DashGhostTimer" to="." method="_on_DashGhostTimer_timeout"]
-
-[editable path="SkillTreeInGameAssassin"]
-[editable path="SkillTreeInGameAssassin/Control"]

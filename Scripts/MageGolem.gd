@@ -194,7 +194,6 @@ func _add_ksanteq() -> void:
 			get_parent().add_child(q)
 			q.global_position.y = q_pos.y
 			q.global_position.x = q_pos.x + (i*24*dir)
-			#get_parent().call_deferred("add_child", q)
 			yield(get_tree().create_timer(0.35), "timeout")
 	_add_ksanteqimpact(enemy)
 
@@ -206,11 +205,6 @@ func _add_ksanteqimpact(enemy) -> void:
 
 #States
 func _idle_state(delta) -> void:
-	#if Input.is_action_just_pressed("PetAttackReady"):
-	#	if searching_for_enemy:
-	#		searching_for_enemy = false
-	#	else:
-	#		searching_for_enemy = true
 	if not is_on_floor():
 		_enter_air_state(false)
 		return
@@ -250,11 +244,6 @@ func _spawn_state(delta) -> void:
 	pass
 
 func _follow_player_state(delta) -> void:
-	#if Input.is_action_just_pressed("PetAttackReady"):
-	#	if searching_for_enemy:
-	#		searching_for_enemy = false
-	#	else:
-	#		searching_for_enemy = true
 	_get_direction_to_player()
 	velocity.y += GRAVITY*delta
 	velocity.x = MAX_SPEED* direction_x_to_player
@@ -274,8 +263,7 @@ func _enter_idle_state() -> void:
 	if wants_to_follow_enemy:
 		if _check_if_enemy_in_radius():
 			_enter_follow_enemy_state()
-	#animationplayer.stop(true)
-	#$Attack1Area/CollisionShape2D.set_deferred("disabled", true)
+
 	
 	
 
@@ -307,7 +295,7 @@ func _enter_follow_enemy_state() -> void:
 
 
 func _die():
-	animatedsprite.play("Death")
+	animationplayer.play("Die")
 	soundp.play()
 	
 
@@ -362,8 +350,6 @@ func on_EnemyHurt():
 				_enter_attack_2_state()
 				return
 		_enter_attack_2_state()
-		#	_add_ksanteq()
-			#_enter_follow_enemy_state()
 	
 
 
@@ -412,7 +398,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "Die":
 		PlayerStats.golem_active = false
 		queue_free()
-	
+
 	if anim_name == "Attack1" or "Attack2":
 		attack1_finished = true
 		if $MustEnemyInRangeForAttack2.monitoring:

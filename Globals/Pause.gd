@@ -13,4 +13,7 @@ func _input(event):
 func _pause():
 	$PauseMenu.visible = !$PauseMenu.visible
 	$Background.visible = !$Background.visible
+	$Label.visible = !$Label.visible
 	get_tree().paused = !get_tree().paused # togglar pause statusen
+	if PlayerStats.is_assassin:
+		$AssassinPressD.visible = !$AssassinPressD.visible

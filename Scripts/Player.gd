@@ -82,7 +82,6 @@ onready var darkbufftimer = $DarkBuffTimer
 onready var flashtimer = $FlashTimer
 onready var dashparticles = $DashParticles
 onready var tween = $Tween
-onready var skilltree = $SkillTreeInGame/Control/CanvasLayer
 onready var hurtbox = $HurtBox/CollisionShape2D
 onready var area_ground_attack = $NormalAttackArea/AttackGround
 onready var area_jump_attack = $NormalAttackArea/AttackJump
@@ -162,12 +161,14 @@ func _ready() -> void:
 	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed") 
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 	Quests.connect("xp_changed", self, "_on_xp_changed")
-	playersprite.play("Idle")
+	_enter_idle_state()
 	playersprite.visible = true
 	animationplayer.playback_speed = 1
-	skilltree.visible = false 
 	footstep_sounds = PlayerStats.footsteps_sound
 	hud.visible = true
+	cut.visible = false
+	thrusts.visible = false
+	abilitysprites.visible = false
 	cut.visible = false
 
 
@@ -345,11 +346,6 @@ func _check_sprites() -> void:
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		PlayerStats.hp = hp
-	if event.is_action_pressed("SkillTree"):
-		skilltree.visible = true
-		
-	if event.is_action_released("SkillTree"):
-		skilltree.visible = false
 	
 	if event.is_action_pressed("HolyBuff1") and not holy_buff_active and can_add_holy:
 		_add_buff("holy")
@@ -989,6 +985,9 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		_enter_idle_state()
 		can_attack = true
 	if anim_name == "PrepareAirAttack":
+		_get_random_sound("Attack")
+		attacksound.pitch_scale = 0.8
+		attacksound.play()
 		state = ATTACK_AIR
 	if anim_name == "Thrust2":
 		hurtbox.disabled = false
@@ -1017,7 +1016,7 @@ func _on_HurtBox_area_entered(area):
 		if area.is_in_group("EnemySword"):
 			amount = area.get_parent().damage_dealt
 			if dark_buff_active:
-				amount *= 1.5
+				amount *= 2
 			take_damage(amount, direction.x)
 			if not PlayerStats.enemies_for_golem.has(area.get_parent()): 
 				PlayerStats.enemies_for_golem.append(area.get_parent())

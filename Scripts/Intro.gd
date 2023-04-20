@@ -29,7 +29,7 @@ func _ready():
 	animp.play("NameAnim")
 	yield(animp, "animation_finished")
 	yield(get_tree().create_timer(1), "timeout")
-	Transition.load_scene("res://UI/StartMenu.tscn")#("res://UI/StartMenu.tscn")
+	get_tree().change_scene("res://Levels/CityHall.tscn")
 	
 	#pass
 func _fade_tween(value: Array) -> void:
@@ -71,7 +71,7 @@ func _skip() -> void:
 		var tween_values = [0, 1]
 		_fade_tween(tween_values)
 		animp.stop(true)
-		Transition.load_scene("res://UI/StartMenu.tscn")
+		get_tree().change_scene("res://Levels/CityHall.tscn")
 	
 
 func _input(event: InputEvent) -> void:
@@ -83,8 +83,9 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_SkipTimer_timeout() -> void:
+	timer_t.stop(timer_t)
 	can_skip = true
-	$TimerLayer/Label.visible = true
+	$TimerLayer/Label.visible = false
 	_timer_tween()
 
 func _on_Timer_timeout() -> void:

@@ -1,16 +1,23 @@
-extends Node2D
+extends Control
 
 #Necromancer
 
 onready var celeb_audio = $AudioStreamPlayer
 onready var celeb_audio_timer = $Timer
-
+onready var layer = $CanvasLayer
 
 const TEXT = preload("res://Instance_Scenes/NewSkillAssassin.tscn")
 
 
 func _ready():
 	celeb_audio_timer.connect("timeout", self, "on_celeb_audio_timer_finished")
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("SkillTree"):
+		layer.visible = true
+		
+	if event.is_action_released("SkillTree"):
+		layer.visible = false
 
 func _new_skill() -> void:
 	var env = get_node("/root/WorldEnv")
