@@ -5,12 +5,14 @@ extends Control
 onready var celeb_audio = $AudioStreamPlayer
 onready var celeb_audio_timer = $Timer
 onready var layer = $CanvasLayer
+onready var splabel = $CanvasLayer/SPLabel
 
 const TEXT = preload("res://Instance_Scenes/NewSkillAssassin.tscn")
 
 
 func _ready():
 	celeb_audio_timer.connect("timeout", self, "on_celeb_audio_timer_finished")
+	splabel.text = "Skillpoints: " + str(PlayerStats.skilltree_points)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("SkillTree"):
@@ -20,6 +22,7 @@ func _input(event: InputEvent) -> void:
 		layer.visible = false
 
 func _new_skill() -> void:
+	splabel.text = "Skillpoints: " + str(PlayerStats.skilltree_points)
 	var env = get_node("/root/WorldEnv")
 	env.new_skill_animation()
 	celeb_audio.play()

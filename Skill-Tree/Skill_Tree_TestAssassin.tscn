@@ -15,11 +15,14 @@
 [ext_resource path="res://Sounds/ImportedSounds/CelebrationEffects/teddy-short-comedy-audio-logo-happy-cartoony-intro-outro-music-145155.mp3" type="AudioStream" id=13]
 
 [node name="Control" type="Control"]
-visible = false
 script = ExtResource( 5 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.117647, 0.0392157, 0.145098, 0.572549 )
 
 [node name="BasicAttack4" parent="CanvasLayer" instance=ExtResource( 1 )]
 material = ExtResource( 2 )
@@ -27,7 +30,7 @@ margin_left = 897.0
 margin_top = 64.0
 margin_right = 937.0
 margin_bottom = 104.0
-texture_normal = ExtResource( 4 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack3") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 4 )
@@ -39,7 +42,7 @@ margin_left = 878.0
 margin_top = 235.0
 margin_right = 918.0
 margin_bottom = 275.0
-texture_normal = ExtResource( 4 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack2") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 4 )
@@ -51,7 +54,7 @@ margin_left = 763.0
 margin_top = 432.0
 margin_right = 803.0
 margin_bottom = 472.0
-texture_normal = ExtResource( 4 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 4 )
@@ -63,7 +66,7 @@ margin_left = 296.0
 margin_top = 98.0
 margin_right = 336.0
 margin_bottom = 138.0
-texture_normal = ExtResource( 12 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../DashAttack2") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 12 )
@@ -75,7 +78,7 @@ margin_left = 367.0
 margin_top = 236.0
 margin_right = 407.0
 margin_bottom = 276.0
-texture_normal = ExtResource( 12 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../DashAttack1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 12 )
@@ -87,7 +90,7 @@ margin_left = 693.0
 margin_top = 212.0
 margin_right = 733.0
 margin_bottom = 252.0
-texture_normal = ExtResource( 10 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Combo1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 9 )
@@ -99,7 +102,7 @@ margin_left = 575.0
 margin_top = 103.0
 margin_right = 615.0
 margin_bottom = 143.0
-texture_normal = ExtResource( 11 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Combo1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 11 )
@@ -111,7 +114,7 @@ margin_left = 52.0
 margin_top = 117.0
 margin_right = 92.0
 margin_bottom = 157.0
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Clone2") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 3 )
@@ -123,7 +126,7 @@ margin_left = 140.0
 margin_top = 228.0
 margin_right = 180.0
 margin_bottom = 268.0
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../Clone1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 3 )
@@ -135,7 +138,7 @@ margin_left = 171.0
 margin_top = 400.0
 margin_right = 211.0
 margin_bottom = 440.0
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 3 )
@@ -147,7 +150,7 @@ margin_left = 579.0
 margin_top = 306.0
 margin_right = 619.0
 margin_bottom = 346.0
-texture_normal = ExtResource( 8 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../DashAttack1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 6 )
@@ -159,7 +162,7 @@ margin_left = 448.0
 margin_top = 393.0
 margin_right = 488.0
 margin_bottom = 433.0
-texture_normal = ExtResource( 12 )
+texture_normal = ExtResource( 7 )
 previous_nodes_paths = [ NodePath("../BasicAttack1") ]
 texture = ExtResource( 7 )
 on_learned_texture = ExtResource( 12 )
@@ -177,6 +180,30 @@ texture = ExtResource( 4 )
 on_learned_texture = ExtResource( 4 )
 on_unlocked_texture = ExtResource( 4 )
 unlocked = true
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 698.0
+margin_top = 55.0
+margin_right = 981.0
+margin_bottom = 76.0
+text = "Hover with Mouse for description"
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 216.0
+margin_top = 320.0
+margin_right = 391.0
+margin_bottom = 365.0
+text = "Press D while in air
+For air attack"
+align = 1
+valign = 1
+
+[node name="SPLabel" type="Label" parent="CanvasLayer"]
+margin_left = 672.0
+margin_top = 512.0
+margin_right = 796.0
+margin_bottom = 533.0
+text = "skillpoints : 0"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )

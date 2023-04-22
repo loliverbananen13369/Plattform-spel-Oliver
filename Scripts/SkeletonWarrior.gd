@@ -179,7 +179,6 @@ func _turn_around():
 		direction_x *= -1
 	else:
 		direction_x = 1
-	#$RayCast2D.position.x = direction_x*15
 
 func _hit():
 	$AttackArea/CollisionShape2D2.disabled = false
@@ -188,7 +187,7 @@ func _end_of_hit():
 	$AttackArea/CollisionShape2D2.disabled = true
 
 func _bug_fixer() -> void:
-	$HurtBox.set_deferred("monitoring", true)#$HurtBox/CollisionShape2D.disabled = false
+	$HurtBox.set_deferred("monitoring", true)
 	animatedsprite.modulate.a8 = 255
 	$Sprite.visible = false
 	$AnimatedSprite2.visible = false
@@ -214,7 +213,6 @@ func _die_b():
 
 func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
-	#start_tween()
 	yield(get_tree().create_timer(duration * timescale), "timeout")
 	Engine.time_scale = 1
 
@@ -380,36 +378,47 @@ func _on_HurtBox_area_entered(area):
 	if area.is_in_group("PlayerSword"):
 		damage = player.basic_attack_dmg
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("DeadSword"):
 		damage = player.dead_skeleton_dmg
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("DeadExplosion"):
 		damage = player.dead_skeleton_exp_dmg
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("GolemAttack"):
 		damage = player.golem_dmg
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("GolemBurst"):
 		damage = player.golem_dmg
 		_enter_hurt_state(damage, 3, dark_active, holy_active)
+		return
 	if area.is_in_group("DashAttack"):
 		damage = player.dash_attack_dmg
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("Ability2"):
 		damage = player.damage_ability2
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("Ability1"):
 		damage = player.damage_ability1
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("SwordCut"):
 		damage = player.spin_attack_dmg
 		_enter_hurt_state(damage, 2, dark_active, holy_active)
+		return
 	if area.is_in_group("AirExplosion"):
 		damage = 10
 		_enter_hurt_state(damage, 1, dark_active, holy_active)
+		return
 	if area.is_in_group("Cut"):
 		damage = player.cut_dmg
 		_enter_hurt_state(damage, 2, dark_active, holy_active)
+		return
 	
 	
 

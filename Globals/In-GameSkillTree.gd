@@ -6,16 +6,14 @@ const ASSASSIN_SKILLTREE = preload("res://Skill-Tree/Skill_Tree_TestAssassin.tsc
 var tree
 
 func _ready() -> void:
-	#Quests.connect("ClassChosen", self, "_on_class_chosen")
-	_on_class_chosen()
-	tree.visible = false
+	Quests.connect("ClassChosen", self, "_on_class_chosen")
 
 	
 
 func _on_class_chosen() -> void:
 	if PlayerStats.is_assassin:
 		_add_assassin_tree()
-	else:
+	if PlayerStats.is_mage:
 		_add_necro_tree()
 
 

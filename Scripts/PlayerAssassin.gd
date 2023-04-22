@@ -66,7 +66,6 @@ var land_scene = preload("res://Instance_Scenes/LandDust.tscn")
 var jump_scene = preload("res://Instance_Scenes/JumpDust.tscn")
 var dust_scene = preload("res://Instance_Scenes/ParticlesDustAssassin.tscn")
 var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
-var prepare_attack_particles_scene = preload("res://Scenes/PreparingAttackParticles.tscn")
 var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
 var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Instance_Scenes/AirExplosion.tscn")
@@ -84,7 +83,6 @@ var attacktime := 0.0
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
-onready var attackparticles = $AttackParticles
 onready var tween = $Tween
 onready var dashparticles = $DashParticles2
 onready var area_ground_attack = $NormalAttackArea/AttackGround
@@ -106,6 +104,9 @@ onready var combotimer = $ComboTimer
 onready var justdashedtimer = $JustDashedTimer
 onready var dashghosttimer = $DashGhostTimer
 onready var hud = $HUD
+onready var jumpbuffer = $JumpBuffer
+onready var attackbuffer = $AttackBuffer
+onready var airexplosiontimer = $AirExplosionTimer
 
 
 var basic_attack_dmg = PlayerStats.assassin_basic_dmg
@@ -308,6 +309,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
 			_enter_attack1_state(1)
+			attack_pressed = 0
 			previous_attack = 1
 		else:
 			attack_pressed = 1
@@ -315,6 +317,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
 		if can_attack:
 			_enter_attack1_state(2)
+			attack_pressed = 0
 			previous_attack = 2
 		else:
 			attack_pressed = 2
@@ -322,6 +325,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
 		if can_attack:
 			_enter_attack1_state(3)
+			attack_pressed = 0
 			previous_attack = 3
 		else:
 			attack_pressed = 3
@@ -340,7 +344,6 @@ func _flip_sprite(right: bool) -> void:
 		playersprite.flip_h = true
 		animatedsmears.flip_h = true
 	animatedsmears.position.x = 20*variable
-	attackparticles.position.x = 20 * variable
 	area_ground_attack.position.x = 36 * variable
 	area_jump_attack.position.x = 20 * variable
 	area_spin_attack.position.x = 34 * variable
@@ -439,10 +442,10 @@ func _add_airexplosions() -> void:
 				yield(get_tree().create_timer(0.1), "timeout")
 				
 	
+	airexplosiontimer.start(1.0)
 	playersprite.visible = true
 	_enter_idle_state()
-	yield(get_tree().create_timer(1), "timeout")
-	hurtbox.disabled = false
+	
 
 
 func _add_impact(dir):
@@ -600,12 +603,11 @@ func _alpha_tween() -> void:
 
 
 func _remember_jump() -> void:
-	yield(get_tree().create_timer(jump_buffer), "timeout")
-	jump_pressed = false
+	jumpbuffer.start(0.2)
 
 func _remember_attack() -> void:
-	yield(get_tree().create_timer(attack_buffer), "timeout")
-	attack_pressed = 0
+	attackbuffer.start(0.1)
+	
 
 func _dash_to_enemy(enemy, switch_side: bool) -> void:
 	if not switch_side:
@@ -685,7 +687,6 @@ func _input(event):
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-	#	_add_walk_dust(15)
 		_add_jump_dust()
 		_enter_air_state(true)
 
@@ -734,7 +735,7 @@ func _run_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
-	if playersprite.frame == 1 or 4:
+	if playersprite.frame == 1:
 		last_step += 1
 		if last_step == 4:
 			_add_walk_dust(3)
@@ -882,7 +883,7 @@ func _prepare_attack_air_state(delta) -> void:
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
 func _attack_state_air(delta) -> void:
-	hurtbox.disabled = true
+
 	if direction_x != "RIGHT":
 		animatedsmears.rotation_degrees = -45
 		cut_area.rotation_degrees = -45
@@ -891,7 +892,6 @@ func _attack_state_air(delta) -> void:
 		animatedsmears.rotation_degrees = 45
 		cut_area.rotation_degrees = 45
 		velocity.x = MAX_SPEED*10
-	animationplayer.play("Thrust2")
 	cut_area.disabled = false
 	velocity.y = GRAVITY*2
 	
@@ -930,7 +930,6 @@ func _enter_idle_state() -> void:
 
 func _enter_dash_state(attack: bool, ground: bool) -> void:
 	check_sprites()
-	_add_shockwave()
 	dashparticles.emitting = true
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
 	if state == IDLE and direction == Vector2.DOWN:
@@ -1025,7 +1024,9 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		area_jump_attack.disabled = false
 	else:
 		animationplayer.play("PrepareAirAttack")
+		state = PREPARE_ATTACK_AIR
 		dashparticles.emitting = true
+		_add_shockwave()
 		frameFreeze(0.3, 0.4)
 
 func _enter_hurt_state() -> void:
@@ -1094,11 +1095,12 @@ func _combo3(enemy, list):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1" or "Attack2" or "Attack3" or "SpinAttack" or "ComboSpinAttack" or "comboewqe1" or "comboewqe2" or "comboewqe3":
-		can_attack = true
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
 		else:
 			_enter_idle_state()
+		can_attack = true
+		
 	if anim_name == "JumpAttack":
 		area_jump_attack.disabled = true
 		_enter_idle_state()
@@ -1106,6 +1108,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "PrepareAirAttack":
 		WorldEnv.emit_signal("Darken", "Prepare")
 		state = ATTACK_AIR
+		hurtbox.disabled = true
+		animationplayer.play("Thrust2")
 	if anim_name == "Thrust2":
 		hurtbox.disabled = false
 		cut_area.disabled = true
@@ -1120,10 +1124,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "OnGroundAfterAttack":
 		can_jump = true
 
-func _on_AnimationPlayer_animation_started(anim_name):
-	if anim_name == "PrepareAirAttack":
-		state = PREPARE_ATTACK_AIR
-#
+
 
 func _on_HurtBox_area_entered(area):
 	var amount
@@ -1152,7 +1153,7 @@ func _on_xp_changed() -> void:
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		PlayerStats.current_xp += 5
+		PlayerStats.current_xp += 10
 		if _level_up():
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
 			WorldEnv.emit_signal("Darken", "lvl_up")
@@ -1235,3 +1236,13 @@ func _on_FootStepTimer_timeout():
 
 func _on_DashGhostTimer_timeout():
 	_add_assassin_ghost(false)
+
+
+func _on_JumpBuffer_timeout():
+	jump_pressed = false
+
+func _on_AttackBuffer_timeout():
+	attack_pressed = 0
+
+func _on_AirExplosionTimer_timeout():
+	hurtbox.disabled = false

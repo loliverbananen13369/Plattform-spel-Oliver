@@ -20,6 +20,9 @@ var state = IDLE
 var hit_the_ground = false
 var motion_previous = Vector2()
 
+var holy_buff_active := false
+var dark_buff_active := false
+
 export var can_jump := true
 export var can_dash := true
 export var can_attack := true
@@ -43,6 +46,7 @@ var dust_scene = preload("res://Instance_Scenes/ParticlesDustAssassin.tscn")
 var crouch_smoke_scene = preload("res://Instance_Scenes/CrouchSmoke.tscn")
 
 var crouchtime := 0.0
+var basic_attack_dmg = 1
 
 onready var playersprite = $PlayerSprite
 onready var coyotetimer = $CoyoteTimer

@@ -15,5 +15,3 @@ func _pause():
 	$Background.visible = !$Background.visible
 	$Label.visible = !$Label.visible
 	get_tree().paused = !get_tree().paused # togglar pause statusen
-	if PlayerStats.is_assassin:
-		$AssassinPressD.visible = !$AssassinPressD.visible

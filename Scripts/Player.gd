@@ -36,8 +36,6 @@ var previous_attack = 0
 
 var enemy_side_of_you
 
-var jump_buffer = 0.15
-var attack_buffer = 0.3
 var hit_amount = 0
 
 
@@ -102,6 +100,8 @@ onready var acid5shape = $Acid5Area/Acid5
 onready var cut = $CutSprite
 onready var cutarea = $CutArea/CollisionShape2D
 onready var hud = $HUD
+onready var jumpbuffer = $JumpBuffer
+onready var attackbuffer = $AttackBuffer
 
 var basic_attack_dmg = PlayerStats.mage_basic_dmg
 var dead_skeleton_dmg = PlayerStats.dead_skeleton_dmg
@@ -292,6 +292,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("EAttack1") or (attack_pressed == 1):
 		if can_attack:
 			_enter_attack1_state(1)
+			attack_pressed = 0
 			previous_attack = 1
 		else:
 			attack_pressed = 1
@@ -299,6 +300,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("Attack2") or (attack_pressed == 2):
 		if can_attack:
 			_enter_attack1_state(2)
+			attack_pressed = 0
 			previous_attack = 2
 		else:
 			attack_pressed = 2
@@ -306,6 +308,7 @@ func _attack_function():
 	if Input.is_action_just_pressed("Attack3") or (attack_pressed == 3):
 		if can_attack:
 			_enter_attack1_state(3)
+			attack_pressed = 0
 			previous_attack = 3
 		else:
 			attack_pressed = 3
@@ -399,8 +402,6 @@ func _add_dead_skeletton(this_enemy):
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
 	add_child(wave)
-	yield(get_tree().create_timer(0.5),"timeout")
-	wave.queue_free()
 
 func _add_dash_smoke(name: String):
 	var smoke = dash_smoke_scene.instance()
@@ -463,7 +464,8 @@ func _add_buff(buff_name: String) -> void:
 		effect1.animation = "lifesteal_particles"
 		_add_hp(3)
 		emit_signal("HPChanged", hp)
-	get_tree().get_root().add_child(buff)
+#	get_tree().get_root().add_child(buff)
+	add_child(buff)
 
 	
 """
@@ -476,9 +478,10 @@ func _add_buff(buff_name: String) -> void:
 """
 
 func _add_hp(amount: int) -> void:
-	if hp < 100:
-		hp += amount
-		emit_signal("HPChanged", hp)
+	hp += amount
+	if hp > max_hp:
+		hp = max_hp
+	emit_signal("HPChanged", hp)
 
 func take_damage(amount: int, direction: int) -> void:
 	_enter_hurt_state()
@@ -548,12 +551,10 @@ func _alpha_tween() -> void:
 		alpha_tween_values.invert()
 
 func _remember_jump() -> void:
-	yield(get_tree().create_timer(jump_buffer), "timeout")
-	jump_pressed = false
-
+	jumpbuffer.start(0.15)
+	
 func _remember_attack() -> void:
-	yield(get_tree().create_timer(attack_buffer), "timeout")
-	attack_pressed = 0
+	attackbuffer.start(0.2)
 	
 func player_stats():
 	if holy_buff_active:
@@ -618,7 +619,7 @@ func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
 	
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
-		_add_walk_dust(15)
+		_add_jump_dust()
 		_enter_air_state(true)
 		return
 	
@@ -680,7 +681,7 @@ func _run_state(delta) -> void:
 	if playersprite.frame == 1:
 		last_step += 1
 		if last_step == 4:
-			_add_walk_dust(5)
+			_add_walk_dust(3)
 			last_step = 0
 				
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
@@ -859,7 +860,6 @@ func _enter_crouch_state() -> void:
 	playersprite.play("Crouch")
 
 func _enter_dash_state() -> void:
-	_add_shockwave()
 	dashsound.play()
 
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
@@ -946,7 +946,9 @@ func _enter_attack_air_state(Jump: bool) -> void:
 	else:
 		animationplayer.play("PrepareAirAttack")
 		WorldEnv.emit_signal("Darken", "PrepareNecroMancer")
+		state = PREPARE_ATTACK_AIR
 		_add_preparing_attack_particles(10)
+		_add_shockwave()
 		#frameFreeze(0.2, 0.5)
 
 #Signals
@@ -975,11 +977,11 @@ func _on_attack_damage_changed(type: String):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack1" or "Attack2" or "Attack3" or "SpinAttack" or "Ability1" or "Ability2":
-		can_attack = true
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
 		else:
 			_enter_idle_state()
+		can_attack = true
 	if anim_name == "JumpAttack":
 		area_jump_attack.disabled = true
 		_enter_idle_state()
@@ -1002,9 +1004,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "OnGroundAfterAttack":
 		can_jump = true
 
-func _on_AnimationPlayer_animation_started(anim_name):
-	if anim_name == "PrepareAirAttack":
-		state = PREPARE_ATTACK_AIR
 #	
 func _on_timer_timeout() -> void:
 	#frameFreeze(0.1, 0.5)
@@ -1028,7 +1027,7 @@ func _on_HurtBox_area_entered(area):
 	
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		PlayerStats.current_xp += 40
+		PlayerStats.current_xp += 10
 		if _level_up():
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
 			WorldEnv.emit_signal("Darken", "lvl_up")
@@ -1081,6 +1080,8 @@ func _on_SwordCutArea_area_entered(area):
 		if can_add_ls:
 			_add_buff("lifesteal_particles")
 
+
+
 func _on_KinematicBody2D_side_of_player(which_side):
 	enemy_side_of_you = which_side
 
@@ -1131,12 +1132,8 @@ func _on_AttackSound_finished():
 func _on_FootStepTimer_timeout():
 	can_footstep_sound = true
 
+func _on_JumpBuffer_timeout():
+	jump_pressed = false
 
-
-
-
-
-
-
-
-
+func _on_AttackBuffer_timeout():
+	attack_pressed = 0

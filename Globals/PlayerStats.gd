@@ -4,12 +4,12 @@ extends Node
 
 var game_data = {}
 
-var player_instance = preload("res://Scenes/PlayerAssassin.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
+var player_instance = preload("res://Scenes/PlayerIntroBody.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
 var player
 
 
 
-var is_assassin = true
+var is_assassin = false
 var is_mage = false
 var current_lvl = 1
 var current_xp = 0

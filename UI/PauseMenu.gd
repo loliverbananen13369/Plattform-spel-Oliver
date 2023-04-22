@@ -16,6 +16,11 @@ onready var soundplayer = $AudioStreamPlayer
 func _ready():
 	$MainMenu/StartButton.grab_focus()
 
+func _input(event):
+	if event.is_action_pressed("SkillTree"):
+		mainmenu.visible = false
+	if event.is_action_released("SkillTree"):
+		mainmenu.visible = true
 
 func _on_StartButton_pressed():
 	#get_tree().change_scene("res://Scenes/CityHall.tscn")
@@ -51,3 +56,4 @@ func _on_BackButton_pressed():
 	optionsmenu.visible = false
 	soundplayer.pitch_scale = 0.5
 	soundplayer.play()
+

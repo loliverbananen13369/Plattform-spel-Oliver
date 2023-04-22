@@ -5,7 +5,7 @@ extends Control
 onready var celeb_audio = $AudioStreamPlayer
 onready var celeb_audio_timer = $Timer
 onready var layer = $CanvasLayer
-
+onready var splabel = $CanvasLayer/SPLabel
 
 var dark_tween_values := [0.9, 0.2]
 var dark_tween_time := 4.0
@@ -16,6 +16,7 @@ const TEXT = preload("res://Instance_Scenes/NewSkillAssassin.tscn")
 
 func _ready():
 	celeb_audio_timer.connect("timeout", self, "on_celeb_audio_timer_finished")
+	splabel.text = "Skillpoints: " + str(PlayerStats.skilltree_points)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("SkillTree"):
@@ -24,13 +25,16 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released("SkillTree"):
 		layer.visible = false
 
+
 func _new_skill() -> void:
 	var env = get_node("/root/WorldEnv")
 	env.new_skill_animation()
 	celeb_audio.play()
 	celeb_audio_timer.start(3)
+	splabel.text = "Skillpoints: " + str(PlayerStats.skilltree_points)
 
 func _spawn_text(skill: String):
+	
 	var text = TEXT.instance()
 	var anim = text.get_node("AnimationPlayer")
 
@@ -108,12 +112,15 @@ func _on_Combo3_on_learned(_node):
 func _on_DashAttack1_on_learned(_node) -> void:
 	PlayerStats.assassin_can_dash_attack = true
 	PlayerStats.assassin_dash_attack_dmg = 9
+	PlayerStats.emit_signal("AttackDamageChanged", "dash_attack_damage")
 	_spawn_text("Press Q to dashattack")
 
 func _on_DashAttack2_on_learned(_node) -> void:
 	PlayerStats.assassin_dash_attack_dmg = 14
+	PlayerStats.emit_signal("AttackDamageChanged", "dash_attack_damage")
 	_spawn_text("Dashattack slightly stronger")
 
 func _on_DashAttack3_on_learned(_node) -> void:
 	PlayerStats.assassin_dash_attack_dmg = 30
+	PlayerStats.emit_signal("AttackDamageChanged", "dash_attack_damage")
 	_spawn_text("Dashattack signicantly stronger")

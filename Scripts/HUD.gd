@@ -25,7 +25,6 @@ func _ready():
 
 
 func _on_Player_HPChanged(hp):
-	print(hp)
 	hpbar.value = hp
 	hp_tween.stop_all()
 	hp_tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)

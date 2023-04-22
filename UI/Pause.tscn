@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Globals/Pause.gd" type="Script" id=1]
 [ext_resource path="res://UI/PauseMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Intro/banana-gaming-high-resolution-color-logo.png" type="Texture" id=3]
-[ext_resource path="res://Instance_Scenes/AssassinPressD.tscn" type="PackedScene" id=4]
 
 [node name="Pause" type="CanvasLayer"]
 pause_mode = 2
@@ -29,8 +28,3 @@ margin_bottom = -433.0
 text = "Many of the Missions are non-essential. Its more fun to just kill skeletons"
 align = 1
 valign = 1
-
-[node name="AssassinPressD" parent="." instance=ExtResource( 4 )]
-visible = false
-
-[editable path="AssassinPressD"]

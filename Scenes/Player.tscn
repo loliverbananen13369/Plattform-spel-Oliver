@@ -1915,15 +1915,15 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "Idle"
-frame = 1
+animation = "ComboEWQE"
+frame = 10
 playing = true
 offset = Vector2( 0, 1 )
 
 [node name="SmearSprites" parent="." instance=ExtResource( 5 )]
 modulate = Color( 2, 0.3, 2, 1 )
 position = Vector2( 0, 0 )
-scale = Vector2( 5, 4 )
+scale = Vector2( 3, 2 )
 animation = "Thrust2"
 frame = 7
 
@@ -2097,12 +2097,19 @@ one_shot = true
 
 [node name="DarkBuffTimer" type="Timer" parent="."]
 
+[node name="JumpBuffer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="AttackBuffer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="HPChanged" from="." to="HUD" method="_on_Player_HPChanged"]
 [connection signal="LvlUp" from="." to="HUD" method="_on_Player_LvlUp"]
 [connection signal="XPChanged" from="." to="HUD" method="_on_Player_XPChanged"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
 [connection signal="area_entered" from="NormalAttackArea" to="." method="_on_NormalAttackArea_area_entered"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
@@ -2115,3 +2122,5 @@ one_shot = true
 [connection signal="finished" from="AttackSound" to="." method="_on_AttackSound_finished"]
 [connection signal="timeout" from="FootStepTimer" to="." method="_on_FootStepTimer_timeout"]
 [connection signal="timeout" from="DarkBuffTimer" to="." method="_on_DarkBuffTimer_timeout"]
+[connection signal="timeout" from="JumpBuffer" to="." method="_on_JumpBuffer_timeout"]
+[connection signal="timeout" from="AttackBuffer" to="." method="_on_AttackBuffer_timeout"]

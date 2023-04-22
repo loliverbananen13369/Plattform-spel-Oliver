@@ -286,10 +286,12 @@ animations = [ {
 } ]
 
 [node name="BuffEffect" type="Node2D"]
+show_behind_parent = true
 script = ExtResource( 2 )
 
 [node name="Spellsprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1.5, 2, 1.5, 1 )
+show_behind_parent = true
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 17 )
 animation = "lifesteal_particles"

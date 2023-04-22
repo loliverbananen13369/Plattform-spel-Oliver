@@ -54,16 +54,52 @@ func _spawn_dmg_indicator(damage: int, crit: bool):
 	get_tree().current_scene.add_child(indicator)
 
 func _on_Area2D_area_entered(area: Area2D) -> void:
+	player = PlayerStats.player
+	var holy_active = player.holy_buff_active
+	var dark_active = player.dark_buff_active
+	var damage = 0
 	if area.is_in_group("PlayerSword"):
-		_get_direction()
-		_take_damage()
-		
-func _take_damage() -> void:
-	var amount 
-	amount = 10
+		damage = player.basic_attack_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("DeadSword"):
+		damage = player.dead_skeleton_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("DeadExplosion"):
+		damage = player.dead_skeleton_exp_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("GolemAttack"):
+		damage = player.golem_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("GolemBurst"):
+		damage = player.golem_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("DashAttack"):
+		damage = player.dash_attack_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("Ability2"):
+		damage = player.damage_ability2
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("Ability1"):
+		damage = player.damage_ability1
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("SwordCut"):
+		damage = player.spin_attack_dmg
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("AirExplosion"):
+		damage = 10
+		_take_damage(damage, holy_active, dark_active)
+	if area.is_in_group("Cut"):
+		damage = player.cut_dmg
+		_take_damage(damage, holy_active, dark_active)
+	
+func _take_damage(amount, holy: bool, dark: bool) -> void:
+	var tof = false
+	if holy or dark:
+		tof = true
+	_get_direction()
 	animplayer.play("Hurt")
 	_hit_effect()
-	_spawn_dmg_indicator(amount, false)
+	_spawn_dmg_indicator(amount, tof)
 
 func _stop_physics() -> void:
 	set_physics_process(false)

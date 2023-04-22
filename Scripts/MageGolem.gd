@@ -302,13 +302,11 @@ func _die():
 func _on_PlayerNearArea_body_exited(body):
 	if state != ATTACK and state != FOLLOW_ENEMY and alive:
 		if body.is_in_group("Player"):
-			yield(get_tree().create_timer(0.15), "timeout")
 			_enter_follow_player_state()
 
 func _on_PlayerNearArea_body_entered(body):
 	if state != ATTACK and state != FOLLOW_ENEMY and alive:
 		if body.is_in_group("Player"):
-			yield(get_tree().create_timer(0.15), "timeout")
 			_enter_idle_state()
 
 func _on_HitWallTimer_timeout():
