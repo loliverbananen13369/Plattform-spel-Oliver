@@ -1035,7 +1035,6 @@ tile_data = PoolIntArray( -2424732, 13, 0, -2359198, 16, 0, -2359197, 17, 0, -23
 [node name="NPCRock" type="AnimatedSprite" parent="."]
 position = Vector2( 33, -329 )
 frames = SubResource( 24 )
-frame = 5
 playing = true
 
 [node name="MissionDialogue" parent="NPCRock" instance=ExtResource( 5 )]
@@ -1052,7 +1051,7 @@ shape = SubResource( 46 )
 
 [node name="PortalNext2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1607, -530 )
-frame = 0
+frame = 7
 
 [node name="CollisionShape2D" parent="PortalNext2/Area2D" index="0"]
 visible = false

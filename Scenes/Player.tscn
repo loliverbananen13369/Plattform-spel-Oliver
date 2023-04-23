@@ -1375,6 +1375,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("SmearSprites:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=575]
 resource_name = "OnGroundAfterAttack"
@@ -1915,8 +1927,8 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "ComboEWQE"
-frame = 10
+animation = "JumpAttack"
+frame = 1
 playing = true
 offset = Vector2( 0, 1 )
 
@@ -1924,8 +1936,7 @@ offset = Vector2( 0, 1 )
 modulate = Color( 2, 0.3, 2, 1 )
 position = Vector2( 0, 0 )
 scale = Vector2( 3, 2 )
-animation = "Thrust2"
-frame = 7
+animation = "JumpAttack"
 
 [node name="AbilitySprites" type="AnimatedSprite" parent="."]
 modulate = Color( 2, 0, 2.3, 1 )

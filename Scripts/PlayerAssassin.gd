@@ -1153,7 +1153,7 @@ func _on_xp_changed() -> void:
 
 func _on_CollectParticlesArea_area_entered(area) -> void:
 	if area.is_in_group("XP-Particle"):
-		PlayerStats.current_xp += 10
+		PlayerStats.current_xp += 5
 		if _level_up():
 			emit_signal("LvlUp", PlayerStats.current_lvl, PlayerStats.xp_needed)
 			WorldEnv.emit_signal("Darken", "lvl_up")

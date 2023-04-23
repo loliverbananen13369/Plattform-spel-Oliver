@@ -32,7 +32,7 @@ func _check_dialogue() -> void:
 
 
 func _on_QuestDialogue_dialogue_done(nr):
-	if nr == 1:#Quests.global_quest_id:
+	if nr == Quests.global_quest_id: #1
 		Quests.get_node(str(person)).emit_signal("talk_finished")
 	
 func _on_quest_available(npc):

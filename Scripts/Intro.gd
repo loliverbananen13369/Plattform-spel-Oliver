@@ -68,7 +68,7 @@ func _skip() -> void:
 		#$BananaGaming/LOGO.visible = false
 		yield(get_tree().create_timer(1.5), "timeout")
 		animp.play("NameAnim")
-	elif animp.current_animation == "NameAnim":
+	if animp.current_animation == "NameAnim":
 		var tween_values = [0, 1]
 		_fade_tween(tween_values)
 		animp.stop(true)

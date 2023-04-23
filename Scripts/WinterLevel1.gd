@@ -31,6 +31,7 @@ func _ready():
 	get_child(0).add_child(target)
 	PlayerStats.player = player
 	PlayerStats.next_scene = next_scene
+	PlayerStats.prev_scene = previous_scene
 
 func _input(event) -> void:
 	if Input.is_action_just_pressed("ui_accept"):

@@ -23,7 +23,7 @@ func _ready():
 
 	if PlayerStats.first_time:
 		_load_cutscene(1)
-		yield(get_tree().create_timer(40.5), "timeout")
+		yield(get_tree().create_timer(40.5), "timeout") 
 	set_process_unhandled_input(true)
 	$Bshouse.rect_position.x = -87#(-87, -110)
 	$Bshouse.visible = false
@@ -65,9 +65,9 @@ func _load_cutscene(time: int):
 		add_child(player_intro)
 		player_intro.global_position = Vector2(950, -20)
 		player_intro.get_node("AnimationPlayer")
-		yield(get_tree().create_timer(6), "timeout")
+		yield(get_tree().create_timer(6), "timeout") #6
 		$Elder.flip_h = true
-		yield(get_tree().create_timer(34), "timeout")
+		yield(get_tree().create_timer(34), "timeout") # 34
 		PlayerStats.first_time = false
 		emit_signal("cutscene")
 

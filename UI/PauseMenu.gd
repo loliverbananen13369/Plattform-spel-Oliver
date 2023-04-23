@@ -11,6 +11,7 @@ const BUTTON_PRESSED = preload("res://Sounds/ImportedSounds/Abstract2.wav")
 onready var mainmenu = $MainMenu
 onready var optionsmenu = $Options
 onready var soundplayer = $AudioStreamPlayer
+onready var panel = $Panel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,8 +20,12 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("SkillTree"):
 		mainmenu.visible = false
+		panel.visible = false
+		optionsmenu.visible = false
 	if event.is_action_released("SkillTree"):
 		mainmenu.visible = true
+		panel.visible = true
+		optionsmenu.visible = false
 
 func _on_StartButton_pressed():
 	#get_tree().change_scene("res://Scenes/CityHall.tscn")
@@ -31,6 +36,7 @@ func _on_StartButton_pressed():
 
 func _on_OptionsButton_pressed():
 	mainmenu.visible = false
+	panel.visible = false
 	optionsmenu.visible = true
 	soundplayer.pitch_scale = 0.7
 	soundplayer.play()
@@ -53,6 +59,7 @@ func _on_VoicePitch_value_changed(value):
 
 func _on_BackButton_pressed():
 	mainmenu.visible = true
+	panel.visible = true
 	optionsmenu.visible = false
 	soundplayer.pitch_scale = 0.5
 	soundplayer.play()

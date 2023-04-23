@@ -1859,15 +1859,14 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
 animation = "OnGround"
-frame = 10
+frame = 9
 playing = true
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
-visible = false
 modulate = Color( 3, 1.5, 1, 1 )
 position = Vector2( 10, -30 )
 frames = SubResource( 1266 )
-animation = "Smear3V"
+animation = "JumpAttack"
 frame = 4
 playing = true
 
@@ -1879,8 +1878,8 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 1267 )
 frames = SubResource( 51 )
-animation = "SpinAttack"
-frame = 7
+animation = "JumpAttack"
+frame = 3
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true
