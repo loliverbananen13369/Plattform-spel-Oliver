@@ -1,7 +1,10 @@
 extends KinematicBody2D
 
-#Se till att använda den där tiktok rösten som narrator
-#Det här är för att se om github fungerar
+
+"""
+Jag kör typ samma kod i den här som andra player
+"""
+
 enum {IDLE, DEAD, CROUCH, RUN, AIR, DASH_AIR, DASH_GROUND, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, COMBO, INVISIBLE}
 
 
@@ -33,7 +36,6 @@ var jump_attack := false
 var is_attacking := false
 var is_air_attacking := false
 var jump_pressed := false
-#var can_follow_enemy := false
 var can_add_ass_ghost := false
 var attack_pressed = 0
 var previous_attack = 0
@@ -147,7 +149,8 @@ var holy_buff_active := false
 
 
 
-func _ready() -> void:
+func _ready() -> void: #Främst debug
+	
 	playersprite.play("Idle")
 	PlayerStats.connect("AttackDamageChanged", self, "_on_attack_damage_changed")
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
@@ -158,9 +161,9 @@ func _ready() -> void:
 	thrusts.visible = false
 	animationplayer.playback_speed = 1
 	footstep_sounds = PlayerStats.footsteps_sound
-	#Främst Debug
+	
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void: 
 	match state:
 		IDLE:
 			_idle_state(delta)
@@ -192,15 +195,15 @@ func _physics_process(delta: float) -> void:
 			_combo_state(delta)
 		HURT:
 			_hurt_state(delta)
-	#Vad som sker varje frame
+
 #Help functions
 
-func set_active(active):
+func set_active(active): #Om jag vill avaktivera spelaren, används vid dialoger
 	set_physics_process(active)
 	set_process_input(active)
-	#Om jag vill avaktivera spelaren
+	
 
-func check_sprites():
+func check_sprites(): #Debug
 	cut_area.disabled = true
 	area_air_attack.disabled = true
 	area_ground_attack.disabled = true
@@ -210,9 +213,9 @@ func check_sprites():
 	animatedsmears.visible = false
 	can_attack = true
 	_set_player_mod(player_default_array)
-	#Debug
+	
 
-func _get_random_sound(type: String) -> void:
+func _get_random_sound(type: String) -> void: #Slumpar vilket ljud jag får, så det inte blir alldeles för ensidigt
 	rng.randomize()
 	if type == "Jump":
 		var number = rng.randi_range(0, JUMP_SOUNDS.size()-1)
@@ -224,36 +227,34 @@ func _get_random_sound(type: String) -> void:
 	attacksound.pitch_scale = BackgroundMusic.voice_pitch_scale
 	
 	
-	#Slumpar vilket ljud jag får 
+	
 
 
-func _apply_hurt_movement(delta) -> void:
+func _apply_hurt_movement(delta) -> void: #Movement som appliceras varje "delta" när min spelare skadas
 	velocity = velocity.move_toward(hurt_direction*0.1*MAX_SPEED, ACCELERATION*delta)
 	velocity.y = velocity.y + GRAVITY * delta if velocity.y + GRAVITY * delta < 300 else 300
 	velocity = move_and_slide(velocity, Vector2.UP)
-	#Movement som appliceras varje "delta" när min spelare skadas
+	
 
 
-func _apply_basic_movement(delta) -> void:
-	#Movement som appliceras när spelaren rör på sig eller står i idle
+func _apply_basic_movement(delta) -> void: #Movement som appliceras när spelaren rör på sig eller står i idle
 	if direction.x != 0:
 		velocity = velocity.move_toward(direction*MAX_SPEED, ACCELERATION*delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, ACCELERATION*delta)
 	velocity.y += GRAVITY*delta
 	velocity = move_and_slide(velocity, Vector2.UP)
-	if not hit_the_ground and is_on_floor():
+	if not hit_the_ground and is_on_floor(): #Att lerpa spelarspritens skala känns lite onödigt och är något jag gjorde i början när jag kollade på "How to make your movement more celeste-like", men känns RIP att ta bort när jag väl suttit där flera timmar och hållit på med olika värden. Det som händer iallafall är att spelarens x/y-skala ändras lite så det blir mer smooth air movement
 		hit_the_ground = true
-		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8) # 0.9, 0.8
-		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9) # 0.9, 0.9
+		playersprite.scale.y = range_lerp(abs(motion_previous.y), 0, abs(200), 0.9, 0.8)
+		playersprite.scale.x = range_lerp(abs(motion_previous.x), 0, abs(200), 0.9, 0.9)
 		#ger motion_previous.x/y ett värde från (mellan 0, abs(200)) till (0.9, 0.8 )
-		#Här kan det vara fel
 	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta)) #( 0.01 ^ delta)
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 	#ger: playersprite.scale.x/y * 1 * 1-0.01^delta, varje delta
-	#Att lerpa spelarspritens skala känns lite onödigt och är något jag gjorde i början när jag kollade på "How to make your movement more celeste-like", men känns RIP att ta bort när jag väl suttit där flera timmar och hållit på med olika värden
 	
-func _get_input_x_update_direction() -> float:
+	
+func _get_input_x_update_direction() -> float: 
 	var input_x = Input.get_axis("move_left", "move_right")
 	if input_x > 0:
 		direction_x = "RIGHT"
@@ -264,7 +265,7 @@ func _get_input_x_update_direction() -> float:
 	
 	return input_x
 
-func _get_input_x_crouch_direction() -> float:
+func _get_input_x_crouch_direction() -> float: #Samma som _get_input_x_update_directio() fast man får tvärtom
 	var input_x = Input.get_axis("move_left", "move_right")
 	if input_x > 0:
 		direction_x = "RIGHT"
@@ -286,8 +287,8 @@ func _air_movement(delta) -> void:
 	
 	if not is_on_floor():
 		hit_the_ground = false
-		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.9, 0.8) #0.8, 1
-		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 0.9, 0.7)#0.9, 0.65) # 1, o.8
+		playersprite.scale.y = range_lerp(abs(velocity.y), 0, abs(JUMP_STRENGHT), 0.9, 0.8)  #Ändrar spelarens y skala när den är i luften för att få mer liv. Taget från youtube i början när jag jobbade på movement och jump strength
+		playersprite.scale.x = range_lerp(abs(velocity.x), 0, abs(JUMP_STRENGHT), 0.9, 0.7)
 
 
 func _get_closest_enemy(enemy_group):
@@ -367,7 +368,6 @@ func _add_crouch_ghost() -> void:
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
 	ghost.global_position = global_position + Vector2(0, -2)
-	#ghost.global_position.y -= 20
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
 
@@ -380,15 +380,13 @@ func _add_walk_dust(amount: int) -> void:
 	get_tree().get_root().add_child(dust)
 
 func _add_land_dust()-> void:
-	var dust = land_scene.instance()#jl_scene.instance()
-	dust.global_position = playersprite.global_position + Vector2(0, 22) # 15
-	#dust.play("LandSmokeAssassin")
+	var dust = land_scene.instance()
+	dust.global_position = playersprite.global_position + Vector2(0, 22)
 	get_tree().get_root().add_child(dust)
 
 func _add_jump_dust() -> void:
-	var dust = jump_scene.instance()#jl_scene.instance()
+	var dust = jump_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 15)
-	#dust.play("JumpSmokeSideAssassin")
 	get_tree().get_root().add_child(dust)
 
 
@@ -403,7 +401,7 @@ func _add_buff(buff_name: String) -> void:
 
 func _add_first_air_explosion() -> void:
 	var all_enemy = get_tree().get_nodes_in_group("Enemy") #En lista på alla fiender som är med i spelet
-	state = COMBO #Egentligen bara så att den inte applicerar någon egen movement, eller tar emot inputs
+	state = COMBO #Egentligen bara så att den inte applicerar någon egen movement
 	playersprite.visible = false 
 	hurtbox.disabled = true #För svag om spelaren kan ta dmg
 	var explosion = air_explosion_scene.instance()
@@ -413,7 +411,7 @@ func _add_first_air_explosion() -> void:
 	explosion.global_position = global_position + Vector2(5, -15) 
 	if is_instance_valid(closest_enemy): #Måste se till att fienden har laddats klart / om den inte har hunnit tagits bort helt
 		get_tree().get_root().add_child(explosion)
-		if global_position.distance_to(closest_enemy.global_position) < 60: #Pallar inte göra om alla combos
+		if global_position.distance_to(closest_enemy.global_position) < 60:
 			tween.interpolate_property(explosion, "position", explosion.global_position, closest_enemy.global_position + Vector2(5, -15), 0.3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 			tween.start() #tvenar en slät animation från spelarens nuvarande position till fiendens position
 			testpos = closest_enemy.global_position + Vector2(5, -15) #Ger ett nytt värde till explosionens startposition
@@ -490,13 +488,11 @@ func _spawn_energy(enemy):
 	child.global_position = enemy.global_position
 	hit_count = 0
 	get_tree().get_root().call_deferred("add_child", child)
-	#call_deferred("add_child", energy)
 	
 
 func _add_shockwave():
 	var wave = shockwave_scene.instance()
 	add_child(wave)
-	#_add_speedlines()
 	
 
 func _add_clone(enemy):
@@ -518,17 +514,15 @@ func _add_clone(enemy):
 				flip = true
 				dir = 1
 			smearsp.animation = animatedsmears.animation
-			#clone.ani = _get_smearsprite("q")
 			clone.global_position = enemy.global_position + Vector2(30*dir, -5)
-			clone.flip_h = flip #playersprite.flip_h
+			clone.flip_h = flip 
 			get_tree().get_root().add_child(clone)
 
-func _add_assassin_ghost(dash: bool):
+func _add_assassin_ghost(): 
 	var ghost = new_ghost_scene.instance()
 	ghost.animation = playersprite.animation
 	ghost.frame = playersprite.frame
 	ghost.global_position = global_position
-	#ghost.global_position.y -= 20
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
 
@@ -549,7 +543,7 @@ func _die(hp):
 		add_child(child)
 		set_process_input(false)
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: int) -> void: #Om spelaren tar damage, samt vilket håll den ska flyga åt
 	_enter_hurt_state()
 	if enemy_side_of_you == "right":
 		_flip_sprite(true)
@@ -574,23 +568,23 @@ func take_damage(amount: int) -> void:
 	flashtimer.start(2)
 	_alpha_tween()
 
-func _set_player_mod(array: Array):
+func _set_player_mod(array: Array): #Hjälp funktion där man kan ändra spelarens modulate mha en lista
 	playersprite.modulate.r = array[0]
 	playersprite.modulate.g = array[1]
 	playersprite.modulate.b = array[2]
 	playersprite.modulate.a = array[3]
 
-func frameFreeze(timescale, duration):
+func frameFreeze(timescale, duration): #Gör att allt i spelet går i timescale tempo, i duration sekunder
 	Engine.time_scale = timescale
 	yield(get_tree().create_timer(duration * timescale), "timeout")
 	Engine.time_scale = 1
 
-func flash():
+func flash(): #Använder shader. Tänker inte försöka förklara shaders
 	playersprite.material.set_shader_param("flash_modifier", 0.7) 
 	yield(get_tree().create_timer(0.2), "timeout")
 	playersprite.material.set_shader_param("flash_modifier", 0.0)
 	
-func _alpha_tween() -> void:
+func _alpha_tween() -> void: #Visar att spelaren är immun mot dmg
 	var alpha_tween_values = [255, 60]
 	for i in range (4):
 		tween.interpolate_property(playersprite, "modulate:a8", alpha_tween_values[0], alpha_tween_values[1], 0.25)
@@ -602,37 +596,39 @@ func _alpha_tween() -> void:
 		alpha_tween_values.invert()	
 
 
-func _remember_jump() -> void:
+func _remember_jump() -> void: #Buffer
 	jumpbuffer.start(0.2)
 
-func _remember_attack() -> void:
+func _remember_attack() -> void: #Buffer
 	attackbuffer.start(0.1)
-	
+
+func _change_xp() -> void:
+	emit_signal("XPChanged", PlayerStats.current_xp)
 
 func _dash_to_enemy(enemy, switch_side: bool) -> void:
 	if not switch_side:
 		if is_instance_valid(enemy):
 			if global_position.x >= enemy.global_position.x:
-				global_position.x = enemy.global_position.x + 30 #Vector2(30, 0)
+				global_position.x = enemy.global_position.x + 30 
 				direction_x = "LEFT"
 				_flip_sprite(false)
 			else:
-				global_position.x = enemy.global_position.x - 30# Vector2(30, 0)
+				global_position.x = enemy.global_position.x - 30
 				direction_x = "RIGHT"
 				_flip_sprite(true)
 	else:
 		if is_instance_valid(enemy):
 			if global_position.distance_to(enemy.global_position) < 100:
 				if global_position.x <= enemy.global_position.x:
-					global_position.x = enemy.global_position.x + 30# + Vector2(30, -4)
+					global_position.x = enemy.global_position.x + 30
 					direction_x = "LEFT"
 					_flip_sprite(false)
 				else:
-					global_position.x = enemy.global_position.x - 30# - Vector2(30, 4)
+					global_position.x = enemy.global_position.x - 30
 					direction_x = "RIGHT"
 					_flip_sprite(true)
 
-func _get_smearsprite(button: String):
+func _get_smearsprite(button: String): 
 	if button == "q":
 		animatedsmears.animation = PlayerStats.assassin_smearsprite_q
 	if button == "w":
@@ -640,10 +636,8 @@ func _get_smearsprite(button: String):
 	if button == "e":
 		animatedsmears.animation = PlayerStats.assassin_smearsprite_e
 
-func _get_crit():
-	pass
 
-func check_combo() -> void:
+func check_combo() -> void: #Kollar senaste attackerna 
 	var full_list = PlayerStats.assassin_combo_list
 	var re_combo_list = []
 	var check_combo_list = []
@@ -657,7 +651,6 @@ func check_combo() -> void:
 		_enter_combo_state(index)
 	else:
 		_enter_idle_state()
-
 
 func _get_random_attack():
 	var attack = "Attack"
@@ -680,9 +673,9 @@ func _level_up():
 
 
 func _input(event):
-	
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("ui_accept"): #Uppdaterar globala stats innan spelaren accepterar en portal
 		PlayerStats.hp = hp
+
 #STATES:
 func _idle_state(delta) -> void:
 	direction.x = _get_input_x_update_direction()
@@ -708,17 +701,16 @@ func _dead_state(_delta) -> void:
 	set_process_input(false)
 
 func _crouch_state(delta) -> void:
-	
 	direction.x = _get_input_x_crouch_direction()
 	velocity = velocity.move_toward(Vector2.ZERO, 0.5*ACCELERATION*delta)
 	velocity.y += GRAVITY*delta
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	if Input.is_action_just_pressed("Dash"):
+	if Input.is_action_just_pressed("Dash"): 
 		if Input.is_action_pressed("Crouch"):
 			velocity.y = JUMP_STRENGHT * 0.1
 			playersprite.play("JumpN")
-			set_collision_mask_bit(11, false)
+			set_collision_mask_bit(11, false) #Gör att man kan hoppa genom plattformar. Mer smooth gameplay
 			_enter_air_state(false)
 	
 	if Input.is_action_just_released("Crouch"):
@@ -728,7 +720,7 @@ func _crouch_state(delta) -> void:
 		crouchtime += delta
 		if crouchtime >= 0.07:
 			_add_crouch_ghost()
-			_add_assassin_ghost(true)
+			_add_assassin_ghost()
 			crouchtime = 0
 
 func _run_state(delta) -> void:
@@ -748,7 +740,6 @@ func _run_state(delta) -> void:
 
 	
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		
 		_enter_dash_state(false, true)
 		return
 		
@@ -806,7 +797,6 @@ func _air_state(delta) -> void:
 	_air_movement(delta)
 	var current_animation = playersprite.get_animation()
 	if is_on_floor(): 
-		#if jump_pressed == false:
 		_add_land_dust()
 		_enter_idle_state()
 		return
@@ -833,10 +823,6 @@ func _dash_state_ground(delta):
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	#ghosttime += delta
-	#if ghosttime >= 0.09:
-	#	_add_dash_ghost()
-	#	ghosttime = 0.06
 
 func _stop_state(delta):
 	direction.x = _get_input_x_update_direction()
@@ -859,7 +845,7 @@ func _stop_state(delta):
 		crouchtime += delta
 		if crouchtime >= 0.07:
 			_add_crouch_ghost()
-			_add_assassin_ghost(true)
+			_add_assassin_ghost()
 			crouchtime = 0
 	
 	if not is_on_floor():
@@ -904,7 +890,6 @@ func _attack_state_air(delta) -> void:
 	
 func _jump_attack_state(delta) -> void:
 	_air_movement(delta)
-	#velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
 	if is_on_floor():
 		_enter_idle_state()
 
@@ -914,11 +899,10 @@ func _combo_state(delta) -> void:
 	
 	attacktime += delta
 	if attacktime >= 0.02:
-		_add_assassin_ghost(true)
+		_add_assassin_ghost()
 		attacktime = 0
 
 func _hurt_state(delta) -> void:
-	#_air_movement(delta)
 	_apply_hurt_movement(delta)
 
 #Enter states
@@ -936,7 +920,6 @@ func _enter_dash_state(attack: bool, ground: bool) -> void:
 		return
 	elif direction == Vector2.ZERO:
 		direction.x = 1 if direction_x == "RIGHT" else -1
-
 	dashsound.play()
 	if ground:
 		_add_dash_smoke("DASH_GROUND")
@@ -946,10 +929,7 @@ func _enter_dash_state(attack: bool, ground: bool) -> void:
 		state = DASH_AIR
 		can_add_ass_ghost = true
 	_set_player_mod(player_glow_array)
-	
-	#playersprite.material.set_shader_param("flash_modifier", 0.8)
 	playersprite.play("Dash")
-	#dashline.visible = true
 	can_dash = false
 	dashtimer.start(0.25)
 	
@@ -1003,13 +983,10 @@ func _enter_attack1_state(attack: int) -> void:
 	combo_list.append(previous_attack) 
 	if combo_list.size() >= 4:
 		check_combo()
-	#if combo_list.size() == 0:
-	#	_enter_idle_state()
 
 func _enter_dash_attack_state(attack: int) -> void:
 	if attack == 1 and energy >= 5:
 		state = ATTACK_DASH
-		#animationplayer.play("DashAttack")
 		playersprite.play("SpinAttack")
 		_add_dash_attack()
 		energy -= 5
@@ -1026,7 +1003,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		animationplayer.play("PrepareAirAttack")
 		state = PREPARE_ATTACK_AIR
 		dashparticles.emitting = true
-		_add_shockwave()
+		_add_shockwave() #Shockwaven är en shader 
 		frameFreeze(0.3, 0.4)
 
 func _enter_hurt_state() -> void:
@@ -1091,9 +1068,9 @@ func _combo3(enemy, list):
 			_add_clone(enemy)
 	emit_signal("EnergyChanged", energy)
 
-#Signals
+#Signaler
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(anim_name): #Byter states efter en animation 
 	if anim_name == "Attack1" or "Attack2" or "Attack3" or "SpinAttack" or "ComboSpinAttack" or "comboewqe1" or "comboewqe2" or "comboewqe3":
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
@@ -1137,10 +1114,6 @@ func _on_HurtBox_area_entered(area):
 		if can_take_damage:
 			take_damage(amount)
 
-
-func _change_xp() -> void:
-	emit_signal("XPChanged", PlayerStats.current_xp)
-
 func _on_attack_damage_changed(type):
 	if type == "basic_attack_damage":
 		life_steal = PlayerStats.life_steal
@@ -1182,9 +1155,8 @@ func _on_NormalAttackArea_area_entered(area):
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
 			PlayerStats.enemies_hit_by_player.append(area.get_parent())
 		if hit_count >= 2:
-			_spawn_energy(area)#.get_parent())
+			_spawn_energy(area)
 
-#Timers
 func on_jump_sound_timer_timeout() -> void:
 	can_jump_sound = true
 
@@ -1235,7 +1207,7 @@ func _on_FootStepTimer_timeout():
 	can_footstep_sound = true
 
 func _on_DashGhostTimer_timeout():
-	_add_assassin_ghost(false)
+	_add_assassin_ghost()
 
 
 func _on_JumpBuffer_timeout():

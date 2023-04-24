@@ -1928,7 +1928,6 @@ shape = SubResource( 53 )
 material = SubResource( 636 )
 frames = SubResource( 51 )
 animation = "JumpAttack"
-frame = 1
 playing = true
 offset = Vector2( 0, 1 )
 

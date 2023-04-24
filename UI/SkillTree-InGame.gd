@@ -84,12 +84,12 @@ func _on_Golem3_on_learned(node):
 	_spawn_text("More damage. Rock solid!")
 
 func _on_Golem2_on_learned(node):
-	PlayerStats.golem_life_time = 8
+	PlayerStats.golem_life_time = 15.0
 	PlayerStats.emit_signal("AttackDamageChanged", "golem")
 	_spawn_text("Longer lifetime. Rock solid!")
 
 func _on_Golem4_on_learned(node):
-	PlayerStats.golem_life_time = 15.0
+	PlayerStats.golem_life_time = 25.0
 	PlayerStats.golem_dmg = 15
 	PlayerStats.emit_signal("AttackDamageChanged", "golem")
 	_spawn_text("Stronger stone. Rock Solid!")

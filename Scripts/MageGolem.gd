@@ -165,7 +165,6 @@ func _basic_movement(delta) -> void:
 	velocity.x = MAX_SPEED * direction_x
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	
 
 func _air_movement(delta) -> void:
 	velocity.y = velocity.y + GRAVITY * delta if velocity.y + GRAVITY * delta < 500 else 500 
@@ -289,7 +288,7 @@ func _enter_follow_enemy_state() -> void:
 		if not angry: 
 			follow_this_enemy = _get_closest_enemy_to_player(PlayerStats.enemies_for_golem)
 		animatedsprite.play("Run")
-		state = FOLLOW_ENEMY	
+		state = FOLLOW_ENEMY
 	else:
 		_enter_idle_state()
 
@@ -348,6 +347,7 @@ func on_EnemyHurt():
 				_enter_attack_2_state()
 				return
 		_enter_attack_2_state()
+		wants_to_follow_enemy = true
 	
 
 
@@ -355,9 +355,6 @@ func _on_EnemyInRangeForAttack_body_entered(body):
 	if PlayerStats.enemies_for_golem.has(body) and state != ATTACK and alive:
 		_enter_attack_state()
 
-
-
-	
 func _on_EnemyInRangeForAttack_body_exited(body):
 	if PlayerStats.enemies_for_golem.has(body) and alive:
 		if attack1_finished:
@@ -396,16 +393,13 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "Die":
 		PlayerStats.golem_active = false
 		queue_free()
-
 	if anim_name == "Attack1" or "Attack2":
 		attack1_finished = true
 		if $MustEnemyInRangeForAttack2.monitoring:
 			if is_instance_valid(must_follow_this_enemy) and $MustEnemyInRangeForAttack2.overlaps_body(must_follow_this_enemy):
-				_enter_attack_state()
-			else:
-				if wants_to_follow_enemy:
-					_enter_follow_enemy_state()
-		elif wants_to_follow_enemy:
+				_enter_attack_2_state()
+				return
+		if wants_to_follow_enemy:
 			if _check_if_enemy_in_range_for_attack():
 				_enter_attack_state()
 			else:

@@ -1,9 +1,11 @@
 extends CanvasLayer
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+"""
+Ja inget speciellt. Väldigt "dålig kod", men det funkar. Det är bara ett intro ändå så
+"""
+
+
 const NEW_AUDIO = "res://Intro/sunrise-114326.mp3"
 onready var tween = $Tween
 onready var timer_t = $TimerTween

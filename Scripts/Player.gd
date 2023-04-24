@@ -1,13 +1,12 @@
-class_name Player
+class_name Player #Hhar inte använt det här dock. 
 extends KinematicBody2D
 
-#Se till att använda den där tiktok rösten som narrator
-#Det här är för att se om github fungerar
+"""
+Förklaringar finns i PlayerAssassin. Assassin är egentligen divine warrior medan mage/bara player är necromancer. Jag bytte namn på dem i slutet
+"""
+
+
 enum {IDLE, CROUCH, RUN, AIR, DASH, STOP, ATTACK_GROUND, ATTACK_DASH, ATTACK_AIR, JUMP_ATTACK, PREPARE_ATTACK_AIR, HURT, ABILITY, DEAD}
-#4c0046
-#0.3
-#0
-#0.27
 
 const MAX_SPEED = 200
 const ACCELERATION = 1000
@@ -358,8 +357,6 @@ func _input(event):
 		dark_buff_active = true
 		darkbufftimer.start(7.2)
 		
-	
-
 func _flip_sprite(right: bool) -> void:
 	var variable
 	if right:
@@ -381,7 +378,6 @@ func _add_pet():
 		get_tree().get_root().add_child(pet)
 		hp -= 10
 		emit_signal("HPChanged", hp)
-		#PlayerStats.emit_signal("GolemStatus")
 
 func _add_crouch_ghost() -> void:
 	var dir 

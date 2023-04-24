@@ -4,13 +4,13 @@ extends Node
 
 var game_data = {}
 
-var player_instance = preload("res://Scenes/PlayerIntroBody.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
+var player_instance = preload("res://Scenes/Player.tscn")#("res://Scenes/PlayerIntroBody.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
 var player
 
 
 
 var is_assassin = false
-var is_mage = false
+var is_mage = true
 var current_lvl = 1
 var current_xp = 0
 var xp_needed = 40
@@ -32,7 +32,7 @@ var enemy_who_hurt_list = []
 var enemies_hit_by_player = []
 var enemies_for_golem = []
 
-var skilltree_points = 0
+var skilltree_points = 20
 
 var assassin_can_dash_attack = false
 var assassin_combo_ewqe = "comboewqe1"
@@ -56,7 +56,7 @@ var empowered_skeleton = false
 var dead_skeleton_dmg = 3
 var dead_skeleton_exp_dmg = 5
 var golem_dmg = 5
-var golem_life_time = 5.0
+var golem_life_time = 8.0
 var ability1_learned = false
 var ability2_learned = false
 var golem_active = false

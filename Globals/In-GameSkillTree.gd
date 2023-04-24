@@ -7,6 +7,7 @@ var tree
 
 func _ready() -> void:
 	Quests.connect("ClassChosen", self, "_on_class_chosen")
+	_on_class_chosen()
 
 	
 
