@@ -1,12 +1,10 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Random_Effects/Effect 2 - Sprite Sheet.new.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SkeletonWarrior.gd" type="Script" id=2]
 [ext_resource path="res://Enemy/EnemySkins/SkeletonWarriorGreen.tres" type="SpriteFrames" id=3]
 [ext_resource path="res://Scenes/flash.shader" type="Shader" id=4]
-[ext_resource path="res://Random_Effects/Effect 3 - Sprite Sheet.png" type="Texture" id=5]
 [ext_resource path="res://Random_Effects/Effect 1 - Sprite Sheet.new.png" type="Texture" id=7]
-[ext_resource path="res://Random_Effects/Effect 4 - Sprite Sheet.png" type="Texture" id=8]
 [ext_resource path="res://Random_Effects/Thrust 2 SpriteSheet.test3.png" type="Texture" id=12]
 [ext_resource path="res://Sounds/ImportedSounds/Enemy/EnemyHurt/enemy_hurt_1.wav" type="AudioStream" id=13]
 
@@ -474,46 +472,6 @@ region = Rect2( 0, 96, 64, 32 )
 atlas = ExtResource( 1 )
 region = Rect2( 0, 128, 64, 32 )
 
-[sub_resource type="AtlasTexture" id=73]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=74]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 32, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=75]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 64, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=76]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 96, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=77]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 128, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=78]
-atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=79]
-atlas = ExtResource( 8 )
-region = Rect2( 0, 32, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=80]
-atlas = ExtResource( 8 )
-region = Rect2( 0, 64, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=81]
-atlas = ExtResource( 8 )
-region = Rect2( 0, 96, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=82]
-atlas = ExtResource( 8 )
-region = Rect2( 0, 128, 32, 32 )
-
 [sub_resource type="SpriteFrames" id=83]
 animations = [ {
 "frames": [ SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ), SubResource( 88 ), SubResource( 89 ) ],
@@ -524,16 +482,6 @@ animations = [ {
 "frames": [ SubResource( 147 ), SubResource( 148 ), SubResource( 149 ), SubResource( 150 ), SubResource( 151 ) ],
 "loop": true,
 "name": "Hurt2",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ) ],
-"loop": true,
-"name": "Hurt3",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 78 ), SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ) ],
-"loop": true,
-"name": "Hurt4",
 "speed": 5.0
 } ]
 
@@ -640,8 +588,8 @@ script = ExtResource( 2 )
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 50 )
 frames = ExtResource( 3 )
-animation = "Dead"
-frame = 12
+animation = "Hurt"
+frame = 4
 playing = true
 flip_h = true
 
@@ -717,7 +665,6 @@ shape = SubResource( 60 )
 one_shot = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
-visible = false
 modulate = Color( 2, 2, 2, 1 )
 position = Vector2( 0, 5 )
 scale = Vector2( 3, 1 )

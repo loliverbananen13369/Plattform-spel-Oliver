@@ -1859,15 +1859,16 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.5, 1 )
 frames = SubResource( 537 )
 animation = "OnGround"
-frame = 13
+frame = 18
 playing = true
 
 [node name="SmearSprites" parent="." instance=ExtResource( 2 )]
 modulate = Color( 3, 1.5, 1, 1 )
 position = Vector2( 10, -30 )
+scale = Vector2( 4, 4 )
 frames = SubResource( 1266 )
-animation = "JumpAttack"
-frame = 4
+animation = "Thrust2"
+frame = 5
 playing = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." groups=["Player"]]
@@ -1876,9 +1877,11 @@ position = Vector2( 2, 11 )
 shape = SubResource( 53 )
 
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
+visible = false
 material = SubResource( 1267 )
 frames = SubResource( 51 )
-animation = "JumpAttack"
+animation = "FallF"
+frame = 2
 playing = true
 offset = Vector2( 0, 1 )
 flip_h = true

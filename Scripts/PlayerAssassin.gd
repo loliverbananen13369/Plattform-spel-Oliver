@@ -61,15 +61,12 @@ var footstep_sounds
 
 
 var ghost_scene = preload("res://Instance_Scenes/GhostDashAssassin.tscn")
-var speedline_scene = preload("res://Instance_Scenes/Speedlines.tscn")
 var new_ghost_scene = preload("res://Instance_Scenes/AssassinGhost.tscn")
 var dash_smoke_scene = preload("res://Instance_Scenes/DashSmokeAssassin.tscn")
 var land_scene = preload("res://Instance_Scenes/LandDust.tscn")
 var jump_scene = preload("res://Instance_Scenes/JumpDust.tscn")
 var dust_scene = preload("res://Instance_Scenes/ParticlesDustAssassin.tscn")
-var skeleton_enemy_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 var buff_scene = preload("res://Instance_Scenes/BuffEffect.tscn")
-var holy_particles_scene = preload("res://Scenes/HolyParticles.tscn")
 var air_explosion_scene = preload("res://Instance_Scenes/AirExplosion.tscn")
 var shockwave_scene = preload("res://Instance_Scenes/Shockwave.tscn")
 var clone_scene = preload("res://Instance_Scenes/AssassinClone.tscn")
