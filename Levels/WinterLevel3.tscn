@@ -802,7 +802,7 @@ ground_color = "348daf"
 footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Snow.wav"
 
 [node name="Position2D" parent="PlayerNode" index="0"]
-position = Vector2( 444, -186 )
+position = Vector2( 38, -43 )
 
 [node name="MainTileMap" parent="." index="2"]
 modulate = Color( 0.45098, 0.745098, 0.827451, 1 )
@@ -854,6 +854,7 @@ position = Vector2( 1199, -233 )
 position = Vector2( 3, 14 )
 
 [node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="8"]
+visible = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2" index="0"]
 motion_scale = Vector2( 0.01, 0.01 )
@@ -883,4 +884,4 @@ texture = ExtResource( 1 )
 position = Vector2( 1172, -38 )
 
 [node name="Previous" parent="." index="10" instance=ExtResource( 8 )]
-position = Vector2( 61, -40 )
+position = Vector2( 461, -203 )
