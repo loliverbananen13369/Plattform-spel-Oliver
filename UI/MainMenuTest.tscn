@@ -46,7 +46,6 @@ focus_neighbour_bottom = NodePath("../StartButton")
 text = "Quit"
 
 [node name="Options" type="VBoxContainer" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0

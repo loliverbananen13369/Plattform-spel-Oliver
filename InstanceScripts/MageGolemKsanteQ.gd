@@ -12,7 +12,6 @@ func _ready() -> void:
 	playing = true
 
 func _physics_process(delta) -> void:
-#	position.x += delta * 2
 	pass
 
 func _on_AnimatedSprite_animation_finished() -> void:

@@ -16,7 +16,8 @@ onready var normal_d = $NPCRock/Dialogue
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	BackgroundMusic.play_sound("GameMusic")
+	if not BackgroundMusic.GameMusic.playing:
+		BackgroundMusic.play_sound("GameMusic")
 	PlayerStats.ground_color = "a4dddb"
 	PlayerStats.enemy_hpbar_color = "a4dddb"
 	player = player_scene.instance()

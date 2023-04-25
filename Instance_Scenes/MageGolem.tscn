@@ -472,9 +472,10 @@ position = Vector2( -2, 3 )
 shape = SubResource( 58 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 1.075, 0.875, 1.125, 1 )
 frames = SubResource( 57 )
-animation = "Attack1"
-frame = 10
+animation = "Attack2"
+frame = 7
 playing = true
 
 [node name="PlayerDetector" type="Area2D" parent="."]
@@ -548,6 +549,9 @@ one_shot = true
 stream = ExtResource( 2 )
 volume_db = -10.0
 
+[node name="KsanteQImpactTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
 [connection signal="body_entered" from="PlayerNearArea" to="." method="_on_PlayerNearArea_body_entered"]
 [connection signal="body_exited" from="PlayerNearArea" to="." method="_on_PlayerNearArea_body_exited"]
@@ -557,5 +561,5 @@ volume_db = -10.0
 [connection signal="body_entered" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_entered"]
 [connection signal="body_exited" from="EnemyInRangeForAttack" to="." method="_on_EnemyInRangeForAttack_body_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 [connection signal="timeout" from="LifeTimeTimer" to="." method="_on_LifeTimeTimer_timeout"]
+[connection signal="timeout" from="KsanteQImpactTimer" to="." method="_on_KsanteQImpactTimer_timeout"]

@@ -683,6 +683,7 @@ frames = SubResource( 83 )
 animation = "Hurt2"
 
 [node name="RayCast2D" type="Area2D" parent="."]
+visible = false
 position = Vector2( 15, 0 )
 collision_layer = 0
 collision_mask = 2064
@@ -693,6 +694,7 @@ scale = Vector2( 0.3, 1 )
 shape = SubResource( 284 )
 
 [node name="PlayerDetector" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
@@ -715,6 +717,7 @@ shape = SubResource( 60 )
 one_shot = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+visible = false
 modulate = Color( 2, 2, 2, 1 )
 position = Vector2( 0, 5 )
 scale = Vector2( 3, 1 )
@@ -724,10 +727,8 @@ frame = 5
 playing = true
 
 [node name="WallRayCast" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2064
-monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRayCast"]
 position = Vector2( -5, 0 )

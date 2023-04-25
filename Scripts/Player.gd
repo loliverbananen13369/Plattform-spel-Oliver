@@ -356,7 +356,10 @@ func _input(event):
 		_add_buff("dark2")
 		dark_buff_active = true
 		darkbufftimer.start(7.2)
-		
+	
+	if event.is_action_pressed("add_pet") and can_add_golem:
+		_add_pet()
+	
 func _flip_sprite(right: bool) -> void:
 	var variable
 	if right:
@@ -374,7 +377,7 @@ func _flip_sprite(right: bool) -> void:
 func _add_pet():
 	if not PlayerStats.golem_active:
 		var pet = pet_scene.instance()
-		pet.global_position = global_position + Vector2(20, -10)
+		pet.global_position = global_position 
 		get_tree().get_root().add_child(pet)
 		hp -= 10
 		emit_signal("HPChanged", hp)
@@ -458,7 +461,7 @@ func _add_buff(buff_name: String) -> void:
 		effect1.animation = "dark2"
 	if buff_name == "lifesteal_particles":
 		effect1.animation = "lifesteal_particles"
-		_add_hp(3)
+		_add_hp(2)
 		emit_signal("HPChanged", hp)
 #	get_tree().get_root().add_child(buff)
 	add_child(buff)
@@ -553,20 +556,7 @@ func _remember_attack() -> void:
 	attackbuffer.start(0.2)
 	
 func player_stats():
-	if holy_buff_active:
-		basic_attack_dmg *= 2
-		damage_ability1 *= 2
-		damage_ability2 *= 2
-		return
-	if dark_buff_active:
-		basic_attack_dmg = 7
-		damage_ability1 = 15
-		damage_ability2 = 37
-		return
-	else:
-		basic_attack_dmg = 5
-		damage_ability1 = 10
-		damage_ability2 = 25
+	pass #Ta bort
 
 func _level_up():
 	if PlayerStats.current_xp >= PlayerStats.xp_needed:
@@ -618,11 +608,6 @@ func _idle_state(delta) -> void:
 		_add_jump_dust()
 		_enter_air_state(true)
 		return
-	
-	if Input.is_action_just_pressed("add_pet") and can_add_golem:
-		_add_pet()
-	
-
 
 
 	if Input.is_action_just_pressed("Ability1") and PlayerStats.ability1_learned:

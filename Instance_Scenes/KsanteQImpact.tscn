@@ -212,7 +212,7 @@ extents = Vector2( 26.5, 21 )
 modulate = Color( 0.5, 0.5, 0.5, 1 )
 frames = SubResource( 41 )
 animation = "Burst"
-frame = 7
+frame = 2
 playing = true
 script = ExtResource( 3 )
 

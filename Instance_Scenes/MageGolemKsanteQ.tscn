@@ -40,6 +40,7 @@ animations = [ {
 } ]
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
+modulate = Color( 0.145098, 0.337255, 0.180392, 1 )
 frames = SubResource( 22 )
 animation = "New Anim 1"
 frame = 6

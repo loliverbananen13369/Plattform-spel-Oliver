@@ -15,13 +15,7 @@ func _ready() -> void:
 	PlayerStats.next_scene = next_scene
 	PlayerStats.prev_scene = previous_scene
 	player = player_scene.instance()
-	
 	var target = anchor_scene.instance()
-#	if PlayerStats.is_assassin == true:
-	#	player = assassin_scene.instance()
-#	else:
-	#	player = mage_scene.instance()
-	#player.global_position = global_position + Vector2(30, -200)
 	target.get_child(0).limit_right = $CameraLimits/TopRIght.position.x
 	target.get_child(0).limit_left = $CameraLimits/BottomLeft.position.x
 	target.get_child(0).limit_bottom = $CameraLimits/BottomLeft.position.y 
@@ -31,7 +25,6 @@ func _ready() -> void:
 	get_child(0).add_child(target)
 	PlayerStats.player = player
 	
-	#var hej2 = get_child(1)
 
 func _on_Dialogue_active(active) -> void:
 	var value = AudioServer.get_bus_volume_db(0)

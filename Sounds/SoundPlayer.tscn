@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Sounds/SoundPlayer.gd" type="Script" id=1]
-[ext_resource path="res://Sounds/ImportedSounds/Background/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3" type="AudioStream" id=2]
+[ext_resource path="res://Sounds/ImportedSounds/Background/my-little-garden-of-eden-112845.mp3" type="AudioStream" id=2]
 [ext_resource path="res://The Haunt - Balanced - Medium - wav/04-LANDR-04 - The Haunt (F) 200MS-Balanced-Medium.wav" type="AudioStream" id=3]
+[ext_resource path="res://The Haunt - Balanced - Medium - wav/03-LANDR-03 - No Stars to Follow (F) 200MS-Balanced-Medium.wav" type="AudioStream" id=4]
 
 [node name="SoundPlayer" type="Node"]
 script = ExtResource( 1 )
@@ -13,10 +14,16 @@ volume_db = -20.628
 pitch_scale = 0.9
 
 [node name="GameMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource( 4 )
 volume_db = -37.317
-pitch_scale = 0.8
 
 [node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
 
+[node name="FinalLevelMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -35.0
+
 [node name="Tween" type="Tween" parent="."]
+
+[connection signal="finished" from="MainMenuMusic" to="." method="_on_MainMenuMusic_finished"]
+[connection signal="finished" from="GameMusic" to="." method="_on_GameMusic_finished"]

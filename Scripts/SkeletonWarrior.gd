@@ -140,7 +140,7 @@ func _flip_sprite(right: bool):
 		$HurtBox/CollisionShape2D.position.x = -4
 		$AttackDetector/CollisionShape2D.position.x  = 10
 		$AttackArea/CollisionShape2D2.position.x = 10
-		$WallRayCast/CollisionShape2D.position.x = 5
+		$WallRayCast/CollisionShape2D.position.x = 10
 		$RayCast2D.position.x = 15
 		$Sprite.position.x = -3
 	else:
@@ -149,7 +149,7 @@ func _flip_sprite(right: bool):
 		$HurtBox/CollisionShape2D.position.x = 4
 		$AttackDetector/CollisionShape2D.position.x  = -10
 		$AttackArea/CollisionShape2D2.position.x = -10
-		$WallRayCast/CollisionShape2D.position.x = -5
+		$WallRayCast/CollisionShape2D.position.x = -10
 		$RayCast2D.position.x = -15
 		$Sprite.position.x = 3
 		
@@ -497,7 +497,7 @@ func _spawn_damage_indicator(damage: int, dark: bool, holy: bool):
 	var _direction = direction_x
 	var anim = indicator.get_node("AnimationPlayer")
 	if indicator:
-		if not dark or holy:
+		if not ( dark or holy ):
 			anim.play("ShowDamage")
 			indicator.label.text = str(damage)
 		else:
@@ -514,14 +514,22 @@ func _spawn_xp() -> void:
 
 func _on_RayCast2D_body_exited(body):
 	var layer = body.get_collision_layer()
-	if layer == 4 or 11:
+	if layer == 16 or 2048:
 		_turn_around()
 
 func _on_WallRayCast_body_entered(body):
 	var layer = body.get_collision_layer()
-	if layer == 4:
+	if layer == 16:
 		_turn_around()
 
 
 func _on_HurtSound_finished():
 	can_hurt_sound = true
+
+
+
+
+
+
+
+

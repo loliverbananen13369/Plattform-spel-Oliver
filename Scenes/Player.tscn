@@ -1927,7 +1927,8 @@ shape = SubResource( 53 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 636 )
 frames = SubResource( 51 )
-animation = "JumpAttack"
+animation = "ComboEWQE"
+frame = 10
 playing = true
 offset = Vector2( 0, 1 )
 

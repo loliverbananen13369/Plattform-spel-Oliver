@@ -20,7 +20,6 @@ onready var anim = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
 	if PlayerStats.first_time:
 		_load_cutscene(1)
 		yield(get_tree().create_timer(40.5), "timeout") 
@@ -55,6 +54,8 @@ func _ready():
 	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Grass Running.wav"
 	PlayerStats.connect("ChooseClass", self, "_on_choose_class")
 	Quests.emit_signal("CityHallLoaded")
+	if not BackgroundMusic.MainMenuMusic.playing:
+		BackgroundMusic.play_sound("MainMenuMusic")
 
 func _load_cutscene(time: int):
 	if time == 1:
