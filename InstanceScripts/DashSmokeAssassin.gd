@@ -1,5 +1,7 @@
 extends AnimatedSprite
 
+#Olika om spelaren är i luften eller på marken
+
 func _ready() -> void:
 	frame = 0
 	modulate.r = 3
@@ -14,8 +16,6 @@ func _ready() -> void:
 		scale.y = 4
 		$AnimationPlayer.play("Hejsan")
 
-func _on_AnimatedSprite_animation_finished() -> void:
-	queue_free()
 
 
 func _on_AnimationPlayer_animation_finished(_anim_name):

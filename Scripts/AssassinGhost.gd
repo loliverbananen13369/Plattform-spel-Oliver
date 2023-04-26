@@ -1,10 +1,6 @@
 extends AnimatedSprite
 
-var dash
-
-func _ready():
-	if dash:
-		pass
+#Egentligen rätt onödigt med script. Can queue_free() i animationplayer
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
 	queue_free()

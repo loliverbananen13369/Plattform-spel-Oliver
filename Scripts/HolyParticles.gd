@@ -1,9 +1,10 @@
 extends Particles2D
 
+#Ger vart necromancers hälso-stjäla får liv
 
-onready var player1 = PlayerStats.player.get_node("LifeStealPos1")#get_parent().get_child(3).get_child(1).get_child(0).get_node("Position2D2")#get_node("/root/Level 0/Node2D/Player/Position2D2")
-onready var player2 = PlayerStats.player.get_node("LifeStealPos2")#get_parent().get_child(3).get_child(1).get_child(0).get_node("Position2D3")
-var player#get_parent().get_child(3).get_child(1).get_child(0).get_node("Position2D2")
+onready var player1 = PlayerStats.player.get_node("LifeStealPos1")
+onready var player2 = PlayerStats.player.get_node("LifeStealPos2")
+var player
 var rng = RandomNumberGenerator.new()
 
 

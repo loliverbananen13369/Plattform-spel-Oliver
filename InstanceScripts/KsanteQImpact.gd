@@ -1,11 +1,7 @@
 extends AnimatedSprite
 
+#Necromancers golem attack2. När den den entrar fienders hitbox "hoppar" fienden upp
 
-var rng = RandomNumberGenerator.new()
-var number
-var anim
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	frame = 0
 	scale.y = 2
@@ -13,11 +9,10 @@ func _ready() -> void:
 	$AnimationPlayer.play("Burst")
 
 
-func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+func _on_AnimationPlayer_animation_finished(_anim_name: String) -> void:
 	queue_free()
 	
 
-func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
-	if anim_name == "Burst":
-		global_position.y -= 43
-		global_position.x += 25
+func _on_AnimationPlayer_animation_started(_anim_name: String) -> void:
+	global_position.y -= 43
+	global_position.x += 25

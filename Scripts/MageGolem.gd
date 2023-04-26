@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+#Necromancers pet. Såg den på itch.io och kunde inte inte köpa den. Påminner allt för mycket om MapleStory
+
+
+
 const MAX_SPEED = 200
 const ACCELERATION = 1000
 const GRAVITY = 1300

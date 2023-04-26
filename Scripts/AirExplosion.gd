@@ -1,5 +1,8 @@
 extends AnimatedSprite
 
+
+#Positionen anges i spelarkoden
+
 func _ready() -> void:
 	animation = ("New Anim")
 	$Particles2D.emitting = true

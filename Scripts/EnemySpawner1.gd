@@ -1,5 +1,6 @@
 extends Node
 
+#Har enemyspawnposition2d som barn.
 
 var warrior_scene = preload("res://Scenes/SkeletonWarrior.tscn")
 onready var timer = $Timer
@@ -14,7 +15,6 @@ export (Color) var enemy_hp_bar_color
 
 signal Spawned(body)
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var parent = get_parent()
 	skin = parent.skin
@@ -32,27 +32,22 @@ func _can_spawn_warrior() -> bool:
 	else:
 		timer.stop()
 		return false
-#	can = true
-#	return can #number_of_warrior <= 20
+
 
 func _check_enemies(area: int):
 	pass
 	
-#Gör en kod för alla spawn points istället
-	
 func _get_enemy_skin():
-	#skin = PlayerStats.enemy_skin
 	return skin
 
 func _get_enemy_hit():
-	#hit = PlayerStats.enemy_hit
 	return hit
 
 func _spawn_warrior(area: int) -> void:
 	var warrior = warrior_scene.instance()
 	var parent = get_parent()
 	var diameter = parent.diameter
-	var frames = _get_enemy_skin()#_get_enemy_skin())
+	var frames = _get_enemy_skin()
 	var hframes = _get_enemy_hit()
 	warrior.type = enemy_type
 	warrior.hp_max = hp_max

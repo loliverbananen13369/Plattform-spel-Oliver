@@ -1,32 +1,11 @@
 extends Node
 
 """
-Delar ut vilken NPC som får nästa mission
+Delar ut vilken NPC som får nästa mission. Det här är main, som sköter vilket uppdrag som ska väljas. 
+
+Gjorde questsystem någon dag innan deadlinen, så det finns funktioner som är helt onödiga. Jag testade ba mycket. 
 """
 
-"""
-Variabler och signaler som behövs:
-var quest_available = true
-var quest_active = false
-var global_quest_id = 0
-
-signal quest_available(npc)
-signal quest_accepted()
-signal quest_completed()
-signal quest_delivered(npc)
-
-func _on_quest_delivered(npc):
-	npc.give_reward()
-	_next_quest()
-	quest_available = true
-	quest_active = false
-
-func _next_quest() -> void:
-	global_quest_id += 1
-	emit_signal(quest_available(json_file[current_quest_id]))
-	
-
-"""
 
 
 var npc

@@ -1,5 +1,10 @@
 extends KinematicBody2D
 
+"""
+Har mycket onödig kod tror jag , men jag skrev den här tidigt och hade många många ideer då.
+"""
+
+
 enum {IDLE, AIR, RUN, ATTACK, DEAD, HURT, HUNTING, SPAWN}
 
 const MAX_SPEED = 100

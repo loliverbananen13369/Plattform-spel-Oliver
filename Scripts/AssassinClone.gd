@@ -2,7 +2,8 @@ extends AnimatedSprite
 
 
 
-# Called when the node enters the scene tree for the first time.
+#Lägger till en klon för divine warrior som attackerar en gång och sedan dör
+
 func _ready():
 	$SmearSprite.position.y = 5
 	$NormalAttackArea/AttackGround.position.y = 5

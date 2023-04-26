@@ -1,14 +1,16 @@
 class_name Missile
 extends Node2D
 
+#Partikel som åker mot spelaren
+
 var LAUNCH_SPEED := 500
 
 
 var max_speed := 300
 var drag_factor := 0.15 setget set_drag_factor
 
-onready var target = PlayerStats.player#get_parent().get_child(3).get_child(1).get_child(0)
-var dir = 1#Vector2.RIGHT
+onready var target = PlayerStats.player
+var dir = 1
 
 
 var current_velocity := Vector2.ZERO
@@ -25,7 +27,6 @@ func _ready():
 		dir = -1#Vector2.LEFT
 	rng.randomize()
 	LAUNCH_SPEED *= rng.randf_range(1, 2.5)
-	#current_velocity = LAUNCH_SPEED * 3 * dir.rotated(rotation)
 	current_velocity.x = LAUNCH_SPEED * dir
 	current_velocity.y = LAUNCH_SPEED * -1
 	

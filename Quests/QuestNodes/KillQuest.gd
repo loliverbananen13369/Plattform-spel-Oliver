@@ -1,5 +1,10 @@
 extends Node
 
+"""
+När ett dödaruppdrag instansieras, kollar den varje gång en fiende dör. När tillräckligt har dött, skickar den signalen att uppdraget är utfört
+"""
+
+
 export (String) var skeleton_type
 export (String) var goal
 export (String) var reward

@@ -1,5 +1,7 @@
 extends Position2D
 
+#Kollar hur många fiender som finns inom arean, och spawnar om den kan spawna nya fiender
+
 export (int) var amount_allowed
 var list_of_enemies = []
 export (bool) var can_spawn = true
@@ -15,13 +17,8 @@ export (Color) var enemy_hp_bar_color
 
 signal can_spawn(can)
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("Player"):

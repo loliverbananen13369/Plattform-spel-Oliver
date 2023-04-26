@@ -1,6 +1,12 @@
 extends KinematicBody2D
 
 
+
+
+"""
+Rätt simpel kod. Instansieras när en fiende dör. Idle, Attack och Dead state ger egentligen inget, men finns där för att skilja på vad skelettet kan göra och inte göra
+"""
+
 const MAX_SPEED = 200
 const ACCELERATION = 500
 const GRAVITY = 1300
@@ -11,7 +17,7 @@ var direction := Vector2.ZERO
 var direction_x = 1
 var direction_x_to_enemy = 1
 
-enum {IDLE, RUN, AIR, ATTACK, DEAD, SPAWN}
+enum {IDLE, RUN, ATTACK, DEAD}
 var state = IDLE
 
 var life_time := 5
@@ -21,8 +27,6 @@ onready var lt = $LifeTimer
 onready var animsprite = $AnimatedSprite
 onready var animplayer = $AnimationPlayer
 onready var explosionsprite = $ExplosionSprite
-
-
 
 var enemy
 
@@ -45,17 +49,13 @@ func _physics_process(delta):
 			_idle_state(delta)
 		RUN:
 			_run_state(delta)
-		AIR:
-			_air_state(delta)
 		ATTACK:
 			_attack_state(delta)
 		DEAD:
 			_dead_state(delta)
-		SPAWN:
-			_spawn_state(delta)
 
 #states
-func _idle_state(delta) -> void:
+func _idle_state(_delta) -> void:
 	pass
 
 func _run_state(delta) -> void:
@@ -64,16 +64,10 @@ func _run_state(delta) -> void:
 	velocity.x = MAX_SPEED* direction_x_to_enemy
 	velocity = move_and_slide(velocity, Vector2.UP)
 
-func _air_state(delta) -> void:
+func _attack_state(_delta) -> void:
 	pass
 
-func _attack_state(delta) -> void:
-	pass
-
-func _dead_state(delta) -> void:
-	pass
-
-func _spawn_state(delta) -> void:
+func _dead_state(_delta) -> void:
 	pass
 
 func _enter_idle_state() -> void:
@@ -81,7 +75,6 @@ func _enter_idle_state() -> void:
 	animsprite.play("Idle")
 	
 func _enter_run_state() -> void:
-	#var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	var all_enemy = get_parent().get_tree().get_nodes_in_group("Enemy")
 	state = RUN
 	animsprite.play("Run")

@@ -1,11 +1,9 @@
 extends Position2D
 
+#Tog kamera koden från någon youtube video
 
 onready var player = get_parent().get_node("Player")
 
-
-func _ready() -> void:
-	pass
 
 
 func _process(_delta):

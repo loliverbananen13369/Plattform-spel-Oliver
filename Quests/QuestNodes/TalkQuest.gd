@@ -1,5 +1,10 @@
 extends Node
 
+
+"""
+Får en signal när en dialog är klar
+"""
+
 export (String) var goal
 export (String) var reward
 export (String) var d_list

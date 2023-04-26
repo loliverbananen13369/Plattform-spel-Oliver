@@ -1,6 +1,6 @@
 extends Particles2D
 
-
+#Particles när spelaren går
 
 func _ready():
 	modulate = PlayerStats.ground_color

@@ -1,10 +1,7 @@
 extends CanvasLayer
 
 
-
-func _ready():
-	pass # Replace with function body.
-
+#Pausmeny
 
 func _input(event):
 	if event.is_action_pressed("Pause"): 

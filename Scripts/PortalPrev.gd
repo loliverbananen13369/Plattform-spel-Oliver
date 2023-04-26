@@ -1,20 +1,15 @@
 extends AnimatedSprite
 
+#Skickar iväg spelaren till förra scenen
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 onready var player = PlayerStats.player
 var entered = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_accept"): 
-		if entered:#if $Area2D.overlaps_body(player):
+		if entered:
 			Transition.load_scene(PlayerStats.prev_scene)
 
 

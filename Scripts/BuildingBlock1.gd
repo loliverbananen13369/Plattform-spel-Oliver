@@ -1,5 +1,8 @@
 extends Node2D
 
+#Ger alla lvlar 
+
+
 var player_scene = PlayerStats.player_instance
 var player
 var anchor_scene = preload("res://Scenes/Anchor.tscn")

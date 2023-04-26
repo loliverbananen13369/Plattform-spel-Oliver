@@ -1,6 +1,6 @@
 extends AnimatedSprite
 
-#onready var player = PlayerStats.player#get_parent().get_child(3).get_child(1).get_child(0)
+#När spelaren landar
 
 func _ready():
 	frame = 0

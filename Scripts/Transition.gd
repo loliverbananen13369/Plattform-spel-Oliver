@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+#Taget från alien
+
 var scene = PlayerStats.next_scene
 
 onready var animationplayer = $AnimationPlayer
@@ -11,7 +13,6 @@ func load_scene(scene):
 	emit_signal("SceneChanged")
 	yield(animationplayer, "animation_finished")
 	get_tree().change_scene(scene)
-	#animationplayer.play_backwards("fade_in")
 	animationplayer.play("fade_out")
 	yield(animationplayer, "animation_finished")
 	

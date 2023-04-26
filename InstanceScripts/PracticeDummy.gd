@@ -1,9 +1,7 @@
 extends KinematicBody2D
 
+#Träningsdocka som inte kan dö. Inser nu att det inte är optimalt att den inte kan dö, eftersom necromancer spawnar skelett
 
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
 const GRAVITY = 300
 var direction_x = 1
 var velocity := Vector2()

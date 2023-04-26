@@ -1,12 +1,12 @@
 extends CanvasLayer
 
+#Visar vad spelaren får för xp
 
 var reward : String
 
 onready var label = $Label
 onready var animp = $AnimationPlayer
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	_give_reward()
 

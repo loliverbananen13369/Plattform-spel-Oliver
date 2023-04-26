@@ -1,7 +1,10 @@
 extends Node
 
-
-#Hubyb
+"""
+Egentligen borde scenen heta NPC, eftersom jag instansierar den här scene i Questssystem, dvs huvudnoden. Den fungerar för alla npcs,
+där export var who är vilken npc den ska representera. Den tar emot signal från main questsystem att ett nytt uppdrag, och skickar i sin tur
+ut vilken sort av quest som ska instansieras. 
+"""
 var index := 0
 var list := []
 var types_of_info := ["type", "goal", "reward", "d_list"]

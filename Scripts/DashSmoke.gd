@@ -1,7 +1,8 @@
 extends AnimatedSprite
 
+#Ger olika dashsmokes beroende på om spelaren är på marken eller i luften
 
-#"a7480c43"
+
 func _ready() -> void:
 	frame = 0
 	if animation == "ImpactDustKick":
@@ -12,10 +13,6 @@ func _ready() -> void:
 		scale.x = 3
 		scale.y = 4
 		$AnimationPlayer.play("Hejsan")
-
-func _on_AnimatedSprite_animation_finished() -> void:
-	queue_free()
-
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	queue_free()

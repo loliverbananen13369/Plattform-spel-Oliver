@@ -1,5 +1,7 @@
 extends Node2D
 
+#Instansierar ett barn när spelaren har valt klass.
+
 const NECRO_SKILLTREE = preload("res://Skill-Tree/Skill_Tree_Test.tscn")
 const ASSASSIN_SKILLTREE = preload("res://Skill-Tree/Skill_Tree_TestAssassin.tscn")
 

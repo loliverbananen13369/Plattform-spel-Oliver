@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+#Bugfix
 
 func _ready() -> void:
 	Quests.queue_free()

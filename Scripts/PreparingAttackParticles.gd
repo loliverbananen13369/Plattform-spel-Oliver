@@ -1,5 +1,8 @@
 class_name Tester
 extends Node2D
+
+#Typ samma kod som xp-partikeln/energi-partikeln. Ger dock att de blir avlånga för att visa på "energi"
+
 var max_speed := 450
 
 onready var target = PlayerStats.player

@@ -1,10 +1,13 @@
 extends Node2D
 
 
+#När spelaren lvlar upp eller buffas
+
+
 var tween_values = [0.5, 1]
 var tween = Tween.new()
 onready var spellsprite = $Spellsprite
-onready var player = PlayerStats.player#get_parent().get_child(3).get_child(1).get_child(0)
+onready var player = PlayerStats.player
 
 var rng = RandomNumberGenerator.new()
 
@@ -47,11 +50,6 @@ func _ready() -> void:
 		spellsprite.scale.x = 2
 		spellsprite.scale.y = 2
 		
-
-		#tween.name = "Tween"
-		#add_child(tween)    
-		#$Tween.interpolate_property(Engine, "time_scale", tween_values[0], tween_values[1], 0.5)
-		#$Tween.start()
 
 
 func _process(delta: float) -> void:

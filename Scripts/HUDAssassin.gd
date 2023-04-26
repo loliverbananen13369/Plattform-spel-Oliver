@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+#Hud. Tagit kod från alien
 
 onready var hpbar = $HPBar
 onready var hpbarunder = $HPBarUnder
@@ -17,8 +18,8 @@ var max_xp = 40
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	hpbar.value = 100
-	hpbarunder.value = 100
+	hpbar.value = PlayerStats.hp
+	hpbarunder.value = hpbar.value
 	xpbar.value = PlayerStats.current_xp
 	xpbarunder.value = xpbar.value
 	xpbar.max_value = PlayerStats.xp_needed

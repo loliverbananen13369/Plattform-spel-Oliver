@@ -1,10 +1,10 @@
 extends Node
 
-
+#Egentligen ba massa data som hålls här. 
 
 var game_data = {}
 
-var player_instance = preload("res://Scenes/PlayerIntroBody.tscn")#("res://Scenes/Player.tscn")# ## ("res://Scenes/PlayerAssassin.tscn") #
+var player_instance = preload("res://Scenes/PlayerIntroBody.tscn")
 var player
 
 

@@ -166,5 +166,4 @@ script = ExtResource( 2 )
 anims/Hejsan = SubResource( 59 )
 anims/ImpactDustKick = SubResource( 36 )
 
-[connection signal="animation_finished" from="." to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
