@@ -803,7 +803,7 @@ text = "The Blacksmith's House"
 [node name="Well" parent="." instance=ExtResource( 12 )]
 
 [node name="Elder" parent="." instance=ExtResource( 6 )]
-frame = 2
+frame = 3
 
 [node name="AssHouseDoor" type="Area2D" parent="."]
 collision_layer = 0

@@ -52,7 +52,6 @@ onready var playersprite = $PlayerSprite
 onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var attackhitboxtimer = $AttackHitBoxTimer
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	playersprite.play("Idle")
 	

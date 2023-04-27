@@ -112,8 +112,8 @@ tracks/1/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 4, 7, 8, 9, 10, 11, 12 ]
 }
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
+tracks/2/type = "value"
+tracks/2/path = NodePath("AttackArea/CollisionShape2D2:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -121,13 +121,8 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0.175, 0.225 ),
 "transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "_hit"
-}, {
-"args": [  ],
-"method": "_end_of_hit"
-} ]
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=56]
@@ -588,8 +583,8 @@ script = ExtResource( 2 )
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 50 )
 frames = ExtResource( 3 )
-animation = "Hurt"
-frame = 4
+animation = "Attack"
+frame = 12
 playing = true
 flip_h = true
 
@@ -625,7 +620,6 @@ anims/Spawn = SubResource( 199 )
 one_shot = true
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-visible = false
 position = Vector2( 3, 3 )
 frames = SubResource( 83 )
 animation = "Hurt2"
@@ -660,9 +654,6 @@ position = Vector2( -10, 4 )
 shape = SubResource( 60 )
 
 [node name="AttackTimer" type="Timer" parent="."]
-
-[node name="ShakeTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 modulate = Color( 2, 2, 2, 1 )
@@ -727,6 +718,5 @@ anims/default = SubResource( 289 )
 [connection signal="body_exited" from="PlayerDetector" to="." method="_on_PlayerDetector_body_exited"]
 [connection signal="body_entered" from="AttackDetector" to="." method="_on_AttackDetector_body_entered"]
 [connection signal="body_exited" from="AttackDetector" to="." method="_on_AttackDetector_body_exited"]
-[connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
 [connection signal="body_entered" from="WallRayCast" to="." method="_on_WallRayCast_body_entered"]
 [connection signal="finished" from="HurtSound" to="." method="_on_HurtSound_finished"]

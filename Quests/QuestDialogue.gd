@@ -48,7 +48,7 @@ func _load_dialogue(file):
 		dia.open(file, dia.READ)
 		return parse_json(dia.get_as_text())
 
-func _new_d_file(d_list):
+func _new_d_file(d_list): #Får en ny dialog, beroende på vilket uppdrag det är. Har däremot endast två olika quest dialoger, blev för jobbat att skriva flera dialog json filer
 	var index = Quests.dialogue_list.find("res://Quests/json/" + str(d_list) + ".json")
 	dialogue = _load_dialogue(Quests.dialogue_list[index])
 	
@@ -74,7 +74,7 @@ func _next_script():
 			talk_quest_current = false
 			return
 		if not Quests.quest_active:
-			Quests.emit_signal("quest_accepted", person)#("Hubby_accepted")
+			Quests.emit_signal("quest_accepted", person)
 			Quests.quest_active = true
 		return
 	$NinePatchRect/Chat.percent_visible = 0
@@ -112,7 +112,6 @@ func _on_talk_quest_started(person):
 func _set_player_active():
 	var player = PlayerStats.player
 	if player:
-		#player.set_active(true)
 		player.set_process_unhandled_input(true)
 		
 

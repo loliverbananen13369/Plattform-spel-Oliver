@@ -17,7 +17,7 @@ onready var animp = $AnimationPlayer
 var max_xp = 40
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready():  #När scenen instansieras uppdateras värdena till autoloaden "PlayerStats"
 	hpbar.value = PlayerStats.hp
 	hpbarunder.value = hpbar.value
 	xpbar.value = PlayerStats.current_xp
@@ -29,7 +29,7 @@ func _ready():
 	energybarunder.value = 50
 
 
-func _on_Player_HPChanged(hp):
+func _on_Player_HPChanged(hp):  #När spelarens hp ändras startas en tween för len animation
 	hpbar.value = hp
 	hp_tween.stop_all()
 	hp_tween.interpolate_property(hpbarunder, "value", hpbarunder.value, hp, 0.5,Tween.TRANS_CUBIC)
@@ -38,7 +38,7 @@ func _on_Player_HPChanged(hp):
 	if hpbar.value < 30:
 		animp.play("LowHP")
 
-func _on_Player_XPChanged(_current_xp):
+func _on_Player_XPChanged(_current_xp): #När spelarens xp ändras 
 	#if xpbar.value < current_xp:
 	xpbar.value = PlayerStats.current_xp
 	xp_tween.stop_all()
@@ -46,7 +46,7 @@ func _on_Player_XPChanged(_current_xp):
 	xp_tween.start()
 
 
-func _on_Player_LvlUp(_current_lvl, xp_needed):
+func _on_Player_LvlUp(_current_lvl, xp_needed):  #Återställer xpbaren
 	leveltext.text = "Level: " + str(PlayerStats.current_lvl)
 	max_xp = xp_needed
 	xpbar.value = 0
@@ -54,7 +54,7 @@ func _on_Player_LvlUp(_current_lvl, xp_needed):
 	xpbar.max_value = max_xp
 	xpbarunder.max_value = max_xp
 	
-func _on_Player_EnergyChanged(energy):
+func _on_Player_EnergyChanged(energy): #Tweenar spelarens energibar. Energi finns inte i PlayerStats
 	energybar.value = energy
 	energy_tween.stop_all()
 	energy_tween.interpolate_property(energybarunder, "value", energybarunder.value, energy, 0.5,Tween.TRANS_LINEAR)

@@ -1,6 +1,6 @@
 extends Node2D
 
-#Ger alla lvlar 
+#Samma kod för alla lvlar förutom lvl 1. Jag hade inte börjat med inheriterade scener då. 
 
 
 var player_scene = PlayerStats.player_instance
@@ -12,8 +12,8 @@ export (String) var ground_color
 export (String) var footsteps_sound
 
 
-func _ready() -> void:
-	PlayerStats.ground_color = ground_color
+func _ready() -> void: #Ger vilken färg player walkdust ska få, instansierar player samt dess kamera
+	PlayerStats.ground_color = ground_color 
 	PlayerStats.footsteps_sound = footsteps_sound
 	PlayerStats.next_scene = next_scene
 	PlayerStats.prev_scene = previous_scene
@@ -29,7 +29,7 @@ func _ready() -> void:
 	PlayerStats.player = player
 	
 
-func _on_Dialogue_active(active) -> void:
+func _on_Dialogue_active(active) -> void: #Onödig. Jag hade tänkt att ge ljud när en dialog spelas, men endast blacksmith har den funktionen
 	var value = AudioServer.get_bus_volume_db(0)
 	if active:
 		value -= 10

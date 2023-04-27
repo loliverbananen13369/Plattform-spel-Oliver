@@ -15,12 +15,10 @@ onready var timer = $SkipTimer
 var timer_tween_values = [0, 1]
 
 var can_skip = false
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$TimerLayer/Label.modulate.a = 0
 	$ColorRect.visible = false
 	$CanvasLayer2.visible = false
-	#yield(get_tree().create_timer(0.1), "timeout")
 	yield(get_tree().create_timer(0.1), "timeout")
 	animp.play("Fade in")
 	yield(animp, "animation_finished")

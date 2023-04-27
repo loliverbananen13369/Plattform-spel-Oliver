@@ -1,5 +1,13 @@
 extends Node2D
 
+"""
+Det enda som kollas här är egentligen vilken dörr spelaren befinner sig vid eller om den kan prata med Katalina. 
+Katalina är en egen scen
+"""
+
+
+
+
 
 var player_scene = PlayerStats.player_instance
 var player
@@ -24,9 +32,9 @@ func _ready():
 	target.get_child(0).limit_left = -480
 	target.get_child(0).limit_top = -200
 	target.get_child(0).limit_bottom = 400
-	get_child(0).add_child(player)
+	get_node("PlayerNode").add_child(player)
 	PlayerStats.player = player
-	get_child(0).add_child(target)
+	get_node("PlayerNode").add_child(target)
 	yield(get_tree().create_timer(0.5),"timeout")
 	in_range_for_talk = false
 

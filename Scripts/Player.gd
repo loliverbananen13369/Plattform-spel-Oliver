@@ -147,9 +147,6 @@ var smearsprite_e = "Smear3H"
 var hp = PlayerStats.hp
 var max_hp = 100
 var hp_regeneration = 1
-var mana = 100
-var mana_max = 100
-var mana_regeneration = 2
 var current_xp = 0
 var current_lvl = 1
 var ability_anim
@@ -282,7 +279,6 @@ func _get_furthest_away_enemy():
 	var furthest_away_enemy = all_enemy[0]
 	for i in range(1, len(all_enemy)):
 		if abs(all_enemy[i].global_position.x) > abs(furthest_away_enemy.global_position.x):
-		#if global_position.distance_to(all_enemy[i].global_position) > global_position.distance_to((furthest_away_enemy.global_position)):
 			furthest_away_enemy = all_enemy[i]
 
 	return furthest_away_enemy
@@ -345,6 +341,14 @@ func _check_sprites() -> void:
 	if not holy_buff_active:
 		_set_player_mod(player_default_array)
 
+
+
+
+
+"""
+_input kollar om spelaren klickar en knapp. Jag har dessa i input, eftersom spelaren ska kunna göra detta oberoende på vilket state den befinner sig i
+
+"""
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		PlayerStats.hp = hp
@@ -374,7 +378,7 @@ func _flip_sprite(right: bool) -> void:
 	area_ground_attack.position.x = 36 * variable
 	area_spin_attack.position.x = 34 * variable
 
-func _add_pet():
+func _add_pet(): #Lägger till golem. 
 	if not PlayerStats.golem_active:
 		var pet = pet_scene.instance()
 		pet.global_position = global_position 
@@ -393,7 +397,7 @@ func _add_crouch_ghost() -> void:
 	smoke.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(smoke)
 
-func _add_dead_skeletton(this_enemy):
+func _add_dead_skeletton(this_enemy): #Lägger till dödskeleton när en fiende dör
 	var body = dead_skeletton_scene.instance()
 	body.global_position = this_enemy.global_position
 	get_tree().get_root().add_child(body)
@@ -422,7 +426,6 @@ func _add_dash_smoke(name: String):
 func _add_dash_ghost() -> void:
 	var ghost = ghost_scene.instance()
 	ghost.global_position = global_position + Vector2(0, -2)
-	#ghost.global_position.y -= 20
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
 
@@ -444,7 +447,7 @@ func _add_jump_dust() -> void:
 	get_tree().get_root().add_child(dust)
 
 
-func _add_buff(buff_name: String) -> void:
+func _add_buff(buff_name: String) -> void: #Här finns fler buffs än i playerassassin. 
 	var buff = buff_scene.instance()
 	var effect1 = buff.get_child(0)
 	buff.global_position = playersprite.global_position 
@@ -456,27 +459,16 @@ func _add_buff(buff_name: String) -> void:
 		holybufftimer.start(5)
 		holy_buff_active = true
 		can_take_damage = false
-		WorldEnv.emit_signal("Darken", "holy_mage")
+		WorldEnv.emit_signal("Darken", "holy_mage") #WorldEnviroment ändrar på tonemap exposure, vilket leder till en mörkare värld i några sekunder
 	if buff_name == "dark2":
 		effect1.animation = "dark2"
 	if buff_name == "lifesteal_particles":
 		effect1.animation = "lifesteal_particles"
 		_add_hp(2)
 		emit_signal("HPChanged", hp)
-#	get_tree().get_root().add_child(buff)
 	add_child(buff)
 
-	
-"""
-	var all_enemy = get_tree().get_nodes_in_group("Enemy")
-	if len(all_enemy) > 0:
-		var closest_enemy = all_enemy[0]
-		for i in range(1, len(all_enemy)):
-			if global_position.distance_to(all_enemy[i].global_position) < global_position.distance_to((closest_enemy.global_position)):
-				closest_enemy = all_enemy[i]
-"""
-
-func _add_hp(amount: int) -> void:
+func _add_hp(amount: int) -> void: #Lägger till nytt hp. Necromancer har lifesteal
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
@@ -514,6 +506,9 @@ func _get_smearsprite(button: String):
 
 func _die(hp):
 	if hp <= 0:
+		can_add_dark = false
+		can_add_golem = false
+		can_add_holy = false
 		dashsound.stop()
 		dashsound.stream = DEATH_SOUND
 		dashsound.pitch_scale = 1.0
@@ -528,7 +523,7 @@ func _die(hp):
 		add_child(child)
 		set_process_input(false)
 
-func frameFreeze(timescale, duration):
+func frameFreeze(timescale, duration): #Spelet går i timescale hastighet. 
 	Engine.time_scale = timescale
 	yield(get_tree().create_timer(duration * timescale), "timeout")
 	Engine.time_scale = 1
@@ -554,9 +549,6 @@ func _remember_jump() -> void:
 	
 func _remember_attack() -> void:
 	attackbuffer.start(0.2)
-	
-func player_stats():
-	pass #Ta bort
 
 func _level_up():
 	if PlayerStats.current_xp >= PlayerStats.xp_needed:
@@ -570,7 +562,7 @@ func _level_up():
 	else:
 		return false
 
-func _set_sprite_position(anim_name):
+func _set_sprite_position(anim_name): #Anropas i animationplayer. Ser till att spritesen är på rätt position, beronede på vilken sprite som ska användas
 	abilitysprites.flip_h = playersprite.flip_h
 	var dir
 	if direction_x == "RIGHT":
@@ -591,7 +583,8 @@ func _set_sprite_position(anim_name):
 	if anim_name == "OnGroundAfterAttack":
 		thrusts.position.x = 0
 		thrusts.position.y = 1
-func _add_preparing_attack_particles(amount) -> void:
+
+func _add_preparing_attack_particles(amount) -> void: #Lägger till partiklar när spelaren laddar upp. Inspriation från DragonBall
 	for n in range (amount):
 		rng.randomize()
 		var nrx = rng.randi_range(-200, 200)
@@ -632,8 +625,6 @@ func _idle_state(delta) -> void:
 		return
 
 func _crouch_state(delta) -> void:
-	
-	#direction.x = _get_input_x_update_direction()
 	direction.x = _get_input_x_crouch_direction()
 	velocity = velocity.move_toward(Vector2.ZERO, 0.5*ACCELERATION*delta)
 	velocity.y += GRAVITY*delta
@@ -727,9 +718,6 @@ func _air_state(delta) -> void:
 			jump_pressed = true
 			_remember_jump()
 
-		
-	#_squash_player(delta)
-
 	_air_movement(delta)
 	var current_animation = playersprite.get_animation()
 	if velocity.y > 0  and not ( current_animation == "FallN" ) and ( velocity.x == 0 ):
@@ -737,7 +725,6 @@ func _air_state(delta) -> void:
 	elif velocity.y > 0 and not ( current_animation == "FallF" ) and ( velocity.x != 0 ):
 		playersprite.play("FallF")
 	if is_on_floor(): 
-		#if jump_pressed == false:
 		_add_land_dust()
 		_enter_idle_state()
 		return
@@ -811,14 +798,13 @@ func _attack_state_air(delta) -> void:
 	
 func _jump_attack_state(delta) -> void:
 	_air_movement(delta)
-	#velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
 	if is_on_floor():
 		_enter_idle_state()
 
-func _hurt_state(delta) -> void:	
-	_air_movement(delta)		
+func _hurt_state(delta) -> void:
+	_air_movement(delta)
 
-func _ability_state(delta) -> void:
+func _ability_state(_delta) -> void: # Har de här statsen bara så att input inte kommer in eller så att spelaren rör på sig
 	pass
 
 func _dead_state(_delta) -> void:
@@ -904,7 +890,7 @@ func _enter_dash_attack_state(attack: int) -> void:
 		animationplayer.play("SpinAttack")
 		can_attack = false
 
-func _enter_ability_state(number: int) -> void:
+func _enter_ability_state(number: int) -> void: #Liknar _enter_attack1_state. Ger vilken animation animationspelaren ska spela
 	state = ABILITY
 	playersprite.visible = true
 	if number == 1:
@@ -924,7 +910,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		state = JUMP_ATTACK
 		animationplayer.play("JumpAttack")
 		area_jump_attack.disabled = false
-	else:
+	else: 
 		animationplayer.play("PrepareAirAttack")
 		WorldEnv.emit_signal("Darken", "PrepareNecroMancer")
 		state = PREPARE_ATTACK_AIR
@@ -934,7 +920,7 @@ func _enter_attack_air_state(Jump: bool) -> void:
 
 #Signals
 
-func _on_attack_damage_changed(type: String):
+func _on_attack_damage_changed(type: String): #En signal från skilltree. Detta gör att spelaren slipper kollar detta varje gång den ska göra något. 
 	if type == "ability1_learned":
 		ability1_learned = true
 	if type == "ability2_learned":
@@ -985,11 +971,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "OnGroundAfterAttack":
 		can_jump = true
 
-#	
-func _on_timer_timeout() -> void:
-	#frameFreeze(0.1, 0.5)
-	pass
-
 func _on_HurtBox_area_entered(area):
 	var amount
 	if can_take_damage:
@@ -1025,9 +1006,6 @@ func _on_xp_changed() -> void:
 func on_EnemyDead(body):
 	_add_dead_skeletton(body)
 	
-
-func _on_KinematicBody2D_hurt() -> void:
-	pass
 
 func _on_NormalAttackArea_area_entered(area):
 	if area.is_in_group("EnemyHitbox"):
@@ -1089,12 +1067,7 @@ func _on_DashTimer_timeout():
 	can_dash = true
 
 
-
-func _on_KinematicBody2D_pos(position) -> void:
-	pass # Replace with function body.
-
-
-func _on_HolyBuffTimer_timeout():
+func _on_HolyBuffTimer_timeout(): #Återställer spelarens modulate samt att den kan ta damage. 
 	_set_player_mod(player_default_array)
 	can_take_damage = true
 	holy_buff_active = false

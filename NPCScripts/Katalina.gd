@@ -29,7 +29,6 @@ func _check_dialogue() -> void:
 		quest_d._start()
 	else:
 		normal_d._start()
-		#quest_d._start()
 
 func _on_QuestDialogue_dialogue_done(nr):
 	if nr == Quests.global_quest_id: #1

@@ -13,7 +13,7 @@ signal active(active)
 func _ready():
 	$NinePatchRect.visible = false
 
-func _start():
+func _start(): #Startar en ny dialog om inte dialogen redan är aktiv
 	if d_active:
 		return
 	d_active = true
@@ -25,7 +25,7 @@ func _start():
 	emit_signal("active", true)
 	
 
-func _load_dialogue():
+func _load_dialogue(): #Konverterar dialogen från en json fil till en "sträng"
 	var file = File.new()
 	if file.file_exists(d_file):
 		file.open(d_file, file.READ)
@@ -40,7 +40,7 @@ func _input(event):
 func _auto_input():
 	_next_script()
 
-func _next_script():
+func _next_script(): #Nästa index 
 	current_dialogue_id += 1
 	
 	if current_dialogue_id >= len(dialogue):
@@ -50,8 +50,8 @@ func _next_script():
 		emit_signal("active", false)
 		return
 	$NinePatchRect/Chat.percent_visible = 0
-	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"]
-	$NinePatchRect/Chat.text = dialogue[current_dialogue_id]["text"]
+	$NinePatchRect/Name.text = dialogue[current_dialogue_id]["name"] #Ger värde på noden Name
+	$NinePatchRect/Chat.text = dialogue[current_dialogue_id]["text"] #Ger värde på noden Chat
 	animp.play("Ny Anim")
 
 func _on_Timer_timeout():

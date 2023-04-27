@@ -27,7 +27,7 @@ func start_tween(value: Array, time: float):
 func new_skill_animation() -> void:
 	animp.play("NewSkill")
 
-func _on_darken(type: String) -> void:
+func _on_darken(type: String) -> void: #Har kollar runt olika värden, och har stor verkan för lite arbete. 
 	var length = 0.5
 	if type == "Prepare":
 		tween_values = [10, 0.9]

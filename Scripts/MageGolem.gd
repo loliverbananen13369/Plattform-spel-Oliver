@@ -89,7 +89,7 @@ func _get_direction():
 		direction_x = 1
 		_flip_sprite(true)
 		
-func _check_if_enemy_in_radius():
+func _check_if_enemy_in_radius(): #Kollar om det finns någon fiende inom räckåll. Om det gör det, kommer den attackera med attack2, dvs attacken som kommer skjuta upp fienden
 	for body in enemydetector.get_overlapping_bodies():
 		if body.is_in_group("Enemy"):
 			_enter_attack_2_state()
@@ -97,7 +97,7 @@ func _check_if_enemy_in_radius():
 
 	return false
 
-func _check_if_enemy_in_range_for_attack():
+func _check_if_enemy_in_range_for_attack(): #Kollar om det finns någon fienden inom räckhåll för dess attack1. Om det gör det, kommer den börja slå vanligt, dvs attack1
 	for body in $EnemyInRangeForAttack.get_overlapping_bodies():
 		if body.is_in_group("Enemy"):
 			_enter_attack_state()
@@ -106,7 +106,7 @@ func _check_if_enemy_in_range_for_attack():
 	return false
 
 
-func _get_direction_to_player():
+func _get_direction_to_player(): #Simpelt
 	if player.global_position.x <= global_position.x:
 		direction_x_to_player = -1
 		_flip_sprite(false)
@@ -126,7 +126,7 @@ func _get_direction_to_enemy(enemy):
 	else:
 		direction_x_to_enemy = 0
 
-func _get_closest_enemy(enemy_group):
+func _get_closest_enemy(enemy_group): #Loopar igenom alla fiender och kollar deras globala position
 	if len(enemy_group) > 0:
 		var closest_enemy = enemy_group[0]
 		for i in range(0, len(enemy_group)-1):
@@ -162,16 +162,16 @@ func _air_movement(delta) -> void:
 	velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
-func _check_if_hit_wall() -> void:
+func _check_if_hit_wall() -> void: #kollar om den måste hoppa. Ganska värdelös nu, eftersom jag har lvlar utan egentligen hoppställen. Men min testground hade flera 
 	if $RayCast2D.is_colliding() and state == FOLLOW_PLAYER:
 		velocity.y = JUMP_STRENGHT
 	else:
 		return
 
-func _teleport_to_player() -> void:
+func _teleport_to_player() -> void: #Om spelaren är allt för långt bort 
 	global_position = player.global_position 
 
-func _add_ksanteq() -> void:
+func _add_ksanteq() -> void: #Kollar hur långt det är till fienden, delar det på spritens storlek, och tar antalet effekter som behövs och loopar igenom 
 	var enemy = follow_this_enemy
 	if is_instance_valid(enemy):
 		var hejsan = abs(enemy.global_position.x - global_position.x)
@@ -188,7 +188,7 @@ func _add_ksanteq() -> void:
 		ksanteqtimer.start(0.35)
 	
 
-func _add_ksanteqimpact(enemy) -> void:
+func _add_ksanteqimpact(enemy) -> void: #Spawnar en ny attack som kommer skjuta upp fiender i luften om de blir träffade
 	var q = ksanteqimpact_scene.instance()
 	if is_instance_valid(enemy):
 		q.global_position = enemy.global_position 
@@ -288,7 +288,7 @@ func _on_PlayerNearArea_body_entered(body):
 func _on_HitWallTimer_timeout():
 	_enter_air_state(true)
 
-func on_PlayerHurt():
+func on_PlayerHurt(): #Om spelaren skadas kommer den bli arg. Det var tänkt att använda olika sprites beroende på om den var arg eller inte, samt att den skulle prioritera fiender som hade skadat spelaren. Men det var bara onödig huvudvärk.
 		if can_follow:
 			animatedsprite.play("Angry")
 			yield(animatedsprite, "animation_finished")
@@ -298,7 +298,7 @@ func on_PlayerHurt():
 				return
 			_enter_follow_enemy_state()
 
-func on_EnemyDead(body):
+func on_EnemyDead(body): #
 	if PlayerStats.enemies_for_golem.has(body):
 		PlayerStats.enemies_for_golem.erase(body)
 		if PlayerStats.enemies_for_golem.size() == 0:
@@ -308,25 +308,25 @@ func on_EnemyDead(body):
 		
 		
 	
-func on_EnemyHurt():
-		if can_follow:
-			if not is_instance_valid(follow_this_enemy):
-				if _check_if_enemy_in_radius():
-					return
-			_enter_attack_2_state()
+func on_EnemyHurt(): #När spelaren skadar en fiende. Det var först tänkt att golem endast skulle skada fiender som spelaren redan hade skadat, men då blev den rätt svag
+	if can_follow:
+		if not is_instance_valid(follow_this_enemy):
+			if _check_if_enemy_in_radius():
+				return
+		_enter_attack_2_state()
 	
 
-func _on_EnemyInRangeForAttack_body_entered(body):
+func _on_EnemyInRangeForAttack_body_entered(body): #kollar om fiender kommer in i arean
 		if PlayerStats.enemies_for_golem.has(body) and can_follow:
 			_enter_attack_state()
 
-func _on_EnemyInRangeForAttack_body_exited(body):
+func _on_EnemyInRangeForAttack_body_exited(body): #kollar om fiender går ut ur arean. Om det inte finns någon fienden, kommer golem att följa efter den
 		if PlayerStats.enemies_for_golem.has(body) :
 			if can_follow and not _check_if_enemy_in_range_for_attack():
 				_enter_follow_enemy_state()
 
 
-func _on_EnemyDetector_body_entered(body):
+func _on_EnemyDetector_body_entered(body): #Kollar om fienden är inom arean som den kan slå fiender, inte självaste attackens area då. Den kommer nu prioritera attack2
 		if body.is_in_group("Enemy"):
 			if not PlayerStats.enemies_for_golem.has(body):
 				PlayerStats.enemies_for_golem.append(body)
@@ -337,13 +337,13 @@ func _on_EnemyDetector_body_entered(body):
 			if _check_if_enemy_in_radius():
 				return
 
-func _on_EnemyDetector_body_exited(body) -> void:
+func _on_EnemyDetector_body_exited(body) -> void: #Om ingen fiende finns, kommer den att gå in i idle_state. Jag inser nu att PlayerStats.enemies_for_golem egentligen är väldigt onödig nu, eftersom jag kollar om kroppen tillhör "Enemy". Jag hade ju tänkt att golemen endast skulle attackera fiender som skadats eller skadat spelaren. Aja
 		if PlayerStats.enemies_for_golem.has(body):
 			if not _check_if_enemy_in_radius():
 				PlayerStats.enemies_for_golem.clear()
 				_enter_idle_state()
 
-func _on_PlayerDetector_body_exited(body):
+func _on_PlayerDetector_body_exited(body): #Ser till att den alltid är relativt nära spelaren
 	if body.is_in_group("Player"):
 		_teleport_to_player()
 		if _check_if_enemy_in_range_for_attack():
@@ -353,7 +353,7 @@ func _on_PlayerDetector_body_exited(body):
 		_enter_idle_state()
 	
 
-func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void: 
 	if anim_name == "Die":
 		PlayerStats.golem_active = false
 		queue_free()

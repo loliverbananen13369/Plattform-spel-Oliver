@@ -251,7 +251,7 @@ func _apply_basic_movement(delta) -> void: #Movement som appliceras när spelare
 	#ger: playersprite.scale.x/y * 1 * 1-0.01^delta, varje delta
 	
 	
-func _get_input_x_update_direction() -> float: 
+func _get_input_x_update_direction() -> float:  #uppdaterar spelarens riktning i x-led
 	var input_x = Input.get_axis("move_left", "move_right")
 	if input_x > 0:
 		direction_x = "RIGHT"
@@ -273,7 +273,7 @@ func _get_input_x_crouch_direction() -> float: #Samma som _get_input_x_update_di
 	
 	return input_x
 
-func _air_movement(delta) -> void:
+func _air_movement(delta) -> void: #Spelarens rörelse i luften
 	velocity.y = velocity.y + GRAVITY * delta if velocity.y + GRAVITY * delta < 500 else 500 
 	direction.x = _get_input_x_update_direction()
 	if direction.x != 0:
@@ -348,10 +348,10 @@ func _flip_sprite(right: bool) -> void:
 
 
 #Instansierar andra scener till Player
-#De flesta är väldigt simpla, där jag ger "scenerna" en position
-#De mer komplicerade kommenterar jag på enskilt
+#De flesta är väldigt simpla, där jag ger "scenerna" en position, i vissa fall även vilken riktning barnet ska ha
+#De mer "komplicerade" kommenterar jag på enskilt
 
-func _add_crouch_ghost() -> void:
+func _add_crouch_ghost() -> void:  #När spelaren crouchar / stannar
 	var dir 
 	if direction_x == "RIGHT":
 		dir = 1
@@ -362,32 +362,32 @@ func _add_crouch_ghost() -> void:
 	smoke.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(smoke)
 
-func _add_dash_ghost() -> void:
+func _add_dash_ghost() -> void: #När spelaren dashar
 	var ghost = ghost_scene.instance()
 	ghost.global_position = global_position + Vector2(0, -2)
 	ghost.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(ghost)
 
 
-func _add_walk_dust(amount: int) -> void:
+func _add_walk_dust(amount: int) -> void: #när spelaren går
 	var dust = dust_scene.instance()
 	dust.amount = amount
 	dust.global_position = playersprite.global_position + Vector2(0,23)
 	dust.emitting = true
 	get_tree().get_root().add_child(dust)
 
-func _add_land_dust()-> void:
+func _add_land_dust()-> void: #När spelaren landar
 	var dust = land_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 22)
 	get_tree().get_root().add_child(dust)
 
-func _add_jump_dust() -> void:
+func _add_jump_dust() -> void: #När spelaren hoppar
 	var dust = jump_scene.instance()
 	dust.global_position = playersprite.global_position + Vector2(0, 15)
 	get_tree().get_root().add_child(dust)
 
 
-func _add_buff(buff_name: String) -> void:
+func _add_buff(buff_name: String) -> void: #Finns fler buffer i Necromancer, därför jag har if buff_name == "lvl_up"
 	var buff = buff_scene.instance()
 	var effect1 = buff.get_child(0)
 	buff.global_position = playersprite.global_position 
@@ -415,8 +415,8 @@ func _add_first_air_explosion() -> void:
 			testpos2 = closest_enemy.global_position + Vector2(0, - 30) #
 			global_position = testpos2
 	
-func _add_airexplosions() -> void:
-	state = COMBO #Allt ba samma typ
+func _add_airexplosions() -> void: #Samma som add_first_airexplosion, men loopar igenom alla fiender
+	state = COMBO 
 	var all_enemy = get_tree().get_nodes_in_group("Enemy")
 	var variable_enemy = all_enemy
 	var closest_enemy 
@@ -443,13 +443,13 @@ func _add_airexplosions() -> void:
 	
 
 
-func _add_impact(dir):
+func _add_impact(dir): #Läggs till efter dash_attack
 	var impact = impact_scene.instance()
 	impact.global_position = global_position + Vector2(dir*100, 15)
 	impact.flip_h = playersprite.flip_h
 	get_tree().get_root().add_child(impact)
 
-func _add_dash_attack():
+func _add_dash_attack(): #När spelaren klickar q medan den springer
 	var dash = dash_attack_scene.instance()
 	if direction_x == "RIGHT":
 		dash.global_position = global_position + Vector2(50, -10)
@@ -462,7 +462,7 @@ func _add_dash_attack():
 	yield(get_tree().create_timer(0.25),"timeout")
 	_add_impact(direction.x)
 	
-func _add_dash_smoke(name: String):
+func _add_dash_smoke(name: String): #Lägger till smoke vid dash
 	var smoke = dash_smoke_scene.instance()
 	var flip 
 	if playersprite.flip_h == true:
@@ -480,19 +480,19 @@ func _add_dash_smoke(name: String):
 	get_tree().get_root().add_child(smoke)
 	
 
-func _spawn_energy(enemy):
+func _spawn_energy(enemy): #Läggs till när spelaren träffar en fiende
 	var child = energy_scene.instance()
 	child.global_position = enemy.global_position
 	hit_count = 0
 	get_tree().get_root().call_deferred("add_child", child)
 	
 
-func _add_shockwave():
+func _add_shockwave(): #Lägger till en energivåg vid airdashattack. Användes vid varje dash förr, men blev för mycket
 	var wave = shockwave_scene.instance()
 	add_child(wave)
 	
 
-func _add_clone(enemy):
+func _add_clone(enemy): #Lägger till en klon av spelaren om den håller in shift medan den gör en kombo
 	var all_enemy = PlayerStats.enemies_hit_by_player
 	rng.randomize()
 	if all_enemy.size() > 0:
@@ -515,7 +515,7 @@ func _add_clone(enemy):
 			clone.flip_h = flip 
 			get_tree().get_root().add_child(clone)
 
-func _add_assassin_ghost(): 
+func _add_assassin_ghost():  #Lägger till en "skugga" av spelaren
 	var ghost = new_ghost_scene.instance()
 	ghost.animation = playersprite.animation
 	ghost.frame = playersprite.frame
@@ -524,7 +524,7 @@ func _add_assassin_ghost():
 	get_tree().get_root().add_child(ghost)
 
 
-func _die(hp):
+func _die(hp): #Kollar om spelarens hp är lika med eller lägre än 0. Instanserar en pop up scen
 	if hp <= 0:
 		dashsound.stop()
 		dashsound.stream = DEATH_SOUND
@@ -599,10 +599,10 @@ func _remember_jump() -> void: #Buffer
 func _remember_attack() -> void: #Buffer
 	attackbuffer.start(0.1)
 
-func _change_xp() -> void:
+func _change_xp() -> void: #Xp ändras
 	emit_signal("XPChanged", PlayerStats.current_xp)
 
-func _dash_to_enemy(enemy, switch_side: bool) -> void:
+func _dash_to_enemy(enemy, switch_side: bool) -> void: #Spelaren dashar till fienden. Beroende på switch_side, byter spelaren sida
 	if not switch_side:
 		if is_instance_valid(enemy):
 			if global_position.x >= enemy.global_position.x:
@@ -625,7 +625,7 @@ func _dash_to_enemy(enemy, switch_side: bool) -> void:
 					direction_x = "RIGHT"
 					_flip_sprite(true)
 
-func _get_smearsprite(button: String): 
+func _get_smearsprite(button: String): #Ser till att rätt smearsprite används vid attacker
 	if button == "q":
 		animatedsmears.animation = PlayerStats.assassin_smearsprite_q
 	if button == "w":
@@ -649,14 +649,14 @@ func check_combo() -> void: #Kollar senaste attackerna
 	else:
 		_enter_idle_state()
 
-func _get_random_attack():
+func _get_random_attack(): #Ger en slumpmässig attack
 	var attack = "Attack"
 	rng.randomize()
 	var nr = rng.randi_range(1, 3)
 	attack = "Attack"+str(nr)
 	return attack
 
-func _level_up():
+func _level_up(): #Om spelarens xp är större eller lika med xp som krävs för att lvla up. Ger också xp_needed ett nytt värde
 	if PlayerStats.current_xp >= PlayerStats.xp_needed:
 		PlayerStats.current_xp = PlayerStats.current_xp - PlayerStats.xp_needed
 		PlayerStats.xp_needed = PlayerStats.xp_needed + pow(1.5, (PlayerStats.current_lvl*2))
@@ -674,7 +674,7 @@ func _input(event):
 		PlayerStats.hp = hp
 
 #STATES:
-func _idle_state(delta) -> void:
+func _idle_state(delta) -> void: #När spelaren inte rör på sig, dvs idle
 	direction.x = _get_input_x_update_direction()
 	if (Input.is_action_just_pressed("Jump") and can_jump) or jump_pressed == true:
 		_add_jump_dust()
@@ -694,10 +694,11 @@ func _idle_state(delta) -> void:
 		_enter_run_state()
 		return
 
-func _dead_state(_delta) -> void:
+func _dead_state(_delta) -> void: #Inger speciellt. Vill bara att spelaren inte ska röra på sig 
 	set_process_input(false)
 
-func _crouch_state(delta) -> void:
+func _crouch_state(delta) -> void: #När spelaren klickar crouch de-accelerar den och kan även hoppa genom plattformar
+	#Lägger till ett spöke för häftig effekt
 	direction.x = _get_input_x_crouch_direction()
 	velocity = velocity.move_toward(Vector2.ZERO, 0.5*ACCELERATION*delta)
 	velocity.y += GRAVITY*delta
@@ -720,7 +721,7 @@ func _crouch_state(delta) -> void:
 			_add_assassin_ghost()
 			crouchtime = 0
 
-func _run_state(delta) -> void:
+func _run_state(delta) -> void: #När spelaren springer
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 
@@ -768,9 +769,8 @@ func _run_state(delta) -> void:
 		return
 	
 
-func _air_state(delta) -> void:
+func _air_state(delta) -> void: #När spelaren är i luften
 	if Input.is_action_just_pressed("Dash") and can_dash:
-		#_add_dash_smoke("test2")
 		_enter_dash_state(false, false)
 		return
 	
@@ -805,7 +805,7 @@ func _air_state(delta) -> void:
 			playersprite.play("FallF")
 			return
 
-func _dash_state_air(delta):
+func _dash_state_air(delta): #När spelaren dashar
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
@@ -815,13 +815,13 @@ func _dash_state_air(delta):
 		_add_dash_ghost()
 		ghosttime = 0.06
 
-func _dash_state_ground(delta):
+func _dash_state_ground(delta): #När spelaren dashar på marken
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 
-func _stop_state(delta):
+func _stop_state(delta): #När spelaren byter riktning men hastigheten går fortfarande i "riktning1"
 	direction.x = _get_input_x_update_direction()
 	var input_x = Input.get_axis("move_left", "move_right")
 	_apply_basic_movement(delta)
@@ -852,20 +852,20 @@ func _stop_state(delta):
 		_enter_idle_state()
 		return
 
-func _attack_state_ground(delta) -> void:
+func _attack_state_ground(delta) -> void: #Kollar om spelaren klickar på någon attack
 	_attack_function()
 
 	
-func _attack_state_dash(attack_nr : int, delta) -> void:
+func _attack_state_dash(attack_nr : int, delta) -> void: #När spelaren dashattackar
 	velocity = velocity.move_toward(direction*MAX_SPEED*3, ACCELERATION*delta*3)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 
-func _prepare_attack_air_state(delta) -> void:
+func _prepare_attack_air_state(delta) -> void: #När spelaren har stigit på prepare_attack_air_state
 	playersprite.scale.y = lerp(playersprite.scale.y, 1, 1 - pow(0.01, delta))
 	playersprite.scale.x = lerp(playersprite.scale.x, 1, 1 - pow(0.01, delta))
 
-func _attack_state_air(delta) -> void:
+func _attack_state_air(delta) -> void: #När spelaren dashattackar i luften
 
 	if direction_x != "RIGHT":
 		animatedsmears.rotation_degrees = -45
@@ -885,12 +885,12 @@ func _attack_state_air(delta) -> void:
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-func _jump_attack_state(delta) -> void:
+func _jump_attack_state(delta) -> void: #Applicerar luft_rörelse
 	_air_movement(delta)
 	if is_on_floor():
 		_enter_idle_state()
 
-func _combo_state(delta) -> void:
+func _combo_state(delta) -> void: #lägger till spöken 
 	if Input.is_action_just_pressed("Dash"):
 		_dash_to_enemy(test_var_enemy, true)
 	
@@ -899,17 +899,18 @@ func _combo_state(delta) -> void:
 		_add_assassin_ghost()
 		attacktime = 0
 
-func _hurt_state(delta) -> void:
+func _hurt_state(delta) -> void: #När spelaren
 	_apply_hurt_movement(delta)
 
 #Enter states
-func _enter_idle_state() -> void:
+#När spelaren stiger på en ny state
+func _enter_idle_state() -> void: #Debug typ
 	check_sprites()
 	state = IDLE
 	playersprite.play("Idle")
 	can_jump = true
 
-func _enter_dash_state(attack: bool, ground: bool) -> void:
+func _enter_dash_state(attack: bool, ground: bool) -> void: #Får riktning, om spelaren är på mark eller inte, ändrar player.modulate
 	check_sprites()
 	dashparticles.emitting = true
 	direction = Input.get_vector("move_left", "move_right","ui_up", "ui_down")
@@ -932,7 +933,7 @@ func _enter_dash_state(attack: bool, ground: bool) -> void:
 	
 	
 		
-func _enter_crouch_state() -> void:
+func _enter_crouch_state() -> void: #När stiger på crouch state
 	state = CROUCH
 	if velocity.x >= 1 or velocity.x <= -1:
 		if direction_x == "RIGHT":
@@ -941,7 +942,7 @@ func _enter_crouch_state() -> void:
 			_flip_sprite(true)
 	playersprite.play("Crouch")
 
-func _enter_air_state(jump: bool) -> void:
+func _enter_air_state(jump: bool) -> void: #När spelaren stiger på luft state. Kollar om spelaren hoppar eller faller
 	check_sprites()
 	if jump:
 		velocity.y = JUMP_STRENGHT
@@ -954,18 +955,18 @@ func _enter_air_state(jump: bool) -> void:
 	coyotetimer.start()
 	state = AIR
 
-func _enter_run_state() -> void:
+func _enter_run_state() -> void: #När spelaren stiger på spring state
 	check_sprites()
 	state = RUN
 	can_jump = true
 	playersprite.play("Run")
 
-func _enter_stop_state() -> void:
+func _enter_stop_state() -> void: #När spelaren stiger på stanna state
 	can_jump = true
 	state = STOP
 	playersprite.play("Stop")
 
-func _enter_attack1_state(attack: int) -> void:
+func _enter_attack1_state(attack: int) -> void: #När spelaren stiger på attack state. Ger vilken attack animationspelaren ska spela
 	state = ATTACK_GROUND
 	combotimer.start(1)
 	is_attacking = true
@@ -981,7 +982,7 @@ func _enter_attack1_state(attack: int) -> void:
 	if combo_list.size() >= 4:
 		check_combo()
 
-func _enter_dash_attack_state(attack: int) -> void:
+func _enter_dash_attack_state(attack: int) -> void: #När spelaren stiger på dash_attack state
 	if attack == 1 and energy >= 5:
 		state = ATTACK_DASH
 		playersprite.play("SpinAttack")
@@ -990,7 +991,7 @@ func _enter_dash_attack_state(attack: int) -> void:
 		emit_signal("EnergyChanged", energy)
 		can_attack = false
 
-func _enter_attack_air_state(Jump: bool) -> void:
+func _enter_attack_air_state(Jump: bool) -> void: #När spelaren stiger på luft attack state. 
 	if Jump:
 		animatedsmears.position.y = 0
 		state = JUMP_ATTACK
@@ -1003,12 +1004,12 @@ func _enter_attack_air_state(Jump: bool) -> void:
 		_add_shockwave() #Shockwaven är en shader 
 		frameFreeze(0.3, 0.4)
 
-func _enter_hurt_state() -> void:
+func _enter_hurt_state() -> void: #När spelaren blir skadad
 	state = HURT
 	yield(get_tree().create_timer(0.5),"timeout")
 	_enter_air_state(false)
 	
-func _enter_combo_state(number : int) -> void:
+func _enter_combo_state(number : int) -> void: #När spelaren stiger på kombo state
 	ghosttime = 0.0
 	var enemy_list = PlayerStats.enemies_hit_by_player
 	var enemy = _get_closest_enemy(PlayerStats.enemies_hit_by_player)
@@ -1022,7 +1023,7 @@ func _enter_combo_state(number : int) -> void:
 		_combo3(enemy, enemy_list)
 	combo_list.clear()
 
-func _combo1(enemy):
+func _combo1(enemy): #Ger kombo qweq
 	animationplayer.play("ComboSpinAttack")
 	combo_list.clear()
 	energy -= 10
@@ -1032,7 +1033,7 @@ func _combo1(enemy):
 		energy -= 10
 	emit_signal("EnergyChanged", energy)
 
-func _combo2(enemy, list):
+func _combo2(enemy, list): #Ger kombo ewqe
 	can_take_damage = false
 	var clone_added = false
 	energy -= 20
@@ -1053,7 +1054,7 @@ func _combo2(enemy, list):
 		energy -= 10
 	emit_signal("EnergyChanged", energy)
 
-func _combo3(enemy, list):
+func _combo3(enemy, list): #Ger kombo 3, dvs air explosions
 	_add_first_air_explosion()
 	energy -= 20
 	WorldEnv.emit_signal("Darken", "Combo3")
@@ -1067,7 +1068,7 @@ func _combo3(enemy, list):
 
 #Signaler
 
-func _on_AnimationPlayer_animation_finished(anim_name): #Byter states efter en animation 
+func _on_AnimationPlayer_animation_finished(anim_name): #Byter states efter en animation. Kollar vilken animation
 	if anim_name == "Attack1" or "Attack2" or "Attack3" or "SpinAttack" or "ComboSpinAttack" or "comboewqe1" or "comboewqe2" or "comboewqe3":
 		if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 			_enter_run_state()
@@ -1098,9 +1099,7 @@ func _on_AnimationPlayer_animation_finished(anim_name): #Byter states efter en a
 	if anim_name == "OnGroundAfterAttack":
 		can_jump = true
 
-
-
-func _on_HurtBox_area_entered(area):
+func _on_HurtBox_area_entered(area): #Om fienders attack enter
 	var amount
 	if area.is_in_group("EnemySword"):
 		amount = area.get_parent().damage_dealt
@@ -1111,17 +1110,17 @@ func _on_HurtBox_area_entered(area):
 		if can_take_damage:
 			take_damage(amount)
 
-func _on_attack_damage_changed(type):
+func _on_attack_damage_changed(type): #Tar emot signal från skilltree och uppdaterar damage
 	if type == "basic_attack_damage":
 		life_steal = PlayerStats.life_steal
 		basic_attack_dmg = PlayerStats.assassin_basic_dmg
 	if type == "dash_attack_damage":
 		dash_attack_dmg = PlayerStats.assassin_dash_attack_dmg
 
-func _on_xp_changed() -> void:
+func _on_xp_changed() -> void: #Kollar om xp från quests ändras
 	_change_xp()
 
-func _on_CollectParticlesArea_area_entered(area) -> void:
+func _on_CollectParticlesArea_area_entered(area) -> void: #Kollar xppartiklar och energipartiklar
 	if area.is_in_group("XP-Particle"):
 		PlayerStats.current_xp += 5
 		if _level_up():
@@ -1140,7 +1139,7 @@ func _on_CollectParticlesArea_area_entered(area) -> void:
 		emit_signal("HPChanged", hp)
 
 
-func _on_NormalAttackArea_area_entered(area):
+func _on_NormalAttackArea_area_entered(area): #Lägger till fiender i enemies_hit_by_player samt lägger till energipartiklar
 	if area.is_in_group("EnemyHitbox"):
 		hit_count += 1
 		if not PlayerStats.enemies_hit_by_player.has(area.get_parent()):
@@ -1154,24 +1153,17 @@ func _on_NormalAttackArea_area_entered(area):
 		if hit_count >= 2:
 			_spawn_energy(area)
 
-func on_jump_sound_timer_timeout() -> void:
-	can_jump_sound = true
-
-func on_attack_sound_timer_timeout() -> void:
-	can_attack_sound = true
-
-func _on_FlashTimer_timeout():
+func _on_FlashTimer_timeout(): #När immuntweenen är klar.
 	can_take_damage = true
 	tween.stop(playersprite)
 
-
-func _on_ComboTimer_timeout():
+func _on_ComboTimer_timeout(): #Ser till att attacker sker inom en viss tid för att kombon ska kunna köras
 	combo_list.clear()
 
-func _on_CoyoteTimer_timeout():
+func _on_CoyoteTimer_timeout(): #Buffer
 	can_jump = false
 
-func _on_DashTimer_timeout():
+func _on_DashTimer_timeout(): #Sätter spelarens modulate och flash_shader till original värdet. Efter spelaren har dashat läggs spöken till
 	playersprite.material.set_shader_param("flash_modifier", 0.0)
 	_enter_idle_state()
 	velocity = direction * MAX_SPEED
@@ -1186,32 +1178,31 @@ func _on_DashTimer_timeout():
 	yield(get_tree().create_timer(0.1), "timeout")
 	_set_player_mod(player_default_array)
 
-func _on_JustDashedTimer_timeout() -> void:
+func _on_JustDashedTimer_timeout() -> void: #Slutar lägga till spöken
 	can_add_ass_ghost = false
 	dashghosttimer.stop()
 	
-func on_EnemyDead(body) -> void:
+func on_EnemyDead(body) -> void: #Tar bort fiender från listan
 	if PlayerStats.enemies_hit_by_player.has(body):
 		PlayerStats.enemies_hit_by_player.erase(body)
 
-func _on_DropDetect_body_exited(body):
+func _on_DropDetect_body_exited(body): #Ser till att spelaren kan kollidera med plattformar efter den har hoppat igenom
 	set_collision_mask_bit(11, true)
 
-func _on_AttackSound_finished():
+func _on_AttackSound_finished(): #Så att hela attackljudet körs
 	can_attack_sound = true
 
-func _on_FootStepTimer_timeout():
+func _on_FootStepTimer_timeout(): #Så att hela fotstegsljudet körs
 	can_footstep_sound = true
 
-func _on_DashGhostTimer_timeout():
+func _on_DashGhostTimer_timeout(): #Lägger till efter-dash ghost
 	_add_assassin_ghost()
 
-
-func _on_JumpBuffer_timeout():
+func _on_JumpBuffer_timeout(): #Buffer
 	jump_pressed = false
 
-func _on_AttackBuffer_timeout():
+func _on_AttackBuffer_timeout(): #Buffer
 	attack_pressed = 0
 
-func _on_AirExplosionTimer_timeout():
+func _on_AirExplosionTimer_timeout(): #Gör det möjligt att ta skada
 	hurtbox.disabled = false

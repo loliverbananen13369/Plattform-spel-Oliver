@@ -1,8 +1,12 @@
 extends Node2D
 
 
+"""
+Enda som sker här är egentligen att koden kollar om spelaren kan starta en dialog eller om den kan exita. Om dialougen startas, kommer 
+bakgroundsmusiken sänkas och dialogljudet kommer höras bättre.
+"""
+
 var player_scene = PlayerStats.player_instance
-#onready var player = PlayerStats.player
 var player
 var anchor_scene = preload("res://Scenes/Anchor.tscn")
 var in_range_for_talk
@@ -15,12 +19,12 @@ func _ready():
 	PlayerStats.ground_color = "3a2122"
 	PlayerStats.footsteps_sound = "res://Sounds/ImportedSounds/Footsteps/Free Footsteps Pack/Gravel - Run.wav"
 	player = player_scene.instance()
-	#player = PlayerStats.player
+	player.visible = true
 	var target = anchor_scene.instance()
 	player.global_position = global_position + Vector2(270, -20)
 
-	get_child(0).add_child(player)
-	get_child(0).add_child(target)
+	get_node("PlayerNode").add_child(player)
+	get_node("PlayerNode").add_child(target)
 	PlayerStats.player = player
 	yield(get_tree().create_timer(0.5),"timeout")
 	in_range_for_talk = false
@@ -33,7 +37,6 @@ func _input(event):
 		if can_exit:
 			PlayerStats.next_scene = "res://Levels/CityHall.tscn"
 			Transition.load_scene(PlayerStats.next_scene)
-			#get_tree().change_scene(PlayerStats.next_scene)
 
 func _use_dialogue():
 	var dialogue = get_node("Dialogue")

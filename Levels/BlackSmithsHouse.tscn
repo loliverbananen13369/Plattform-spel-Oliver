@@ -622,8 +622,6 @@ extents = Vector2( 16.5, 22.5 )
 [node name="BlackSmithsHouse" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="Node2D" type="Node2D" parent="."]
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 10 )
 cell_size = Vector2( 16, 16 )
@@ -635,7 +633,7 @@ position = Vector2( -116, -22 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 15 )
 animation = "Work1"
-frame = 28
+frame = 26
 playing = true
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite"]
@@ -668,6 +666,8 @@ shape = SubResource( 67 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -115, -60 )
 texture = ExtResource( 5 )
+
+[node name="PlayerNode" type="Node2D" parent="."]
 
 [connection signal="body_entered" from="AnimatedSprite/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="AnimatedSprite/Area2D" to="." method="_on_Area2D_body_exited"]

@@ -36,19 +36,19 @@ func _ready():
 	connect("talk_finished", self, "_on_talk_finished")
 	connect("check_person", self, "_on_check_person")
 
-func _load_index_list():
+func _load_index_list(): #Laddar en json fil som innehåller vilken typ av uppdrag, hur många man ska döda / vem man ska prata med
 	var file = File.new()
 	if file.file_exists(i_file):
 		file.open(i_file, file.READ)
 		return parse_json(file.get_as_text())
 
-func _get_info(info: String):
+func _get_info(info: String): 
 	var information
 	_check_list()
 	information = list[index][info] 
 	return information
 
-func _check_list():
+func _check_list(): #Det kommer alltid finnsa uppdrag. Däremot problematiskt, eftersom choose_class scene egentligen endast ska köras en gång. Hoppas den som spelar inte kommer så långt i uppdragen
 	if index >= len(list):
 		list.invert()
 		index = 0
@@ -56,10 +56,8 @@ func _check_list():
 func _get_all_info():
 	for i in range(len(list_of_types)):
 		list_of_types[i] = _get_info(types_of_info[i])
-		#print(types_of_info[i])
-		#print(list_of_types[i])
 
-func _kill_quest():
+func _kill_quest(): #en ny node läggs till. Noden har värden osv. 
 	var child = kill_quest_scene.instance()
 	child.goal = _get_info("goal")
 	child.reward = _get_info("reward")
@@ -79,7 +77,7 @@ func _talk_quest():
 	emit_signal("change_d_file", child.goal, child.d_list)
 	add_child(child)
 
-func _on_check_person(person, child):
+func _on_check_person(person, child): #NPC skickar en signal och vill kolla om det är den som har uppdragen ( den har en export var som säger vad den heter ). Har försökt göra ett system där man kan lägga till nya npc, där alla har samma kod och variabler förutom just 'who' export variabeln.
 	if person == _get_info("goal"):
 		emit_signal("person_checked", true, _get_info("d_list"))
 	else:
@@ -92,7 +90,7 @@ func _on_quest_completed():
 func _on_talk_finished():
 	pass
 
-func _on_quest_available(npc):
+func _on_quest_available(npc): #Kollar vilken typ av quest som ska spawnas
 	if who == npc:
 		if _get_info("type") == "talk":
 			_talk_quest()
@@ -102,10 +100,3 @@ func _on_quest_available(npc):
 func _on_quest_accepted(npc):
 	pass
 	
-"""
-func _on_hubby_accepted():
-	if _get_info("type") == "talk":
-		_talk_quest()
-	if _get_info("type") == "kills":
-		_kill_quest()
-"""

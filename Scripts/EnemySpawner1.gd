@@ -15,7 +15,7 @@ export (Color) var enemy_hp_bar_color
 
 signal Spawned(body)
 
-func _ready() -> void:
+func _ready() -> void: #Får skeletonsvärden från enemyspawnposition2d
 	var parent = get_parent()
 	skin = parent.skin
 	enemy_type = parent.enemy_type
@@ -25,7 +25,7 @@ func _ready() -> void:
 	hit = parent.hit
 	timer.start(3)
 
-func _can_spawn_warrior() -> bool:
+func _can_spawn_warrior() -> bool: #Se förälder för can_spawn
 	var parent = get_parent()
 	if parent.can_spawn:
 		return true 
@@ -33,9 +33,6 @@ func _can_spawn_warrior() -> bool:
 		timer.stop()
 		return false
 
-
-func _check_enemies(area: int):
-	pass
 	
 func _get_enemy_skin():
 	return skin
@@ -43,7 +40,7 @@ func _get_enemy_skin():
 func _get_enemy_hit():
 	return hit
 
-func _spawn_warrior(area: int) -> void:
+func _spawn_warrior(area: int) -> void:    #Spawnar fienden. Ger vilka värden, skins osv skelettet ska få
 	var warrior = warrior_scene.instance()
 	var parent = get_parent()
 	var diameter = parent.diameter
@@ -60,13 +57,13 @@ func _spawn_warrior(area: int) -> void:
 	warrior.add_to_group(str(area))
 	emit_signal("Spawned", warrior)
 
-func _on_Timer_timeout() -> void:
+func _on_Timer_timeout() -> void: #Kollar om en fiende kan spawnas
 	if _can_spawn_warrior():
 		_spawn_warrior(1)
 		timer.wait_time = 2 + rand_range(-1, 1)
 
 		
-func _on_Position2D_can_spawn(can):
+func _on_Position2D_can_spawn(can): #Signal från förälder, signalerar att en fiende har dött
 	if can:
 		timer.start(2)
 	else:

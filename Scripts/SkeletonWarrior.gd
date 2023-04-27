@@ -68,24 +68,16 @@ signal side_of_player(which_side)
 const INDICATOR_DAMAGE = preload("res://UI/DamageIndicator.tscn")
 
 
-
-#onready var PlayerSword = preload("res://Scenes/NormalAttackArea.tscn")
-var prutt = 0 #+delta
-var hej = rand_range(6-prutt, 8-prutt)
-
-var tween_values = [0.0, hej]
-var tween = Tween.new()
-
 var damage_amount = 0
 
-func _ready(): 
+func _ready():  #Främst debug, eftersom skelettet ska spawna först
 	player = PlayerStats.player
+	$AttackArea/CollisionShape2D2.disabled = true
 	$PlayerDetector.monitoring = false
 	$AttackDetector.monitoring = false
 	velocity.x = 0
 	velocity.y = 0
 	$HurtBox.monitoring = false
-	#$HurtBox/CollisionShape2D.disabled = true
 	state = SPAWN
 	$Sprite.visible = false
 	$AnimationPlayer.play("Spawn")
@@ -139,26 +131,22 @@ func _apply_follow_player_movement(delta) -> void:
 	
 
 func _flip_sprite(right: bool):
+	var dir
 	if right:
+		dir = 1
 		animatedsprite.flip_h = false
-		$CollisionShape2D.position.x = -4
-		$HurtBox/CollisionShape2D.position.x = -4
-		$AttackDetector/CollisionShape2D.position.x  = 10
-		$AttackArea/CollisionShape2D2.position.x = 10
-		$WallRayCast/CollisionShape2D.position.x = 10
-		$RayCast2D.position.x = 15
-		$Sprite.position.x = -3
 	else:
+		dir = -1
 		animatedsprite.flip_h = true
-		$CollisionShape2D.position.x = 4
-		$HurtBox/CollisionShape2D.position.x = 4
-		$AttackDetector/CollisionShape2D.position.x  = -10
-		$AttackArea/CollisionShape2D2.position.x = -10
-		$WallRayCast/CollisionShape2D.position.x = -10
-		$RayCast2D.position.x = -15
-		$Sprite.position.x = 3
+	$CollisionShape2D.position.x = - 4*dir
+	$HurtBox/CollisionShape2D.position.x = -4*dir
+	$AttackDetector/CollisionShape2D.position.x  = 10*dir
+	$AttackArea/CollisionShape2D2.position.x = 10*dir
+	$WallRayCast/CollisionShape2D.position.x = 10*dir
+	$RayCast2D.position.x = 15*dir
+	$Sprite.position.x = -3 * dir
 		
-func _get_direction_to_player():
+func _get_direction_to_player(): #Ger om spelarens globala position har större eller mindre x värde än en själv
 	if player.global_position.x <= global_position.x:
 		direction_x_to_player = -1
 		_flip_sprite(false)
@@ -176,7 +164,7 @@ func _get_random_sound(what: String) -> void:
 		$AttackSound.stream = ATTACK_SOUNDS[number]
 
 func flash():
-	animatedsprite.material.set_shader_param("flash_modifier", 0.0) # 0.8
+	animatedsprite.material.set_shader_param("flash_modifier", 0.0) 
 	$FlashTimer.start(0.2)
 	
 func _turn_around():
@@ -185,11 +173,6 @@ func _turn_around():
 	else:
 		direction_x = 1
 
-func _hit():
-	$AttackArea/CollisionShape2D2.disabled = false
-	
-func _end_of_hit():
-	$AttackArea/CollisionShape2D2.disabled = true
 
 func _bug_fixer() -> void:
 	$HurtBox.set_deferred("monitoring", true)
@@ -204,7 +187,7 @@ func take_damage(amount: int) -> void:
 	$HPBar/AnimationPlayer.stop(true)
 	$HPBar/AnimationPlayer.play("default")
 	
-func knock_back(source_position: Vector2) -> void:
+func knock_back(source_position: Vector2) -> void: #När fienden tar skada
 	pushback_force = -global_position.direction_to(source_position) * 300
 	
 func _die_b():
@@ -220,24 +203,6 @@ func frameFreeze(timescale, duration):
 	Engine.time_scale = timescale
 	yield(get_tree().create_timer(duration * timescale), "timeout")
 	Engine.time_scale = 1
-
-func _enter_tree():
-	tween.name = "Tween"
-	add_child(tween)    
-	tween.connect("tween_completed", self, "on_tween_completed")
-	
-func start_tween():
-	$Tween.interpolate_property($AnimatedSprite, "offset:x", tween_values[0], tween_values[1], 0.1)
-	$Tween.start()
-	$ShakeTimer.start(3)
-
-func on_tween_completed(_object, _key):
-	tween_values.invert()
-	start_tween()
-
-func _on_ShakeTimer_timeout() -> void:
-	tween_values.invert()
-	$Tween.kill()
 
 #STATES
 func _idle_state(_delta) -> void:
@@ -257,24 +222,18 @@ func _attack_state(delta) -> void:
 	_air_movement(delta)
 
 func _follow_player_state(delta) -> void:
-	#$Tween.remove_all()
 	_apply_follow_player_movement(delta)
 	if not can_hunt:
 		_enter_idle_state()
 
-func _spawn_state(_delta) -> void:
+func _spawn_state(_delta) -> void: #Återigen, så att den inte rör sig 
 	pass
 
 func _dead_state(_delta) -> void:
 	pass
-	#$CollisionShape2D.disabled = true
-	#_on_AnimatedSprite_animation_finished()
 
 
 func _hurt_state(delta) -> void:
-	#pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 10)
-	#move_and_slide(pushback_force)
-
 	_air_movement(delta)
 	
 		
@@ -376,7 +335,7 @@ func _on_FlashTimer_timeout():
 	animatedsprite.material.set_shader_param("flash_modifier", 0)
 
 
-func _on_HurtBox_area_entered(area):
+func _on_HurtBox_area_entered(area): #Kollar om en area2d kommer in i dess egna area. Holy och dark active ger extra damage om de är sanna.
 	var holy_active = player.get("holy_buff_active")
 	var dark_active = player.get("dark_buff_active")
 	var damage = 0
@@ -490,7 +449,7 @@ func _on_AttackDetector_body_exited(body):
 
 
 
-func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position):
+func spawn_effect(EFFECT: PackedScene, effect_position: Vector2 = global_position): #Jag antar att jag borde gjort så här i playerscenerna, istället för så många _add_... Tog detta i början när jag inte visste hur jag skulle kunna lägga till skadeindikatorer
 	if EFFECT:
 		var effect = EFFECT.instance()
 		get_tree().current_scene.add_child(effect)
@@ -517,12 +476,12 @@ func _spawn_xp() -> void:
 	get_tree().get_root().add_child(xp)
 
 
-func _on_RayCast2D_body_exited(body):
+func _on_RayCast2D_body_exited(body): #Ser till att fienden vänder sig om ifall den kommer falla av en plattform
 	var layer = body.get_collision_layer()
 	if layer == 16 or 2048:
 		_turn_around()
 
-func _on_WallRayCast_body_entered(body):
+func _on_WallRayCast_body_entered(body): #Ser till att fienden vänder sig om ifall den träffat en vägg
 	var layer = body.get_collision_layer()
 	if layer == 16:
 		_turn_around()

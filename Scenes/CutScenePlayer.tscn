@@ -337,6 +337,7 @@ tracks/0/keys = {
 position = Vector2( 950, -24 )
 frames = SubResource( 29 )
 animation = "Idle"
+frame = 2
 playing = true
 flip_h = true
 script = ExtResource( 8 )

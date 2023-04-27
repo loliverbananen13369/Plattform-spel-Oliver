@@ -20,13 +20,13 @@ signal can_spawn(can)
 func _ready():
 	PlayerStats.connect("EnemyDead", self, "on_EnemyDead")
 
-func _on_Area2D_body_entered(body):
+func _on_Area2D_body_entered(body):   #Ger att fiender inte ska följa spelaren till en annan plattform, dvs hoppa av
 	if body.is_in_group("Player"):
 		for i in range(0, list_of_enemies.size() -1):
 			list_of_enemies[i].can_hunt = true
 	
 
-func on_EnemyDead(body):
+func on_EnemyDead(body):  #Kollar när fienden dör och skickar signal till enemyspawner1
 	if list_of_enemies.has(body):
 		list_of_enemies.erase(body)
 		amount -= 1
@@ -34,7 +34,7 @@ func on_EnemyDead(body):
 			can_spawn = true
 			emit_signal("can_spawn", can_spawn)
 
-func _on_EnemySpawner1_Spawned(body):
+func _on_EnemySpawner1_Spawned(body): #Tar emot signal från enemyspawner
 	amount += 1
 	if amount >= amount_allowed:
 		can_spawn = false
@@ -43,7 +43,7 @@ func _on_EnemySpawner1_Spawned(body):
 	list_of_enemies.append(body)
 
 
-func _on_Area2D_body_exited(body):
+func _on_Area2D_body_exited(body): #Så enemies inte ska följa med till nästa plattform. Fungerar inte helt, men hjälper lite
 	if body.is_in_group("Player"):
 		for i in range(0, list_of_enemies.size() -1):
 			list_of_enemies[i].can_hunt = false

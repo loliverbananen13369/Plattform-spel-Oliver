@@ -6,7 +6,7 @@ onready var player = get_parent().get_node("Player")
 
 
 
-func _process(_delta):
+func _process(_delta): #Varje frame 
 	var target = player.global_position
 	var target_pos_x
 	var target_pos_y

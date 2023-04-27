@@ -52,27 +52,25 @@ func _ready():
 	connect("quest_completed", self, "_on_quest_completed")
 	list = _load_npc_list()
 	
-	
-	
 
-func _load_npc_list():
+func _load_npc_list(): #Tar lista över vilken npc som ska få nästa uppdrag
 	var file = File.new()
 	if file.file_exists(npc_file):
 		file.open(npc_file, file.READ)
 		return parse_json(file.get_as_text())
 
-func _get_npc():
+func _get_npc(): #Ger vilken npc som får den
 	npc = list[global_quest_id]["NPC"]
 	return npc
 
-func _get_next():
+func _get_next(): #Ger nästa uppdrag
 	global_quest_id += 1
 	if global_quest_id >= len(list):
 		list.invert()
 		global_quest_id = 0
 	_get_npc()
 
-func send_quest_available():
+func send_quest_available(): #Signal
 	_get_next()
 	emit_signal("quest_available", npc)
 
@@ -86,7 +84,7 @@ func _on_quest_completed():
 	quest_active = false
 	send_quest_available()
 
-func _on_cityhall_loaded():
+func _on_cityhall_loaded(): #När cityhall har laddats klart skickar den ut signalen. Fungerar som en mellanhand
 	if tutorial_finished:
 		emit_signal("TutorialFinished2")
 		tutorial_finished = false
@@ -100,15 +98,3 @@ func _on_tutorial_finished():
 
 func _on_class_chosen():
 	class_chosen = true
-	#emit_signal()
-
-"""
-func _load_dialogue():
-	var file = File.new()
-	if file.file_exists(d_file):
-		file.open(d_file, file.READ)
-		return parse_json(file.get_as_text())
-"""
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

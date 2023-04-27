@@ -21,19 +21,18 @@ signal entered_attack()
 
 onready var animp = $AnimationPlayer
 
-
 var test = 0
 
-func _ready() -> void:
+func _ready() -> void: #När scenen först spelas. 
 	BackgroundMusic.play_sound("MainMenuMusic")
-	PlayerStats.next_scene = "res://Levels/CityHall.tscn"#"res://UI/ChooseClassScene.tscn"
+	PlayerStats.next_scene = "res://Levels/CityHall.tscn"
 	PlayerStats.ground_color = "788830"
 	PlayerStats.enemy_hpbar_color = "788830"
 	player = player_scene.instance()
 	var target = anchor_scene.instance()
-	player.global_position = global_position + Vector2(0, -20)#Vector2(0, -20)
-	target.get_child(0).limit_right = 2720
-	target.get_child(0).limit_left = -280
+	player.global_position = global_position + Vector2(0, -20)
+	target.get_child(0).limit_right = 2720 #Ger kameran begränsningar
+	target.get_child(0).limit_left = -280 
 	target.get_child(0).limit_bottom = 40
 	target.get_child(0).limit_top = -200
 	get_child(1).add_child(player)
@@ -42,11 +41,10 @@ func _ready() -> void:
 	PlayerStats.player_instance = player_scene
 	PlayerStats.connect("TutorialFinished", self, "on_TutorialFinished")
 	PlayerStats.visited_tutorial = true
-#	yield(get_tree().create_timer(2), "timeout")
-	#$AttackArea.monitoring = true
 
 
-func _input(event: InputEvent) -> void:
+
+func _input(event: InputEvent) -> void: #Kollar om spelaren crouchar i crouch arean. Om den gör det, visas "press shift to jump down" istället för "Press 'crouch' to crouch"
 	if croucharea:
 		if Input.is_action_just_pressed("Crouch"):
 			$CrouchArea/Sprite.visible = false
@@ -59,7 +57,9 @@ func _input(event: InputEvent) -> void:
 			$CrouchArea/Sprite.visible = true
 			animp.play("CrouchArea")
 	
-func _on_WalkArea_body_entered(body) -> void:
+
+#Här nedan kommer "signaler" när spelaren har stigit in i en viss area. Beroende på area, kommer arean att visa / berätta vad spelaren ska göra
+func _on_WalkArea_body_entered(body) -> void: 
 	if body.is_in_group("Player"):
 		$WalkArea/Sprite.visible = true
 		animp.play("WalkArea")
@@ -114,7 +114,6 @@ func _on_AttackArea_body_entered(body):
 		$AttackArea/Sprite.visible = true
 		animp.play("AttackArea")
 
-		
 
 
 func _on_AttackArea_body_exited(body):
@@ -127,5 +126,5 @@ func on_TutorialFinished():
 	portal.next_scene = PlayerStats.next_scene
 	portal.global_position = Vector2(2404, -64)
 	add_child(portal)
-	Quests.emit_signal("TutorialFinished")
+	Quests.emit_signal("TutorialFinished") #Skickar till Quests att tutorialen är klar. Quests kommer sedan vänta tills cityhall har laddat, och sedan skicka ut en till signal som säger åt den att nästa konversation ska vara 'choose_class'
 

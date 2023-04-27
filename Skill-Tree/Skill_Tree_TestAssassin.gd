@@ -1,6 +1,9 @@
 extends Control
 
-#Assassin
+"""
+Kommer inte kommentera självaste skilltreets funktioner, eftersom det inte var jag som gjorde det. Däremot la jag till någon export variabel, men det kom att bli rätt värdelösa. Det är därför det finns on learned och on unlocked sprites. Hade någon ide men använde den inte
+Det som händer är egentligen bara att attacker får mer damage samt att de kan användas. PlayerStats håller datan.
+"""
 
 onready var celeb_audio = $AudioStreamPlayer
 onready var celeb_audio_timer = $Timer
@@ -26,7 +29,7 @@ func _input(event: InputEvent) -> void:
 		layer.visible = false
 
 
-func _new_skill() -> void:
+func _new_skill() -> void: #Instansierar scenen "new skill assassin", men scenen gäller för både assassin och mage
 	var env = get_node("/root/WorldEnv")
 	env.new_skill_animation()
 	celeb_audio.play()
@@ -34,7 +37,6 @@ func _new_skill() -> void:
 	splabel.text = "Skillpoints: " + str(PlayerStats.skilltree_points)
 
 func _spawn_text(skill: String):
-	
 	var text = TEXT.instance()
 	var anim = text.get_node("AnimationPlayer")
 
@@ -97,16 +99,16 @@ func _on_Clone3_on_learned(_node):
 
 func _on_Combo1_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([1,3,2,1])
-	_spawn_text("Combo1 learned!")
+	_spawn_text("Combo qweq learned!")
 
 func _on_Combo2_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([3, 1, 2, 3])
-	_spawn_text("Combo2 learned!")
+	_spawn_text("Combo ewqe learned!")
 
 
 func _on_Combo3_on_learned(_node):
 	PlayerStats.assassin_combo_list.append([2, 1, 3, 2])
-	_spawn_text("Combo3 learned!")
+	_spawn_text("combo weqw learned!")
 
 
 func _on_DashAttack1_on_learned(_node) -> void:
