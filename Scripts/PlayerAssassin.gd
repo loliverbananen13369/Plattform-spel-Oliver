@@ -95,7 +95,6 @@ onready var attacksound = $AttackSound
 onready var stepsound = $FootStepSound
 onready var thrusts = $Thrusts
 onready var hurtbox = $HurtBox/CollisionShape2D
-onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var footsteptimer = $FootStepTimer
 onready var flashtimer = $FlashTimer
@@ -786,7 +785,6 @@ func _air_state(delta) -> void: #När spelaren är i luften
 		if can_jump:
 			_enter_air_state(true)
 			can_jump = false
-			coyotetimer.stop()
 		else:
 			jump_pressed = true
 			_remember_jump()
@@ -952,7 +950,6 @@ func _enter_air_state(jump: bool) -> void: #När spelaren stiger på luft state.
 			playersprite.play("JumpF")
 		_get_random_sound("Jump")
 		jumpsound.play()
-	coyotetimer.start()
 	state = AIR
 
 func _enter_run_state() -> void: #När spelaren stiger på spring state
@@ -1102,12 +1099,12 @@ func _on_AnimationPlayer_animation_finished(anim_name): #Byter states efter en a
 func _on_HurtBox_area_entered(area): #Om fienders attack enter
 	var amount
 	if area.is_in_group("EnemySword"):
-		amount = area.get_parent().damage_dealt
-		if area.get_parent().global_position.x > global_position.x:
-			enemy_side_of_you = "right"
-		else:
-			enemy_side_of_you = "left"
 		if can_take_damage:
+			amount = area.get_parent().damage_dealt
+			if area.get_parent().global_position.x > global_position.x:
+				enemy_side_of_you = "right"
+			else:
+				enemy_side_of_you = "left"
 			take_damage(amount)
 
 func _on_attack_damage_changed(type): #Tar emot signal från skilltree och uppdaterar damage
@@ -1159,9 +1156,6 @@ func _on_FlashTimer_timeout(): #När immuntweenen är klar.
 
 func _on_ComboTimer_timeout(): #Ser till att attacker sker inom en viss tid för att kombon ska kunna köras
 	combo_list.clear()
-
-func _on_CoyoteTimer_timeout(): #Buffer
-	can_jump = false
 
 func _on_DashTimer_timeout(): #Sätter spelarens modulate och flash_shader till original värdet. Efter spelaren har dashat läggs spöken till
 	playersprite.material.set_shader_param("flash_modifier", 0.0)

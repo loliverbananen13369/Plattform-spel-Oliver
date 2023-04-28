@@ -72,7 +72,6 @@ var player_holy_array = [0.8, 0.4, 0.8, 1.0]
 onready var playersprite = $PlayerSprite
 onready var animatedsmears = $SmearSprites
 onready var animationplayer = $AnimationPlayer
-onready var coyotetimer = $CoyoteTimer
 onready var dashtimer = $DashTimer
 onready var holybufftimer = $HolyBuffTimer
 onready var darkbufftimer = $DarkBuffTimer
@@ -713,7 +712,6 @@ func _air_state(delta) -> void:
 		if can_jump:
 			_enter_air_state(true)
 			can_jump = false
-			coyotetimer.stop()
 		else:
 			jump_pressed = true
 			_remember_jump()
@@ -849,7 +847,6 @@ func _enter_air_state(jump: bool) -> void:
 		else:
 			playersprite.play("JumpF")
 		jumpsound.play()
-	coyotetimer.start()
 	state = AIR
 
 func _enter_run_state() -> void:
@@ -1051,9 +1048,6 @@ func _on_FlashTimer_timeout():
 		can_take_damage = true
 	tween.stop(playersprite)
 
-
-func _on_CoyoteTimer_timeout():
-	can_jump = false
 
 func _on_DashTimer_timeout():
 	if not holy_buff_active:

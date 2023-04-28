@@ -4,7 +4,7 @@ extends Node
 
 var game_data = {}
 
-var player_instance = preload("res://Scenes/PlayerIntroBody.tscn")
+var player_instance = preload("res://Scenes/PlayerAssassin.tscn")
 var player
 
 
